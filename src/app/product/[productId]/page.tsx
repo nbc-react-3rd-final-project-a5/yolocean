@@ -1,6 +1,11 @@
 import React from "react";
 
-const page = () => {
+interface IProps {
+  params: { productId: string };
+}
+
+const page = ({ params: { productId } }: IProps) => {
+  console.log(productId);
   return <div>page</div>;
 };
 
