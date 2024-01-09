@@ -113,12 +113,12 @@ const SignIn = ({ mode, setMode }: Props) => {
                 </button>
                 <br />
                 <button type="button" onClick={signInWithKakao}>
-                  카카오로그인
+                  <img src="/images/kakao_login.png" />
                 </button>
                 <br />
 
                 <button type="button" onClick={signInWithGoogle}>
-                  구글로그인
+                  <img src="/images/google_login.png" />
                 </button>
               </div>
             </form>
