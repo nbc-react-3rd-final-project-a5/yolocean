@@ -91,26 +91,55 @@ const ProductForm = () => {
       className="w-[300px] flex flex-col justify-center align-center"
       onSubmit={handleSubmit(handleProductFormSubmit)}
     >
+      <label htmlFor="name">상품명</label>
+
       <input
         className=" border-black border-solid border"
         id="name"
         type="text"
         {...register("name", {
-          required: "해당 필드는 필수입니다."
+          required: "상품명을 입력해주세요."
         })}
       />
-      <input className=" border-black border-solid border" id="price" type="text" {...register("price")} />
-      <input className=" border-black border-solid border" id="thumbnail" type="text" {...register("thumbnail")} />
+      <p>{errors?.name ? <p>{errors.name.message}</p> : null}</p>
+      <label htmlFor="price">렌트 가격</label>
+      <input
+        className=" border-black border-solid border"
+        id="price"
+        type="text"
+        {...register("price", {
+          required: "렌트 가격을 설정해주세요."
+        })}
+      />
+      <p>{errors?.price ? <p>{errors.price.message}</p> : null}</p>
+      <label htmlFor="original_price">원가</label>
       <input
         className=" border-black border-solid border"
         id="original_price"
         type="text"
-        {...register("original_price")}
+        {...register("original_price", {
+          required: "원가를 설정해주세요."
+        })}
       />
-      <input className=" border-black border-solid border" id="info_img" type="text" {...register("info_img")} />
-      <select {...register("category_id")}>
+      <p>{errors?.original_price ? <p>{errors.original_price.message}</p> : null}</p>
+      <label htmlFor="thumbnail">상품 사진</label>
+      <input
+        className=" border-black border-solid border"
+        id="thumbnail"
+        type="file"
+        {...register("thumbnail", {
+          required: "상품 대표 사진을 등록해주세요."
+        })}
+      />
+      <p>{errors?.thumbnail ? <p>{errors.thumbnail.message}</p> : null}</p>
+      <label htmlFor="info_img">상품 상세 설명 이미지</label>
+      <input className=" border-black border-solid border" id="info_img" type="file" {...register("info_img")} />
+      <select
+        {...register("category_id", {
+          required: "카테고리를 선택해주세요."
+        })}
+      >
         <option>카테고리 선택</option>
-
         {category?.map((data) => {
           return (
             <option key={data.id} value={data.id}>
@@ -119,6 +148,7 @@ const ProductForm = () => {
           );
         })}
       </select>
+      <p>{errors?.category_id ? <p>{errors.category_id.message}</p> : null}</p>
       <>
         {formFields.map((field, index) => (
           <div key={index} style={{ marginBottom: 5 }}>
