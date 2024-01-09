@@ -58,35 +58,35 @@ export interface Database {
         Row: {
           category_id: string;
           id: string;
-          info: string;
+          info: Json;
           info_img: string;
           name: string;
           original_price: number;
           price: number;
           thumbnail: string;
-          view: number;
+          view: number | null;
         };
         Insert: {
           category_id: string;
           id?: string;
-          info: string;
+          info: Json;
           info_img: string;
           name: string;
           original_price: number;
           price: number;
           thumbnail: string;
-          view?: number;
+          view?: number | null;
         };
         Update: {
           category_id?: string;
           id?: string;
-          info?: string;
+          info?: Json;
           info_img?: string;
           name?: string;
           original_price?: number;
           price?: number;
           thumbnail?: string;
-          view?: number;
+          view?: number | null;
         };
         Relationships: [
           {
@@ -202,7 +202,7 @@ export interface Database {
         Row: {
           content: string;
           created_at: string;
-          id: number;
+          id: string;
           product_id: string;
           score: number;
           title: string;
@@ -211,7 +211,7 @@ export interface Database {
         Insert: {
           content: string;
           created_at?: string;
-          id?: number;
+          id?: string;
           product_id: string;
           score: number;
           title: string;
@@ -220,7 +220,7 @@ export interface Database {
         Update: {
           content?: string;
           created_at?: string;
-          id?: number;
+          id?: string;
           product_id?: string;
           score?: number;
           title?: string;
@@ -247,21 +247,21 @@ export interface Database {
         Row: {
           count: number;
           created_at: string;
-          id: number;
+          id: string;
           product_id: string;
           store_id: string;
         };
         Insert: {
           count: number;
           created_at?: string;
-          id?: number;
+          id?: string;
           product_id: string;
           store_id: string;
         };
         Update: {
           count?: number;
           created_at?: string;
-          id?: number;
+          id?: string;
           product_id?: string;
           store_id?: string;
         };
@@ -313,6 +313,7 @@ export interface Database {
           email: string | null;
           id: string;
           username: string | null;
+          verified: boolean | null;
         };
         Insert: {
           admin?: boolean | null;
@@ -320,6 +321,7 @@ export interface Database {
           email?: string | null;
           id: string;
           username?: string | null;
+          verified?: boolean | null;
         };
         Update: {
           admin?: boolean | null;
@@ -327,6 +329,7 @@ export interface Database {
           email?: string | null;
           id?: string;
           username?: string | null;
+          verified?: boolean | null;
         };
         Relationships: [
           {
