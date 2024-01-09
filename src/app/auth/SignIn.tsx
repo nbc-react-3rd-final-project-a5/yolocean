@@ -7,6 +7,14 @@ interface Props {
 }
 
 const SignIn = ({ mode, setMode }: Props) => {
+  //로그인 확인
+  async function getUser() {
+    const {
+      data: { user }
+    } = await supabase.auth.getUser();
+    console.log(user);
+  }
+
   const [id, setId] = useState<string>("");
   const [pw, setPw] = useState<string>("");
 
@@ -28,7 +36,35 @@ const SignIn = ({ mode, setMode }: Props) => {
       email: id,
       password: pw
     });
+    console.log(data || error);
   };
+
+  //카카오 로그인
+  async function signInWithKakao() {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "kakao"
+    });
+    console.log(data || error);
+  }
+
+  //구글 로그인
+  async function signInWithGoogle() {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google"
+      // options: {
+      //   queryParams: {
+      //     access_type: "offline",
+      //     prompt: "consent"
+      //   }
+      // }
+    });
+    console.log(data || error);
+  }
+
+  //로그아웃
+  async function signOut() {
+    const { error } = await supabase.auth.signOut();
+  }
 
   return (
     <>
@@ -75,13 +111,19 @@ const SignIn = ({ mode, setMode }: Props) => {
                   login
                 </button>
                 <br />
-                <button type="button">카카오로그인</button>
+                <button type="button" onClick={signInWithKakao}>
+                  카카오로그인
+                </button>
                 <br />
 
-                <button type="button">구글로그인</button>
+                <button type="button" onClick={signInWithGoogle}>
+                  구글로그인
+                </button>
               </div>
             </form>
 
+            <button onClick={signOut}>임시로그아웃</button>
+            <button onClick={getUser}>로그인확인</button>
             <div>
               <p onClick={() => setMode(!mode)}>회원가입 하기</p>
             </div>
