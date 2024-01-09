@@ -44,19 +44,20 @@ const SignIn = ({ mode, setMode }: Props) => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "kakao"
     });
-    console.log(data || error);
+    if (data) alert("성공");
+    if (error) alert("error");
   }
 
   //구글 로그인
   async function signInWithGoogle() {
     const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google"
-      // options: {
-      //   queryParams: {
-      //     access_type: "offline",
-      //     prompt: "consent"
-      //   }
-      // }
+      provider: "google",
+      options: {
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent"
+        }
+      }
     });
     console.log(data || error);
   }
@@ -123,7 +124,7 @@ const SignIn = ({ mode, setMode }: Props) => {
             </form>
 
             <button onClick={signOut}>임시로그아웃</button>
-            <button onClick={getUser}>로그인확인</button>
+
             <div>
               <p onClick={() => setMode(!mode)}>회원가입 하기</p>
             </div>
