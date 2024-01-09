@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 interface CustomImageFile {
   file: File;
@@ -67,11 +67,46 @@ const useImageFile = () => {
     setImageFiles((prev) => [...prev.filter((n) => n.id !== file.id)]);
   };
 
+  const uploadImage = async (file: File, bucket: string, imageId: string, targetId: string) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("bucket", bucket);
+    formData.append("imageId", imageId);
+    formData.append("targetId", targetId);
+
+    const res = await fetch("/api/storage", {
+      method: "POST",
+      // headers: {
+      //   "Content-Type": "multipart/form-data"
+      // },
+      body: formData
+    });
+
+    return res;
+  };
+
+  const uploadMultipleImages = async (bucket: string, imageId: string[], targetId: string) => {
+    const fetchUploadImages = imageFiles.map(async (n, i) => {
+      const file = n.file;
+      const res = await uploadImage(file, bucket, imageId[i], targetId);
+      return res;
+    });
+
+    try {
+      const res = await Promise.all(fetchUploadImages);
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return {
     imageFiles,
     onChangeImageFiles,
     OnDropFiles,
-    onClickDeleteImage
+    onClickDeleteImage,
+    uploadImage,
+    uploadMultipleImages
   };
 };
 

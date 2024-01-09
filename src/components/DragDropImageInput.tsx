@@ -1,11 +1,12 @@
 "use client";
 
 import useImageFile from "@/hooks/useImageFile";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 const DragAndDropImageBox = () => {
+  const imageWrap = useRef(null);
   const [isEnter, setIsEnter] = useState(false);
-  const { imageFiles, onChangeImageFiles, OnDropFiles, onClickDeleteImage } = useImageFile();
+  const { imageFiles, onChangeImageFiles, OnDropFiles, uploadMultipleImages, onClickDeleteImage } = useImageFile();
 
   const onDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     OnDropFiles(e);
@@ -25,6 +26,20 @@ const DragAndDropImageBox = () => {
     if (e.currentTarget.contains(relatedTarget as Node)) return;
     setIsEnter(false);
   };
+
+  // const onDragStartImage = (e: React.DragEvent<HTMLDivElement>) => {
+  //   console.log("이미지 드래그");
+  //   // console.log(e.target);
+  // };
+
+  // const onDragEndImage = (e: React.DragEvent<HTMLDivElement>) => {
+  //   console.log("이미지 드래그 종료");
+  //   console.log(e.dataTransfer.dropEffect);
+  // };
+
+  // const onDropImage = (e: React.DragEvent<HTMLDivElement>) => {
+  //   e.preventDefault();
+  // };
 
   return (
     <div>
@@ -54,12 +69,24 @@ const DragAndDropImageBox = () => {
         </div>
       </label>
 
-      <div className="flex">
+      <div className="flex gap-4 min-h-[100px] border-2 border-yellow-500" ref={imageWrap}>
         {imageFiles?.map((n, i) => {
           return (
-            <img src={n.url} alt="" key={i} className="w-[100px] h-[100px]" onClick={(e) => onClickDeleteImage(e, n)} />
+            <div
+              key={i}
+              // onDragStart={onDragStartImage}
+              // onDragEnd={onDragEndImage}
+              // onDrop={onDropImage}
+              draggable="true"
+              className=""
+            >
+              <img src={n.url} alt="" className="w-[100px] h-[100px]" onClick={(e) => onClickDeleteImage(e, n)} />
+            </div>
           );
         })}
+      </div>
+      <div>
+        <button onClick={() => uploadMultipleImages("product", ["pi1", "pi2"], "productName1")}>업로드</button>
       </div>
     </div>
   );
