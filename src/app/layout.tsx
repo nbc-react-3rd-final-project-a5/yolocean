@@ -23,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services,clusterer&autoload=false`}
             strategy="beforeInteractive"
           />
+          <Script src="https://cdn.iamport.kr/v1/iamport.js" />
         </body>
       </html>
     </ReactQueryProvider>
