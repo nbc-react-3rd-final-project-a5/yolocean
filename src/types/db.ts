@@ -9,8 +9,16 @@ export type Review = Database["public"]["Tables"]["review"]["Row"];
 export type Stock = Database["public"]["Tables"]["stock"]["Row"];
 export type Store = Database["public"]["Tables"]["store"]["Row"];
 export type UserInfo = Database["public"]["Tables"]["userinfo"]["Row"];
-export interface ProductWithCategory extends Product {
+export interface ProductProperties extends Product {
+  info: { [key: string]: any }[];
   category: {
     category_name: string;
+  };
+  stock: {
+    count: number;
+    store: {
+      name: string;
+      address: string;
+    }[];
   };
 }

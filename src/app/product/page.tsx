@@ -1,6 +1,6 @@
 "use client";
 import useProduct from "@/hooks/useProduct";
-import { ProductWithCategory } from "@/types/db";
+import { ProductProperties } from "@/types/db";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -10,7 +10,8 @@ const ProductPage = () => {
 
   return (
     <div className="flex gap-1">
-      {!isLoading && product!.map((product) => <ProductCard product={product} key={product.id} />)}
+      {!isLoading &&
+        (product as ProductProperties[]).map((product) => <ProductCard product={product} key={product.id} />)}
     </div>
   );
 };
@@ -18,7 +19,7 @@ const ProductPage = () => {
 export default ProductPage;
 
 interface IProps {
-  product: ProductWithCategory;
+  product: ProductProperties;
 }
 
 function ProductCard({ product: { id, price, category, thumbnail, name } }: IProps) {
@@ -26,7 +27,7 @@ function ProductCard({ product: { id, price, category, thumbnail, name } }: IPro
     <Link href={`/product/${id}`} className="flex-1">
       <div className=" bg-white text-black rounded-md overflow-hidden">
         <div className="w-full h-[150px] relative">
-          <Image src={thumbnail} alt="productThumbnail" layout="fill" objectFit="fill" />
+          <Image priority sizes="100%" src={thumbnail} alt="productThumbnail" layout="fill" />
         </div>
         <div className="px-1 py-2">
           <span className="text-xs text-neutral-600">{category.category_name}</span>
