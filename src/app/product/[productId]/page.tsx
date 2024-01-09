@@ -4,7 +4,7 @@ import { ProductProperties } from "@/types/db";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-
+import Modal from "@/components/Modal";
 interface IProps {
   params: { productId: string };
 }
@@ -87,7 +87,7 @@ const ProductDetail = ({ params: { productId } }: IProps) => {
       </article>
       <article>
         {info.map((item) => (
-          <div key={Object.keys(item)[0]}>{Object.values(item)[0]}</div>
+          <div key={item.split("&")[0]}>{item.split("&")[1]}</div>
         ))}
       </article>
     </section>

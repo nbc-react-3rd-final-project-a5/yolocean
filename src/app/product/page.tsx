@@ -9,7 +9,7 @@ const ProductPage = () => {
   const { product, isLoading } = useProduct();
 
   return (
-    <div className="flex gap-1">
+    <div className="grid grid-cols-4 gap-4">
       {!isLoading &&
         (product as ProductProperties[]).map((product) => <ProductCard product={product} key={product.id} />)}
     </div>
