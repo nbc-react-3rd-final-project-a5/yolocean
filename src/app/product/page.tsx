@@ -41,10 +41,13 @@ const ProductForm = () => {
 
   const handleRemoveFields = (index: number) => {
     if (formFields.length === 1) {
-      alert("At least one form must remain");
+      alert("삭제하실 수 없습니다!");
       return;
     }
-    const values = [...formFields].splice(index, 1);
+    // const values = [...formFields].splice(index, 1);
+    const values = [...formFields].filter((item, i) => {
+      return i !== index;
+    });
     setFormFields(values);
   };
 
