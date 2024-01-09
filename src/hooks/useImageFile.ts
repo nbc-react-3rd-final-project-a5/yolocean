@@ -76,9 +76,6 @@ const useImageFile = () => {
 
     const res = await fetch("/api/storage", {
       method: "POST",
-      // headers: {
-      //   "Content-Type": "multipart/form-data"
-      // },
       body: formData
     });
 
@@ -94,7 +91,7 @@ const useImageFile = () => {
 
     try {
       const res = await Promise.all(fetchUploadImages);
-      console.log(res);
+      return res;
     } catch (error) {
       console.error(error);
     }

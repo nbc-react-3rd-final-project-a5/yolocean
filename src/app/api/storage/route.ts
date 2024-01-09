@@ -12,25 +12,15 @@ export async function POST(req: NextRequest) {
   const imageId = formData.get("imageId") as string;
   const targetId = formData.get("targetId") as string;
 
-  console.log({
-    file,
-    bucket,
-    imageId,
-    targetId
-  });
-
   const { data, error } = await supabase.storage.from(bucket).upload(`${targetId}/${imageId}`, file, {
-    upsert: false
+    upsert: true
   });
-
-  console.log(data);
 
   if (error) {
-    console.error("🧨error 발생");
     console.log(error);
-
-    return NextResponse.json({ error: error }, { status: 500 });
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json(data);
+  const { data: dataURL } = supabase.storage.from(bucket).getPublicUrl(`${data.path}`);
+  return NextResponse.json(dataURL);
 }
