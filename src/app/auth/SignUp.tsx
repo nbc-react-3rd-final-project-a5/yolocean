@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { supabase } from "@/service/supabase";
+import { useForm } from "react-hook-form";
 
 interface Props {
   mode: boolean;
@@ -68,7 +69,7 @@ const SignUp = ({ mode, setMode }: Props) => {
                     type="email"
                     required
                     onChange={(e) => setId(e.target.value)}
-                    placeholder="  example@clione.com"
+                    placeholder="example@yolocean.com"
                   />
                 </div>
               </div>
@@ -91,7 +92,7 @@ const SignUp = ({ mode, setMode }: Props) => {
                     type="password"
                     required
                     onChange={(e) => setPw(e.target.value)}
-                    placeholder="  비밀번호를 입력하세요."
+                    placeholder="비밀번호를 입력하세요."
                   />
                 </div>
               </div>
@@ -114,7 +115,7 @@ const SignUp = ({ mode, setMode }: Props) => {
                     type="password"
                     required
                     onChange={(e) => setPwCheck(e.target.value)}
-                    placeholder="  비밀번호 재입력"
+                    placeholder="비밀번호 재입력"
                   />
                 </div>
               </div>
@@ -130,7 +131,7 @@ const SignUp = ({ mode, setMode }: Props) => {
                     type="name"
                     required
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="  clione에서 사용할 이름을 입력하세요"
+                    placeholder="yolocean에서 사용할 이름을 입력하세요"
                   />
                 </div>
               </div>
