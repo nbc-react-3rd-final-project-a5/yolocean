@@ -1,10 +1,10 @@
-import DragAndDropImageBox from "@/components/DragAndDropImageBox";
+import DragDropImageInput from "@/components/DragDropImageInput";
 import React from "react";
 
 const page = () => {
   return (
     <div>
-      <DragAndDropImageBox />
+      <DragDropImageInput />
     </div>
   );
 };
