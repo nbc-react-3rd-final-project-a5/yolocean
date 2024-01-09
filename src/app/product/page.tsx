@@ -14,11 +14,13 @@ const ProductForm = () => {
       }[]
     | null
   >();
+  const [formFields, setFormFields] = useState([{ name: "", value: "" }]);
 
   const {
     register,
     formState: { errors },
-    handleSubmit
+    handleSubmit,
+    setValue
   } = useForm<ProductForm>({
     mode: "onSubmit",
     defaultValues: {
@@ -28,32 +30,46 @@ const ProductForm = () => {
       original_price: 0,
       view: 0,
       info_img: ""
-      // category_id: ""
     }
   });
+  let array: string[] = [];
 
-  const addInput = () => {
-    return (
-      <div>
-        <label>상세 정보 key 값</label>
-        <input />
-        <label>상세 정보 value 값</label>
-        <input />
-      </div>
-    );
+  const handleAddFields = () => {
+    const values = [...formFields, { name: "", value: "" }];
+    setFormFields(values);
   };
+
+  const handleRemoveFields = (index: number) => {
+    if (formFields.length === 1) {
+      alert("At least one form must remain");
+      return;
+    }
+    const values = [...formFields].splice(index, 1);
+    setFormFields(values);
+  };
+
+  const handleInputChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    const values = [...formFields];
+
+    if (e.target.name === "name") {
+      values[index].name = e.target.value;
+    } else {
+      values[index].value = e.target.value;
+    }
+    setFormFields(values);
+  };
+
+  formFields.forEach((data) => {
+    array.push(`${data.name}&${data.value}`);
+  });
 
   const handleProductFormSubmit = (data: ProductForm) => {
     alert(JSON.stringify(data));
-    insertProductData(data);
+    createData(data);
   };
 
-  const insertProductData = async (data: ProductForm) => {
-    try {
-      await supabase.from("product").insert(data);
-    } catch (error) {
-      console.log(error);
-    }
+  const createData = async (data: ProductForm) => {
+    fetch(`${window.location.origin}/api/product`, { method: "POST", body: JSON.stringify(data) });
   };
 
   const fetchCategoryData = async () => {
@@ -93,6 +109,8 @@ const ProductForm = () => {
       />
       <input className=" border-black border-solid border" id="info_img" type="text" {...register("info_img")} />
       <select {...register("category_id")}>
+        <option>카테고리 선택</option>
+
         {category?.map((data) => {
           return (
             <option key={data.id} value={data.id}>
@@ -101,17 +119,41 @@ const ProductForm = () => {
           );
         })}
       </select>
-      <div>
-        <p>상세 정보 입력</p>
-        <label>상세 정보 key 값</label>
-        <input />
-        <label>상세 정보 value 값</label>
-        <input />
-        <button type="button" onClick={addInput}>
-          +
+      <>
+        {formFields.map((field, index) => (
+          <div key={index} style={{ marginBottom: 5 }}>
+            <input
+              type="text"
+              placeholder="Field name"
+              name="name"
+              value={field.name}
+              onChange={(e) => handleInputChange(index, e)}
+              style={{ marginRight: 10 }}
+            />
+
+            <input
+              type="text"
+              placeholder="Field value"
+              name="value"
+              value={field.value}
+              onChange={(e) => handleInputChange(index, e)}
+              style={{ marginRight: 10 }}
+            />
+
+            <button type="button" onClick={() => handleRemoveFields(index)}>
+              삭제
+            </button>
+          </div>
+        ))}
+
+        <button type="button" onClick={() => handleAddFields()} style={{ marginTop: 10, marginRight: 10 }}>
+          추가
         </button>
-      </div>
-      <button type="submit">제출</button>
+      </>
+      <input {...register("info")} />
+      <button type="submit" onClick={() => setValue("info", array)}>
+        확인
+      </button>
     </form>
   );
 };
