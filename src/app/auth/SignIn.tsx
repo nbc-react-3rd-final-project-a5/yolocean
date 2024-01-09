@@ -1,37 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import { supabase } from "@/service/supabase";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 interface Props {
   mode: boolean;
   setMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+interface FormValue {
+  id: string;
+  pw: string;
+}
+
 const SignIn = ({ mode, setMode }: Props) => {
-  //로그인 확인
-  async function getUser() {
-    const {
-      data: { user }
-    } = await supabase.auth.getUser();
-    console.log(user);
-  }
-
-  const [id, setId] = useState<string>("");
-  const [pw, setPw] = useState<string>("");
-
-  //유효성 검사
-  const emailValidChk = () => {
-    const pattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
-    if (pattern.test(id) === false) {
-      return false;
-    } else {
-      return true;
-    }
-  };
-  const isValid = emailValidChk() && pw.length > 5 ? false : true;
-
   //이메일 로그인
-  const signInWithEmail = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const signInWithEmail = async (id: string, pw: string) => {
     const { data, error } = await supabase.auth.signInWithPassword({
       email: id,
       password: pw
@@ -39,13 +22,24 @@ const SignIn = ({ mode, setMode }: Props) => {
     console.log(data || error);
   };
 
+  //react-hook-form
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<FormValue>({ mode: "onBlur" });
+
+  const onSubmit: SubmitHandler<FormValue> = (inputData) => {
+    console.log(inputData);
+    signInWithEmail(inputData.id, inputData.pw);
+  };
+
   //카카오 로그인
   async function signInWithKakao() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "kakao"
     });
-    if (data) alert("성공");
-    if (error) alert("error");
+    console.log(data || error);
   }
 
   //구글 로그인
@@ -75,18 +69,23 @@ const SignIn = ({ mode, setMode }: Props) => {
         </div>
 
         <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                 Email address
+                <span className="text-xs text-red-600">{errors?.id?.message}</span>
               </label>
-              <div className="">
+              <div>
                 <input
                   id="email"
-                  name="email"
                   type="email"
-                  required
-                  onChange={(e) => setId(e.target.value)}
+                  {...register("id", {
+                    required: "   이메일을 입력하세요.",
+                    pattern: {
+                      value: /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/,
+                      message: "   이메일 형식이 유효하지 않습니다."
+                    }
+                  })}
                   placeholder="example@yolocean.com"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6"
                 />
@@ -97,15 +96,16 @@ const SignIn = ({ mode, setMode }: Props) => {
               <div className="flex items-center justify-between">
                 <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                   Password
+                  <span className="text-xs text-red-600">{errors?.pw?.message}</span>
                 </label>
               </div>
-              <div className="">
+              <div>
                 <input
                   id="password"
-                  name="password"
                   type="password"
-                  required
-                  onChange={(e) => setPw(e.target.value)}
+                  {...register("pw", {
+                    required: "   비밀번호를 입력하세요."
+                  })}
                   placeholder="비밀번호를 입력하세요."
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6"
                 />
@@ -114,9 +114,7 @@ const SignIn = ({ mode, setMode }: Props) => {
 
             <div>
               <button
-                onClick={signInWithEmail}
                 type="submit"
-                disabled={isValid}
                 className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 cursor-pointer"
               >
                 login
