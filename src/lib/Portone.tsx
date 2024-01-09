@@ -20,7 +20,7 @@ interface Payment {
 
 const createPayment = ({ amount, name, buyer_tel, buyer_email }: Payment) => {
   let IMP = window.IMP;
-  IMP.init("imp18733233");
+  IMP.init(`${process.env.NEXT_PUBLIC_PORTONE_CODE}`);
   const data = {
     pg: "kcp", // PG사
     pay_method: "card", // 결제수단
@@ -37,7 +37,7 @@ const createPayment = ({ amount, name, buyer_tel, buyer_email }: Payment) => {
 
 const createCertification = () => {
   let IMP = window.IMP;
-  IMP.init("imp18733233");
+  IMP.init(`${process.env.NEXT_PUBLIC_PORTONE_CODE}`);
   const data = {
     pg: "inicis_unified",
     merchant_uid: `mid_${new Date().getTime()}`,
