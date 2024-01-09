@@ -7,5 +7,5 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   const data = req.json();
-  await supabase.from("store").insert(data);
+  //   await supabase.from("store").insert(data);
 }
