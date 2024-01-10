@@ -72,14 +72,14 @@ const ProductForm = () => {
 
   const handleProductFormSubmit = async (data: Product) => {
     const id = uuidv4();
-    data.id = id;
     const thumbnailRes = await uploadImage(thumbnailImage!, "product", "thumbnail", id);
     const infoImgRes = await uploadImage(detailInfoImage!, "product", "detail", id);
     const thumbnailUrl = await thumbnailRes.json();
     const infoImgUrl = await infoImgRes.json();
+    data.id = id;
     data.thumbnail = thumbnailUrl;
     data.info_img = infoImgUrl;
-    console.log("data.thumbnail", thumbnailUrl);
+    console.log("data", data);
     insertProductData(data);
   };
 
