@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import Link from "next/link";
 
 import { RxHamburgerMenu } from "react-icons/rx";
-import { supabase } from "@/service/supabase";
 import useCategory from "@/hooks/useCategory";
 import { CategoryTable } from "@/types/db";
 

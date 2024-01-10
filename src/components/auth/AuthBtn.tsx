@@ -1,13 +1,22 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { supabase } from "@/service/supabase";
 import { useRouter } from "next/navigation";
 import { AiOutlineUser } from "react-icons/ai";
+import useLogedInStore from "@/store/logedStore";
+
+const logedInCheck = async (setLogedIn: (state: boolean) => void) => {
+  const { data, error } = await supabase.auth.getSession();
+  // console.log(data);
+  if (data.session !== null) {
+    setLogedIn(true);
+  }
+};
 
 const AuthBtn = () => {
-  //로그인 상태 (수정 필)
-  const [isLogedIn, setIsLogedIn] = useState(true);
+  //로그인 상태
+  const { logedIn, setLogedIn } = useLogedInStore();
 
   //유저 햄버거 열기
   const [menu, setMenu] = useState(false);
@@ -17,9 +26,25 @@ const AuthBtn = () => {
   //로그아웃
   async function signOut() {
     const { error } = await supabase.auth.signOut();
-    setIsLogedIn(false);
+    setLogedIn(false);
     router.push("/");
   }
+
+  useEffect(() => {
+    logedInCheck(setLogedIn);
+
+    if (!menu) return;
+    const closeMenu = () => setMenu(false);
+
+    const closeMenuTimer = setTimeout(() => {
+      window.addEventListener("click", closeMenu);
+    }, 200);
+
+    return () => {
+      clearTimeout(closeMenuTimer);
+      window.removeEventListener("click", closeMenu);
+    };
+  }, [menu]);
 
   const UserMenu = () => {
     return (
@@ -38,7 +63,7 @@ const AuthBtn = () => {
 
   return (
     <>
-      {isLogedIn ? (
+      {logedIn ? (
         <div onClick={() => setMenu(!menu)} className="relative">
           <AiOutlineUser size="22" className="cursor-pointer" />
           {menu && <UserMenu />}
