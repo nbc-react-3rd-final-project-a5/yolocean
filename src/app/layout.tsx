@@ -24,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             strategy="beforeInteractive"
           />
           <Script src="https://cdn.iamport.kr/v1/iamport.js" />
+          <Script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></Script>
         </body>
       </html>
     </ReactQueryProvider>
