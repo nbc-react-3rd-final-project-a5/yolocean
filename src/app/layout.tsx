@@ -4,6 +4,7 @@ import "./globals.css";
 import ReactQueryProvider from "./ReactQueryProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Script from "next/script";
+import Header from "@/components/layout/Header";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <ReactQueryProvider>
       <html lang="ko">
         <body className={openSans.className}>
+          <Header />
           <main>{children}</main>
           <ReactQueryDevtools initialIsOpen={false} />
           <div id="portal" />
