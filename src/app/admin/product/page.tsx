@@ -84,7 +84,7 @@ const ProductForm = () => {
   };
 
   const insertProductData = async (data: Product) => {
-    await fetch(`${window.location.origin}/api/product`, { method: "POST", body: JSON.stringify(data) });
+    await fetch("/api/product", { method: "POST", body: JSON.stringify(data) });
   };
 
   const fetchCategoryData = async () => {
