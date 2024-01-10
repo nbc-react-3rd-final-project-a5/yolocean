@@ -5,6 +5,8 @@ import ReactQueryProvider from "./ReactQueryProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Script from "next/script";
 import Header from "@/components/layout/Header";
+import CreateModal from "@/components/portal/CreateModal";
+import CreateAlert from "@/components/portal/CreateAlert";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
@@ -18,10 +20,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <ReactQueryProvider>
       <html lang="ko">
         <body className={openSans.className}>
+          <div id="modal" />
+          <div id="back_drop" />
+          <div id="alert" />
           <Header />
           <main>{children}</main>
           <ReactQueryDevtools initialIsOpen={false} />
-          <div id="portal" />
+          <CreateModal />
+          <CreateAlert />
           <Script
             src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services,clusterer&autoload=false`}
             strategy="beforeInteractive"

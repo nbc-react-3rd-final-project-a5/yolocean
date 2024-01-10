@@ -2,10 +2,10 @@ import React from "react";
 import Link from "next/link";
 
 import { AiOutlineShopping } from "react-icons/ai";
-import { AiOutlineUser } from "react-icons/ai";
 import { AiOutlineSearch } from "react-icons/ai";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoIosLogOut } from "react-icons/io";
+import AuthBtn from "../auth/AuthBtn";
 
 const Header = () => {
   return (
@@ -28,11 +28,10 @@ const Header = () => {
               <AiOutlineSearch className="inline mr-3 ml-2" size="20" />
             </div>
             <div>
-              <AiOutlineUser size="22" />
+              <AuthBtn />
             </div>
             <div>
-              <Link href={"/장바구니"}>
-                {" "}
+              <Link href={"/cart"}>
                 <AiOutlineShopping size="22" />
               </Link>
             </div>

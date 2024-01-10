@@ -59,11 +59,6 @@ const SignIn = ({ mode, setMode }: Props) => {
     console.log(data || error);
   }
 
-  //로그아웃
-  async function signOut() {
-    const { error } = await supabase.auth.signOut();
-  }
-
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -142,7 +137,6 @@ const SignIn = ({ mode, setMode }: Props) => {
           >
             회원가입 하기
           </p>
-          <button onClick={signOut}>임시로그아웃</button>
         </div>
       </div>
     </>
