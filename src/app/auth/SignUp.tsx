@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { supabase } from "@/service/supabase";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 interface Props {
   mode: boolean;
@@ -15,6 +16,8 @@ interface FormValue {
 }
 
 const SignUp = ({ mode, setMode }: Props) => {
+  const router = useRouter();
+
   //회원가입 함수
   async function signUpNewUser(id: string, pw: string, name: string) {
     const { data, error } = await supabase.auth.signUp({
@@ -43,8 +46,8 @@ const SignUp = ({ mode, setMode }: Props) => {
   passwordRef.current = watch("pw");
 
   const onSubmit: SubmitHandler<FormValue> = (inputData) => {
-    console.log(inputData);
     signUpNewUser(inputData.id, inputData.pw, inputData.name);
+    router.push("/");
   };
 
   return (
