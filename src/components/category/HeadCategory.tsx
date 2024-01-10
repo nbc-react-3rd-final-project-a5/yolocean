@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 
 import { RxHamburgerMenu } from "react-icons/rx";
@@ -22,7 +22,21 @@ const HeadCategory = () => {
   //카테고리 메뉴 열기
   const [open, setOpen] = useState(false);
   const { category, isLoading } = useCategory();
-  console.log(category);
+  //   console.log(category);
+
+  useEffect(() => {
+    if (!open) return;
+    const closeMenu = () => setOpen(false);
+
+    const closeMenuTimer = setTimeout(() => {
+      window.addEventListener("click", closeMenu);
+    }, 200);
+
+    return () => {
+      clearTimeout(closeMenuTimer);
+      window.removeEventListener("click", closeMenu);
+    };
+  }, [open]);
 
   return (
     <>
