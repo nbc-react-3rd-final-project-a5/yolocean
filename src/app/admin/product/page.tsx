@@ -109,7 +109,7 @@ const ProductForm = () => {
       className="w-[300px] flex flex-col justify-center align-center gap-1"
       onSubmit={handleSubmit(handleProductFormSubmit)}
     >
-      <label htmlFor="name">상품명</label>
+      <label htmlFor="name">상품명 *</label>
       <input
         className=" border-black border"
         id="name"
@@ -119,7 +119,7 @@ const ProductForm = () => {
         })}
       />
       {errors?.name ? <p className=" text-red-500">{errors.name.message}</p> : null}
-      <label htmlFor="price">렌트 가격</label>
+      <label htmlFor="price">렌트 가격 *</label>
       <input
         className=" border-black border"
         id="price"
@@ -129,7 +129,7 @@ const ProductForm = () => {
         })}
       />
       {errors?.price ? <p className=" text-red-500">{errors.price.message}</p> : null}
-      <label htmlFor="original_price">원가</label>
+      <label htmlFor="original_price">원가 *</label>
       <input
         className=" border-black border"
         id="original_price"
@@ -140,7 +140,7 @@ const ProductForm = () => {
       />
       {errors?.original_price ? <p className=" text-red-500">{errors.original_price.message}</p> : null}
 
-      <label htmlFor="thumbnail">상품 사진</label>
+      <label htmlFor="thumbnail">상품 사진 *</label>
       <input
         className=" border-black border"
         id="thumbnail"
@@ -180,7 +180,7 @@ const ProductForm = () => {
           required: "카테고리를 선택해주세요."
         })}
       >
-        <option>카테고리 선택</option>
+        <option>카테고리 선택 *</option>
         {errors?.category_id ? <p className=" text-red-500">{errors.category_id.message}</p> : null}
 
         {category?.map((data) => {
@@ -222,7 +222,7 @@ const ProductForm = () => {
             </button>
           </div>
         ))}
-        <div className="absolute top-[365px] left-[220px]">
+        <div className="absolute top-[420px] left-[220px]">
           <button
             type="button"
             className=" bg-slate-300 border border-black w-[100px]"
