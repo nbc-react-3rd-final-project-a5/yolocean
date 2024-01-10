@@ -1,6 +1,7 @@
 import React from "react";
 import { supabase } from "@/service/supabase";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 interface Props {
   mode: boolean;
@@ -13,6 +14,8 @@ interface FormValue {
 }
 
 const SignIn = ({ mode, setMode }: Props) => {
+  const router = useRouter();
+
   //이메일 로그인
   const signInWithEmail = async (id: string, pw: string) => {
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -30,8 +33,8 @@ const SignIn = ({ mode, setMode }: Props) => {
   } = useForm<FormValue>({ mode: "onBlur" });
 
   const onSubmit: SubmitHandler<FormValue> = (inputData) => {
-    console.log(inputData);
     signInWithEmail(inputData.id, inputData.pw);
+    router.push("/");
   };
 
   //카카오 로그인
@@ -119,6 +122,7 @@ const SignIn = ({ mode, setMode }: Props) => {
               >
                 login
               </button>
+
               <br />
               <div className="grid grid-cols-2 gap-4 place-items-center">
                 <button type="button" onClick={signInWithKakao}>

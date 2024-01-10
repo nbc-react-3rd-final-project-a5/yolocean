@@ -1,12 +1,9 @@
 "use client";
-import DragAndDropImageBox from "@/components/DragDropImageInput";
 import useImageFile from "@/hooks/useImageFile";
-import { supabase } from "@/service/supabase";
 import { Product } from "@/types/db";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-
-type ProductForm = Omit<Product, "id">;
+import { v4 as uuidv4 } from "uuid";
 
 const ProductForm = () => {
   const [category, setCategory] = useState<
@@ -17,15 +14,20 @@ const ProductForm = () => {
     | null
   >();
   const [formFields, setFormFields] = useState([{ name: "", value: "" }]);
-  const { uploadMultipleImages } = useImageFile();
+
+  const [thumbnailImage, setThumbnailImage] = useState<File>();
+  const [detailInfoImage, setDetailInfoImage] = useState<File>();
+
+  const { uploadImage } = useImageFile();
   const {
     register,
     formState: { errors },
     handleSubmit,
     setValue
-  } = useForm<ProductForm>({
+  } = useForm<Product>({
     mode: "onSubmit",
     defaultValues: {
+      id: "",
       name: "",
       price: 0,
       thumbnail: "",
@@ -34,7 +36,8 @@ const ProductForm = () => {
       info_img: ""
     }
   });
-  let array: string[] = [];
+
+  let formFieldsArray: string[] = [];
 
   const handleAddFields = () => {
     const values = [...formFields, { name: "", value: "" }];
@@ -64,28 +67,32 @@ const ProductForm = () => {
   };
 
   formFields.forEach((data) => {
-    array.push(`${data.name}&${data.value}`);
+    formFieldsArray.push(`${data.name}&${data.value}`);
   });
 
-  const handleProductFormSubmit = (data: ProductForm) => {
-    alert(JSON.stringify(data));
-    // createData(data);
-    uploadMultipleImages("product", ["thumbnail, infoImg"], `${data.name}`);
-    // uploadMultipleImages("product", ["pi1", "pi2"], `${data.name}`); // createData(data);
+  const handleProductFormSubmit = async (data: Product) => {
+    const id = uuidv4();
+    data.id = id;
+    const thumbnailRes = await uploadImage(thumbnailImage!, "product", "thumbnail", id);
+    const infoImgRes = await uploadImage(detailInfoImage!, "product", "detail", id);
+    const thumbnailUrl = await thumbnailRes.json();
+    const infoImgUrl = await infoImgRes.json();
+    data.thumbnail = thumbnailUrl;
+    data.info_img = infoImgUrl;
+    console.log("data.thumbnail", thumbnailUrl);
+    insertProductData(data);
   };
 
-  const createData = async (data: ProductForm) => {
-    fetch(`${window.location.origin}/api/product`, { method: "POST", body: JSON.stringify(data) });
+  const insertProductData = async (data: Product) => {
+    await fetch(`${window.location.origin}/api/product`, { method: "POST", body: JSON.stringify(data) });
   };
 
   const fetchCategoryData = async () => {
-    try {
-      const { data } = await supabase.from("category").select();
-      setCategory(data);
-      console.log(data);
-    } catch (error) {
-      console.log("category fetching error", error);
-    }
+    const res = await fetch("/api/category", {
+      method: "GET"
+    });
+    const category = await res.json();
+    setCategory(category);
   };
 
   useEffect(() => {
@@ -98,7 +105,6 @@ const ProductForm = () => {
       onSubmit={handleSubmit(handleProductFormSubmit)}
     >
       <label htmlFor="name">상품명</label>
-
       <input
         className=" border-black border-solid border"
         id="name"
@@ -107,7 +113,7 @@ const ProductForm = () => {
           required: "상품명을 입력해주세요."
         })}
       />
-      <p>{errors?.name ? <p>{errors.name.message}</p> : null}</p>
+      {errors?.name ? <p>{errors.name.message}</p> : null}
       <label htmlFor="price">렌트 가격</label>
       <input
         className=" border-black border-solid border"
@@ -117,7 +123,7 @@ const ProductForm = () => {
           required: "렌트 가격을 설정해주세요."
         })}
       />
-      <p>{errors?.price ? <p>{errors.price.message}</p> : null}</p>
+      {errors?.price ? <p>{errors.price.message}</p> : null}
       <label htmlFor="original_price">원가</label>
       <input
         className=" border-black border-solid border"
@@ -127,7 +133,8 @@ const ProductForm = () => {
           required: "원가를 설정해주세요."
         })}
       />
-      <p>{errors?.original_price ? <p>{errors.original_price.message}</p> : null}</p>
+      {errors?.original_price ? <p>{errors.original_price.message}</p> : null}
+
       <label htmlFor="thumbnail">상품 사진</label>
       <input
         className=" border-black border-solid border"
@@ -137,8 +144,16 @@ const ProductForm = () => {
         {...register("thumbnail", {
           required: "상품 대표 사진을 등록해주세요."
         })}
+        onChange={(e) => {
+          if (!!e.target.files) {
+            setThumbnailImage(e.target.files[0]);
+          } else {
+            alert("이미지 파일을 확인해주세요!");
+          }
+        }}
       />
-      <p>{errors?.thumbnail ? <p>{errors.thumbnail.message}</p> : null}</p>
+      {errors?.thumbnail ? <p>{errors.thumbnail.message}</p> : null}
+
       <label htmlFor="info_img">상품 상세 설명 이미지</label>
       <input
         className=" border-black border-solid border"
@@ -146,8 +161,15 @@ const ProductForm = () => {
         type="file"
         accept="image/*"
         {...register("info_img")}
-        onChange={(e) => console.log(e.target.value)}
+        onChange={(e) => {
+          if (!!e.target.files) {
+            setDetailInfoImage(e.target.files[0]);
+          } else {
+            alert("이미지 파일을 확인해주세요!");
+          }
+        }}
       />
+
       <select
         {...register("category_id", {
           required: "카테고리를 선택해주세요."
@@ -198,8 +220,7 @@ const ProductForm = () => {
       <button
         type="submit"
         onClick={() => {
-          setValue("info", array);
-          setValue("info_img", ``);
+          setValue("info", formFieldsArray);
         }}
       >
         확인
