@@ -22,5 +22,5 @@ export async function POST(req: NextRequest) {
   }
 
   const { data: dataURL } = supabase.storage.from(bucket).getPublicUrl(`${data.path}`);
-  return NextResponse.json(dataURL);
+  return NextResponse.json(dataURL.publicUrl);
 }
