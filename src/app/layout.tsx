@@ -19,8 +19,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <body className={openSans.className}>
           <main>{children}</main>
           <ReactQueryDevtools initialIsOpen={false} />
+          <div id="portal" />
           <Script
-            src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services,clusterer&autoload=false`}
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9be24acbab35476edd2a2034f6cbd437&libraries=services,clusterer&autoload=false"
             strategy="beforeInteractive"
           />
           <Script src="https://cdn.iamport.kr/v1/iamport.js" />
