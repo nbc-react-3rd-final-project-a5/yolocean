@@ -7,7 +7,7 @@ import { AiOutlineUser } from "react-icons/ai";
 
 const AuthBtn = () => {
   //로그인 상태 (수정 필)
-  const [isLogedIn, setIsLogedIn] = useState(false);
+  const [isLogedIn, setIsLogedIn] = useState(true);
 
   //유저 햄버거 열기
   const [menu, setMenu] = useState(false);
@@ -24,7 +24,7 @@ const AuthBtn = () => {
   const UserMenu = () => {
     return (
       <>
-        <ul className="absolute p-1 mt-2 text-right w-32 z-50 right-0 bg-white border-2 rounded-xl border-gray-300 cursor-pointer">
+        <ul className="absolute p-1 mt-1 ml-7 text-right w-32 z-50 right-0 bg-white shadow-md cursor-pointer">
           <li className="mr-1">
             <Link href={"/user"}>마이 페이지</Link>
           </li>

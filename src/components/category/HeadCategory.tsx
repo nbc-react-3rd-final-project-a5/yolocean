@@ -1,27 +1,42 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
+
 import { RxHamburgerMenu } from "react-icons/rx";
 import { supabase } from "@/service/supabase";
+import useCategory from "@/hooks/useCategory";
+import { CategoryTable } from "@/types/db";
+
+interface Props {
+  category: CategoryTable;
+}
+
+const CategoryName = ({ category: { id, category_name } }: Props) => {
+  return (
+    <Link href={`/category/${id}`}>
+      <li>{category_name}</li>
+    </Link>
+  );
+};
 
 const HeadCategory = () => {
   //카테고리 메뉴 열기
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
+  const { category, isLoading } = useCategory();
+  console.log(category);
 
-  const OpenCategory = () => {
-    return (
-      <>
-        <ul className="absolute p-1 mt-2 text-right w-32 z-50 right-0 bg-white border-2 rounded-xl border-gray-300 cursor-pointer">
-          {}
-        </ul>
-      </>
-    );
-  };
   return (
     <>
-      <div onClick={() => setOpen(!open)} className="flex flex-row space-x-4 cursor-pointer">
+      <div className="flex flex-row space-x-4 cursor-pointer relative" onClick={() => setOpen(!open)}>
         <RxHamburgerMenu size="24" />
         <p>카테고리</p>
-        {open && <OpenCategory />}
+        {open && !isLoading && (
+          <ul className="absolute p-1 mt-7 ml-7 text-right w-32 z-50 right-0 bg-white shadow-md cursor-pointer">
+            {(category as CategoryTable[]).map((category) => (
+              <CategoryName category={category} key={category.id} />
+            ))}
+          </ul>
+        )}
       </div>
     </>
   );
