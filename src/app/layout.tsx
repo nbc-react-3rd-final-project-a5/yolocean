@@ -7,6 +7,7 @@ import Script from "next/script";
 import Header from "@/components/layout/Header";
 import CreateModal from "@/components/portal/CreateModal";
 import CreateAlert from "@/components/portal/CreateAlert";
+import Footer from "@/components/layout/Footer";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
@@ -23,8 +24,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div id="modal" />
           <div id="back_drop" />
           <div id="alert" />
+
           <Header />
           <main>{children}</main>
+          <Footer />
           <ReactQueryDevtools initialIsOpen={false} />
           <CreateModal />
           <CreateAlert />

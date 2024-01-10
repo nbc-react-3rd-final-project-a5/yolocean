@@ -26,7 +26,7 @@ const AuthBtn = () => {
       <>
         <ul className="absolute p-1 mt-2 text-right w-32 z-50 right-0 bg-white border-2 rounded-xl border-gray-300 cursor-pointer">
           <li className="mr-1">
-            <Link href={"mypage"}>마이 페이지</Link>
+            <Link href={"/user"}>마이 페이지</Link>
           </li>
           <li className="mr-1" onClick={signOut}>
             로그아웃

@@ -1,4 +1,5 @@
 "use client";
+import Tab from "@/components/Tab";
 import useProduct from "@/hooks/useProduct";
 import KakaoMap from "@/lib/KakaoMap";
 import { usealertStore } from "@/store/alertStore";
@@ -6,33 +7,40 @@ import { useModalStore } from "@/store/modalStore";
 import { ProductProperties } from "@/types/db";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const ProductPage = () => {
   const { product, isLoading } = useProduct();
   const { isModalOpen, openModal } = useModalStore();
   const { alertFire } = usealertStore();
 
+  const [activeTab, setActiveTab] = useState(0);
+  function onClickTab(index: number) {
+    return setActiveTab(index);
+  }
+
   return (
-    <div className="grid grid-cols-4 gap-4">
-      {!isLoading &&
-        (product as ProductProperties[]).map((product) => <ProductCard product={product} key={product.id} />)}
-      <button
-        onClick={() => {
-          openModal(<KakaoMap />);
-        }}
-      >
-        모달오픈!
-      </button>
-      <button
-        onClick={() => {
-          alertFire("실패", "error");
-        }}
-      >
-        alert오픈!
-      </button>
-      <div className="absolute right-0 top-0"></div>
-    </div>
+    <>
+      <div className="grid grid-cols-4 gap-4">
+        {!isLoading &&
+          (product as ProductProperties[]).map((product) => <ProductCard product={product} key={product.id} />)}
+        <button
+          onClick={() => {
+            openModal(<KakaoMap />);
+          }}
+        >
+          모달오픈!
+        </button>
+        <button
+          onClick={() => {
+            alertFire("실패", "error");
+          }}
+        >
+          alert오픈!
+        </button>
+      </div>
+      <Tab activeTab={activeTab} onClickTabFn={onClickTab} tabs={["예약", "렌트 완료", "작성한 리뷰", "Q&A"]} />
+    </>
   );
 };
 

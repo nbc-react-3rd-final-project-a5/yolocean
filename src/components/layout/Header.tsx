@@ -3,9 +3,8 @@ import Link from "next/link";
 
 import { AiOutlineShopping } from "react-icons/ai";
 import { AiOutlineSearch } from "react-icons/ai";
-import { RxHamburgerMenu } from "react-icons/rx";
-import { IoIosLogOut } from "react-icons/io";
 import AuthBtn from "../auth/AuthBtn";
+import HeadCategory from "../category/HeadCategory";
 
 const Header = () => {
   return (
@@ -18,9 +17,8 @@ const Header = () => {
         </div>
 
         <div className="flex flex-row justify-between pb-4">
-          <div className="flex flex-row space-x-4">
-            <RxHamburgerMenu size="24" />
-            <p>카테고리</p>
+          <div>
+            <HeadCategory />
           </div>
           <div className="flex flex-row space-x-6">
             <div className="w-72 border border-black rounded-xl">
