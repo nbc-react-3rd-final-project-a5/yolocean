@@ -4,7 +4,6 @@ import { ProductProperties } from "@/types/db";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import Modal from "@/components/Modal";
 interface IProps {
   params: { productId: string };
 }
