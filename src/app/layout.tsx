@@ -4,6 +4,7 @@ import "./globals.css";
 import ReactQueryProvider from "./ReactQueryProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Script from "next/script";
+import Footer from "@/components/layout/Footer";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             strategy="beforeInteractive"
           />
           <Script src="https://cdn.iamport.kr/v1/iamport.js" />
+          <Footer />
         </body>
       </html>
     </ReactQueryProvider>
