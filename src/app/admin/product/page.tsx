@@ -80,11 +80,12 @@ const ProductForm = () => {
     data.thumbnail = thumbnailUrl;
     data.info_img = infoImgUrl;
     console.log("data", data);
-    try {
+    if (data.info && data.name && data.category_id && data.price && data.thumbnail && data.id && data.original_price) {
       insertProductData(data);
       alert("상품이 등록 되었습니다!");
-    } catch (error) {
-      alert("상품 등록 중 오류가 발생하였습니다.");
+    } else {
+      alert("필수 항목을 모두 입력해주세요!");
+      return;
     }
   };
 
@@ -194,7 +195,7 @@ const ProductForm = () => {
       <>
         {formFields.map((field, index) => (
           <div>
-            <div key={index} className=" flex flex-col gap-2 relative">
+            <div key={index} className=" flex flex-col gap-2">
               <input
                 type="text"
                 placeholder="Field name"
@@ -222,7 +223,7 @@ const ProductForm = () => {
             </button>
           </div>
         ))}
-        <div className="absolute top-[420px] left-[220px]">
+        <div className=" top-[420px] left-[220px]">
           <button
             type="button"
             className=" bg-slate-300 border border-black w-[100px]"
