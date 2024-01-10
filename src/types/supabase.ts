@@ -58,7 +58,7 @@ export interface Database {
         Row: {
           category_id: string;
           id: string;
-          info: string;
+          info: Json;
           info_img: string;
           name: string;
           original_price: number;
@@ -69,7 +69,7 @@ export interface Database {
         Insert: {
           category_id: string;
           id?: string;
-          info: string;
+          info: Json;
           info_img: string;
           name: string;
           original_price: number;
@@ -80,7 +80,7 @@ export interface Database {
         Update: {
           category_id?: string;
           id?: string;
-          info?: string;
+          info?: Json;
           info_img?: string;
           name?: string;
           original_price?: number;
