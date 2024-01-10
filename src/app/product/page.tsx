@@ -1,7 +1,7 @@
 "use client";
 import { supabase } from "@/service/supabase";
 import { Product } from "@/types/db";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 type ProductForm = Omit<Product, "id">;
@@ -15,7 +15,6 @@ const ProductForm = () => {
     | null
   >();
   const [formFields, setFormFields] = useState([{ name: "", value: "" }]);
-
   const {
     register,
     formState: { errors },
@@ -44,7 +43,6 @@ const ProductForm = () => {
       alert("삭제하실 수 없습니다!");
       return;
     }
-    // const values = [...formFields].splice(index, 1);
     const values = [...formFields].filter((item, i) => {
       return i !== index;
     });
