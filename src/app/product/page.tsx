@@ -1,4 +1,5 @@
 "use client";
+import Card from "@/components/Card";
 import Tab from "@/components/Tab";
 import useProduct from "@/hooks/useProduct";
 import KakaoMap from "@/lib/KakaoMap";
@@ -40,6 +41,7 @@ const ProductPage = () => {
         </button>
       </div>
       <Tab activeTab={activeTab} onClickTabFn={onClickTab} tabs={["예약", "렌트 완료", "작성한 리뷰", "Q&A"]} />
+      {/* <Card /> */}
     </>
   );
 };
