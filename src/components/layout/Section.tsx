@@ -8,7 +8,7 @@ interface Props {
 const Section = ({ title, children }: Props) => {
   return (
     <section className="mb-[200px]">
-      <h1 className="font-bold text-[30px] mb-[60px]">{title}</h1>
+      {title && <h1 className="font-bold text-[30px] mb-[60px]">{title}</h1>}
       <div>{children}</div>
     </section>
   );
