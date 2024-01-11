@@ -11,6 +11,7 @@ import { useModalStore } from "@/store/modalStore";
 import { ProductProperties } from "@/types/db";
 import Image from "next/image";
 import Link from "next/link";
+import { title } from "process";
 import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 
@@ -47,7 +48,7 @@ const ProductPage = () => {
           (product as ProductProperties[]).map((product) => <ProductCard product={product} key={product.id} />)}
         <button
           onClick={() => {
-            openModal(<KakaoMap />);
+            openModal("카카오맵", <KakaoMap />);
           }}
         >
           모달오픈!
