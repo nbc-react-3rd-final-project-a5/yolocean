@@ -10,7 +10,6 @@ import CreateModal from "@/components/portal/CreateModal";
 import CreateAlert from "@/components/portal/CreateAlert";
 import Footer from "@/components/layout/Footer";
 
-
 const openSans = Open_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -26,7 +25,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div id="modal" />
           <div id="back_drop" />
           <div id="alert" />
-
 
           <Header />
 
