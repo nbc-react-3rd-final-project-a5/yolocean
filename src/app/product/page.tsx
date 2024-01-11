@@ -1,5 +1,6 @@
 "use client";
 import Card from "@/components/Card";
+import Input from "@/components/Input";
 import Tab from "@/components/Tab";
 import useProduct from "@/hooks/useProduct";
 import KakaoMap from "@/lib/KakaoMap";
@@ -9,6 +10,7 @@ import { ProductProperties } from "@/types/db";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 const ProductPage = () => {
   const { product, isLoading } = useProduct();
@@ -19,6 +21,17 @@ const ProductPage = () => {
   function onClickTab(index: number) {
     return setActiveTab(index);
   }
+
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    watch,
+    setError,
+    clearErrors,
+    formState: { errors }
+  } = useForm({ mode: "onChange" });
+  const test = useForm({ mode: "onChange" });
 
   return (
     <>
@@ -42,6 +55,43 @@ const ProductPage = () => {
       </div>
       <Tab activeTab={activeTab} onClickTabFn={onClickTab} tabs={["예약", "렌트 완료", "작성한 리뷰", "Q&A"]} />
       {/* <Card /> */}
+
+      <Input
+        register={register}
+        formStateErrors={errors}
+        type="password"
+        placeholder="비밀번호를 입력하라"
+        name="password"
+        label="비밀번호"
+        required="비밀번호는 필수다"
+        pattern={/^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/}
+        errorMessage="영문 숫자 조합 8자리 이상으로 입력해주세요"
+        watch={watch}
+        setError={setError}
+        clearErrors={clearErrors}
+      />
+      <Input
+        watch={watch}
+        setError={setError}
+        clearErrors={clearErrors}
+        register={register}
+        formStateErrors={errors}
+        required={"필수다"}
+        type="password"
+        name="password check"
+        placeholder="비밀번호를 다시 입력하라"
+        label="비밀번호 확인"
+        observerValue="password"
+        pattern={/^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/}
+        errorMessage="영문 숫자 조합 8자리 이상으로 입력해주세요"
+        validate={(value: any) => {
+          console.log(value);
+          if (value === watch("password")) return true;
+          else {
+            return "비밀번호가 일치하지 않습니다";
+          }
+        }}
+      />
     </>
   );
 };
