@@ -2,7 +2,20 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Cart } from "@/types/db";
 
-const CartItem = () => {
+interface Props {
+  // cart: Cart;
+  count: number | null;
+  id: string;
+  product_id: string | null;
+  store_id: string | null;
+  user_id: string;
+  store: object;
+  product: object;
+}
+
+const CartItem = (cart: Props) => {
+  const { count, id, product_id, store_id, user_id, store, product } = cart;
+  console.log(cart);
   const [cnt, setCnt] = useState(1);
   return (
     <>
@@ -13,7 +26,7 @@ const CartItem = () => {
           </div>
           <div className="mx-3">
             <p>카테고리명</p>
-            <p>상품명</p>
+            <p>{product_id}</p>
             <p>지점</p>
             <p>날짜</p>
             <p>가격</p>
