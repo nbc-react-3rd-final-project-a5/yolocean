@@ -16,7 +16,7 @@ const CreateAlert = () => {
     if (message) {
       setTimeout(() => {
         alertFire(null, "success");
-      }, 1500);
+      }, 2000);
     }
   }, [message, alertFire]);
 

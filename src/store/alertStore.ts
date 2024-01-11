@@ -1,15 +1,15 @@
 import { create } from "zustand";
 
-type TalertType = "error" | "success";
+type alertType = "error" | "success";
 
 interface IalertStore {
   message: string | null;
-  type: TalertType;
-  alertFire: (message: string | null, type: TalertType) => void;
+  type: alertType;
+  alertFire: (message: string | null, type: alertType) => void;
 }
 
 export const usealertStore = create<IalertStore>((set) => ({
   message: null,
   type: "success",
-  alertFire: (message: string | null, type: TalertType) => set({ message, type })
+  alertFire: (message: string | null, type: alertType) => set({ message, type })
 }));

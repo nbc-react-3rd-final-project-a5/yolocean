@@ -6,16 +6,17 @@ import Tab from "@/components/Tab";
 import useProduct from "@/hooks/useProduct";
 import KakaoMap from "@/lib/KakaoMap";
 import { usealertStore } from "@/store/alertStore";
+import { openConfirm } from "@/store/confirmStore";
 import { useModalStore } from "@/store/modalStore";
 import { ProductProperties } from "@/types/db";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 
 const ProductPage = () => {
   const { product, isLoading } = useProduct();
-  const { isModalOpen, openModal } = useModalStore();
+  const { openModal } = useModalStore();
   const { alertFire } = usealertStore();
 
   const [activeTab, setActiveTab] = useState(0);
@@ -30,10 +31,14 @@ const ProductPage = () => {
     clearErrors,
     formState: { errors }
   } = useForm({ mode: "onChange" });
-  const test = useForm({ mode: "onChange" });
   const methods = useForm({ mode: "onChange" });
   const onSubmit = (data: any) => {
     console.log(data);
+  };
+
+  const handleOpenConfirm = async () => {
+    const Response = await openConfirm("제목", "내용");
+    console.log("결과:", Response);
   };
   return (
     <>
@@ -49,14 +54,14 @@ const ProductPage = () => {
         </button>
         <button
           onClick={() => {
-            alertFire("실패", "error");
+            alertFire("성공", "success");
           }}
         >
           alert오픈!
         </button>
+        <button onClick={handleOpenConfirm}>confirm오픈!</button>
       </div>
       <Tab activeTab={activeTab} onClickTabFn={onClickTab} tabs={["예약", "렌트 완료", "작성한 리뷰", "Q&A"]} />
-      {/* <Card /> */}
       <Input
         register={register}
         formStateErrors={errors}

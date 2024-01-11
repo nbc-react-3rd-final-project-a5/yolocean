@@ -9,6 +9,7 @@ import Header from "@/components/layout/Header";
 import CreateModal from "@/components/portal/CreateModal";
 import CreateAlert from "@/components/portal/CreateAlert";
 import Footer from "@/components/layout/Footer";
+import CreateConfirm from "@/components/portal/CreateConfirm";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <body className={openSans.className}>
           <div id="modal" />
           <div id="back_drop" />
+          <div id="confirm" />
           <div id="alert" />
 
           <Header />
@@ -33,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ReactQueryDevtools initialIsOpen={false} />
           <CreateModal />
           <CreateAlert />
+          <CreateConfirm />
           <Script
             src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services,clusterer&autoload=false`}
             strategy="beforeInteractive"
