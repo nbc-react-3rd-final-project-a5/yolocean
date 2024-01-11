@@ -1,4 +1,4 @@
-import DragDropImageInput from "@/components/DragDropImageInput";
+import DragDropImageInput from "@/components/InputImage";
 import React from "react";
 
 const page = () => {
