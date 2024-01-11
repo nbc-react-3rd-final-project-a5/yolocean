@@ -27,9 +27,21 @@ const StoreForm = () => {
   const { address } = useAddressStore();
   // const data = getLagLng(address);
   // console.log("data", data);
+  const handleStoreFormSubmit = async (data: StoreForm) => {
+    insertStoreData(data);
+  };
+  const insertStoreData = async (data: StoreForm) => {
+    await fetch("/api/store", {
+      method: "POST",
+      body: JSON.stringify(data)
+    });
+  };
   return (
-    <>
-      <label htmlFor="name">지점명</label>
+    <form
+      className="w-[300px] flex flex-col justify-center align-center gap-1"
+      onSubmit={handleSubmit(handleStoreFormSubmit)}
+    >
+      <label htmlFor="name">지점명 *</label>
       <input
         className=" border-black border-solid border"
         id="name"
@@ -38,6 +50,8 @@ const StoreForm = () => {
           required: "지점명을 입력해주세요."
         })}
       />
+      {errors?.name ? <p className=" text-red-500">{errors.name.message}</p> : null}
+
       <Postcode />
       <input
         className="border-black border-solid border"
@@ -49,7 +63,7 @@ const StoreForm = () => {
         })}
         readOnly
       />
-    </>
+    </form>
   );
 };
 
