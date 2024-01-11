@@ -34,7 +34,6 @@ const ContextInput = ({
     clearErrors
   } = useFormContext();
 
-  console.log(name);
   const isError = errors[name]?.message;
 
   useEffect(() => {

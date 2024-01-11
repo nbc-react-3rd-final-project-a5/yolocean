@@ -88,7 +88,6 @@ const ProductPage = () => {
         pattern={/^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/}
         errorMessage="영문 숫자 조합 8자리 이상으로 입력해주세요"
         validate={(value: any) => {
-          console.log(value);
           if (value === watch("password")) return true;
           else {
             return "비밀번호가 일치하지 않습니다";
