@@ -67,6 +67,7 @@ const useImageFile = () => {
     setImageFiles((prev) => [...prev.filter((n) => n.id !== file.id)]);
   };
 
+  /**이미지 파일을 업로드하면 url을 반환해주는 함수 */
   const uploadImage = async (file: File, bucket: string, imageId: string, targetId: string) => {
     const formData = new FormData();
     formData.append("file", file);
@@ -79,7 +80,9 @@ const useImageFile = () => {
       body: formData
     });
 
-    return res;
+    const url = await res.json();
+
+    return url;
   };
 
   const uploadMultipleImages = async (bucket: string, imageId: string[], targetId: string) => {
