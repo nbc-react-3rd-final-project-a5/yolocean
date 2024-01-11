@@ -6,8 +6,8 @@ const useCategory = () => {
     data: category,
     isLoading,
     isError
-  } = useQuery<CategoryTable[] | CategoryTable>({
-    queryFn: async (): Promise<CategoryTable[] | CategoryTable> => {
+  } = useQuery<CategoryTable[]>({
+    queryFn: async (): Promise<CategoryTable[]> => {
       const response = await fetch(`/api/category`, { method: "GET" });
       const data = await response.json();
       return data;
