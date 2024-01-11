@@ -1,5 +1,6 @@
 "use client";
 import Card from "@/components/Card";
+import ContextInput from "@/components/ContextInput";
 import Input from "@/components/Input";
 import Tab from "@/components/Tab";
 import useProduct from "@/hooks/useProduct";
@@ -10,7 +11,7 @@ import { ProductProperties } from "@/types/db";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 
 const ProductPage = () => {
   const { product, isLoading } = useProduct();
@@ -32,7 +33,10 @@ const ProductPage = () => {
     formState: { errors }
   } = useForm({ mode: "onChange" });
   const test = useForm({ mode: "onChange" });
-
+  const methods = useForm({ mode: "onChange" });
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
   return (
     <>
       <div className="grid grid-cols-4 gap-4">
@@ -55,7 +59,6 @@ const ProductPage = () => {
       </div>
       <Tab activeTab={activeTab} onClickTabFn={onClickTab} tabs={["예약", "렌트 완료", "작성한 리뷰", "Q&A"]} />
       {/* <Card /> */}
-
       <Input
         register={register}
         formStateErrors={errors}
@@ -78,7 +81,7 @@ const ProductPage = () => {
         formStateErrors={errors}
         required={"필수다"}
         type="password"
-        name="password check"
+        name="password_check"
         placeholder="비밀번호를 다시 입력하라"
         label="비밀번호 확인"
         observerValue="password"
@@ -92,6 +95,32 @@ const ProductPage = () => {
           }
         }}
       />
+
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <ContextInput
+            label="ContextInput 비밀번호"
+            name="password"
+            placeholder="비밀번호를 입력하세요"
+            required="필수 입력사항입니다."
+            errorMessage="비밀번호가 올바르지않습니다."
+            pattern={/^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/}
+            type="password"
+          />
+          <ContextInput
+            label="ContextInput 비밀번호확인"
+            name="password_check"
+            placeholder="비밀번호를 다시 입력하세요"
+            required="필수 입력사항입니다."
+            errorMessage="비밀번호가 올바르지않습니다."
+            observerValue="password"
+            pattern={/^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/}
+            type="password"
+          />
+
+          <button type="submit">제출</button>
+        </form>
+      </FormProvider>
     </>
   );
 };

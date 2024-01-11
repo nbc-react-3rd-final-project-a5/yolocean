@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { MdErrorOutline } from "react-icons/md";
-import { UseFormRegister, FieldValues, Validate } from "react-hook-form";
+import { useFormContext, UseFormRegister, FieldValues, Validate } from "react-hook-form";
 
 interface IProps {
   label?: string;
@@ -12,15 +12,10 @@ interface IProps {
   errorMessage: string;
   validate?: Validate<any, FieldValues> | Record<string, Validate<any, FieldValues>>;
   type: string;
-  register: UseFormRegister<FieldValues>;
-  formStateErrors: Record<string, any>;
   observerValue?: string;
-  setError: any;
-  watch: any;
-  clearErrors: any;
 }
 
-const Input = ({
+const ContextInput = ({
   placeholder,
   label,
   required,
@@ -29,14 +24,18 @@ const Input = ({
   errorMessage,
   type,
   name,
-  register,
-  formStateErrors,
-  observerValue,
-  setError,
-  watch,
-  clearErrors
+  observerValue
 }: IProps) => {
-  const isError = formStateErrors[name]?.message;
+  const {
+    register,
+    formState: { errors },
+    setError,
+    watch,
+    clearErrors
+  } = useFormContext();
+
+  console.log(name);
+  const isError = errors[name]?.message;
 
   useEffect(() => {
     if (!observerValue) return;
@@ -44,12 +43,12 @@ const Input = ({
     if (watch(observerValue) !== watch(name) && watch(observerValue)) {
       setError(name, {
         type: `${observerValue}-mismatch`,
-        message: `${observerValue}가 일치하지않습니다.`
+        message: `${observerValue}가 일치하지 않습니다.`
       });
     } else {
       clearErrors(name);
     }
-  }, [watch(name), observerValue && watch(observerValue), clearErrors, name, observerValue, setError, watch]);
+  }, [watch(name), observerValue && watch(observerValue), name, observerValue, setError, watch, clearErrors]);
 
   return (
     <>
@@ -72,11 +71,13 @@ const Input = ({
         />
       </div>
       <div className={`flex items-center gap-1 text-red-400 ${isError ? "opacity-100" : "opacity-0"}`}>
-        <MdErrorOutline />
-        <span className="text-sm">{isError}.</span>
+        <>
+          <MdErrorOutline />
+          <span className="text-sm">{isError as string}.</span>
+        </>
       </div>
     </>
   );
 };
 
-export default Input;
+export default ContextInput;
