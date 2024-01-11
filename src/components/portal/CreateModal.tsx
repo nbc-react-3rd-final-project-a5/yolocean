@@ -9,20 +9,22 @@ const CreateModal = () => {
 
   useEffect(() => {
     setMounted(true);
-    return () => setMounted(false);
-  }, []);
+    if (isModalOpen) {
+      document.body.style.overflowY = "hidden";
+    }
+    return () => {
+      setMounted(false);
+      document.body.style.overflowY = "";
+    };
+  }, [isModalOpen]);
 
   if (typeof window === "undefined") return <></>;
 
   if (!isModalOpen) return <></>;
-
   return mounted ? (
     <>
       {createPortal(
-        <div
-          className="absolute top-0 bottom-0 bg-black w-screen h-screen z-10 opacity-65 cursor-pointer"
-          onClick={closeModal}
-        />,
+        <div className="fixed inset-0 bg-black z-10 opacity-65 cursor-pointer" onClick={closeModal} />,
         document.getElementById("back_drop") as HTMLElement
       )}
       {createPortal(

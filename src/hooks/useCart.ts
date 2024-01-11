@@ -1,36 +1,10 @@
-import { Cart } from "@/types/db";
 import { useQuery } from "@tanstack/react-query";
-
-// interface CartBox {
-//   cart: Cart;
-//   // count: number | null;
-//   // id: string;
-//   // product_id: string | null;
-//   // store_id: string | null;
-//   // user_id: string;
-//   store: {
-//     name: string;
-//   };
-//   product: {
-//     name: string;
-//     thumbnail: string;
-//   };
-// }
 interface CartBox {
-  cart: {
-    count: number | null;
-    id: string;
-    product_id: string | null;
-    store_id: string | null;
-    user_id: string;
-    product: {
-      name: string;
-      thumbnail: string;
-    };
-  };
-  store: {
-    name: string;
-  };
+  count: number | null;
+  id: string;
+  product_id: string | null;
+  store_id: string | null;
+  user_id: string;
   product: {
     name: string;
     thumbnail: string;
@@ -39,6 +13,9 @@ interface CartBox {
     category: {
       category_name: string;
     };
+  };
+  store: {
+    name: string;
   };
 }
 

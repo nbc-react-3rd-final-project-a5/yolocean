@@ -1,4 +1,4 @@
-import { Database } from "./supabase";
+import { Tables } from "./supabase";
 
 export type Cart = Database["public"]["Tables"]["cart"]["Row"];
 export type CategoryTable = Database["public"]["Tables"]["category"]["Row"];
