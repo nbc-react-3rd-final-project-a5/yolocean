@@ -195,8 +195,8 @@ const ProductForm = () => {
       </select>
       <>
         {formFields.map((field, index) => (
-          <div>
-            <div key={index} className=" flex flex-col gap-2">
+          <div key={index}>
+            <div className=" flex flex-col gap-2">
               <input
                 type="text"
                 placeholder="Field name"
