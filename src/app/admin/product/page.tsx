@@ -4,7 +4,7 @@ import Input from "@/components/Input";
 import useCategory from "@/hooks/useCategory";
 import useImageFile from "@/hooks/useImageFile";
 import { Product } from "@/types/db";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 
