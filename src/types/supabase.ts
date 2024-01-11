@@ -8,18 +8,21 @@ export interface Database {
           count: number | null;
           id: string;
           product_id: string | null;
+          store_id: string | null;
           user_id: string;
         };
         Insert: {
           count?: number | null;
           id?: string;
           product_id?: string | null;
+          store_id?: string | null;
           user_id: string;
         };
         Update: {
           count?: number | null;
           id?: string;
           product_id?: string | null;
+          store_id?: string | null;
           user_id?: string;
         };
         Relationships: [
@@ -28,6 +31,13 @@ export interface Database {
             columns: ["product_id"];
             isOneToOne: false;
             referencedRelation: "product";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "cart_store_id_fkey";
+            columns: ["store_id"];
+            isOneToOne: false;
+            referencedRelation: "store";
             referencedColumns: ["id"];
           },
           {
@@ -56,34 +66,37 @@ export interface Database {
       };
       product: {
         Row: {
-          category_id: string;
+          category_id: string | null;
           id: string;
-          info: Json;
+          info: Json | null;
           info_img: string;
           name: string;
           original_price: number;
+          percentage_off: number | null;
           price: number;
           thumbnail: string;
           view: number | null;
         };
         Insert: {
-          category_id: string;
+          category_id?: string | null;
           id?: string;
-          info: Json;
+          info?: Json | null;
           info_img: string;
           name: string;
           original_price: number;
+          percentage_off?: number | null;
           price: number;
           thumbnail: string;
           view?: number | null;
         };
         Update: {
-          category_id?: string;
+          category_id?: string | null;
           id?: string;
-          info?: Json;
+          info?: Json | null;
           info_img?: string;
           name?: string;
           original_price?: number;
+          percentage_off?: number | null;
           price?: number;
           thumbnail?: string;
           view?: number | null;
@@ -106,6 +119,7 @@ export interface Database {
           id: string;
           product_id: string;
           title: string;
+          url: Json | null;
           user_id: string;
         };
         Insert: {
@@ -115,6 +129,7 @@ export interface Database {
           id?: string;
           product_id: string;
           title: string;
+          url?: Json | null;
           user_id: string;
         };
         Update: {
@@ -124,6 +139,7 @@ export interface Database {
           id?: string;
           product_id?: string;
           title?: string;
+          url?: Json | null;
           user_id?: string;
         };
         Relationships: [
@@ -142,6 +158,21 @@ export interface Database {
             referencedColumns: ["id"];
           }
         ];
+      };
+      region: {
+        Row: {
+          id: string;
+          region: string;
+        };
+        Insert: {
+          id?: string;
+          region: string;
+        };
+        Update: {
+          id?: string;
+          region?: string;
+        };
+        Relationships: [];
       };
       rent: {
         Row: {
@@ -204,8 +235,8 @@ export interface Database {
           created_at: string;
           id: string;
           product_id: string;
-          score: number;
           title: string;
+          url: Json | null;
           user_id: string;
         };
         Insert: {
@@ -213,8 +244,8 @@ export interface Database {
           created_at?: string;
           id?: string;
           product_id: string;
-          score: number;
           title: string;
+          url?: Json | null;
           user_id: string;
         };
         Update: {
@@ -222,8 +253,8 @@ export interface Database {
           created_at?: string;
           id?: string;
           product_id?: string;
-          score?: number;
           title?: string;
+          url?: Json | null;
           user_id?: string;
         };
         Relationships: [
@@ -289,6 +320,7 @@ export interface Database {
           lat: string | null;
           lng: string | null;
           name: string;
+          region_id: string | null;
         };
         Insert: {
           address?: string | null;
@@ -296,6 +328,7 @@ export interface Database {
           lat?: string | null;
           lng?: string | null;
           name: string;
+          region_id?: string | null;
         };
         Update: {
           address?: string | null;
@@ -303,8 +336,17 @@ export interface Database {
           lat?: string | null;
           lng?: string | null;
           name?: string;
+          region_id?: string | null;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "store_region_id_fkey";
+            columns: ["region_id"];
+            isOneToOne: false;
+            referencedRelation: "region";
+            referencedColumns: ["id"];
+          }
+        ];
       };
       userinfo: {
         Row: {
