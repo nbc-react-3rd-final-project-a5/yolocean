@@ -4,10 +4,12 @@ import "./globals.css";
 import ReactQueryProvider from "./ReactQueryProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Script from "next/script";
+
 import Header from "@/components/layout/Header";
 import CreateModal from "@/components/portal/CreateModal";
 import CreateAlert from "@/components/portal/CreateAlert";
 import Footer from "@/components/layout/Footer";
+
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
@@ -25,7 +27,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div id="back_drop" />
           <div id="alert" />
 
+
           <Header />
+
           <main>{children}</main>
           <Footer />
           <ReactQueryDevtools initialIsOpen={false} />
