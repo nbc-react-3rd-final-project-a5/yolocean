@@ -1,32 +1,28 @@
 "use client";
+import ContextInput from "@/components/ContextInput";
+import Input from "@/components/Input";
+import useCategory from "@/hooks/useCategory";
 import useImageFile from "@/hooks/useImageFile";
 import { Product } from "@/types/db";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 
 const ProductForm = () => {
-  const [category, setCategory] = useState<
-    | {
-        category_name: string;
-        id: string;
-      }[]
-    | null
-  >();
   const [formFields, setFormFields] = useState([{ name: "", value: "" }]);
 
   const [thumbnailImage, setThumbnailImage] = useState<File>();
   const [detailInfoImage, setDetailInfoImage] = useState<File>();
 
   const { uploadImage } = useImageFile();
-  // const {category} = useCategory();
+  const { category } = useCategory();
   const {
     register,
     formState: { errors },
     handleSubmit,
     setValue
   } = useForm<Product>({
-    mode: "onSubmit",
+    mode: "onChange",
     defaultValues: {
       id: "",
       name: "",
@@ -39,7 +35,6 @@ const ProductForm = () => {
   });
 
   let formFieldsArray: string[] = [];
-
   const handleAddFields = () => {
     const values = [...formFields, { name: "", value: "" }];
     setFormFields(values);
@@ -73,10 +68,8 @@ const ProductForm = () => {
 
   const handleProductFormSubmit = async (data: Product) => {
     const id = uuidv4();
-    const thumbnailRes = await uploadImage(thumbnailImage!, "product", "thumbnail", id);
-    const infoImgRes = await uploadImage(detailInfoImage!, "product", "detail", id);
-    const thumbnailUrl = await thumbnailRes.json();
-    const infoImgUrl = await infoImgRes.json();
+    const thumbnailUrl = await uploadImage(thumbnailImage!, "product", "thumbnail", id);
+    const infoImgUrl = await uploadImage(detailInfoImage!, "product", "detail", id);
     data.id = id;
     data.thumbnail = thumbnailUrl;
     data.info_img = infoImgUrl;
@@ -93,18 +86,6 @@ const ProductForm = () => {
   const insertProductData = async (data: Product) => {
     await fetch("/api/product", { method: "POST", body: JSON.stringify(data) });
   };
-
-  const fetchCategoryData = async () => {
-    const res = await fetch("/api/category", {
-      method: "GET"
-    });
-    const category = await res.json();
-    setCategory(category);
-  };
-
-  useEffect(() => {
-    fetchCategoryData();
-  }, []);
 
   return (
     <form
