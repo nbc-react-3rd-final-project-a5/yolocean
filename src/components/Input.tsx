@@ -18,6 +18,8 @@ interface IProps {
   setError: any;
   watch: any;
   clearErrors: any;
+  min?: number;
+  max?: number;
 }
 
 const Input = ({
@@ -34,7 +36,9 @@ const Input = ({
   observerValue,
   setError,
   watch,
-  clearErrors
+  clearErrors,
+  min,
+  max
 }: IProps) => {
   const isError = formStateErrors[name]?.message;
 
@@ -68,6 +72,8 @@ const Input = ({
           id={`${name}_input`}
           type={type}
           placeholder={placeholder}
+          maxLength={max}
+          minLength={min}
           className="focus:outline-none"
           {...register(name, {
             required: required ? required : false,
