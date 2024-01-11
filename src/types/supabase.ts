@@ -41,6 +41,13 @@ export interface Database {
             referencedColumns: ["id"];
           },
           {
+            foreignKeyName: "cart_store_id_fkey";
+            columns: ["store_id"];
+            isOneToOne: false;
+            referencedRelation: "store";
+            referencedColumns: ["id"];
+          },
+          {
             foreignKeyName: "cart_user_id_fkey";
             columns: ["user_id"];
             isOneToOne: false;

@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
-import Cart from "./Cart";
+import CartItem from "./CartItem";
 
 const page = () => {
   return (
     <>
-      <Cart />
+      <CartItem />
     </>
   );
 };
