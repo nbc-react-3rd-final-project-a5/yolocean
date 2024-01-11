@@ -13,6 +13,7 @@ const ProductForm = () => {
 
   const [thumbnailImage, setThumbnailImage] = useState<File>();
   const [detailInfoImage, setDetailInfoImage] = useState<File>();
+  const [rangeValue, setRangeValue] = useState<string>("");
 
   const { uploadImage } = useImageFile();
   const { category } = useCategory();
@@ -30,9 +31,14 @@ const ProductForm = () => {
       thumbnail: "",
       original_price: 0,
       view: 0,
-      info_img: ""
+      info_img: "",
+      percentage_off: 0
     }
   });
+
+  const userRangeInput = (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
+    setRangeValue(e.currentTarget.value);
+  };
 
   let formFieldsArray: string[] = [];
   const handleAddFields = () => {
@@ -110,6 +116,19 @@ const ProductForm = () => {
             required: "렌트 가격을 설정해주세요."
           })}
         />
+
+        <label htmlFor="percentage_off">할인률 0~100% *</label>
+        <input
+          id="percentage_off"
+          type="range"
+          min="0"
+          max="100"
+          step="10"
+          {...register("percentage_off")}
+          onClick={userRangeInput}
+        />
+        {rangeValue === "0" ? <p>할인없음</p> : <p>{rangeValue}%</p>}
+
         {errors?.price ? <p className=" text-red-500">{errors.price.message}</p> : null}
         <label htmlFor="original_price">원가 *</label>
         <input
