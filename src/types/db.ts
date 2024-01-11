@@ -1,7 +1,8 @@
-import { Database } from "./supabase";
+import { Database, Tables } from "./supabase";
 
 export type Cart = Database["public"]["Tables"]["cart"]["Row"];
-export type CategoryTable = Database["public"]["Tables"]["category"]["Row"];
+// export type CategoryTable = Database["public"]["Tables"]["category"]["Row"];
+export type CategoryTable = Tables<"category">;
 export type Product = Database["public"]["Tables"]["product"]["Row"];
 export type Qna = Database["public"]["Tables"]["qna"]["Row"];
 export type Rent = Database["public"]["Tables"]["rent"]["Row"];
