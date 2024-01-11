@@ -69,11 +69,9 @@ const StoreForm = () => {
     initAddress();
   }, []);
   return (
-    <div>
-      <form
-        className="w-[300px] flex flex-col justify-center align-center gap-1"
-        onSubmit={handleSubmit(handleStoreFormSubmit)}
-      >
+    <div className="m-auto container max-w-[1200px] w-[90%] flex flex-col justify-center align-center gap-1">
+      <p className="text-2xl font-bold">지점등록 페이지</p>
+      <form className="w-[300px] flex flex-col justify-center gap-1" onSubmit={handleSubmit(handleStoreFormSubmit)}>
         <label htmlFor="name">지점명 *</label>
         <input
           className=" border-black border-solid border"
@@ -106,6 +104,7 @@ const StoreForm = () => {
           className="border-black border-solid border"
           id="address"
           type="text"
+          placeholder="주소를 검색해주세요."
           value={address}
           {...register("address", {
             required: "주소를 입력해주세요."
