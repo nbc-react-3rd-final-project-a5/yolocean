@@ -1,4 +1,4 @@
-import { useAddressStore } from "@/store/address";
+import { useAddressStore } from "@/store/addressStore";
 import React from "react";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 
