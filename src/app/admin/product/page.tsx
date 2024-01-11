@@ -19,6 +19,7 @@ const ProductForm = () => {
   const [detailInfoImage, setDetailInfoImage] = useState<File>();
 
   const { uploadImage } = useImageFile();
+  // const {category} = useCategory();
   const {
     register,
     formState: { errors },
