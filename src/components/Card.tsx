@@ -2,12 +2,12 @@ import Image from "next/image";
 import React, { ReactNode } from "react";
 import { ProductProperties } from "@/types/db";
 import Link from "next/link";
-interface ICard {
+interface Card {
   product: ProductProperties;
   overlay: { btn: ReactNode };
 }
 
-const Card = ({ product, overlay }: ICard) => {
+const Card = ({ product, overlay }: Card) => {
   return (
     <div className="flex flex-col w-[264px] h-[340px] relative group   gap-[20px]">
       <div className="relative w-[264px] h-[264px]">

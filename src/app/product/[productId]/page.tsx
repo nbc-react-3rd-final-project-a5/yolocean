@@ -4,11 +4,11 @@ import { ProductProperties } from "@/types/db";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-interface IProps {
+interface Props {
   params: { productId: string };
 }
 
-const ProductDetail = ({ params: { productId } }: IProps) => {
+const ProductDetail = ({ params: { productId } }: Props) => {
   const { product, isLoading } = useProduct(productId);
 
   if (isLoading && product === undefined) {

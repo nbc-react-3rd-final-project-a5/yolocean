@@ -20,7 +20,7 @@ const ProductPage = () => {
   const { alertFire } = usealertStore();
 
   const [activeTab, setActiveTab] = useState(0);
-  function onClickTab(index: number) {
+  function handleSelectTabClick(index: number) {
     return setActiveTab(index);
   }
 
@@ -61,7 +61,11 @@ const ProductPage = () => {
         </button>
         <button onClick={handleOpenConfirm}>confirm오픈!</button>
       </div>
-      <Tab activeTab={activeTab} onClickTabFn={onClickTab} tabs={["예약", "렌트 완료", "작성한 리뷰", "Q&A"]} />
+      <Tab
+        activeTab={activeTab}
+        handleTabClick={handleSelectTabClick}
+        tabs={["예약", "렌트 완료", "작성한 리뷰", "Q&A"]}
+      />
       <Input
         register={register}
         formStateErrors={errors}
@@ -129,11 +133,11 @@ const ProductPage = () => {
 
 export default ProductPage;
 
-interface IProps {
+interface Props {
   product: ProductProperties;
 }
 
-function ProductCard({ product: { id, price, category, thumbnail, name } }: IProps) {
+function ProductCard({ product: { id, price, category, thumbnail, name } }: Props) {
   return (
     <Link href={`/product/${id}`} className="flex-1">
       <div className=" bg-white text-black rounded-md overflow-hidden">
