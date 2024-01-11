@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { supabase } from "@/service/supabase";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import useLogedInStore from "@/store/logedStore";
 
 interface Props {
   mode: boolean;
@@ -17,6 +18,7 @@ interface FormValue {
 
 const SignUp = ({ mode, setMode }: Props) => {
   const router = useRouter();
+  const { setLogedIn } = useLogedInStore();
 
   //회원가입 함수
   async function signUpNewUser(id: string, pw: string, name: string) {
@@ -47,6 +49,7 @@ const SignUp = ({ mode, setMode }: Props) => {
 
   const onSubmit: SubmitHandler<FormValue> = (inputData) => {
     signUpNewUser(inputData.id, inputData.pw, inputData.name);
+    setLogedIn(true);
     router.push("/");
   };
 
