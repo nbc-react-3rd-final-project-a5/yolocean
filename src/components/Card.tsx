@@ -4,12 +4,12 @@ import { ProductProperties } from "@/types/db";
 import Link from "next/link";
 interface Card {
   product: ProductProperties;
-  overlay: { btn: ReactNode };
+  overlay?: { btn: ReactNode };
 }
 
 const Card = ({ product, overlay }: Card) => {
   return (
-    <div className="flex flex-col w-[264px] h-[340px] relative group   gap-[20px]">
+    <Link href={`/product/${product.id}`} className="flex flex-col w-[264px] h-[340px] relative group gap-[20px]">
       <div className="relative w-[264px] h-[264px]">
         <Image alt={`${product.name}_image`} style={{ objectFit: "fill" }} fill src={product.thumbnail} />
       </div>
@@ -24,7 +24,7 @@ const Card = ({ product, overlay }: Card) => {
         </div>
         <span className="text-[18px] font-bold text-[#3074F0]">40%</span>
       </div>
-      <>
+      {overlay && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 group-hover:before:bg-black group-hover:before:opacity-60 before:content-[''] before:absolute before:inset-0">
           <Link
             href={`/product/${product.id}`}
@@ -34,8 +34,8 @@ const Card = ({ product, overlay }: Card) => {
           </Link>
           <div className="bg-white w-[80%] py-4 rounded-lg relative group-hover:block hidden">{overlay.btn}</div>
         </div>
-      </>
-    </div>
+      )}
+    </Link>
   );
 };
 
