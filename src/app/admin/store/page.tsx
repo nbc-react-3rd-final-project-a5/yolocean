@@ -112,7 +112,9 @@ const StoreForm = () => {
           })}
           readOnly
         />
-        <button type="submit">지점 등록하기</button>
+        <button className="border border-black w-[200px] bg-slate-300 mx-auto" type="submit">
+          지점 등록하기
+        </button>
       </form>
     </div>
   );

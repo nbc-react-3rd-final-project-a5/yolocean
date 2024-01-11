@@ -28,7 +28,7 @@ export const Postcode = () => {
   };
 
   return (
-    <button type="button" onClick={handleClick}>
+    <button type="button" className="border border-black w-[200px] mx-auto bg-slate-300" onClick={handleClick}>
       주소 검색하기
     </button>
   );
