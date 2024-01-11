@@ -13,7 +13,7 @@ const ProductForm = () => {
 
   const [thumbnailImage, setThumbnailImage] = useState<File>();
   const [detailInfoImage, setDetailInfoImage] = useState<File>();
-  const [rangeValue, setRangeValue] = useState<string>("");
+  const [rangeValue, setRangeValue] = useState<string>("할인없음");
 
   const { uploadImage } = useImageFile();
   const { category } = useCategory();
@@ -127,7 +127,7 @@ const ProductForm = () => {
           {...register("percentage_off")}
           onClick={userRangeInput}
         />
-        {rangeValue === "0" ? <p>할인없음</p> : <p>{rangeValue}%</p>}
+        {rangeValue === "0" ? <p>할인없음</p> : <p>{rangeValue}</p>}
 
         {errors?.price ? <p className=" text-red-500">{errors.price.message}</p> : null}
         <label htmlFor="original_price">원가 *</label>
