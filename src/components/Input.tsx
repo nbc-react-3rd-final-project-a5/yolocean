@@ -53,7 +53,11 @@ const Input = ({
 
   return (
     <>
-      {label && <label className="text-sm font-semibold">{label}</label>}
+      {label && (
+        <label htmlFor={`${name}_input`} className="text-sm font-semibold">
+          {label}
+        </label>
+      )}
 
       <div
         className={`flex flex-col px-2 p-1.5 border-neutral-300 border-2  rounded-md ${
@@ -61,6 +65,7 @@ const Input = ({
         }`}
       >
         <input
+          id={`${name}_input`}
           type={type}
           placeholder={placeholder}
           className="focus:outline-none"

@@ -25,8 +25,6 @@ const ProductPage = () => {
 
   const {
     register,
-    handleSubmit,
-    getValues,
     watch,
     setError,
     clearErrors,
