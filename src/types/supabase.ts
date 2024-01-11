@@ -32,6 +32,11 @@ export interface Database {
             isOneToOne: false;
             referencedRelation: "product";
             referencedColumns: ["id"];
+            foreignKeyName: "cart_product_id_fkey";
+            columns: ["product_id"];
+            isOneToOne: false;
+            referencedRelation: "product";
+            referencedColumns: ["id"];
           },
           {
             foreignKeyName: "cart_store_id_fkey";
