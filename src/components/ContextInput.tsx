@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { MdErrorOutline } from "react-icons/md";
 import { useFormContext, UseFormRegister, FieldValues, Validate } from "react-hook-form";
 
-interface IProps {
+interface Props {
   label?: string;
   name: string;
   placeholder: string;
@@ -25,7 +25,7 @@ const ContextInput = ({
   type,
   name,
   observerValue
-}: IProps) => {
+}: Props) => {
   const {
     register,
     formState: { errors },
