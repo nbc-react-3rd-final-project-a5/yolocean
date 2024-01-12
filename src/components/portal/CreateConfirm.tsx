@@ -19,7 +19,7 @@ const CreateConfirm: React.FC = () => {
     };
   }, [isConfirmOpen]);
 
-  const handleCloseConfirm = (answer: boolean) => {
+  const handleCloseConfirmClick = (answer: boolean) => {
     closeConfirm(answer);
   };
 
@@ -33,16 +33,16 @@ const CreateConfirm: React.FC = () => {
         <div className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex flex-col z-20 bg-white rounded-xl w-full h-full max-w-[500px] max-h-[300px]">
           <div className="text-2xl font-medium flex justify-between items-center px-4 py-4">
             <h1>{title}</h1>
-            <IoMdCloseCircle className="cursor-pointer" onClick={() => handleCloseConfirm(false)} />
+            <IoMdCloseCircle className="cursor-pointer" onClick={() => handleCloseConfirmClick(false)} />
           </div>
           <div className="bg-neutral-200 border px-4 flex-1 flex items-center">
             <p>{question}</p>
           </div>
           <div className="flex py-4 justify-end gap-2 px-4">
-            <button className="p-2 bg-green-400 rounded-lg text-white " onClick={() => handleCloseConfirm(true)}>
+            <button className="p-2 bg-green-400 rounded-lg text-white " onClick={() => handleCloseConfirmClick(true)}>
               그래
             </button>
-            <button className="p-2 bg-red-400 rounded-lg text-white " onClick={() => handleCloseConfirm(false)}>
+            <button className="p-2 bg-red-400 rounded-lg text-white " onClick={() => handleCloseConfirmClick(false)}>
               아니
             </button>
           </div>
