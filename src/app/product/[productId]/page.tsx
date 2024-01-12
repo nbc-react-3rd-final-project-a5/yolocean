@@ -9,7 +9,7 @@ interface Props {
   params: { productId: string };
 }
 
-const ProductDetail = ({ params: { productId } }: Props) => {
+const ProductDetailPage = ({ params: { productId } }: Props) => {
   const { product, isLoading } = useProduct(productId);
 
   const { alertFire } = usealertStore();
@@ -28,8 +28,6 @@ const ProductDetail = ({ params: { productId } }: Props) => {
     view,
     stock: { count, store }
   } = product as ProductProperties;
-
-  console.log(info);
 
   return (
     <section>
@@ -103,4 +101,4 @@ const ProductDetail = ({ params: { productId } }: Props) => {
   );
 };
 
-export default ProductDetail;
+export default ProductDetailPage;
