@@ -14,7 +14,7 @@ const validateImage = (imageFile: File) => {
 const createCustomImage = (imageFile: File) => {
   const newCustomImage: CustomImage = {
     file: imageFile,
-    url: URL.createObjectURL(imageFile),
+    previewURL: URL.createObjectURL(imageFile),
     id: uuidv4()
   };
 
@@ -83,17 +83,19 @@ const useImageInput = () => {
     setIsEnter(false);
   };
 
-  // 로직 분리하기 useStorage
+  const handler = {
+    handleAddImageChange,
+    handleDeleteImageClick,
+    handleDragEnter,
+    handleDragLeave,
+    handleDragOver,
+    handleDrop
+  };
 
   return {
     customImageList,
     isEnter,
-    handleAddImageChange,
-    handleDeleteImageClick,
-    handleDrop,
-    handleDragOver,
-    handleDragEnter,
-    handleDragLeave
+    handler
   };
 };
 

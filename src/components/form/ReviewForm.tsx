@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useRef } from "react";
-import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
-import DragAndDropImageBox from "../DragDropImageInput";
-import { v4 as uuidv4 } from "uuid";
-import Input from "../Input";
-import useImageFile from "@/hooks/useImageFile";
+import React from "react";
+import { useForm } from "react-hook-form";
+import InputImage from "../InputImage";
 import { TablesInsert } from "@/types/supabase";
+import { useImageInput } from "@/hooks";
+import useStorage from "@/utils/useStorage";
 
 interface Props {
   bucket: string;
@@ -15,20 +14,25 @@ interface Props {
   isReview: boolean;
 }
 
-interface FormData {
+interface uploadForm {
   title: string;
   content: string;
-  images: FileList;
+  url?: string[];
 }
 
-const formSetting = {
-  maxImageCount: 4,
-  maxImageSize: 10
+const FormFieldSet = ({ title, children }: { title: string; children: React.ReactNode }) => {
+  return (
+    <fieldset className="block mt-[40px]">
+      <legend className="block w-full  text-[20px] font-[600] leading-[0.6px] ">
+        <div className="mb-[20px]">{title}</div>
+      </legend>
+      {children}
+    </fieldset>
+  );
 };
 
 const ReviewForm = ({ bucket, userId, productId, isReview }: Props) => {
-  const { uploadImage } = useImageFile();
-  const methods = useForm<FormData>({ mode: "onChange" });
+  const { uploadMultipleImages } = useStorage();
   const {
     register,
     handleSubmit,
@@ -36,21 +40,22 @@ const ReviewForm = ({ bucket, userId, productId, isReview }: Props) => {
     setError,
     clearErrors,
     formState: { errors }
-  } = methods;
+  } = useForm<uploadForm>({ mode: "onChange" });
+  const { customImageList, isEnter, handler } = useImageInput();
 
-  const handleFormSubmit = async (data: FormData) => {
-    const image = Array.from(data.images)[0];
-    const imageId = uuidv4();
-    const path = productId ? `${userId}/${productId}` : userId;
+  const handleFormSubmit = async (data: uploadForm) => {
+    const storagePath = productId ? `${userId}/${productId}` : userId;
+    const imageFileList = customImageList.map((n) => n.file);
+    const imageFileIdList = customImageList.map((n) => n.id);
 
     try {
-      const imageURL = await uploadImage(image, bucket, imageId, path);
+      const imageURLList = await uploadMultipleImages(imageFileList, bucket, imageFileIdList, storagePath);
       const formData: TablesInsert<"review"> = {
         user_id: userId,
         title: data.title,
         product_id: productId,
         content: data.content,
-        url: JSON.stringify([imageURL])
+        url: imageURLList
       };
       const res = await fetch(`api/review/${userId}`, {
         method: "POST",
@@ -62,52 +67,41 @@ const ReviewForm = ({ bucket, userId, productId, isReview }: Props) => {
     }
   };
 
-  const titleLength = watch("title") ? watch("title").length : 0;
-  const contentLength = watch("content") ? watch("content").length : 0;
-
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(handleFormSubmit)}>
-        <div className="bg-gray-300 border-2 border-gray-500 p-2">
-          <Input
-            label="제목"
-            name="title"
-            placeholder="리뷰 제목을 입력하세요."
-            required="필수 입력사항입니다."
-            errorMessage="입력값을 확인하세요"
-            type="text"
-            register={register}
-            formStateErrors={errors}
-            setError={setError}
-            clearErrors={clearErrors}
-            watch={watch}
-            max={10}
-          />
-        </div>
-        <div className="bg-gray-300 border-2 border-gray-500 p-2">
-          <label htmlFor="form__content">{isReview ? "문의내용" : "상세리뷰"}</label>
-          <textarea
-            id="form__content"
-            className="w-full"
-            placeholder={isReview ? "문의내용을 적어주세요." : "상세리뷰를 적어주세요"}
-            {...register("content", { required: true, maxLength: 500 })}
-          />
-        </div>
-        {/* <div className="bg-gray-300 border-2 border-gray-500 p-2">
-          <label htmlFor="form__images">사진첨부</label>
-          <input type="file" {...register("images")} id="form__images" accept="image/*" />
-        </div> */}
+    <form onSubmit={handleSubmit(handleFormSubmit)}>
+      <FormFieldSet title="한줄요약">
+        <input
+          type="text"
+          placeholder="제목을 입력해주세요."
+          className="p-[15px] w-full border-[1px] border-[#E5E5E5] leading-4"
+          {...register("title")}
+        />
+      </FormFieldSet>
+      <FormFieldSet title="문의내용">
+        <textarea
+          id="form__content"
+          className="p-[15px] w-full min-h-[250px] border-[1px] border-[#E5E5E5]"
+          placeholder="문의내용을 입력해주세요."
+          {...register("content", { required: true, maxLength: 500 })}
+        />
+      </FormFieldSet>
+      <FormFieldSet title="사진첨부">
+        <InputImage customImageList={customImageList} isEnter={isEnter} handler={handler} />
+      </FormFieldSet>
 
-        {/* TODO : 드래그 앤 드랍 기능을 reack hook form에 맞게 수정하기 */}
-        <div className="bg-gray-300 border-2 border-gray-500 p-2">
-          <label>
-            사진첨부 <span>최대 {formSetting.maxImageCount}장</span>
-          </label>
-          <DragAndDropImageBox />
-        </div>
-        <input type="submit" className="bg-gray-300 border-2 border-gray-500 p-2" />
-      </form>
-    </FormProvider>
+      <div className="flex flex-row gap-[12px] mt-[60px]">
+        <input
+          type="submit"
+          className="p-[16px] flex-grow text-[18px] leading-none rounded-[5px] font-[600] text-[#FFFFFF] bg-[#3074F0] "
+          value={"등록하기"}
+        />
+        <input
+          type="button"
+          className="p-[16px] flex-grow text-[18px] leading-none rounded-[5px] font-[600] text-[#FFFFFF] bg-[#999999]"
+          value={"취소"}
+        />
+      </div>
+    </form>
   );
 };
 

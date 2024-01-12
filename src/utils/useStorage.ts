@@ -1,18 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
-
 const useStorage = () => {
-  /**
-   *  이미지 파일 업로드할 때 image의 이름을 생성하는 함수
-   * @param fileList file의 Array
-   * @returns uuid로 생성된 id Array
-   */
-  const createImagesId = (fileList: File[]): string[] => {
-    const imageCount = Array.from(fileList).length;
-    const imageIdList = new Array(imageCount);
-    imageIdList.map((n) => (n = uuidv4()));
-    return imageIdList;
-  };
-
   /**
    * 이미지 파일을 업로드하는 함수
    * @param file 업로드할 파일
@@ -70,7 +56,7 @@ const useStorage = () => {
     }
   };
 
-  return { createImagesId, uploadImage, uploadMultipleImages };
+  return { uploadImage, uploadMultipleImages };
 };
 
 export default useStorage;

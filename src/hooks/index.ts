@@ -1,1 +1,3 @@
-export * from "./useImageFile";
+import useImageInput from "./useImageInput";
+
+export { useImageInput };
