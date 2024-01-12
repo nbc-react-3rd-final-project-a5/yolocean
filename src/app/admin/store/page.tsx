@@ -14,7 +14,7 @@ type LatLng = {
 };
 const StoreForm = () => {
   const [address, setAddress] = useState<string>("");
-  const { region, isLoading } = useRegion();
+  const { regions, isLoading } = useRegion();
 
   const {
     register,
@@ -90,7 +90,7 @@ const StoreForm = () => {
           })}
         >
           <option>행정지역 선택 *</option>
-          {region?.map((data) => {
+          {regions?.map((data) => {
             return (
               <option key={data.id} value={data.id}>
                 {data.region}
