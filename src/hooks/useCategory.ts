@@ -19,4 +19,20 @@ const useCategory = () => {
   return { category, isLoading };
 };
 
-export default useCategory;
+const getCategoryNameById = (categoryId: string) => {
+  const {
+    data: categoryName,
+    isLoading,
+    isError
+  } = useQuery<string>({
+    queryFn: async (): Promise<string> => {
+      const response = await fetch(`/api/category/${categoryId}`, { method: "GET" });
+      const data = await response.json();
+      return data;
+    },
+    queryKey: ["category", categoryId]
+  });
+
+  return { categoryName, isLoading };
+};
+export { useCategory, getCategoryNameById };
