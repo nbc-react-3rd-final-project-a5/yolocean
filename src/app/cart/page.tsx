@@ -27,7 +27,7 @@ export interface CartBox {
 
 const page = () => {
   //useCart에 사용자 id
-  const { cart, isLoading } = useCart("aba26c49-82c0-42b2-913c-c7676527b553");
+  const { cart, isLoading } = useCart({ userId: "aba26c49-82c0-42b2-913c-c7676527b553", cartId: "" });
   // console.log(cart);
   return (
     <>

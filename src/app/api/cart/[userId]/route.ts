@@ -16,3 +16,16 @@ export const GET = async (res: NextResponse, context: { params: { userId: string
   }
   return NextResponse.json(cart);
 };
+
+export const POST = async (req: NextRequest, context: { params: { cartId: string; count: number } }) => {
+  const {
+    params: { cartId, count }
+  } = context;
+
+  const { data: cart, error } = await supabase.from("cart").update({ count: count }).eq("id", cartId).select();
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+  return NextResponse.json(cart);
+};

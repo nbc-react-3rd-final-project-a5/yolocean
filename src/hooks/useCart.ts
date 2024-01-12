@@ -1,4 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+interface Props {
+  userId: string;
+  cartId: string;
+}
+
 interface CartBox {
   count: number | null;
   id: string;
@@ -20,20 +26,44 @@ interface CartBox {
   };
 }
 
-const useCart = (id: string) => {
+// const useCart = (id: string) => {
+//   const {
+//     data: cart,
+//     isLoading,
+//     isError
+//   } = useQuery<CartBox[]>({
+//     queryFn: async (): Promise<CartBox[]> => {
+//       const response = await fetch(`/api/cart/${id}`, { method: "GET" });
+//       const data = await response.json();
+//       return data;
+//     },
+//     queryKey: ["cart"]
+//   });
+//   // console.log(cart);
+//   return { cart, isLoading };
+// };
+
+// export default useCart;
+
+const useCart = ({ userId, cartId }: Props) => {
+  const queryClient = useQueryClient();
   const {
     data: cart,
     isLoading,
     isError
-  } = useQuery<CartBox[]>({
+  } = useQuery({
+    queryKey: ["cart"],
     queryFn: async (): Promise<CartBox[]> => {
-      const response = await fetch(`/api/cart/${id}`, { method: "GET" });
+      const response = await fetch(`/api/cart/${userId}`, { method: "GET" });
       const data = await response.json();
       return data;
-    },
-    queryKey: ["cart"]
+    }
   });
-  // console.log(cart);
+
+  //   const updateCountMutation = useMutation({
+  // mutationFn:async () => {
+  //       const response = await fetch(`/api/cart/$`)
+  //   })
   return { cart, isLoading };
 };
 
