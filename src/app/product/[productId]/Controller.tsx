@@ -10,7 +10,12 @@ interface Props {
 }
 
 const Controller = ({ category_name, name, price }: Props) => {
-  const { register, setValue, getValues } = useForm();
+  const {
+    register,
+    setValue,
+    getValues,
+    formState: { errors }
+  } = useForm({ mode: "onChange" });
   return (
     <>
       <div className="flex-1 text-[16px]">
@@ -36,7 +41,7 @@ const Controller = ({ category_name, name, price }: Props) => {
         </div>
         <div className="flex gap-[22px] items-center">
           <label htmlFor="count">수량</label>
-          <NumberInput register={register} setValue={setValue} getValues={getValues} name="테스트" />
+          <NumberInput errors={errors} register={register} setValue={setValue} getValues={getValues} name="테스트" />
         </div>
         <div className="flex my-[10px] gap-[22px]">
           <button className="p-[12px] border-4 border-[#9747FF] rounded-md">장바구니 담기</button>

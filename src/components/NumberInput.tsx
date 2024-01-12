@@ -1,14 +1,20 @@
 import React from "react";
-import { UseFormRegister, FieldValues, UseFormSetValue, UseFormGetValues } from "react-hook-form";
+import { UseFormRegister, FieldValues, UseFormSetValue, UseFormGetValues, FieldErrors } from "react-hook-form";
 import { TiMinus, TiPlus } from "react-icons/ti";
+import { MdErrorOutline } from "react-icons/md";
+
 interface Props {
   name: string;
   register: UseFormRegister<FieldValues>;
   setValue: UseFormSetValue<FieldValues>;
   getValues: UseFormGetValues<FieldValues>;
+  errors: FieldErrors<FieldValues>;
 }
 
-const NumberInput = ({ register, name, setValue, getValues }: Props) => {
+const NumberInput = ({ register, name, setValue, getValues, errors }: Props) => {
+  const error = errors[name]?.message;
+
+  // 에러처리 ref나 onChange로 불가 여차하면 submit시 처리할것!
   return (
     <>
       <div className="relative flex items-center max-w-[8rem]">
@@ -26,7 +32,8 @@ const NumberInput = ({ register, name, setValue, getValues }: Props) => {
           max={3}
           maxLength={3}
           {...register(name, {
-            required: "수량을 선택해주세요"
+            required: "수량을 선택해주세요",
+            pattern: { value: /^(?:\d{1,3}|999)$/, message: "1~999까지만 입력가능합니다." }
           })}
         />
         <button
@@ -37,6 +44,12 @@ const NumberInput = ({ register, name, setValue, getValues }: Props) => {
           <TiPlus />
         </button>
       </div>
+      {/* {error && (
+        <div className={`flex items-center gap-1 text-red-400 ${error ? "opacity-100" : "opacity-0"}`}>
+          <MdErrorOutline />
+          <span className="text-sm">{error as string}.</span>
+        </div>
+      )} */}
     </>
   );
 };
