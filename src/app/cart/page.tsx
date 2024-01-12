@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import CartItem from "./CartItem";
-import useCart from "@/hooks/useCart";
+import { useCart } from "@/hooks";
 
 export interface CartBox {
   count: number | null;
@@ -10,6 +10,7 @@ export interface CartBox {
   product_id: string | null;
   store_id: string | null;
   user_id: string;
+  rent_date: string;
   product: {
     name: string;
     thumbnail: string;
@@ -33,7 +34,6 @@ const page = () => {
       {!isLoading ? (
         <div>
           {(cart as CartBox[]).map((cartItem) => {
-            // console.log(cartItem);
             return cartItem && <CartItem cart={cartItem} key={cartItem.id} />;
           })}
         </div>

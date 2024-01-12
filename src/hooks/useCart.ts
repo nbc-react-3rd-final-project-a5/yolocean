@@ -5,6 +5,7 @@ interface CartBox {
   product_id: string | null;
   store_id: string | null;
   user_id: string;
+  rent_date: string;
   product: {
     name: string;
     thumbnail: string;
