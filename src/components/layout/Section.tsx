@@ -5,6 +5,7 @@ interface Props {
   className?: string;
   children: React.ReactNode;
 }
+
 const Section = ({ title, isCenter = false, className, children }: Props) => {
   return (
     <section className="mb-[200px]">

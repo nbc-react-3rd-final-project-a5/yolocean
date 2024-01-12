@@ -2,8 +2,8 @@
 import ContextInput from "@/components/ContextInput";
 import Input from "@/components/Input";
 import { useCategory } from "@/hooks";
-import { useImageFile } from "@/hooks";
 import { CategoryTable, Product } from "@/types/db";
+import useStorage from "@/utils/useStorage";
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
@@ -15,7 +15,7 @@ const ProductForm = () => {
   const [detailInfoImage, setDetailInfoImage] = useState<File>();
   const [rangeValue, setRangeValue] = useState<string>("할인없음");
 
-  const { uploadImage } = useImageFile();
+  const { uploadImage } = useStorage();
   const { category } = useCategory();
   const {
     register,
