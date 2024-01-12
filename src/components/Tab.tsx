@@ -15,7 +15,7 @@ const Tab = ({ activeTab, handleTabClick, tabs, isVariable = false }: TabProps) 
         if (isVariable) {
           return (
             <li
-              onClick={() => handleTabClick(tab)}
+              onClick={(e) => handleTabClick(e, tab)}
               className={` px-[20px] py-[10px] text-center rounded-3xl cursor-pointer  border-neutral-400 border    ${
                 activeTab === tab ? "bg-[#3074F0]  text-white" : "bg-white text-black"
               }`}

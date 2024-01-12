@@ -10,7 +10,12 @@ const CustomerPage = () => {
     return (
       <div className="max-w-[1200px] mx-auto">
         <h1 className="text-[25px] font-semibold my-[80px] text-center">고객센터</h1>
-        <Tab activeTab={activeTab} handleTabClick={(tab: string) => setActiveTab(tab)} tabs={customerData.tabs} />
+        <Tab
+          isVariable
+          activeTab={activeTab}
+          handleTabClick={(tab: string) => setActiveTab(tab)}
+          tabs={customerData.tabs}
+        />
         <div className="my-[40px]">
           {customerData.faq
             .find((item) => item.category === activeTab)
