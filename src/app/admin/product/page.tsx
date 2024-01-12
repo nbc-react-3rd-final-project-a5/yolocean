@@ -1,8 +1,8 @@
 "use client";
 import ContextInput from "@/components/ContextInput";
 import Input from "@/components/Input";
-import useCategory from "@/hooks/useCategory";
-import useImageFile from "@/hooks/useImageFile";
+import { useCategory } from "@/hooks";
+import { useImageFile } from "@/hooks";
 import { Product } from "@/types/db";
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";

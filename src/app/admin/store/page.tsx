@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Postcode } from "./PostCode";
 import { getLatLng } from "./useMap";
-import useRegion from "@/hooks/useRegion";
+import { useRegion } from "@/hooks";
 
 type StoreForm = Omit<Store, "id">;
 type LatLng = {
