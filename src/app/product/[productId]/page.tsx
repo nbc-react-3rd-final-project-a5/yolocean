@@ -1,5 +1,5 @@
 "use client";
-import useProduct from "@/hooks/useProduct";
+import { useProduct } from "@/hooks";
 import { usealertStore } from "@/store/alertStore";
 import { ProductProperties } from "@/types/db";
 import Image from "next/image";

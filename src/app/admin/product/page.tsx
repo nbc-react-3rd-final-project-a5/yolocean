@@ -1,8 +1,8 @@
 "use client";
 import ContextInput from "@/components/ContextInput";
 import Input from "@/components/Input";
-import useCategory from "@/hooks/useCategory";
-import useImageFile from "@/hooks/useImageFile";
+import { useCategory } from "@/hooks";
+import { useImageFile } from "@/hooks";
 import { Product } from "@/types/db";
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -36,17 +36,17 @@ const ProductForm = () => {
     }
   });
 
-  const userRangeInput = (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
+  const handleRangeClick = (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
     setRangeValue(e.currentTarget.value);
   };
 
   let formFieldsArray: string[] = [];
-  const handleAddFields = () => {
+  const handleAddFieldsClick = () => {
     const values = [...formFields, { name: "", value: "" }];
     setFormFields(values);
   };
 
-  const handleRemoveFields = (index: number) => {
+  const handleRemoveFieldsClick = (index: number) => {
     if (formFields.length === 1) {
       alert("삭제하실 수 없습니다!");
       return;
@@ -125,7 +125,7 @@ const ProductForm = () => {
           max="100"
           step="10"
           {...register("percentage_off")}
-          onClick={userRangeInput}
+          onClick={handleRangeClick}
         />
         {rangeValue === "0" ? <p>할인없음</p> : <p>{rangeValue}</p>}
 
@@ -219,7 +219,7 @@ const ProductForm = () => {
               <button
                 type="button"
                 className=" bg-slate-300 border border-black w-[100px] mt-1"
-                onClick={() => handleRemoveFields(index)}
+                onClick={() => handleRemoveFieldsClick(index)}
               >
                 항목 삭제
               </button>
@@ -229,7 +229,7 @@ const ProductForm = () => {
             <button
               type="button"
               className=" bg-slate-300 border border-black w-[100px]"
-              onClick={() => handleAddFields()}
+              onClick={() => handleAddFieldsClick()}
             >
               항목 추가하기
             </button>
