@@ -34,10 +34,9 @@ const Controller = ({ category_name, name, price }: Props) => {
           <label htmlFor="address">위치</label>
           <input id="address" type="text" />
         </div>
-        <div className="flex gap-[22px]">
+        <div className="flex gap-[22px] items-center">
           <label htmlFor="count">수량</label>
           <NumberInput register={register} setValue={setValue} getValues={getValues} name="테스트" />
-          {/* <input id="count" type="number" /> */}
         </div>
         <div className="flex my-[10px] gap-[22px]">
           <button className="p-[12px] border-4 border-[#9747FF] rounded-md">장바구니 담기</button>

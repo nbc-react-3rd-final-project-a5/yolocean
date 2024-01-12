@@ -27,12 +27,12 @@ const Tab = ({ activeTab, handleTabClick, tabs, isVariable = false }: TabProps) 
         } else {
           return (
             <li
+              key={tab}
               className={`flex-1 text-center cursor-pointer  border-neutral-400 border-4 rounded-sm p-1  ${
                 activeTab === tab ? "bg-neutral-400  text-black" : "bg-white"
               }`}
               onClick={() => handleTabClick(tab)}
             >
-              {" "}
               {tab}
             </li>
           );
