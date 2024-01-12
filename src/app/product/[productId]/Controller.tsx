@@ -1,4 +1,7 @@
+"use client";
+import NumberInput from "@/components/NumberInput";
 import React from "react";
+import { useForm } from "react-hook-form";
 
 interface Props {
   category_name: string;
@@ -7,6 +10,7 @@ interface Props {
 }
 
 const Controller = ({ category_name, name, price }: Props) => {
+  const { register, setValue, getValues } = useForm();
   return (
     <>
       <div className="flex-1 text-[16px]">
@@ -32,7 +36,8 @@ const Controller = ({ category_name, name, price }: Props) => {
         </div>
         <div className="flex gap-[22px]">
           <label htmlFor="count">수량</label>
-          <input id="count" type="number" />
+          <NumberInput register={register} setValue={setValue} getValues={getValues} name="테스트" />
+          {/* <input id="count" type="number" /> */}
         </div>
         <div className="flex my-[10px] gap-[22px]">
           <button className="p-[12px] border-4 border-[#9747FF] rounded-md">장바구니 담기</button>
