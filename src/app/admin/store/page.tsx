@@ -1,12 +1,11 @@
 "use client";
 
 import { Store } from "@/types/db";
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Postcode } from "./PostCode";
-import { useAddressStore } from "@/store/addressStore";
 import { getLatLng } from "./useMap";
-import useRegion from "@/hooks/useRegion";
+import { useRegion } from "@/hooks";
 
 type StoreForm = Omit<Store, "id">;
 type LatLng = {
@@ -14,6 +13,9 @@ type LatLng = {
   lng: string;
 };
 const StoreForm = () => {
+  const [address, setAddress] = useState<string>("");
+  const { region, isLoading } = useRegion();
+
   const {
     register,
     formState: { errors },
@@ -29,12 +31,12 @@ const StoreForm = () => {
       region_id: ""
     }
   });
-  const { address, initAddress } = useAddressStore();
-  const { region, isLoading } = useRegion();
 
   const handleStoreFormSubmit = async (data: StoreForm) => {
     try {
       const result = await getLatLng(address);
+      console.log("address", address);
+      console.log("result", result);
       if (typeof result === "string") {
         alert(result);
       } else {
@@ -49,6 +51,7 @@ const StoreForm = () => {
         )
       ) {
         insertStoreData(data);
+
         alert("등록이 완료되었습니다!");
       } else {
         return;
@@ -65,9 +68,7 @@ const StoreForm = () => {
       body: JSON.stringify(data)
     });
   };
-  useEffect(() => {
-    initAddress();
-  }, []);
+
   return (
     <div className="m-auto container max-w-[1200px] w-[90%] flex flex-col justify-center align-center gap-1">
       <p className="text-2xl font-bold">지점등록 페이지</p>
@@ -85,10 +86,10 @@ const StoreForm = () => {
 
         <select
           {...register("region_id", {
-            required: "카테고리를 선택해주세요."
+            required: "행정지역을 선택해주세요."
           })}
         >
-          <option>카테고리 선택 *</option>
+          <option>행정지역 선택 *</option>
           {region?.map((data) => {
             return (
               <option key={data.id} value={data.id}>
@@ -99,19 +100,23 @@ const StoreForm = () => {
         </select>
         {errors?.region_id ? <p className=" text-red-500">{errors.region_id.message}</p> : null}
 
-        <Postcode />
+        <Postcode setAddress={setAddress} />
         <input
           className="border-black border-solid border"
           id="address"
           type="text"
           placeholder="주소를 검색해주세요."
           value={address}
-          {...register("address", {
-            required: "주소를 입력해주세요."
-          })}
           readOnly
         />
-        <button className="border border-black w-[200px] bg-slate-300 mx-auto" type="submit">
+
+        <button
+          className="border border-black w-[200px] bg-slate-300 mx-auto"
+          type="submit"
+          onClick={() => {
+            setValue("address", address);
+          }}
+        >
           지점 등록하기
         </button>
       </form>

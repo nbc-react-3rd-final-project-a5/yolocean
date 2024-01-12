@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { MdErrorOutline } from "react-icons/md";
 import { UseFormRegister, FieldValues, Validate } from "react-hook-form";
 
-interface IProps {
+interface Props {
   label?: string;
   name: string;
   placeholder: string;
@@ -39,7 +39,7 @@ const Input = ({
   clearErrors,
   min,
   max
-}: IProps) => {
+}: Props) => {
   const isError = formStateErrors[name]?.message;
 
   useEffect(() => {

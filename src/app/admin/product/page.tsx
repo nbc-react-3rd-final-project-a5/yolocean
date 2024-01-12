@@ -1,10 +1,10 @@
 "use client";
 import ContextInput from "@/components/ContextInput";
 import Input from "@/components/Input";
-import useCategory from "@/hooks/useCategory";
-import useImageFile from "@/hooks/useImageFile";
+import { useCategory } from "@/hooks";
+import { useImageFile } from "@/hooks";
 import { Product } from "@/types/db";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 
@@ -13,6 +13,7 @@ const ProductForm = () => {
 
   const [thumbnailImage, setThumbnailImage] = useState<File>();
   const [detailInfoImage, setDetailInfoImage] = useState<File>();
+  const [rangeValue, setRangeValue] = useState<string>("할인없음");
 
   const { uploadImage } = useImageFile();
   const { category } = useCategory();
@@ -30,17 +31,22 @@ const ProductForm = () => {
       thumbnail: "",
       original_price: 0,
       view: 0,
-      info_img: ""
+      info_img: "",
+      percentage_off: 0
     }
   });
 
+  const handleRangeClick = (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
+    setRangeValue(e.currentTarget.value);
+  };
+
   let formFieldsArray: string[] = [];
-  const handleAddFields = () => {
+  const handleAddFieldsClick = () => {
     const values = [...formFields, { name: "", value: "" }];
     setFormFields(values);
   };
 
-  const handleRemoveFields = (index: number) => {
+  const handleRemoveFieldsClick = (index: number) => {
     if (formFields.length === 1) {
       alert("삭제하실 수 없습니다!");
       return;
@@ -110,6 +116,19 @@ const ProductForm = () => {
             required: "렌트 가격을 설정해주세요."
           })}
         />
+
+        <label htmlFor="percentage_off">할인률 0~100% *</label>
+        <input
+          id="percentage_off"
+          type="range"
+          min="0"
+          max="100"
+          step="10"
+          {...register("percentage_off")}
+          onClick={handleRangeClick}
+        />
+        {rangeValue === "0" ? <p>할인없음</p> : <p>{rangeValue}</p>}
+
         {errors?.price ? <p className=" text-red-500">{errors.price.message}</p> : null}
         <label htmlFor="original_price">원가 *</label>
         <input
@@ -200,7 +219,7 @@ const ProductForm = () => {
               <button
                 type="button"
                 className=" bg-slate-300 border border-black w-[100px] mt-1"
-                onClick={() => handleRemoveFields(index)}
+                onClick={() => handleRemoveFieldsClick(index)}
               >
                 항목 삭제
               </button>
@@ -210,7 +229,7 @@ const ProductForm = () => {
             <button
               type="button"
               className=" bg-slate-300 border border-black w-[100px]"
-              onClick={() => handleAddFields()}
+              onClick={() => handleAddFieldsClick()}
             >
               항목 추가하기
             </button>
