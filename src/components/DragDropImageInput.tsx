@@ -1,6 +1,6 @@
 "use client";
 
-import useImageFile from "@/hooks/useImageFile";
+import { useImageFile } from "@/hooks";
 import React, { useRef, useState } from "react";
 
 const DragAndDropImageBox = () => {

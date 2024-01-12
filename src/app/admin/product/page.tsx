@@ -1,8 +1,8 @@
 "use client";
 import ContextInput from "@/components/ContextInput";
 import Input from "@/components/Input";
-import { useCategory } from "@/hooks/useCategory";
-import useImageFile from "@/hooks/useImageFile";
+import { useCategory } from "@/hooks";
+import { useImageFile } from "@/hooks";
 import { CategoryTable, Product } from "@/types/db";
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -185,7 +185,7 @@ const ProductForm = () => {
           <option>카테고리 선택 *</option>
           {errors?.category_id ? <p className=" text-red-500">{errors.category_id.message}</p> : null}
 
-          {category?.map((data) => {
+          {category?.map((data: CategoryTable) => {
             return (
               <option key={data.id} value={data.id}>
                 {data.category_name}
