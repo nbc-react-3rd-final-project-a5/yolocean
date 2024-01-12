@@ -73,14 +73,14 @@ const ReviewForm = ({ bucket, userId, productId, isReview }: Props) => {
         <input
           type="text"
           placeholder="제목을 입력해주세요."
-          className="p-[15px] w-full border-[1px] border-[#E5E5E5] leading-4"
+          className="p-[15px] w-full border-[1px] border-[#E5E5E5] "
           {...register("title")}
         />
       </FormFieldSet>
       <FormFieldSet title="문의내용">
         <textarea
           id="form__content"
-          className="p-[15px] w-full min-h-[250px] border-[1px] border-[#E5E5E5]"
+          className="p-[15px] w-full min-h-[250px] border-[1px] border-[#E5E5E5] "
           placeholder="문의내용을 입력해주세요."
           {...register("content", { required: true, maxLength: 500 })}
         />
