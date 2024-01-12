@@ -2,7 +2,7 @@
 import NumberInput from "@/components/NumberInput";
 import React from "react";
 import { useForm } from "react-hook-form";
-
+import DatePicker from "react-datepicker";
 interface Props {
   category_name: string;
   name: string;
