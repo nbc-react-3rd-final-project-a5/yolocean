@@ -1,18 +1,16 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { MdErrorOutline } from "react-icons/md";
 import { UseFormRegister, FieldValues, Validate } from "react-hook-form";
 
 interface Props {
-  label?: string;
+  children: ReactNode;
+  label: string;
   name: string;
-  placeholder: string;
-  required?: string;
-  pattern?: any;
-  errorMessage: string;
+  errorMessage?: string;
   validate?: Validate<any, FieldValues> | Record<string, Validate<any, FieldValues>>;
-  type: string;
-  register: UseFormRegister<FieldValues>;
+  type?: string;
+  register?: UseFormRegister<FieldValues>;
   formStateErrors: Record<string, any>;
   observerValue?: string;
   setError: any;
@@ -22,11 +20,10 @@ interface Props {
   max?: number;
 }
 
-const Input = ({
-  placeholder,
+const InputCopy = ({
+  children,
   label,
-  required,
-  pattern,
+
   validate,
   errorMessage,
   type,
@@ -55,6 +52,8 @@ const Input = ({
     }
   }, [watch(name), observerValue && watch(observerValue), clearErrors, name, observerValue, setError, watch]);
 
+  console.log(formStateErrors);
+  console.log(isError);
   return (
     <>
       {label && (
@@ -64,23 +63,11 @@ const Input = ({
       )}
 
       <div
-        className={`flex flex-col px-2 p-1.5 border-neutral-300 border-2  rounded-md ${
+        className={` flex flex-col px-2 p-1.5 border-neutral-300 border-2  rounded-md ${
           isError ? "focus-within:border-red-400" : "focus-within:border-black"
         }`}
       >
-        <input
-          id={`${name}_input`}
-          type={type}
-          placeholder={placeholder}
-          maxLength={max}
-          minLength={min}
-          className="focus:outline-none"
-          {...register(name, {
-            required: required ? required : false,
-            pattern: { value: pattern, message: errorMessage },
-            validate: validate ? validate : undefined
-          })}
-        />
+        {children}
       </div>
       <div className={`flex items-center gap-1 text-red-400 ${isError ? "opacity-100" : "opacity-0"}`}>
         <MdErrorOutline />
@@ -90,4 +77,4 @@ const Input = ({
   );
 };
 
-export default Input;
+export default InputCopy;
