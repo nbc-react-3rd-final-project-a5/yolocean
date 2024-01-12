@@ -5,10 +5,7 @@ interface Props {
   className?: string;
   children: React.ReactNode;
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> c91919ece18d89c5abf105676887844219645fc7
 const Section = ({ title, isCenter = false, className, children }: Props) => {
   return (
     <section className="mb-[200px]">
