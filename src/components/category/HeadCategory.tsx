@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 
 import { RxHamburgerMenu } from "react-icons/rx";
-import useCategory from "@/hooks/useCategory";
+import { useCategory } from "@/hooks/useCategory";
 import { CategoryTable } from "@/types/db";
 
 interface Props {
