@@ -20,9 +20,9 @@ const SelectOffice = () => {
   };
 
   return (
-    <div className="w-[500px] min-h-[512px]">
+    <div className="w-[500px] min-h-[512px] px-[20px] pt-[40px] pb-[30px]">
       <form
-        className="flex flex-col gap-[30px] border border-black mx-[20px] mt-[40px] w-[460px] mb-[30px] h-full"
+        className="flex flex-col gap-[30px] w-[460px] h-full"
         onSubmit={(e) => {
           e.preventDefault();
           setOffice(selectedOffice);
@@ -40,6 +40,7 @@ const SelectOffice = () => {
                   onClick={() => {
                     setSelectedId(region.id);
                     getStoreByRegionId(region.id);
+                    setSelectedOffice({ name: "", address: "" });
                   }}
                 >
                   {region.region}
