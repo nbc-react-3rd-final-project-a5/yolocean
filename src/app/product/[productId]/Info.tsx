@@ -29,11 +29,16 @@ const Info = ({ info_img, info }: Props) => {
 
       <article id="상품설명">
         <h1 className="text-[24px] my-[20px]">상품설명</h1>
-        {info.map((item) => (
-          <div key={item.split("&")[0]}>
-            {item.split("&")[0]}:{item.split("&")[1]}
-          </div>
-        ))}
+        <table className="w-full text-sm text-left border text-gray-500 ">
+          {info.map((item) => (
+            <tr key={item.split("&")[0]} className="bg-white border-b ">
+              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                {item.split("&")[0]}
+              </th>
+              <td className="px-6 py-4 text-center border-l">{item.split("&")[1]}</td>
+            </tr>
+          ))}
+        </table>
       </article>
 
       <article id="상세정보">
