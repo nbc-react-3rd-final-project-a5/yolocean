@@ -18,7 +18,9 @@ const CartItem = (cart: Props) => {
   const { name, thumbnail, price, percentage_off, category } = product;
   // console.log(product);
 
-  const { updateCountMutation } = useCart({ userId: user_id, cartId: id });
+  const [isVisible, setIsVisible] = useState(true);
+
+  const { updateCountMutation, deleteCart } = useCart({ userId: user_id, cartId: id });
 
   //수정필
   const [cnt, setCnt] = useState(count ? count : 0);
@@ -27,12 +29,17 @@ const CartItem = (cart: Props) => {
       updateCountMutation.mutate(cnt);
     };
     updateCount();
-  }, [cnt]);
+  }, [cnt, isVisible]);
+
+  const handleCartDelete = () => {
+    setIsVisible(false);
+    deleteCart(id);
+  };
 
   return (
     <>
-      <div className="border border-gray w-[60%] p-4 mb-5">
-        <VscChromeClose className="ml-[95%] cursor-pointer" color="gray" />
+      <div className={isVisible ? "border border-gray w-[60%] p-4 mb-5" : "hidden"}>
+        <VscChromeClose onClick={handleCartDelete} className="ml-[95%] cursor-pointer" color="gray" />
         <div className="flex flex-row my-2">
           <div className="mx-5 w-[160px] h-[160] relative">
             <Image src={thumbnail} fill style={{ objectFit: "contain" }} alt="상품대표이미지" />

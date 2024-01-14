@@ -52,7 +52,13 @@ const useCart = ({ userId, cartId }: Props) => {
       });
     }
   });
-  return { cart, isLoading, updateCountMutation };
+
+  const deleteCart = async (cartId: string) => {
+    const { error } = await supabase.from("cart").delete().eq("id", cartId);
+    if (error) console.log(error);
+  };
+
+  return { cart, isLoading, updateCountMutation, deleteCart };
 };
 
 export default useCart;
