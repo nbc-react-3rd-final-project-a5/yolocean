@@ -3,6 +3,7 @@ import { supabase } from "@/service/supabase";
 import Image from "next/image";
 import { CartBox } from "./page";
 import { VscChromeClose } from "react-icons/vsc";
+import { useCart } from "@/hooks";
 
 interface Props {
   cart: CartBox;
@@ -17,13 +18,13 @@ const CartItem = (cart: Props) => {
   const { name, thumbnail, price, percentage_off, category } = product;
   // console.log(product);
 
+  const { updateCountMutation } = useCart({ userId: user_id, cartId: id });
+
   //수정필
   const [cnt, setCnt] = useState(count ? count : 0);
   useEffect(() => {
     const updateCount = async () => {
-      const { data, error } = await supabase.from("cart").update({ count: cnt }).eq("id", id).select();
-
-      console.log(data ? data : error);
+      updateCountMutation.mutate(cnt);
     };
     updateCount();
   }, [cnt]);

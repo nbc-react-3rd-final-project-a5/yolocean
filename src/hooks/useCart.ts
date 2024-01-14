@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/service/supabase";
 
 interface Props {
   userId: string;
@@ -26,25 +27,6 @@ interface CartBox {
   };
 }
 
-// const useCart = (id: string) => {
-//   const {
-//     data: cart,
-//     isLoading,
-//     isError
-//   } = useQuery<CartBox[]>({
-//     queryFn: async (): Promise<CartBox[]> => {
-//       const response = await fetch(`/api/cart/${id}`, { method: "GET" });
-//       const data = await response.json();
-//       return data;
-//     },
-//     queryKey: ["cart"]
-//   });
-//   // console.log(cart);
-//   return { cart, isLoading };
-// };
-
-// export default useCart;
-
 const useCart = ({ userId, cartId }: Props) => {
   const queryClient = useQueryClient();
   const {
@@ -60,11 +42,17 @@ const useCart = ({ userId, cartId }: Props) => {
     }
   });
 
-  //   const updateCountMutation = useMutation({
-  // mutationFn:async () => {
-  //       const response = await fetch(`/api/cart/$`)
-  //   })
-  return { cart, isLoading };
+  const updateCountMutation = useMutation({
+    mutationFn: async (count: number) => {
+      await supabase.from("cart").update({ count: count }).eq("id", cartId).select();
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["cart", cartId]
+      });
+    }
+  });
+  return { cart, isLoading, updateCountMutation };
 };
 
 export default useCart;
