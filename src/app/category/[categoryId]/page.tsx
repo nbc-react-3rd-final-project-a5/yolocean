@@ -1,7 +1,23 @@
 import React from "react";
+import CategorySection from "./CategorySection";
+import CategoryHeader from "./CategoryHeader";
 
-const CategoryPage = ({ params }: { params: { categoryId: string } }) => {
-  return <div>{params.categoryId}</div>;
+const getCategoryName = async ({ categoryId }: { categoryId: string }): Promise<string> => {
+  const result = await fetch(`http://localhost:3000/api/category/${categoryId}`, { method: "GET" });
+  if (!result.ok) {
+    throw new Error("카테고리 데이터 불러오기 실패");
+  }
+  return result.json();
+};
+
+const CategoryPage = async ({ params }: { params: { categoryId: string } }) => {
+  const categoryName = await getCategoryName({ categoryId: params.categoryId });
+  return (
+    <div>
+      <CategoryHeader categoryName={categoryName} />
+      <CategorySection categoryName={categoryName} />
+    </div>
+  );
 };
 
 export default CategoryPage;
