@@ -5,9 +5,9 @@ import footerData from "@/data/footerData.json";
 const Footer = () => {
   const { linkList, infoList } = footerData;
   return (
-    <footer>
+    <footer className="">
       <nav className="text-[#999] py-[20px] border-y-[1px] border-[#E5E5E5]">
-        <ul className="flex flex-row gap-[20px] text-[14px]">
+        <ul className="max-w-[1200px] mx-auto w-[90%] flex flex-row gap-[20px] text-[14px] ">
           {linkList.map((n) => (
             <li className="hover:underline" key={`footer__nav-${n.title}`}>
               <Link href={n.link}>{n.title}</Link>
@@ -15,7 +15,7 @@ const Footer = () => {
           ))}
         </ul>
       </nav>
-      <div className="py-[40px] flex gap-y-[40px] flex-wrap justify-between">
+      <div className="max-w-[1200px] mx-auto w-[90%] py-[40px] flex gap-y-[40px] flex-wrap justify-between">
         {/* left */}
         <div className="text-[14px] flex flex-col gap-[15px]">
           {infoList.map((n, i1) => {

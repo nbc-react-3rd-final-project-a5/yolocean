@@ -10,6 +10,8 @@ export interface Database {
           product_id: string | null;
           rent_date: string | null;
           store_id: string | null;
+          rent_date: string | null;
+          store_id: string | null;
           user_id: string;
         };
         Insert: {

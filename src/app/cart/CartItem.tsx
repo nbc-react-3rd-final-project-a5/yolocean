@@ -36,8 +36,7 @@ const CartItem = (cart: Props) => {
   const watchCount = watch();
 
   useEffect(() => {
-    //count가 아니라 이전값 빼줘야함
-
+    //count가 아니라 이전값 빼줘야함, total price 구하는 로직 수정해야함.
     const updateCount = async () => {
       console.log(total, watchCount.count, getValues("count"));
       if (count !== null) {
