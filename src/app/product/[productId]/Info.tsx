@@ -10,7 +10,7 @@ interface Props {
   info: string[];
 }
 
-const ProductTab = ["상품설명", "상세정보", "후기", "제품문의"];
+const ProductTab = ["상세정보", "상품설명", "후기", "제품문의"];
 
 const Info = ({ info_img, info }: Props) => {
   const [activeTab, setActiveTab] = useState("상품 설명");
@@ -26,7 +26,17 @@ const Info = ({ info_img, info }: Props) => {
           router.push(`#${e}`);
         }}
       />
-
+      <article id="상세정보">
+        <h1 className="text-[24px] my-[20px]">상세정보</h1>
+        <Image
+          src={info_img}
+          alt="product_info"
+          sizes="1200px"
+          width={0}
+          height={0}
+          style={{ width: "100%", height: "auto" }}
+        />
+      </article>
       <article id="상품설명">
         <h1 className="text-[24px] my-[20px]">상품설명</h1>
         <table className="w-full text-sm text-left border text-gray-500 ">
@@ -39,18 +49,6 @@ const Info = ({ info_img, info }: Props) => {
             </tr>
           ))}
         </table>
-      </article>
-
-      <article id="상세정보">
-        <h1 className="text-[24px] my-[20px]">상세정보</h1>
-        <Image
-          src={info_img}
-          alt="product_info"
-          sizes="1200px"
-          width={0}
-          height={0}
-          style={{ width: "100%", height: "auto" }}
-        />
       </article>
     </div>
   );
