@@ -1,10 +1,8 @@
-import { useAddressStore } from "@/store/address";
 import React from "react";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 
-export const Postcode = () => {
+export const Postcode = ({ setAddress }: { setAddress: React.Dispatch<React.SetStateAction<string>> }) => {
   const open = useDaumPostcodePopup("//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js");
-  const { setAddress } = useAddressStore();
   const handleComplete = (data: any) => {
     let fullAddress = data.address;
     let extraAddress = "";
@@ -19,7 +17,7 @@ export const Postcode = () => {
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
 
-    console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+    console.log(fullAddress);
     setAddress(fullAddress);
   };
 
@@ -28,7 +26,7 @@ export const Postcode = () => {
   };
 
   return (
-    <button type="button" onClick={handleClick}>
+    <button type="button" className="border border-black w-[200px] mx-auto bg-slate-300" onClick={handleClick}>
       주소 검색하기
     </button>
   );

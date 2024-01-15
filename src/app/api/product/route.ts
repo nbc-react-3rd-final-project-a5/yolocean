@@ -21,8 +21,3 @@ export async function POST(req: NextRequest) {
   }
   return NextResponse.json(insertData);
 }
-
-// export const POST =async (req:NextRequest) => {
-//   let {data:category , error} = await supabase.from("category").select("*")
-
-// }
