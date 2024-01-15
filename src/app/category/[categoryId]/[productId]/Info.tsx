@@ -1,6 +1,5 @@
 "use client";
 import Tab from "@/components/Tab";
-import Section from "@/components/layout/Section";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -21,11 +20,12 @@ const Info = ({ info_img, info }: Props) => {
       <Tab
         tabs={ProductTab}
         activeTab={activeTab}
-        handleTabClick={(e: React.MouseEvent<HTMLLIElement, MouseEvent>, tab: string) => {
+        handleTabClick={(tab: string) => {
           setActiveTab(tab);
-          router.push(`#${e}`);
+          router.push(`#${tab}`);
         }}
       />
+
       <article id="상세정보">
         <h1 className="text-[24px] my-[20px]">상세정보</h1>
         <Image
@@ -37,17 +37,20 @@ const Info = ({ info_img, info }: Props) => {
           style={{ width: "100%", height: "auto" }}
         />
       </article>
+
       <article id="상품설명">
         <h1 className="text-[24px] my-[20px]">상품설명</h1>
         <table className="w-full text-sm text-left border text-gray-500 ">
-          {info.map((item) => (
-            <tr key={item.split("&")[0]} className="bg-white border-b ">
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                {item.split("&")[0]}
-              </th>
-              <td className="px-6 py-4 text-center border-l">{item.split("&")[1]}</td>
-            </tr>
-          ))}
+          <tbody>
+            {info.map((item) => (
+              <tr key={item.split("&")[0]} className="bg-white border-b ">
+                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                  {item.split("&")[0]}
+                </th>
+                <td className="px-6 py-4 text-center border-l">{item.split("&")[1]}</td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </article>
     </div>
