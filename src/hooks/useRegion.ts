@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const useRegion = () => {
   const {
-    data: region,
+    data: regions,
     isLoading,
     isError
   } = useQuery<Region[]>({
@@ -16,7 +16,7 @@ const useRegion = () => {
     queryKey: ["region"]
   });
 
-  return { region, isLoading };
+  return { regions, isLoading };
 };
 
 export default useRegion;

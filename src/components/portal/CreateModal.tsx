@@ -29,7 +29,7 @@ const CreateModal = () => {
         document.getElementById("back_drop") as HTMLElement
       )}
       {createPortal(
-        <div className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-20 w-[500px] h-[572px] rounded-lg overflow-hidden">
+        <div className="fixed bg-white top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-20 rounded-lg overflow-hidden">
           <div className="flex justify-between bg-[#3074F0] h-[60px] text-[20px] text-white items-center p-[20px]">
             <h1>{title}</h1>
             <IoClose className="text-white cursor-pointer" onClick={closeModal} size={30} />

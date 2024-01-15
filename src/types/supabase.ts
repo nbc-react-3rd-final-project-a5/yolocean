@@ -8,6 +8,7 @@ export interface Database {
           count: number | null;
           id: string;
           product_id: string | null;
+          rent_date: string | null;
           store_id: string | null;
           user_id: string;
         };
@@ -15,6 +16,7 @@ export interface Database {
           count?: number | null;
           id?: string;
           product_id?: string | null;
+          rent_date?: string | null;
           store_id?: string | null;
           user_id: string;
         };
@@ -22,6 +24,8 @@ export interface Database {
           count?: number | null;
           id?: string;
           product_id?: string | null;
+          store_id?: string | null;
+          rent_date?: string | null;
           store_id?: string | null;
           user_id?: string;
         };
@@ -32,10 +36,33 @@ export interface Database {
             isOneToOne: false;
             referencedRelation: "product";
             referencedColumns: ["id"];
-            foreignKeyName: "cart_product_id_fkey";
-            columns: ["product_id"];
+          },
+          {
+            foreignKeyName: "cart_store_id_fkey";
+            columns: ["store_id"];
             isOneToOne: false;
-            referencedRelation: "product";
+            referencedRelation: "store";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "cart_store_id_fkey";
+            columns: ["store_id"];
+            isOneToOne: false;
+            referencedRelation: "store";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "cart_store_id_fkey";
+            columns: ["store_id"];
+            isOneToOne: false;
+            referencedRelation: "store";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "cart_store_id_fkey";
+            columns: ["store_id"];
+            isOneToOne: false;
+            referencedRelation: "store";
             referencedColumns: ["id"];
           },
           {
@@ -327,7 +354,7 @@ export interface Database {
       };
       store: {
         Row: {
-          address: string | null;
+          address: string;
           id: string;
           lat: string | null;
           lng: string | null;
@@ -335,7 +362,7 @@ export interface Database {
           region_id: string | null;
         };
         Insert: {
-          address?: string | null;
+          address: string;
           id?: string;
           lat?: string | null;
           lng?: string | null;
@@ -343,7 +370,7 @@ export interface Database {
           region_id?: string | null;
         };
         Update: {
-          address?: string | null;
+          address?: string;
           id?: string;
           lat?: string | null;
           lng?: string | null;
