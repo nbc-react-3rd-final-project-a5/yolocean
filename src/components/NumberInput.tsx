@@ -9,9 +9,10 @@ interface Props {
   setValue: UseFormSetValue<FieldValues>;
   getValues: UseFormGetValues<FieldValues>;
   errors: FieldErrors<FieldValues>;
+  value?: number;
 }
 
-const NumberInput = ({ register, name, setValue, getValues, errors }: Props) => {
+const NumberInput = ({ register, name, setValue, getValues, errors, value }: Props) => {
   const error = errors[name]?.message;
 
   // 에러처리 ref나 onChange로 불가 여차하면 submit시 처리할것!
@@ -33,6 +34,7 @@ const NumberInput = ({ register, name, setValue, getValues, errors }: Props) => 
           maxLength={3}
           {...register(name, {
             required: "수량을 선택해주세요",
+            value: value ? value : null,
             pattern: { value: /^(?:\d{1,3}|999)$/, message: "1~999까지만 입력가능합니다." }
           })}
         />
