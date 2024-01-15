@@ -57,7 +57,7 @@ const ReviewForm = ({ bucket, userId, productId, isReview }: Props) => {
         content: data.content,
         url: imageURLList
       };
-      const res = await fetch(`api/review/${userId}`, {
+      const res = await fetch(`${window.location.origin}/api/review/users/${userId}`, {
         method: "POST",
         body: JSON.stringify(formData)
       });
