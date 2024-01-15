@@ -9,13 +9,13 @@ interface Props {
 const ReviewItem = ({ review }: Props) => {
   const reviewImageList = review.url;
   return (
-    <div className="relative">
+    <div className="relative p-4 border-2 border-red-500">
       <p>{review.userinfo.username}</p>
       <p>{review.product.name}</p>
       <p>{review.title}</p>
       <p>{review.content}</p>
       {!!reviewImageList && (
-        <ul>
+        <ul className="flex flex-row">
           {reviewImageList.map((n, i) => (
             <li key={`${review.id}-${i}`}>
               <Image src={n} width={100} height={100} alt="리뷰 이미지" />
