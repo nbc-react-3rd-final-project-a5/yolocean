@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { supabase } from "@/service/supabase";
 import Image from "next/image";
 import { CartBox } from "./page";
 import { VscChromeClose } from "react-icons/vsc";
 import { useCart } from "@/hooks";
+import { useForm } from "react-hook-form";
+import NumberInput from "@/components/NumberInput";
 
 interface Props {
   cart: CartBox;
@@ -22,15 +23,22 @@ const CartItem = (cart: Props) => {
 
   const { updateCountMutation, deleteCart } = useCart({ userId: user_id, cartId: id });
 
-  //수정필
-  const [cnt, setCnt] = useState(count ? count : 0);
+  const {
+    register,
+    setValue,
+    getValues,
+    watch,
+    formState: { errors }
+  } = useForm({ mode: "onChange" });
+  const watchCount = watch();
+  // console.log(watchCount);
 
   useEffect(() => {
     const updateCount = async () => {
-      updateCountMutation.mutate(cnt);
+      updateCountMutation.mutate(watchCount.count);
     };
     updateCount();
-  }, [cnt, isVisible]);
+  }, [watchCount.count, isVisible]);
 
   const handleCartDelete = () => {
     setIsVisible(false);
@@ -67,20 +75,21 @@ const CartItem = (cart: Props) => {
               <label htmlFor="count" className="border border-gray w-[80px] text-center">
                 수량
               </label>
-              <input
-                type="number"
-                id="count"
-                defaultValue={count || 0}
-                min={1}
-                onChange={(e) => setCnt(+e.target.value)}
+              <NumberInput
+                errors={errors}
+                register={register}
+                setValue={setValue}
+                getValues={getValues}
+                value={count || 0}
+                name="count"
               />
             </div>
           </div>
         </div>
         <div className="flex flex-row border-t">
           <p>상품금액{price}원</p>
-          <p>수량 {cnt}개</p>
-          <p>총금액{price * cnt}원</p>
+          <p>수량 {watchCount.count}개</p>
+          <p>총금액{price * watchCount.count}원</p>
         </div>
       </div>
     </>

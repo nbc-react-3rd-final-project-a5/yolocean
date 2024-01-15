@@ -36,7 +36,7 @@ const SelectOffice = () => {
               return (
                 <p
                   key={region.id}
-                  className={selectedId === region.id ? "text-[#3074F0]" : "text-[#999999]"}
+                  className={selectedId === region.id ? "text-[#3074F0] text-nowrap" : "text-[#999999] text-nowrap"}
                   onClick={() => {
                     setSelectedId(region.id);
                     getStoreByRegionId(region.id);
