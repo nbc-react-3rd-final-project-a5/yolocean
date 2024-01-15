@@ -24,6 +24,7 @@ interface uploadForm {
   url?: string[];
 }
 
+// Form FieldSet 컴포넌트
 const FormFieldSet = ({ title, children }: { title: string; children: React.ReactNode }) => {
   return (
     <fieldset className="block mt-[40px]">
@@ -35,9 +36,11 @@ const FormFieldSet = ({ title, children }: { title: string; children: React.Reac
   );
 };
 
+// Form 컴포넌트
 const ReviewForm = ({ formType, userId, productId, storeId, targetId }: Props) => {
-  const {} = useReview({ reviewId });
-  const { uploadMultipleImages } = useStorage();
+  const { reviewData, isError, isLoading } = useReview({ userId, reviewId: targetId });
+  const preReviewData = reviewData ? reviewData[0] : null;
+  const { uploadMultipleImages, deleteMultipleImage } = useStorage();
   const {
     register,
     handleSubmit,
@@ -47,7 +50,6 @@ const ReviewForm = ({ formType, userId, productId, storeId, targetId }: Props) =
     formState: { errors }
   } = useForm<uploadForm>({ mode: "onChange" });
   const { customImageList, isEnter, handler } = useImageInput();
-
   const handleFormSubmit = async (data: uploadForm) => {
     const storagePath = productId ? `${userId}/${productId}` : userId;
     const imageFileList = customImageList.map((n) => n.file);
@@ -74,14 +76,43 @@ const ReviewForm = ({ formType, userId, productId, storeId, targetId }: Props) =
     }
   };
 
+  const handleUpdateFormSubmit = async (data: uploadForm) => {
+    const storagePath = productId ? `${userId}/${productId}` : userId;
+    const imageFileList = customImageList.map((n) => n.file);
+    const imageFileIdList = customImageList.map((n) => n.id);
+    console.log(preReviewData);
+    try {
+      if (preReviewData?.url) {
+        await deleteMultipleImage(formType, preReviewData?.url);
+      }
+
+      const imageURLList = await uploadMultipleImages(imageFileList, formType, imageFileIdList, storagePath);
+      const formData: TablesInsert<"review"> = {
+        user_id: userId,
+        title: data.title,
+        product_id: productId,
+        store_id: storeId,
+        content: data.content,
+        url: imageURLList
+      };
+      const res = await fetch(`${window.location.origin}/api/review/users/${userId}/${targetId}`, {
+        method: "PATCH",
+        body: JSON.stringify(formData)
+      });
+      console.log(res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)}>
+    <form onSubmit={targetId ? handleSubmit(handleUpdateFormSubmit) : handleSubmit(handleFormSubmit)}>
       <FormFieldSet title="한줄요약">
         <input
           type="text"
           placeholder="제목을 입력해주세요."
           className="p-[15px] w-full border-[1px] border-[#E5E5E5] "
-          defaultValue={reviewData && reviewData.title}
+          defaultValue={targetId && !!reviewData ? reviewData[0].title : undefined}
           {...register("title")}
         />
       </FormFieldSet>
@@ -90,7 +121,7 @@ const ReviewForm = ({ formType, userId, productId, storeId, targetId }: Props) =
           id="form__content"
           className="p-[15px] w-full min-h-[250px] border-[1px] border-[#E5E5E5] "
           placeholder="문의내용을 입력해주세요."
-          defaultValue={reviewData && reviewData.content}
+          defaultValue={targetId && !!reviewData ? reviewData[0].content : undefined}
           {...register("content", { required: true, maxLength: 500 })}
         />
       </FormFieldSet>
@@ -99,7 +130,7 @@ const ReviewForm = ({ formType, userId, productId, storeId, targetId }: Props) =
       </FormFieldSet>
 
       <div className="flex flex-row gap-[12px] mt-[60px]">
-        {reviewData ? (
+        {targetId ? (
           <input
             type="submit"
             className="p-[16px] flex-grow text-[18px] cursor-pointer leading-none rounded-[5px] font-[600] text-[#FFFFFF] bg-[#3074F0] "

@@ -54,7 +54,7 @@ const useReview = ({ userId, reviewId }: Props = {}) => {
     data: reviewData,
     isLoading,
     isError
-  } = useQuery({
+  } = useQuery<ExtendReview[]>({
     queryKey: ["review"],
     queryFn: getReviewList,
     enabled: fetchPath !== null
