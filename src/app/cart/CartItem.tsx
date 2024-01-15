@@ -24,6 +24,7 @@ const CartItem = (cart: Props) => {
 
   //수정필
   const [cnt, setCnt] = useState(count ? count : 0);
+
   useEffect(() => {
     const updateCount = async () => {
       updateCountMutation.mutate(cnt);
