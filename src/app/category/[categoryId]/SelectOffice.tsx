@@ -11,19 +11,21 @@ const SelectOffice = () => {
   const [selectedId, setSelectedId] = useState<string>("");
   const [officeInfo, setOfficeInfo] = useState<{ name: string; address: string }[]>([]);
   const [selectedOffice, setSelectedOffice] = useState<{ name: string; address: string }>({ name: "", address: "" });
-  const { setOffice } = useOfficeStore();
+  const { setRegionId, setOffice } = useOfficeStore();
   const { closeModal } = useModalStore();
 
   const getStoreByRegionId = async (regionId: string) => {
     const { data: office, error } = await supabase.from("store").select("name, address").eq("region_id", regionId);
     setOfficeInfo(office!);
   };
+
   return (
     <div className="w-[500px] min-h-[512px] px-[20px] pt-[40px] pb-[30px]">
       <form
         className="flex flex-col gap-[30px] w-[460px] h-full"
         onSubmit={(e) => {
           e.preventDefault();
+          setRegionId(selectedId);
           setOffice(selectedOffice);
           closeModal();
         }}
