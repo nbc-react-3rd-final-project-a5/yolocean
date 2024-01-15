@@ -18,7 +18,6 @@ const SelectOffice = () => {
     const { data: office, error } = await supabase.from("store").select("name, address").eq("region_id", regionId);
     setOfficeInfo(office!);
   };
-
   return (
     <div className="w-[500px] min-h-[512px] px-[20px] pt-[40px] pb-[30px]">
       <form
@@ -36,7 +35,9 @@ const SelectOffice = () => {
               return (
                 <p
                   key={region.id}
-                  className={selectedId === region.id ? "text-[#3074F0]" : "text-[#999999]"}
+                  className={`${
+                    selectedId === region.id ? "text-[#3074F0]" : "text-[#999999]"
+                  } whitespace-nowrap cursor-pointer`}
                   onClick={() => {
                     setSelectedId(region.id);
                     getStoreByRegionId(region.id);
@@ -51,12 +52,14 @@ const SelectOffice = () => {
         </div>
         <div className="flex flex-col gap-[20px]">
           <p className="font-semibold">지점명</p>
-          <div className="w-[460px] min-h-[46px] p-[15px] leading-none grid grid-cols-2 gap-x-[20px] border border-[#E5E5E5]">
+          <div className="w-[460px] min-h-[46px] p-[15px] leading-none grid grid-cols-2 gap-x-[20px] gap-y-[10px] border border-[#E5E5E5]">
             {officeInfo?.map((info) => {
               return (
                 <p
                   key={info.name}
-                  className={selectedOffice.name === info.name ? "text-[#3074F0]" : "text-[#999999]"}
+                  className={`${
+                    selectedOffice.name === info.name ? "text-[#3074F0]" : "text-[#999999]"
+                  } cursor-pointer truncate`}
                   onClick={() => {
                     setSelectedOffice(info);
                   }}
@@ -80,10 +83,7 @@ const SelectOffice = () => {
           <button
             type="button"
             className="w-[168px] h-[50px] rounded-[5px] text-white bg-[#999999]"
-            onClick={() => {
-              closeModal();
-              setOffice({ name: "", address: "" });
-            }}
+            onClick={closeModal}
           >
             취소
           </button>
