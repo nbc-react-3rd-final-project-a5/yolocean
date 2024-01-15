@@ -1,8 +1,11 @@
 "use client";
 import Tab from "@/components/Tab";
+import { useOfficeStore } from "@/store/officeStore";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useStore } from "zustand";
+import StockTable from "./StockTable";
 
 interface Props {
   info_img: string;
@@ -14,6 +17,7 @@ const ProductTab = ["상세정보", "상품설명", "후기", "제품문의"];
 const Info = ({ info_img, info }: Props) => {
   const [activeTab, setActiveTab] = useState("상품 설명");
   const router = useRouter();
+  const { regionId } = useStore(useOfficeStore);
 
   return (
     <div className="mt-[16px]">
@@ -25,6 +29,7 @@ const Info = ({ info_img, info }: Props) => {
           router.push(`#${tab}`);
         }}
       />
+      <StockTable regionId={regionId} />
 
       <article id="상세정보">
         <h1 className="text-[24px] my-[20px]">상세정보</h1>

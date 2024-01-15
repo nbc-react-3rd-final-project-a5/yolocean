@@ -1,10 +1,16 @@
 "use client";
 import NumberInput from "@/components/NumberInput";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import DatePicker, { registerLocale } from "react-datepicker";
+import DatePicker from "react-datepicker";
 import { ko } from "date-fns/esm/locale";
 import "react-datepicker/dist/react-datepicker.css";
+import { useStore } from "zustand";
+import { useOfficeStore } from "@/store/officeStore";
+import { useModalStore } from "@/store/modalStore";
+import { FaLocationDot } from "react-icons/fa6";
+import SelectOffice from "../SelectOffice";
+
 interface Props {
   category_name: string;
   name: string;
@@ -19,9 +25,13 @@ const Controller = ({ category_name, name, price }: Props) => {
     formState: { errors }
   } = useForm({ mode: "onChange" });
   const [startDate, setStartDate] = useState<Date | null>(null);
+  const { office } = useStore(useOfficeStore);
+  const { openModal } = useStore(useModalStore);
 
-  console.log(getValues("date"));
-  console.log(startDate);
+  useEffect(() => {
+    setValue("address", office.name);
+  }, [office.name, setValue]);
+
   return (
     <>
       <div className="flex-1 text-[16px]">
@@ -57,7 +67,24 @@ const Controller = ({ category_name, name, price }: Props) => {
           </div>
           <div className="flex gap-[22px]">
             <label htmlFor="address">위치</label>
-            <input id="address" type="text" />
+            <input
+              readOnly
+              className="w-fit outline-none text-[12px] border-2 p-1 rounded-md "
+              {...register("address", {
+                value: office.name,
+                required: true
+              })}
+            />
+            <button
+              id="address"
+              className="bg-[#3074F0] text-white text-[14px] flex items-center gap-[6px] justify-center w-[89px] h-[24px] rounded-[999px]"
+              onClick={() => {
+                openModal("위치선택", <SelectOffice />);
+              }}
+            >
+              <FaLocationDot />
+              <p>위치 선택</p>
+            </button>
           </div>
           <div className="flex gap-[22px] items-center">
             <label htmlFor="count">수량</label>
