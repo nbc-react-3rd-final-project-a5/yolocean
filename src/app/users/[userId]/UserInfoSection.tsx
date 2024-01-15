@@ -5,19 +5,15 @@ import UserInfo from "./UserInfo";
 import EditUserInfo from "./EditUserInfo";
 import useUserEditModeStore from "@/store/editUserStore";
 import useLogedInStore from "@/store/logedStore";
-import { supabase } from "@/service/supabase";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/useAuth";
 
 const UserInfoSection = () => {
   const { isEditMode } = useUserEditModeStore();
   const { logedIn } = useLogedInStore();
   const { userId } = useParams();
-
-  const getLoginUser = async () => {
-    const { data: user, error } = await supabase.auth.getSession();
-    return user.session?.user.id as string;
-  };
+  const { getLoginUser } = useAuth();
 
   const { data: loginUserId, isLoading } = useQuery({
     queryKey: ["loginUser"],
