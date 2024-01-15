@@ -13,18 +13,14 @@ const UserInfoSection = () => {
   const { isEditMode } = useUserEditModeStore();
   const { logedIn } = useLogedInStore();
   const { userId } = useParams();
-  const { getLoginUserId } = useAuth();
+  const { getLoginUser } = useAuth();
 
-  const { data: loginUserId, isLoading } = useQuery({
+  const { data: loginUser, isLoading } = useQuery({
     queryKey: ["loginUser"],
-    queryFn: getLoginUserId
+    queryFn: getLoginUser
   });
 
-  useEffect(() => {
-    console.log("loginuser", loginUserId);
-  }, [loginUserId]);
-
-  if (logedIn && loginUserId === userId) {
+  if (logedIn && loginUser?.session?.user.id === userId) {
     return <div>{!isEditMode ? <UserInfo /> : <EditUserInfo />}</div>;
   } else if (isLoading) {
     return <div>로딩 중...</div>;
