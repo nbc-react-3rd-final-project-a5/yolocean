@@ -23,3 +23,9 @@ export interface ProductProperties extends Product {
     }[];
   };
 }
+export interface ExtendReview extends Review {
+  store: { name: string };
+  userinfo: { username: string };
+  product: { name: string; thumbnail: string };
+  url: string[] | null;
+}

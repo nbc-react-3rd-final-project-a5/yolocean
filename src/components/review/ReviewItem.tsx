@@ -1,19 +1,12 @@
 import Image from "next/image";
 import React from "react";
-import { Review } from "@/types/db";
-
-interface ExtandReview extends Review {
-  store: { name: string };
-  userinfo: { username: string };
-  product: { name: string; thumbnail: string };
-  url: string[] | null;
-}
+import { ExtendReview } from "@/types/db";
 
 interface Props {
-  review: ExtandReview;
+  review: ExtendReview;
 }
 
-const ProductReview = ({ review }: Props) => {
+const ReviewItem = ({ review }: Props) => {
   const reviewImageList = review.url;
   return (
     <div className="relative">
@@ -39,4 +32,4 @@ const ProductReview = ({ review }: Props) => {
   );
 };
 
-export default ProductReview;
+export default ReviewItem;
