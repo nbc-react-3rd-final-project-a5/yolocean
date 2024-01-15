@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Section from "@/components/layout/Section";
 import CartItem from "./CartItem";
 import { useCart } from "@/hooks";
+import Link from "next/link";
 
 export interface CartBox {
   count: number | null;
@@ -31,7 +32,8 @@ const page = () => {
 
   //총 상품 금액?!?!?
   let totalPrice = 0;
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState<number>(0);
+  // console.log(total);
 
   if (cart !== undefined) {
     (cart as CartBox[]).forEach((cartItem) => {
@@ -49,7 +51,15 @@ const page = () => {
             <div className="flex flex-col items-center justify-center">
               {(cart as CartBox[]).map((cartItem) => {
                 return (
-                  cartItem && <CartItem cart={cartItem} total={totalPrice} setTotal={setTotal} key={cartItem.id} />
+                  cartItem && (
+                    <CartItem
+                      cart={cartItem}
+                      total={total}
+                      setTotal={setTotal}
+                      initTotalPrice={totalPrice}
+                      key={cartItem.id}
+                    />
+                  )
                 );
               })}
             </div>
@@ -58,7 +68,8 @@ const page = () => {
               <p>총금액</p>
               <p>{total}원</p>
             </div>
-            <button>결제하기</button>
+
+            <Link href={"/payment"}>결제하기</Link>
           </div>
         ) : (
           <div>Loading...</div>

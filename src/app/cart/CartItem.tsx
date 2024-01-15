@@ -10,6 +10,7 @@ interface Props {
   cart: CartBox;
   total: number;
   setTotal: React.Dispatch<React.SetStateAction<number>>;
+  initTotalPrice: number;
 }
 
 interface Input {
@@ -19,7 +20,7 @@ interface Input {
 const CartItem = (cart: Props) => {
   const { count, id, product_id, store_id, user_id, rent_date, store, product } = cart.cart;
   const { name, thumbnail, price, percentage_off, category } = product;
-  const { total, setTotal } = cart;
+  const { total, setTotal, initTotalPrice } = cart;
 
   const [isVisible, setIsVisible] = useState(true);
 
@@ -35,18 +36,28 @@ const CartItem = (cart: Props) => {
   const watchCount = watch();
 
   useEffect(() => {
+    //count가 아니라 이전값 빼줘야함
+
     const updateCount = async () => {
+      console.log(total, watchCount.count, getValues("count"));
       if (count !== null) {
-        setTotal(total + (watchCount.count - count) * price);
+        if (isVisible) {
+          watchCount.count === count ? setTotal(initTotalPrice) : setTotal(total + (watchCount.count - count) * price);
+        } else {
+          //삭제했을 때
+          setTotal(total + (0 - count) * price);
+        }
       }
-      updateCountMutation.mutate(watchCount.count);
+
+      // updateCountMutation.mutate(watchCount.count);
+      console.log("------update!-----", total);
     };
     updateCount();
   }, [watchCount.count, isVisible]);
 
   const handleCartDelete = () => {
     setIsVisible(false);
-    deleteCart(id);
+    // deleteCart(id);
   };
 
   return (
