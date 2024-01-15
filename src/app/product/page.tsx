@@ -16,7 +16,7 @@ const ProductPage = () => {
 
   return (
     <div>
-      <div className="grid grid-cols-4 gap-4 max-w-[1200px] mx-auto">
+      <div>
         {!isLoading && (product as ProductProperties[]).map((product) => <Card product={product} key={product.id} />)}
         <button
           onClick={() => {
