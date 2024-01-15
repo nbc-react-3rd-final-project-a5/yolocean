@@ -11,6 +11,7 @@ interface Props {
   bucket: string;
   userId: string;
   productId: string;
+  storeId: string;
   isReview: boolean;
 }
 
@@ -31,7 +32,7 @@ const FormFieldSet = ({ title, children }: { title: string; children: React.Reac
   );
 };
 
-const ReviewForm = ({ bucket, userId, productId, isReview }: Props) => {
+const ReviewForm = ({ bucket, userId, productId, storeId, isReview }: Props) => {
   const { uploadMultipleImages } = useStorage();
   const {
     register,
@@ -54,6 +55,7 @@ const ReviewForm = ({ bucket, userId, productId, isReview }: Props) => {
         user_id: userId,
         title: data.title,
         product_id: productId,
+        store_id: storeId,
         content: data.content,
         url: imageURLList
       };

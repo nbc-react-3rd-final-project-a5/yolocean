@@ -4,7 +4,10 @@ import { NextResponse, NextRequest } from "next/server";
 // [GET] 해당 유저아이디와 일치하는 모든 review를 가져온다.
 export const GET = async (req: NextRequest, context: { params: { userId: string } }) => {
   const { userId } = context.params;
-  const { data, error } = await supabase.from("review").select("*").eq("user_id", userId);
+  const { data, error } = await supabase
+    .from("review")
+    .select("*, store!inner(name), userinfo!inner(username), product!inner(name, thumbnail)")
+    .eq("user_id", userId);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

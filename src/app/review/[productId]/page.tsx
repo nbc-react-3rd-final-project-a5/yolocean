@@ -10,7 +10,7 @@ import { ProductProperties } from "@/types/db";
 
 const ReviewPage = () => {
   const userId = "3255837d-277c-4e5d-9e52-6956be86f182";
-
+  const storeId = "a1c143ed-6276-43ad-b6c8-fbe5573169db";
   const { productId } = useParams<{ productId: string }>();
   const searchParams = useSearchParams();
   const { product, isLoading } = useProduct(productId);
@@ -38,7 +38,7 @@ const ReviewPage = () => {
           </div>
         </div>
 
-        <ReviewForm bucket="review" userId={userId} productId={productId} isReview={true} />
+        <ReviewForm bucket="review" userId={userId} productId={productId} isReview={true} storeId={storeId} />
       </Section>
     </>
   );
