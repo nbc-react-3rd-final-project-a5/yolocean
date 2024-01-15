@@ -8,6 +8,8 @@ import NumberInput from "@/components/NumberInput";
 
 interface Props {
   cart: CartBox;
+  total: number;
+  setTotal: React.Dispatch<React.SetStateAction<number>>;
 }
 
 interface Input {
@@ -17,7 +19,7 @@ interface Input {
 const CartItem = (cart: Props) => {
   const { count, id, product_id, store_id, user_id, rent_date, store, product } = cart.cart;
   const { name, thumbnail, price, percentage_off, category } = product;
-  // console.log(product);
+  const { total, setTotal } = cart;
 
   const [isVisible, setIsVisible] = useState(true);
 
@@ -31,10 +33,12 @@ const CartItem = (cart: Props) => {
     formState: { errors }
   } = useForm({ mode: "onChange" });
   const watchCount = watch();
-  // console.log(watchCount);
 
   useEffect(() => {
     const updateCount = async () => {
+      if (count !== null) {
+        setTotal(total + (watchCount.count - count) * price);
+      }
       updateCountMutation.mutate(watchCount.count);
     };
     updateCount();
