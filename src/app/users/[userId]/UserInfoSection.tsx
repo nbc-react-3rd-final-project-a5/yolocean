@@ -7,17 +7,17 @@ import useUserEditModeStore from "@/store/editUserStore";
 import useLogedInStore from "@/store/logedStore";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks";
 
 const UserInfoSection = () => {
   const { isEditMode } = useUserEditModeStore();
   const { logedIn } = useLogedInStore();
   const { userId } = useParams();
-  const { getLoginUser } = useAuth();
+  const { getLoginUserId } = useAuth();
 
   const { data: loginUserId, isLoading } = useQuery({
     queryKey: ["loginUser"],
-    queryFn: getLoginUser
+    queryFn: getLoginUserId
   });
 
   useEffect(() => {
