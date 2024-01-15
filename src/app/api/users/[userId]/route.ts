@@ -13,7 +13,7 @@ export const GET = async (res: NextResponse, context: { params: { userId: string
   return NextResponse.json(data![0]);
 };
 
-export async function POST(req: NextRequest, context: { params: { userId: string } }) {
+export async function PATCH(req: NextRequest, context: { params: { userId: string } }) {
   const data = await req.json();
   const {
     params: { userId }

@@ -11,7 +11,7 @@ const EditUserInfo = () => {
   const queryClient = useQueryClient();
 
   const updateUser = async (data: { username: string }, userId: string) => {
-    await fetch(`/api/users/${userId}`, { method: "POST", body: JSON.stringify(data) });
+    await fetch(`/api/users/${userId}`, { method: "PATCH", body: JSON.stringify(data) });
   };
 
   const updateUserMutation = useMutation({
