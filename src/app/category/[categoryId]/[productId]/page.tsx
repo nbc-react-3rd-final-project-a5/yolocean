@@ -3,7 +3,7 @@ import { useProduct } from "@/hooks";
 import { ProductProperties } from "@/types/db";
 import Image from "next/image";
 import React from "react";
-import Controller from "./Controller";
+import Controller from "./ControlForm";
 import Info from "./Info";
 interface Props {
   params: { productId: string };

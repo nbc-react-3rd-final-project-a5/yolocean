@@ -1,7 +1,7 @@
 "use client";
 import NumberInput from "@/components/NumberInput";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import { ko } from "date-fns/esm/locale";
 import "react-datepicker/dist/react-datepicker.css";
@@ -17,20 +17,25 @@ interface Props {
   price: number;
 }
 
-const Controller = ({ category_name, name, price }: Props) => {
+const ControlForm = ({ category_name, name, price }: Props) => {
   const {
     register,
     setValue,
     getValues,
-    formState: { errors }
+    formState: { errors },
+    control,
+    handleSubmit
   } = useForm({ mode: "onChange" });
-  const [startDate, setStartDate] = useState<Date | null>(null);
   const { office } = useStore(useOfficeStore);
   const { openModal } = useStore(useModalStore);
 
   useEffect(() => {
     setValue("address", office.name);
   }, [office.name, setValue]);
+
+  function handleAddCartSubmit(onValid: FieldValues) {
+    console.log(onValid);
+  }
 
   return (
     <>
@@ -47,22 +52,30 @@ const Controller = ({ category_name, name, price }: Props) => {
         </div>
         <hr className="border-[#757575] border-[1.5px] " />
 
-        <div className="flex flex-col gap-[10px] my-[17px]">
+        <form onSubmit={handleSubmit(handleAddCartSubmit)} className="flex flex-col gap-[10px] my-[17px]">
           <div className="flex items-center gap-[22px]">
             <label htmlFor="date"> 날짜</label>
-            <DatePicker
-              {...register("date", {})}
-              className="py-1 text-center border-2 rounded-md text-[12px]"
-              placeholderText="날짜를 선택해주세요"
-              id="date"
-              locale={ko}
-              dateFormat="yyyy.MM.dd(eee)"
-              selected={startDate}
-              minDate={new Date(Date.now())}
-              onChangeRaw={(e) => e.preventDefault()}
-              onChange={(date: Date) => {
-                setStartDate(date);
+            <Controller
+              rules={{
+                required: "필수 입력값입니다.",
+                pattern: /^d{4}.d{2}.d{2}$/
               }}
+              control={control}
+              name="date"
+              render={({ field }) => (
+                <DatePicker
+                  className="py-1 text-center border-2 rounded-md text-[12px]"
+                  dateFormat="yyyy.MM.dd"
+                  locale={ko}
+                  id="date"
+                  autoComplete="off"
+                  minDate={new Date(Date.now())}
+                  placeholderText="날짜를 입력해주세요"
+                  onChangeRaw={(e) => (e.target.value = "")}
+                  onChange={(date) => field.onChange(date)}
+                  selected={field.value}
+                />
+              )}
             />
           </div>
           <div className="flex gap-[22px]">
@@ -88,16 +101,16 @@ const Controller = ({ category_name, name, price }: Props) => {
           </div>
           <div className="flex gap-[22px] items-center">
             <label htmlFor="count">수량</label>
-            <NumberInput errors={errors} register={register} setValue={setValue} getValues={getValues} name="테스트" />
+            <NumberInput setValue={setValue} getValues={getValues} register={register} errors={errors} name="count" />
           </div>
-        </div>
-        <div className="flex my-[10px] gap-[22px]">
-          <button className="p-[12px] border-4 border-[#9747FF] rounded-md">장바구니 담기</button>
-          <button className="p-[12px] border-4 border-[#9747FF] rounded-md">바로구매하기</button>
-        </div>
+          <div className="flex mt-[10px] gap-[22px]">
+            <button className="p-[12px] border-4 border-[#9747FF] rounded-md">장바구니 담기</button>
+            <button className="p-[12px] border-4 border-[#9747FF] rounded-md">바로구매하기</button>
+          </div>
+        </form>
       </div>
     </>
   );
 };
 
-export default Controller;
+export default ControlForm;
