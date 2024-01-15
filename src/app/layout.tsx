@@ -30,7 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           <Header />
 
-          <main>{children}</main>
+          <main className="max-w-[1200px] mx-auto w-[90%] min-h-full">{children}</main>
           <Footer />
           <ReactQueryDevtools initialIsOpen={false} />
           <CreateModal />
