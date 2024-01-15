@@ -28,8 +28,8 @@ const Tab = ({ activeTab, handleTabClick, tabs, isVariable = false }: TabProps) 
           return (
             <li
               key={tab}
-              className={`flex-1 text-center cursor-pointer  border-neutral-400 border-4 rounded-sm p-1  ${
-                activeTab === tab ? "bg-neutral-400  text-black" : "bg-white"
+              className={`w-[291px] text-[16px] py-[15px] px-[10px]  font-[500] text-center border-[#E5E5E5] border-b cursor-pointer  ${
+                activeTab === tab ? "bg-[#3074F0]  text-white" : "text-[#595959]"
               }`}
               onClick={() => handleTabClick(tab)}
             >

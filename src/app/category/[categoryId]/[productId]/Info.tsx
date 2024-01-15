@@ -29,10 +29,9 @@ const Info = ({ info_img, info }: Props) => {
           router.push(`#${tab}`);
         }}
       />
-      <StockTable regionId={regionId} />
+      {/* <StockTable regionId={regionId} /> */}
 
-      <article id="상세정보">
-        <h1 className="text-[24px] my-[20px]">상세정보</h1>
+      <article className="mt-[40px]" id="상세정보">
         <Image
           src={info_img}
           alt="product_info"

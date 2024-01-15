@@ -32,11 +32,11 @@ const ProductDetailPage = ({ params: { productId } }: Props) => {
     <section>
       <div className="max-w-[1200px] mx-auto">
         <div className="flex gap-[24px]">
-          <div className="relative w-[350px] h-[350px]">
+          <div className="relative w-[500px] h-[500px]">
             <Image alt={`${name}_image`} style={{ objectFit: "fill" }} fill src={thumbnail} />
           </div>
 
-          <Controller price={price} category_name={category_name} name={name} />
+          <Controller price={price} original_price={original_price} category_name={category_name} name={name} />
         </div>
         <Info info_img={info_img} info={info} />
 

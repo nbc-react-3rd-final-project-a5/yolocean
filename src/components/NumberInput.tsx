@@ -17,19 +17,19 @@ const NumberInput = ({ register, name, setValue, getValues, errors, value }: Pro
 
   return (
     <>
-      <div className="relative flex items-center max-w-[8rem]">
+      <div className="relative flex items-center text-[14px] ">
         <button
           onClick={() => setValue(name, Math.max(Number(getValues(name)) - 1, 0))}
           type="button"
-          className="bg-neutral-100 hover:bg-gray-100 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none"
+          className="border border-[#E5E5E5] h-[30px] w-[30px] flex justify-center items-center"
         >
-          <TiMinus />
+          <TiMinus size={14} />
         </button>
         <input
-          className="bg-neutral-100 border border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5"
-          placeholder="0"
+          className="border border-[#E5E5E5] h-[30px] w-[30px] text-center"
+          placeholder="1"
           type="text"
-          defaultValue={value !== undefined ? value : 0}
+          defaultValue={value !== undefined ? value : 1}
           {...register(name, {
             onChange: (e) => setValue(name, e.target.value),
             required: "수량을 선택해주세요",
@@ -39,14 +39,14 @@ const NumberInput = ({ register, name, setValue, getValues, errors, value }: Pro
         <button
           type="button"
           onClick={() => setValue(name, Math.min(Number(getValues(name)) + 1, 99))}
-          className="bg-neutral-100  hover:bg-gray-100 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none"
+          className="border border-[#E5E5E5] h-[30px] w-[30px] flex justify-center items-center"
         >
-          <TiPlus />
+          <TiPlus size={14} />
         </button>
       </div>
       {error && (
-        <div className="text-red-600 mt-1 flex items-center gap-1">
-          <MdErrorOutline size={20} /> <span>{error as string}</span>
+        <div className="text-red-600 text-[12px] mt-1 flex items-center gap-1">
+          <MdErrorOutline size={14} /> <span>{error as string}</span>
         </div>
       )}
     </>
