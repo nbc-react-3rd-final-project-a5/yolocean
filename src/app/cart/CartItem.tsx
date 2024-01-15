@@ -49,7 +49,7 @@ const CartItem = (cart: Props) => {
         }
       }
 
-      // updateCountMutation.mutate(watchCount.count);
+      updateCountMutation.mutate(watchCount.count);
       console.log("------update!-----", total);
     };
     updateCount();
@@ -57,7 +57,7 @@ const CartItem = (cart: Props) => {
 
   const handleCartDelete = () => {
     setIsVisible(false);
-    // deleteCart(id);
+    deleteCart(id);
   };
 
   return (
