@@ -4,15 +4,18 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import InputImage from "../InputImage";
 import { TablesInsert } from "@/types/supabase";
-import { useImageInput } from "@/hooks";
+import { useImageInput, useReview } from "@/hooks";
 import useStorage from "@/utils/useStorage";
 
 interface Props {
-  bucket: string;
+  formType: "review" | "qna";
   userId: string;
   productId: string;
   storeId: string;
-  isReview: boolean;
+  /**
+   * targetId = reviewId | qnaId
+   */
+  targetId?: string;
 }
 
 interface uploadForm {
@@ -32,7 +35,8 @@ const FormFieldSet = ({ title, children }: { title: string; children: React.Reac
   );
 };
 
-const ReviewForm = ({ bucket, userId, productId, storeId, isReview }: Props) => {
+const ReviewForm = ({ formType, userId, productId, storeId, targetId }: Props) => {
+  const {} = useReview({ reviewId });
   const { uploadMultipleImages } = useStorage();
   const {
     register,
@@ -50,11 +54,12 @@ const ReviewForm = ({ bucket, userId, productId, storeId, isReview }: Props) => 
     const imageFileIdList = customImageList.map((n) => n.id);
 
     try {
-      const imageURLList = await uploadMultipleImages(imageFileList, bucket, imageFileIdList, storagePath);
+      const imageURLList = await uploadMultipleImages(imageFileList, formType, imageFileIdList, storagePath);
       const formData: TablesInsert<"review"> = {
         user_id: userId,
         title: data.title,
         product_id: productId,
+        // TODO : store_id 들어간 타입으로 업데이트하기
         store_id: storeId,
         content: data.content,
         url: imageURLList
@@ -76,6 +81,7 @@ const ReviewForm = ({ bucket, userId, productId, storeId, isReview }: Props) => 
           type="text"
           placeholder="제목을 입력해주세요."
           className="p-[15px] w-full border-[1px] border-[#E5E5E5] "
+          defaultValue={reviewData && reviewData.title}
           {...register("title")}
         />
       </FormFieldSet>
@@ -84,6 +90,7 @@ const ReviewForm = ({ bucket, userId, productId, storeId, isReview }: Props) => 
           id="form__content"
           className="p-[15px] w-full min-h-[250px] border-[1px] border-[#E5E5E5] "
           placeholder="문의내용을 입력해주세요."
+          defaultValue={reviewData && reviewData.content}
           {...register("content", { required: true, maxLength: 500 })}
         />
       </FormFieldSet>
@@ -92,14 +99,23 @@ const ReviewForm = ({ bucket, userId, productId, storeId, isReview }: Props) => 
       </FormFieldSet>
 
       <div className="flex flex-row gap-[12px] mt-[60px]">
-        <input
-          type="submit"
-          className="p-[16px] flex-grow text-[18px] leading-none rounded-[5px] font-[600] text-[#FFFFFF] bg-[#3074F0] "
-          value={"등록하기"}
-        />
+        {reviewData ? (
+          <input
+            type="submit"
+            className="p-[16px] flex-grow text-[18px] cursor-pointer leading-none rounded-[5px] font-[600] text-[#FFFFFF] bg-[#3074F0] "
+            value={"수정하기"}
+          />
+        ) : (
+          <input
+            type="submit"
+            className="p-[16px] flex-grow text-[18px] cursor-pointer leading-none rounded-[5px] font-[600] text-[#FFFFFF] bg-[#3074F0] "
+            value={"등록하기"}
+          />
+        )}
+
         <input
           type="button"
-          className="p-[16px] flex-grow text-[18px] leading-none rounded-[5px] font-[600] text-[#FFFFFF] bg-[#999999]"
+          className="p-[16px] flex-grow text-[18px] cursor-pointer leading-none rounded-[5px] font-[600] text-[#FFFFFF] bg-[#999999]"
           value={"취소"}
         />
       </div>

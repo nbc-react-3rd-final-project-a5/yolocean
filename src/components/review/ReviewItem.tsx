@@ -4,9 +4,10 @@ import { ExtendReview } from "@/types/db";
 
 interface Props {
   review: ExtendReview;
+  reviewType: "product" | "user";
 }
 
-const ReviewItem = ({ review }: Props) => {
+const ReviewItem = ({ review, reviewType }: Props) => {
   const reviewImageList = review.url;
   return (
     <div className="relative p-4 border-2 border-red-500">
@@ -25,8 +26,12 @@ const ReviewItem = ({ review }: Props) => {
       )}
       <div className="absolute top-0 right-0">
         <p>{review.created_at}</p>
-        <button className="p-4 bg-red-500">수정</button>
-        <button className="p-4 bg-red-500">삭제</button>
+        {reviewType === "user" && (
+          <>
+            <button className="p-4 bg-red-500">수정</button>
+            <button className="p-4 bg-red-500">삭제</button>
+          </>
+        )}
       </div>
     </div>
   );

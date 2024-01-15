@@ -2,7 +2,6 @@ import { ExtendReview } from "@/types/db";
 import { useQuery } from "@tanstack/react-query";
 
 interface Props {
-  productId?: string;
   userId?: string;
   reviewId?: string;
 }
@@ -10,23 +9,20 @@ interface Props {
 enum FetchCase {
   Error,
   AllReviewList,
-  ProductReviewList,
   UserReviewList,
   UserReview
 }
 
-const useReview = ({ productId, userId, reviewId }: Props = {}) => {
+const useReview = ({ userId, reviewId }: Props = {}) => {
   const getFetchPath = () => {
-    const defaultReviewApiPath = `${window.location.origin}/api/review`;
+    if (typeof window === "undefined") return null;
     let fetchCase: FetchCase;
 
-    if (!productId && !userId && !reviewId) {
+    if (!userId && !reviewId) {
       fetchCase = FetchCase.AllReviewList;
-    } else if (productId && !userId && !reviewId) {
-      fetchCase = FetchCase.ProductReviewList;
-    } else if (!productId && userId && reviewId) {
+    } else if (userId && reviewId) {
       fetchCase = FetchCase.UserReview;
-    } else if (!productId && userId && !reviewId) {
+    } else if (userId && !reviewId) {
       fetchCase = FetchCase.UserReviewList;
     } else {
       fetchCase = FetchCase.Error;
@@ -37,19 +33,22 @@ const useReview = ({ productId, userId, reviewId }: Props = {}) => {
         console.error("💥💥💥 useReview : switchFetchPath 내 if 조건문 에러 💥💥💥");
         return null;
       case FetchCase.AllReviewList:
-        return `${defaultReviewApiPath}`;
-      case FetchCase.ProductReviewList:
-        return `${defaultReviewApiPath}/products/${productId}`;
+        return `${window.location.origin}/api/review`;
       case FetchCase.UserReviewList:
-        return `${defaultReviewApiPath}/users/${userId}`;
+        return `${window.location.origin}/api/review/users/${userId}`;
       case FetchCase.UserReview:
-        return `${defaultReviewApiPath}/users/${userId}/${reviewId}`;
+        return `${window.location.origin}/api/review/users/${userId}/${reviewId}`;
       default:
         console.error("💥💥💥 useReview : switchFetchPath의 switch 문에서 에러 발생 💥💥💥");
         return null;
     }
   };
   const fetchPath = getFetchPath();
+  const getReviewList = async () => {
+    const response = await fetch(`${fetchPath}`);
+    const data = await response.json();
+    return data;
+  };
 
   const {
     data: reviewData,
@@ -57,11 +56,7 @@ const useReview = ({ productId, userId, reviewId }: Props = {}) => {
     isError
   } = useQuery({
     queryKey: ["review"],
-    queryFn: async (): Promise<ExtendReview[]> => {
-      const response = await fetch(`${fetchPath}`);
-      const data = await response.json();
-      return data;
-    },
+    queryFn: getReviewList,
     enabled: fetchPath !== null
   });
 

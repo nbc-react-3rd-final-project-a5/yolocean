@@ -1,20 +1,24 @@
 "use client";
 
-import { useParams, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import ReviewForm from "@/components/form/ReviewForm";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React from "react";
 import Section from "@/components/layout/Section";
 import { useProduct } from "@/hooks";
 import { ProductProperties } from "@/types/db";
 
-const ReviewPage = () => {
+const ReviewFormPage = () => {
+  // 1. 리뷰 작성하기
   const userId = "3255837d-277c-4e5d-9e52-6956be86f182";
   const storeId = "a1c143ed-6276-43ad-b6c8-fbe5573169db";
-  const { productId } = useParams<{ productId: string }>();
-  const searchParams = useSearchParams();
+  const productId = "0b61d2e4-7750-4153-a1ce-0a8dcf2108c9";
   const { product, isLoading } = useProduct(productId);
-  const reviewId = searchParams.get("reviewId");
+
+  // 2. 유저가 작성한 리뷰 수정하기
+  // url parameter로 reviewId를 받아서 해당 데이터를 얻는다.
+  const searchParams = useSearchParams();
+  const reviewId = searchParams.get("reviewId") || undefined;
 
   if (isLoading) return <>로딩중</>;
 
@@ -38,10 +42,10 @@ const ReviewPage = () => {
           </div>
         </div>
 
-        <ReviewForm bucket="review" userId={userId} productId={productId} isReview={true} storeId={storeId} />
+        <ReviewForm formType="review" userId={userId} productId={productId} storeId={storeId} targetId={reviewId} />
       </Section>
     </>
   );
 };
 
-export default ReviewPage;
+export default ReviewFormPage;
