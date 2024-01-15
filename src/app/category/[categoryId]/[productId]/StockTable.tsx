@@ -1,4 +1,5 @@
 import useOffice from "@/hooks/useOffice";
+import KakaoMap from "@/lib/KakaoMap";
 import { useModalStore } from "@/store/modalStore";
 import React from "react";
 import { FaLocationDot } from "react-icons/fa6";
@@ -37,7 +38,13 @@ const StockTable = ({ regionId }: Props) => {
                 </td>
                 <td className=" px-6 py-3  text-center border-gray-200 border-b">{stock ? stock[0].count : "null"}</td>
                 <td className=" px-6 py-3  text-center border-gray-200 border-b bg-gray-50">
-                  <FaLocationDot className="mx-auto text-[#3074F0] cursor-pointer" size={20} />
+                  <FaLocationDot
+                    onClick={() => {
+                      openModal(name, <KakaoMap store={{ id, address, lat, lng, name, region_id, stock }} />);
+                    }}
+                    className="mx-auto text-[#3074F0] cursor-pointer"
+                    size={20}
+                  />
                 </td>
               </tr>
             ))}
