@@ -5,8 +5,9 @@ import { NextResponse, NextRequest } from "next/server";
 export const GET = async (req: NextRequest) => {
   const { data, error } = await supabase
     .from("review")
-    .select("*, store!inner(name), userinfo!inner(username), product!inner(name, thumbnail)");
-
+    .select(
+      "*, store!inner(name, region!inner(region)), userinfo!inner(username, avatar_url), product!inner(name, thumbnail)"
+    );
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

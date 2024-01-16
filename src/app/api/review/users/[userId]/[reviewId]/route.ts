@@ -6,7 +6,9 @@ export const GET = async (_: NextRequest, context: { params: { reviewId: string 
   const { reviewId } = context.params;
   const { data, error } = await supabase
     .from("review")
-    .select("*, store!inner(name), userinfo!inner(username), product!inner(name, thumbnail)")
+    .select(
+      "*, store!inner(name, region!inner(region)), userinfo!inner(username, avatar_url), product!inner(name, thumbnail)"
+    )
     .eq("id", reviewId);
 
   if (error) {
