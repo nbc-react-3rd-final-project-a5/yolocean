@@ -24,7 +24,6 @@ export interface Database {
           count?: number | null;
           id?: string;
           product_id?: string | null;
-          store_id?: string | null;
           rent_date?: string | null;
           user_id?: string;
         };

@@ -13,7 +13,7 @@ const CustomerPage = () => {
         <Tab
           isVariable
           activeTab={activeTab}
-          handleTabClick={(e: React.MouseEvent<HTMLLIElement, MouseEvent>, tab: string) => setActiveTab(tab)}
+          handleTabClick={(tab: string) => setActiveTab(tab)}
           tabs={customerData.tabs}
         />
         <div className="my-[40px]">
