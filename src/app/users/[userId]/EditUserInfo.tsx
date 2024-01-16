@@ -8,15 +8,15 @@ import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { MdPhotoCameraBack } from "react-icons/md";
 
-const EditUserInfo = ({ user }: { user: UserInfo | undefined }) => {
+const EditUserInfo = ({ user, refetch }: { user: UserInfo | undefined; refetch: any }) => {
   const [name, setName] = useState<string>(`${user!.username}`);
   const [profileURL, setProfileURL] = useState<string | null>("");
   const [newProfileImage, setNewProfileImage] = useState<File>();
 
   const { userId } = useParams() as { userId: string };
   const { setIsEditMode } = useUserEditModeStore();
-  const { uploadImage } = useStorage();
-  const { customImageList, handler } = useImageInput();
+  const { uploadImage, deleteImage } = useStorage();
+  const { customImage, handler, addPreImage } = useImageInput("single");
   const queryClient = useQueryClient();
 
   const updateUser = async (data: { username: string; avatar_url: string | null }, userId: string) => {
@@ -40,41 +40,51 @@ const EditUserInfo = ({ user }: { user: UserInfo | undefined }) => {
 
   const handleUpdateUserInfoSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // deleteImage('user',)
+    const url = await uploadImage(customImage?.file!, "user", customImage?.id!, user!.id);
+
     updateUserMutation({
-      content: { username: name, avatar_url: profileURL },
+      content: { username: name, avatar_url: url },
       userId: userId
     });
     setIsEditMode(false);
+    // console.log("customImage", customImage);
   };
 
   const handleUserImgChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const url = await uploadImage(customImageList[customImageList.length - 1].file, "user", "profile", user!.id);
-    setProfileURL(url);
+    // if(typeof customImageList[0].file === File){
+    //   const url = await uploadImage(customImageList[0].file, "user", "profile", user!.id);
+    // }
+
+    console.log("file", customImage?.file);
+    console.log("file URL", customImage?.previewURL);
+    // const url = await uploadImage(customImage?.file!, "user", "profile", user!.id);
+    // console.log("url", url);
+    // setProfileURL(url);
+
+    // console.log("file", customImage?.file);
+    // const url = await uploadImage(customImage?.file!, "user", "profile", user!.id);
+    // console.log("url", url);
+    // setProfileURL(url);
   };
 
   useEffect(() => {
-    console.log("data", customImageList);
-  }, [customImageList]);
+    // console.log("data", customImage);
+    refetch();
+  }, [customImage]);
 
   return (
     <div className="flex gap-[20px] justify-center items-center">
       <div>
         <div className="">
-          <Avatar
-            size="lg"
-            src={
-              customImageList.length === 0
-                ? `${user!.avatar_url}`
-                : customImageList[customImageList.length - 1]?.previewURL
-            }
-          />
+          <Avatar size="lg" src={customImage ? customImage.previewURL : user?.avatar_url!} />
         </div>
         <input
           type="file"
           className=""
           onChange={(e) => {
             handler.handleAddImageChange(e);
-            handleUserImgChange(e);
+            console.log("customImage before", customImage);
           }}
         />
         {/* <label className=" top-0 w-[200px] h-[200px] flex flex-col justify-center items-center text-white transition-opacity cursor-pointer rounded-full backdrop-blur-sm backdrop-brightness-50 opacity-0 hover:opacity-100">

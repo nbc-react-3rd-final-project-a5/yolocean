@@ -21,7 +21,11 @@ const UserInfoSection = () => {
     queryFn: getLoginUser
   });
   // url id로 유저 정보 가져오기
-  const { data: user, isLoading: isUserDataLoading } = useQuery({
+  const {
+    data: user,
+    isLoading: isUserDataLoading,
+    refetch
+  } = useQuery({
     queryKey: ["user"],
     queryFn: async (): Promise<UserInfo> => {
       const result = await fetch(`/api/users/${userId}`, { method: "GET" });
@@ -40,7 +44,7 @@ const UserInfoSection = () => {
     return <div>로딩 중...</div>;
   }
   if (logedIn && loginUser?.session?.user.id === userId) {
-    return <div>{!isEditMode ? <UserInfo user={user} /> : <EditUserInfo user={user} />}</div>;
+    return <div>{!isEditMode ? <UserInfo user={user} /> : <EditUserInfo user={user} refetch={refetch} />}</div>;
   } else {
     return <div>올바른 접근방식이 아닙니다.</div>;
   }

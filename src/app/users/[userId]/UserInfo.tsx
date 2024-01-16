@@ -1,17 +1,21 @@
 import Avatar from "@/components/Avatar";
 import useUserEditModeStore from "@/store/editUserStore";
 import { UserInfo } from "@/types/db";
-import React from "react";
+import React, { useEffect } from "react";
 
 const UserInfo = ({ user }: { user: UserInfo | undefined }) => {
   const { setIsEditMode } = useUserEditModeStore();
   console.log("user avatar", user?.avatar_url);
+  useEffect(() => {
+    console.log("avatar", user?.avatar_url);
+  }, [user?.avatar_url]);
   if (typeof user === "undefined") {
     return <div>로딩 중..</div>;
   }
   return (
     <div className="flex gap-[20px] justify-center items-center">
       <Avatar size="lg" src={user.avatar_url as string} />
+      <img className="w-[50px] h-[50px]" src={user.avatar_url as string} />
       <div className="flex flex-col gap-[10px]">
         <p>이름: {user.username}</p>
         <p>전화번호:</p>
