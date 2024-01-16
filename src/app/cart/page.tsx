@@ -43,14 +43,8 @@ export interface CartBox {
   };
 }
 
-export interface Object {
-  key: string;
-  value: number;
-}
-
 const page = () => {
   const router = useRouter();
-
   //로그인 여부 확인
   // const { logedIn } = useLogedInStore();
   // if (!logedIn) {
@@ -58,15 +52,6 @@ const page = () => {
   //   router.push("/");
   // }
 
-  //로그인 유저 정보
-  const { getLoginUser } = useAuth();
-  const { data: loginUser } = useQuery({
-    queryKey: ["loginUser"],
-    queryFn: getLoginUser
-  });
-  const userId = loginUser?.session?.user.id;
-
-  //useCart에 사용자 id 수정 필
   const { cart, isLoading } = useCart({ userId: "aba26c49-82c0-42b2-913c-c7676527b553", cartId: "" });
 
   const [cartPrice, setCartPrice] = useState<number[]>([]);
