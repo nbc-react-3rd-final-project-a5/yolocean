@@ -4,6 +4,18 @@ import Section from "@/components/layout/Section";
 import CartItem from "./CartItem";
 import { useCart } from "@/hooks";
 import Link from "next/link";
+import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
+
+const linkList = [
+  {
+    name: "홈",
+    url: "http://localhost:3000/"
+  },
+  {
+    name: "장바구니",
+    url: "http://localhost:3000/cart"
+  }
+];
 
 export interface CartBox {
   count: number | null;
@@ -45,6 +57,7 @@ const page = () => {
 
   return (
     <>
+      <PageBreadCrumb linkList={linkList} />
       <Section title={"장바구니"} isCenter={true}>
         {!isLoading ? (
           <div>
