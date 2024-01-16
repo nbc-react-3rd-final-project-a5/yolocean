@@ -23,11 +23,7 @@ export const POST = async (req: NextRequest, context: { params: { id: string } }
   } = context;
   const body = await req.json();
 
-  const { data: eqProduct, error: eqError } = await supabase
-    .from("cart")
-    .select("*")
-    .eq("product_id", body.product_id)
-    .eq("store_id", body.store_id);
+  const { data: eqProduct, error: eqError } = await supabase.from("cart").select("*").eq("product_id", body.product_id);
 
   if (eqError) {
     return NextResponse.json({ error: "잘못된 요청입니다." }, { status: 500 });
