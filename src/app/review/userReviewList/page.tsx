@@ -13,17 +13,16 @@ const ReviewListPage = () => {
     userId
   });
 
+  console.log(reviewData);
   // 2. 유저가 쓴 리뷰 단일 데이터 가져오는 경우
   // const { reviewData, isLoading, isError  } = useReview({
   //     userId: "3255837d-277c-4e5d-9e52-6956be86f182",
   //     reviewId: "b84c1f85-3a54-47f5-8382-b57a2bc8a10a"
   //   });
 
-  if (isLoading) return <>리뷰 데이터 로딩중</>;
-
   return (
     <>
-      <ReviewList reviewList={reviewData} currentUserId={userId} listType="review" />
+      <ReviewList reviewList={reviewData} currentUserId={userId} isLoading={isLoading} listType="review" />
     </>
   );
 };
