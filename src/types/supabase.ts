@@ -10,8 +10,6 @@ export interface Database {
           product_id: string | null;
           rent_date: string | null;
           store_id: string | null;
-          rent_date: string | null;
-          store_id: string | null;
           user_id: string;
         };
         Insert: {
@@ -28,7 +26,6 @@ export interface Database {
           product_id?: string | null;
           store_id?: string | null;
           rent_date?: string | null;
-          store_id?: string | null;
           user_id?: string;
         };
         Relationships: [
@@ -37,41 +34,6 @@ export interface Database {
             columns: ["product_id"];
             isOneToOne: false;
             referencedRelation: "product";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "cart_store_id_fkey";
-            columns: ["store_id"];
-            isOneToOne: false;
-            referencedRelation: "store";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "cart_store_id_fkey";
-            columns: ["store_id"];
-            isOneToOne: false;
-            referencedRelation: "store";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "cart_store_id_fkey";
-            columns: ["store_id"];
-            isOneToOne: false;
-            referencedRelation: "store";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "cart_store_id_fkey";
-            columns: ["store_id"];
-            isOneToOne: false;
-            referencedRelation: "store";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "cart_store_id_fkey";
-            columns: ["store_id"];
-            isOneToOne: false;
-            referencedRelation: "store";
             referencedColumns: ["id"];
           },
           {

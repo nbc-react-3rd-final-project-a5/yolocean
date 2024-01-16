@@ -45,7 +45,7 @@ const page = () => {
 
   return (
     <>
-      <Section title={"장바구니"} isCenter={false}>
+      <Section title={"장바구니"} isCenter={true}>
         {!isLoading ? (
           <div>
             <div className="flex flex-col items-center justify-center">
@@ -64,12 +64,14 @@ const page = () => {
               })}
             </div>
 
-            <div>
-              <p>총금액</p>
-              <p>{total}원</p>
-            </div>
+            <div className="mt-[80px] flex flex-row">
+              <div className="float-right">
+                <label className="text-right text-base/[24px] font-bold tracking-[-0.48px]  ">총 결제금액</label>
+                <p className="content-end"> {total}원</p>
+              </div>
 
-            <Link href={"/payment"}>결제하기</Link>
+              <Link href={"/payment"}>결제하기</Link>
+            </div>
           </div>
         ) : (
           <div>Loading...</div>
