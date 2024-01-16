@@ -69,6 +69,14 @@ const useReview = ({ userId, reviewId }: Props = {}) => {
     return data;
   };
 
+  const deleteReview = async () => {
+    const res = await fetch(`${fetchPath}`, {
+      method: "DELETE"
+    });
+    const data = await res.json();
+    return data;
+  };
+
   const {
     data: reviewData,
     isLoading,
@@ -79,12 +87,17 @@ const useReview = ({ userId, reviewId }: Props = {}) => {
     enabled: fetchPath !== null
   });
 
-  const mutationReview = useMutation({
+  const updateReviewMutation = useMutation({
     mutationFn: patchReview,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["review"] })
   });
 
-  return { reviewData, isLoading, isError, mutationReview };
+  const deleteReviewMutation = useMutation({
+    mutationFn: deleteReview,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["review"] })
+  });
+
+  return { reviewData, isLoading, isError, updateReviewMutation, deleteReviewMutation };
 };
 
 export default useReview;

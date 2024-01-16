@@ -43,7 +43,10 @@ const FormFieldSet = ({ title, children }: { title: string; children: React.Reac
 
 // Form 컴포넌트
 const ReviewForm = ({ formType, userId, productId, storeId, targetId }: Props) => {
-  const { reviewData, isError, isLoading, mutationReview } = useReview({ userId, reviewId: targetId });
+  const { reviewData, isError, isLoading, updateReviewMutation } = useReview({
+    userId,
+    reviewId: targetId
+  });
   const preReviewData = reviewData ? reviewData[0] : null;
   const { uploadMultipleImages, deleteMultipleImage } = useStorage();
   const {
@@ -73,7 +76,6 @@ const ReviewForm = ({ formType, userId, productId, storeId, targetId }: Props) =
         user_id: userId,
         title: data.title,
         product_id: productId,
-        // TODO : store_id 들어간 타입으로 업데이트하기
         store_id: storeId,
         content: data.content,
         url: imageURLList
@@ -117,7 +119,7 @@ const ReviewForm = ({ formType, userId, productId, storeId, targetId }: Props) =
         url: newImageURLList ? [...preImageURLList, ...newImageURLList] : preImageURLList
       };
 
-      mutationReview.mutate(formData);
+      updateReviewMutation.mutate(formData);
     } catch (error) {
       console.error(error);
     }
@@ -125,15 +127,15 @@ const ReviewForm = ({ formType, userId, productId, storeId, targetId }: Props) =
 
   return (
     <form onSubmit={targetId ? handleSubmit(handleUpdateFormSubmit) : handleSubmit(handleFormSubmit)}>
-      {/* <FormFieldSet title="한줄요약">
+      <FormFieldSet title={`${EnumFormType[formType]}제목`}>
         <input
           type="text"
-          placeholder="제목을 입력해주세요."
+          placeholder={`${EnumFormType[formType]}제목을 입력해주세요.`}
           className="p-[15px] w-full border-[1px] border-[#E5E5E5] "
           defaultValue={targetId && !!reviewData ? reviewData[0].title : undefined}
           {...register("title")}
         />
-      </FormFieldSet> */}
+      </FormFieldSet>
       <FormFieldSet title={`${EnumFormType[formType]}내용`}>
         <textarea
           id="form__content"

@@ -17,7 +17,7 @@ const ProductReviewList = async ({ productId }: Props) => {
   const { domain } = getPath();
   const reviewList = await getReviewList(domain, productId);
 
-  return <ReviewList reviewList={reviewList} />;
+  return <ReviewList reviewList={reviewList} listType="review" />;
 };
 
 export default ProductReviewList;

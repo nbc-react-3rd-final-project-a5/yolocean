@@ -8,9 +8,15 @@ import { convertTime } from "@/utils/convertTime";
 interface Props {
   review: ExtendReview;
   currentUserId?: string;
+  listType: "review" | "qna";
 }
 
-const ReviewItem = ({ review, currentUserId }: Props) => {
+enum EnumListType {
+  review = "리뷰",
+  qna = "문의"
+}
+
+const ReviewItem = ({ review, currentUserId, listType }: Props) => {
   const { shortDateFormat } = convertTime(review.created_at);
   const isCurrentUser = currentUserId === review.user_id;
   const reviewImageList = review.url;
@@ -38,14 +44,14 @@ const ReviewItem = ({ review, currentUserId }: Props) => {
           {reviewImageList.map((n, i) => (
             <li key={`${review.id}-${i}`}>
               <figure className="w-[190px] h-[190px] border-[1px] border-line rounded-[5px] overflow-hidden ">
-                <Image src={n} width={190} height={190} alt="리뷰 이미지" />
+                <Image src={n} width={190} height={190} alt={`${EnumListType[listType]} 이미지`} />
               </figure>
             </li>
           ))}
         </ul>
       )}
 
-      {isCurrentUser && <ReviewBtnGroup userId={currentUserId} reviewId={review.id} />}
+      {isCurrentUser && <ReviewBtnGroup userId={currentUserId} reviewId={review.id} listType={listType} />}
     </div>
   );
 };
