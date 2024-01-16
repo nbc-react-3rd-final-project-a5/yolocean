@@ -38,7 +38,7 @@ const CartItem = (cart: Props) => {
   useEffect(() => {
     //count가 아니라 이전값 빼줘야함, total price 구하는 로직 수정해야함.
     const updateCount = async () => {
-      console.log(total, watchCount.count, getValues("count"));
+      // console.log(total, watchCount.count, getValues("count"));
       if (count !== null) {
         if (isVisible) {
           watchCount.count === count ? setTotal(initTotalPrice) : setTotal(total + (watchCount.count - count) * price);
@@ -49,7 +49,7 @@ const CartItem = (cart: Props) => {
       }
 
       updateCountMutation.mutate(watchCount.count);
-      console.log("------update!-----", total);
+      // console.log("------update!-----", total);
     };
     updateCount();
   }, [watchCount.count, isVisible]);

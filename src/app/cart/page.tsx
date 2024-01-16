@@ -5,6 +5,10 @@ import CartItem from "./CartItem";
 import { useCart } from "@/hooks";
 import Link from "next/link";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
+import { useAuth } from "@/hooks";
+import { useQuery } from "@tanstack/react-query";
+import useLogedInStore from "@/store/logedStore";
+import { useRouter } from "next/navigation";
 
 const linkList = [
   {
@@ -39,6 +43,23 @@ export interface CartBox {
 }
 
 const page = () => {
+  const router = useRouter();
+
+  //로그인 여부 확인
+  // const { logedIn } = useLogedInStore();
+  // if (!logedIn) {
+  //   alert("로그인 후 이용해주세요");
+  //   router.push("/");
+  // }
+
+  //로그인 유저 정보
+  const { getLoginUser } = useAuth();
+  const { data: loginUser } = useQuery({
+    queryKey: ["loginUser"],
+    queryFn: getLoginUser
+  });
+  const userId = loginUser?.session?.user.id;
+
   //useCart에 사용자 id
   const { cart, isLoading } = useCart({ userId: "aba26c49-82c0-42b2-913c-c7676527b553", cartId: "" });
 
@@ -84,8 +105,11 @@ const page = () => {
                 </p>
               </div>
 
-              <button className="w-[244px] h-[50px] bg-point text-white rounded-[5px] ml-[80%]">
-                <Link href={"/payment"}>결제하기</Link>
+              <button
+                onClick={() => router.push("/payment")}
+                className="w-[244px] h-[50px] bg-point text-white rounded-[5px] ml-[80%]"
+              >
+                결제하기
               </button>
             </div>
           </div>
