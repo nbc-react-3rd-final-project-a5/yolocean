@@ -15,7 +15,7 @@ const CategoryPage = async ({ params }: { params: { categoryId: string } }) => {
   return (
     <div>
       <CategoryHeader categoryName={categoryName} />
-      <CategorySection categoryName={categoryName} />
+      <CategorySection categoryName={categoryName} categoryId={params.categoryId} />
     </div>
   );
 };

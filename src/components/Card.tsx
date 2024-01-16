@@ -8,6 +8,7 @@ interface Card {
 }
 
 const Card = ({ product, overlay }: Card) => {
+  console.log(product);
   return (
     <Link href={`/product/${product.id}`} className="flex flex-col w-[264px] h-[340px] relative group gap-[20px]">
       <div className="relative w-[264px] h-[264px]">
@@ -26,9 +27,9 @@ const Card = ({ product, overlay }: Card) => {
       <div className="flex justify-between items-center">
         <div className="flex gap-[8px] items-center">
           <p className="text-[16px] ">{product.price}</p>
-          <span className="text-[13px] line-through text-tc-light">할인가격</span>
+          {product.percentage_off && <span className="text-[13px] line-through text-tc-light">{product.price}</span>}
         </div>
-        <span className="text-[18px] font-[500] text-point">40%</span>
+        {product.percentage_off && <span className="text-[18px] font-[500] text-point">{product.percentage_off}%</span>}
       </div>
       {overlay && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 group-hover:before:bg-black group-hover:before:opacity-60 before:content-[''] before:absolute before:inset-0">
