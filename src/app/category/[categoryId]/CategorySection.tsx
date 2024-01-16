@@ -17,7 +17,7 @@ const CategorySection = ({ categoryName, categoryId }: { categoryName: string; c
   return (
     <Section title={`${categoryName}`} isCenter={true}>
       <div className="grid grid-cols-4 gap-[30px]">
-        {!isLoading && data && data.map((item: any) => <Card product={item} key={item.id} />)}
+        {!isLoading && data && data.map((item: any) => <Card categoryId={categoryId} product={item} key={item.id} />)}
       </div>
     </Section>
   );
