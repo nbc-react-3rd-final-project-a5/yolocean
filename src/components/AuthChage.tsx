@@ -20,7 +20,7 @@ const AuthChage = () => {
     };
   }, [setAuth]);
 
-  return <div>AuthChage</div>;
+  return <></>;
 };
 
 export default AuthChage;
