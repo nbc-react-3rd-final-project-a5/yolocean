@@ -62,26 +62,26 @@ const CartItem = (cart: Props) => {
   return (
     <>
       <div className={isVisible ? "border-y border-gray w-[100%] py-5" : "hidden"}>
-        <VscChromeClose onClick={handleCartDelete} className="ml-[95%] cursor-pointer" color="gray" />
+        <VscChromeClose onClick={handleCartDelete} className="ml-[98%] cursor-pointer" color="#595959" />
         <div className="flex flex-row my-2">
           <div className="mx-5 w-[190px] h-[190px] relative">
             <Image src={thumbnail} fill style={{ objectFit: "contain" }} alt="상품대표이미지" />
           </div>
           <div className="mx-3">
             <div className="mb-[20px]">
-              <p className="font-semibold text-base/[16px]">{rent_date}</p>
+              <p className="font-semibold text-[16px] text-point">{rent_date}</p>
             </div>
             <div className="mb-[10px]">
-              <p className="text-[15px]/[15px] tracking-[-0.45px]">{category.category_name}</p>
+              <p className="text-[15px]  text-tc-light">{category.category_name}</p>
             </div>
             <div className="mb-[15px]">
-              <p className="text-base/[24px] font-medium tracking-[-0.48px]">{name}</p>
+              <p className="text-[16px] font-medium ">{name}</p>
             </div>
             <div className="mb-[15px]">
-              <p className="text-base/[16px] font-medium tracking-[-0.48px]">{store.name}</p>
+              <p className="text-[16px] font-medium ">{store.name}</p>
             </div>
             <div className="mb-[13px]">
-              <p className="text-base/[16px] font-medium tracking-[-0.48px]">{price}원</p>
+              <p className="text-[16px] font-medium ">{price}원</p>
             </div>
 
             <div>
@@ -98,11 +98,11 @@ const CartItem = (cart: Props) => {
         </div>
         <div className="flex flex-row justify-between mt-[20px]">
           <div>
-            <p className="text-base/[24px] font-medium tracking-[-0.48px]">
-              상품금액{price}원/수량{watchCount.count}개
+            <p className="text-[16px] font-medium ">
+              상품금액 {price}원 / 수량 {watchCount.count}개
             </p>
           </div>
-          <p className="font-bold text-lg/[27px] tracking-[-0.54px]">총금액{price * watchCount.count}원</p>
+          <p className="font-bold text-[18px] ">총금액 {price * watchCount.count}원</p>
         </div>
       </div>
     </>

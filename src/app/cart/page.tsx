@@ -64,13 +64,16 @@ const page = () => {
               })}
             </div>
 
-            <div className="mt-[80px] flex flex-row">
-              <div className="float-right">
-                <label className="text-right text-base/[24px] font-bold tracking-[-0.48px]  ">총 결제금액</label>
-                <p className="content-end"> {total}원</p>
+            <div className="mt-[80px] flex flex-col content-end">
+              <div className="mb-[30px]">
+                <p className="text-right text-[16px] font-bold mr-1">
+                  총 결제금액<p className="text-[24px] font-bold inline-block ml-1"> {total}원</p>
+                </p>
               </div>
 
-              <Link href={"/payment"}>결제하기</Link>
+              <button className="w-[244px] h-[50px] bg-point text-white rounded-[5px] ml-[80%]">
+                <Link href={"/payment"}>결제하기</Link>
+              </button>
             </div>
           </div>
         ) : (
