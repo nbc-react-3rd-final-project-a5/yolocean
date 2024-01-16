@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <ReactQueryProvider>
       <html lang="ko">
-        <body className={openSans.className}>
+        <body className={`${openSans.className} text-tc-base`}>
           <div id="modal" />
           <div id="back_drop" />
           <div id="confirm" />

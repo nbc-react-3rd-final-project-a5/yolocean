@@ -9,7 +9,7 @@ const CustomerPage = () => {
   {
     return (
       <div>
-        <h1 className="text-[25px] font-semibold my-[80px] text-center">고객센터</h1>
+        <h1 className="text-[25px] font-[600] my-[80px] text-center">고객센터</h1>
         <Tab
           isVariable
           activeTab={activeTab}
@@ -23,9 +23,7 @@ const CustomerPage = () => {
               <Accordion key={q} title={q} body={a} index={index + 1} />
             ))}
         </div>
-        <button className="w-full bg-[#3074F0] text-white text-[18px] py-[16px] text-center mb-[80px]">
-          1:1문의하기
-        </button>
+        <button className="w-full bg-point text-white text-[18px] py-[16px] text-center mb-[80px]">1:1문의하기</button>
       </div>
     );
   }
