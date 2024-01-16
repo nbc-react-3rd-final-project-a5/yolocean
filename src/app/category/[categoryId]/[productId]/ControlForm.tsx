@@ -36,7 +36,7 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
   const { office } = useStore(useOfficeStore);
   const { openModal } = useStore(useModalStore);
   const router = useRouter();
-  // const { auth } = useStore(useAuthStore);
+  const { auth } = useStore(useAuthStore);
 
   useEffect(() => {
     setValue("address", office.name);
@@ -45,18 +45,16 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
 
   function handleFormSubmit(onValid: FieldValues, event: any) {
     const submitType = event.nativeEvent.submitter.name;
-    const UID = "c50b47e6-faa8-4dc0-b00e-c220242e3d3c";
 
     const { rent_date, count } = onValid;
     const store_id = office.id;
     const product_id = id;
-    const body = JSON.stringify({ product_id, user_id: UID, rent_date, count, store_id });
+    const body = JSON.stringify({ product_id, user_id: auth, rent_date, count, store_id });
     addCart(body, submitType);
   }
 
   async function addCart(body: string, submitType: string) {
-    const UID = "c50b47e6-faa8-4dc0-b00e-c220242e3d3c";
-    const response = await fetch(`/api/cart/${UID}`, { body, method: "POST" });
+    const response = await fetch(`/api/cart/${auth}`, { body, method: "POST" });
     const { message } = await response.json();
 
     if (submitType === "cart") {
@@ -83,24 +81,20 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
         <div className="py-[20px] flex flex-col gap-[20px] font-medium text-[16px]">
           <div className="flex gap-[12px]">
             <p className="w-[89px]">제품가</p>
-            <p>{original_price}원</p>
+            <p>{price}원</p>
           </div>
           {percentage_off && (
             <div className="flex gap-[12px] ">
               <p className="w-[89px]">할인가</p>
-              {/* <p>{Math.floor(original_price / percentage_off)}원</p> */}
-              <p>{price}원</p>
+              <p>{Math.floor(price / percentage_off)}원</p>
+              {/* <p>{price}원</p> */}
             </div>
           )}
           <div className="flex gap-[12px] ">
-            <p className="w-[89px]">수령방법</p>
-            <p>현장수령</p>
-          </div>
-          <div className="flex gap-[12px] ">
             <p className="w-[89px]">최종가격</p>
-            <p className="font-[700]">{price}원</p>
-            {/* {percentage_off && <p>{Math.floor(original_price / percentage_off)}원</p>}
-            {!percentage_off && <p className="font-[700]">{original_price}원</p>} */}
+            {/* <p className="font-[700]">{price}원</p> */}
+            {percentage_off && <p className="font-[700]">{Math.floor(price / percentage_off)}원</p>}
+            {!percentage_off && <p className="font-[700]">{price}원</p>}
           </div>
         </div>
         <hr className="border-line border-[1px]" />

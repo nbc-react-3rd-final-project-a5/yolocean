@@ -9,18 +9,8 @@ const Page = () => {
   //useCart에 사용자 id
   const { cart, isLoading } = useCart({ userId: "aba26c49-82c0-42b2-913c-c7676527b553", cartId: "" });
 
-  //총 상품 금액?!?!?
-  let totalPrice = 0;
-  const [total, setTotal] = useState<number>(0);
-  // console.log(total);
-
-  if (cart !== undefined) {
-    (cart as CartBox[]).forEach((cartItem) => {
-      if (cartItem.count !== null) {
-        totalPrice += cartItem.product.price * cartItem.count;
-      }
-    });
-  }
+  //상품별 총금액
+  const [cartPrice, setCartPrice] = useState<number[]>([]);
 
   return (
     <>
@@ -29,14 +19,14 @@ const Page = () => {
         {!isLoading ? (
           <div>
             <div className="flex flex-col items-center justify-center">
-              {(cart as CartBox[]).map((cartItem) => {
+              {(cart as CartBox[]).map((cartItem, idx) => {
                 return (
                   cartItem && (
                     <CartItem
                       cart={cartItem}
-                      total={total}
-                      setTotal={setTotal}
-                      initTotalPrice={totalPrice}
+                      cartPrice={cartPrice}
+                      setCartPrice={setCartPrice}
+                      idx={idx}
                       key={cartItem.id}
                     />
                   )
@@ -46,7 +36,7 @@ const Page = () => {
 
             <div>
               <p>총금액</p>
-              <p>{total}원</p>
+              <p>{cartPrice.reduce((acc, num) => acc + num, 0)}원</p>
             </div>
           </div>
         ) : (
@@ -73,11 +63,11 @@ const Page = () => {
           <input type="text" id="shop" required />
           <h2 className="border-b-4 my-5">총 주문 금액</h2>
           <p>주문 금액</p>
-          <p>{total}원</p>
+          <p>{cartPrice.reduce((acc, num) => acc + num, 0)}원</p>
           <p>할인 금액</p>
           <p>{0}원</p>
           <p>최종결제금액</p>
-          <p>{total}원</p>
+          <p>{cartPrice.reduce((acc, num) => acc + num, 0)}원</p>
           <input type="radio" required />
           렌탈을 진행하실 제품, 신청인 정보, 할인 내역 등을 최종 확인하였으며, 결제에 동의하시겠습니까?(전자상거래법
           제8조 제2항)
