@@ -9,7 +9,6 @@ interface Card {
 }
 
 const Card = ({ product, overlay, categoryId }: Card) => {
-  console.log(categoryId);
   return (
     <div className="relative w-[264px]  group ">
       <Link className="flex flex-col w-[264px] h-[338px]  gap-[20px]" href={`/category/${categoryId}/${product.id}`}>
