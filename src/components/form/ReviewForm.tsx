@@ -57,7 +57,7 @@ const ReviewForm = ({ formType, userId, productId, storeId, targetId }: Props) =
     clearErrors,
     formState: { errors }
   } = useForm<UploadForm>({ mode: "onChange" });
-  const { customImageList, isEnter, handler, addPreImage } = useImageInput();
+  const { customImageList, isEnter, handler, addPreImage } = useImageInput("multiple");
 
   useEffect(() => {
     if (targetId && preReviewData?.url) {
