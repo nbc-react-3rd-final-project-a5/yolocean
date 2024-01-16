@@ -3,5 +3,6 @@ import { useCategory } from "./useCategory";
 import useImageInput from "./useImageInput";
 import useRegion from "./useRegion";
 import useReview from "./useReview";
-
-export { useProduct, useCategory, useImageInput, useRegion, useReview };
+import useCart from "./useCart";
+import useAuth from "./useAuth";
+export { useProduct, useCategory, useImageInput, useRegion, useReview, useCart, useAuth };

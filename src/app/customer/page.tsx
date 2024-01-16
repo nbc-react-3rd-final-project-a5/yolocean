@@ -8,12 +8,12 @@ const CustomerPage = () => {
   const [activeTab, setActiveTab] = useState<string>("사용자 정보 및 약관");
   {
     return (
-      <div className="max-w-[1200px] mx-auto">
+      <div>
         <h1 className="text-[25px] font-semibold my-[80px] text-center">고객센터</h1>
         <Tab
           isVariable
           activeTab={activeTab}
-          handleTabClick={(e: React.MouseEvent<HTMLLIElement, MouseEvent>, tab: string) => setActiveTab(tab)}
+          handleTabClick={(tab: string) => setActiveTab(tab)}
           tabs={customerData.tabs}
         />
         <div className="my-[40px]">
