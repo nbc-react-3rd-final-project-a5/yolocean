@@ -68,12 +68,12 @@ const AuthBtn = () => {
     <>
       {logedIn ? (
         <div onClick={() => setMenu(!menu)} className="relative">
-          <AiOutlineUser size="22" className="cursor-pointer" />
+          <AiOutlineUser size="22" className="cursor-pointer mt-[5px]" color="#3074F0" />
           {menu && <UserMenu />}
         </div>
       ) : (
         <Link href={"/auth"}>
-          <AiOutlineUser size="22" />
+          <AiOutlineUser size="22" className="cursor-pointer mt-[5px]" color="#3074F0" />
         </Link>
       )}
     </>
