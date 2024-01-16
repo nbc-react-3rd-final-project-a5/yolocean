@@ -42,6 +42,8 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
     setValue("address", office.name);
     clearErrors("address");
   }, [office.name, setValue, clearErrors]);
+    clearErrors("address");
+  }, [office.name, setValue, clearErrors]);
 
   function handleFormSubmit(onValid: FieldValues, event: any) {
     const submitType = event.nativeEvent.submitter.name;
@@ -76,7 +78,9 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
     <>
       <div className="flex-1 text-[16px]">
         <p className="text-[15px] text-tc-light mb-[20px]">{category_name}</p>
+        <p className="text-[15px] text-tc-light mb-[20px]">{category_name}</p>
         <h1 className="text-[18px] mb-[30px] leading-[27px]">{name}</h1>
+        <hr className="border-line border-[1px] " />
         <hr className="border-line border-[1px] " />
         <div className="py-[20px] flex flex-col gap-[20px] font-medium text-[16px]">
           <div className="flex gap-[12px]">
@@ -101,20 +105,28 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
         <form onSubmit={handleSubmit(handleFormSubmit)} className="flex flex-col gap-[10px] my-[20px]">
           <div className="flex items-center text-tc-middle gap-[12px]">
             <label className="w-[89px]" htmlFor="rent_date">
+        <hr className="border-line border-[1px]" />
+        <form onSubmit={handleSubmit(handleFormSubmit)} className="flex flex-col gap-[10px] my-[20px]">
+          <div className="flex items-center text-tc-middle gap-[12px]">
+            <label className="w-[89px]" htmlFor="rent_date">
               날짜
             </label>
             <Controller
               rules={{
                 required: "날짜를 선택해주세요",
+                required: "날짜를 선택해주세요",
                 pattern: /^d{4}.d{2}.d{2}$/
               }}
               control={control}
               name="rent_date"
+              name="rent_date"
               render={({ field }) => (
                 <DatePicker
                   className="py-[8px] px-[20px] border-line border rounded-md w-[292px] font-[500] text-[12px]"
+                  className="py-[8px] px-[20px] border-line border rounded-md w-[292px] font-[500] text-[12px]"
                   dateFormat="yyyy.MM.dd"
                   locale={ko}
+                  id="rent_date"
                   id="rent_date"
                   minDate={new Date(Date.now())}
                   placeholderText="날짜를 선택해주세요"
