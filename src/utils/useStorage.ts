@@ -57,11 +57,13 @@ const useStorage = () => {
   };
 
   const deleteImage = async (bucket: string, url: string) => {
-    const thuck = url.split("/").reverse();
+    const chunk = url.split("/").reverse();
     // userId, productId, imageId 순서
     // path : userId + productId
     // https://hntpomvsqgbdpwrjnsun.supabase.co/storage/v1/object/public/review/3255837d-277c-4e5d-9e52-6956be86f182/0b61d2e4-7750-4153-a1ce-0a8dcf2108c9/27d1eb73-a9b0-466c-8375-5070f270f3e4
-    const [imageId, path] = [thuck[0], `${thuck[2]}/${thuck[1]}`];
+    const imageId = chunk[0];
+    const path = chunk[2].length === 36 ? `${chunk[2]}/${chunk[1]}` : chunk[1];
+
     const imageInfo = {
       bucket,
       path,
