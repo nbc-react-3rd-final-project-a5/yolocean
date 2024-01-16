@@ -8,7 +8,7 @@ import HeadCategory from "../category/HeadCategory";
 
 const Header = () => {
   return (
-    <header className="py-2">
+    <header className="py-2 border-b-[1px] border-b-line mb-[20px]">
       <div className="container m-auto flex flex-col max-w-[1200px] min-h-[128px] w-[90%] space-y-4">
         <div className="py-4">
           <Link href={"/"} className="text-point text-[28px] font-black">
