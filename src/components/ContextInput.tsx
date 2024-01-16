@@ -58,7 +58,7 @@ const ContextInput = ({
       )}
 
       <div
-        className={`flex flex-col px-2 p-1.5 border-neutral-300 border-2  rounded-md ${
+        className={`flex flex-col px-2 p-1.5 border-line border-2  rounded-md ${
           isError ? "focus-within:border-red-400" : "focus-within:border-black"
         }`}
       >

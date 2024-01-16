@@ -9,13 +9,17 @@ import { FaLocationDot } from "react-icons/fa6";
 const SelectOffice = () => {
   const { regions, isLoading } = useRegion();
   const [selectedId, setSelectedId] = useState<string>("");
-  const [officeInfo, setOfficeInfo] = useState<{ name: string; address: string }[]>([]);
-  const [selectedOffice, setSelectedOffice] = useState<{ name: string; address: string }>({ name: "", address: "" });
+  const [officeInfo, setOfficeInfo] = useState<{ name: string; address: string; id: string }[]>([]);
+  const [selectedOffice, setSelectedOffice] = useState<{ name: string; address: string; id: string }>({
+    name: "",
+    address: "",
+    id: ""
+  });
   const { setRegionId, setOffice } = useOfficeStore();
   const { closeModal } = useModalStore();
 
   const getStoreByRegionId = async (regionId: string) => {
-    const { data: office, error } = await supabase.from("store").select("name, address").eq("region_id", regionId);
+    const { data: office, error } = await supabase.from("store").select("name, address, id").eq("region_id", regionId);
     setOfficeInfo(office!);
   };
 
@@ -43,7 +47,7 @@ const SelectOffice = () => {
                   onClick={() => {
                     setSelectedId(region.id);
                     getStoreByRegionId(region.id);
-                    setSelectedOffice({ name: "", address: "" });
+                    setSelectedOffice({ name: "", address: "", id: "" });
                   }}
                 >
                   {region.region}

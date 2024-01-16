@@ -10,6 +10,7 @@ import CreateModal from "@/components/portal/CreateModal";
 import CreateAlert from "@/components/portal/CreateAlert";
 import Footer from "@/components/layout/Footer";
 import CreateConfirm from "@/components/portal/CreateConfirm";
+import AuthChage from "@/components/AuthChage";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
@@ -22,14 +23,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <ReactQueryProvider>
       <html lang="ko">
-        <body className={openSans.className}>
+        <body className={`${openSans.className} text-tc-base`}>
           <div id="modal" />
           <div id="back_drop" />
           <div id="confirm" />
           <div id="alert" />
 
           <Header />
-
+          <AuthChage />
           <main className="max-w-[1200px] mx-auto w-[90%] min-h-full">{children}</main>
           <Footer />
           <ReactQueryDevtools initialIsOpen={false} />
