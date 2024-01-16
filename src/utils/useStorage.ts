@@ -56,7 +56,49 @@ const useStorage = () => {
     }
   };
 
-  return { uploadImage, uploadMultipleImages };
+  const deleteImage = async (bucket: string, url: string) => {
+    const chunk = url.split("/").reverse();
+    // userId, productId, imageId 순서
+    // path : userId + productId
+    // https://hntpomvsqgbdpwrjnsun.supabase.co/storage/v1/object/public/review/3255837d-277c-4e5d-9e52-6956be86f182/0b61d2e4-7750-4153-a1ce-0a8dcf2108c9/27d1eb73-a9b0-466c-8375-5070f270f3e4
+    const imageId = chunk[0];
+    const path = chunk[2].length === 36 ? `${chunk[2]}/${chunk[1]}` : chunk[1];
+
+    const imageInfo = {
+      bucket,
+      path,
+      imageId
+    };
+    try {
+      const res = await fetch("/api/storage", {
+        method: "DELETE",
+        body: JSON.stringify(imageInfo)
+      });
+      const data = await res.json();
+      console.log(data);
+      return data;
+    } catch (error) {
+      console.error("💥💥💥 useStorage : deleteImage 오류 발생 💥💥💥");
+      return null;
+    }
+  };
+
+  const deleteMultipleImage = async (bucket: string, urlList: string[]) => {
+    const promiseList = urlList.map(async (url) => {
+      const res = await deleteImage(bucket, url);
+      return res;
+    });
+
+    try {
+      const res = await Promise.all(promiseList);
+      return res;
+    } catch (error) {
+      console.error("💥💥💥 useStorage : deleteMultipleImage 오류 발생 💥💥💥");
+      return null;
+    }
+  };
+
+  return { uploadImage, uploadMultipleImages, deleteImage, deleteMultipleImage };
 };
 
 export default useStorage;
