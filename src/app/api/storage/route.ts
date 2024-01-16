@@ -1,11 +1,7 @@
 import { supabase } from "@/service/supabase";
 import { NextResponse, NextRequest } from "next/server";
 
-export async function GET(res: NextResponse, req: NextRequest) {
-  return NextResponse.json("상품 GET");
-}
-
-export async function POST(req: NextRequest) {
+export const POST = async (req: NextRequest) => {
   const formData = await req.formData();
   const file = formData.get("file") as File;
   const bucket = formData.get("bucket") as string;
@@ -23,4 +19,15 @@ export async function POST(req: NextRequest) {
 
   const { data: dataURL } = supabase.storage.from(bucket).getPublicUrl(`${data.path}`);
   return NextResponse.json(dataURL.publicUrl);
-}
+};
+
+export const DELETE = async (req: NextRequest) => {
+  const { bucket, path, imageId } = await req.json();
+
+  const { data, error } = await supabase.storage.from(bucket).remove([`${path}/${imageId}`]);
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+  return NextResponse.json(data);
+};

@@ -21,9 +21,22 @@ const createCustomImage = (imageFile: File) => {
   return newCustomImage;
 };
 
-const useImageInput = () => {
+const useImageInput = (inputType: "single" | "multiple") => {
+  const [customImage, setCustomImage] = useState<CustomImage>();
   const [customImageList, setCustomImageList] = useState<CustomImage[]>([]);
   const [isEnter, setIsEnter] = useState(false);
+
+  const addPreImage = (urlList: string[]) => {
+    const storageImageList = urlList.map((url) => {
+      const imageId = url.split("/").reverse()[0];
+      return {
+        file: null,
+        previewURL: url,
+        id: imageId
+      };
+    });
+    setCustomImageList((pre) => [...pre, ...storageImageList]);
+  };
 
   const handleAddImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const currentFiles = e.currentTarget.files;
@@ -37,6 +50,11 @@ const useImageInput = () => {
       }
     }
 
+    if (inputType === "single") {
+      setCustomImage(currentImageFiles[0]);
+      console.log(customImage);
+      return (e.currentTarget.files = null);
+    }
     currentImageFiles.length > 0 && setCustomImageList((prev) => [...prev, ...currentImageFiles]);
     return (e.currentTarget.files = null);
   };
@@ -55,6 +73,11 @@ const useImageInput = () => {
           currentImageFiles.push(newImageFile);
         }
       }
+    }
+
+    if (inputType === "single") {
+      console.log(customImage);
+      return setCustomImage(currentImageFiles[0]);
     }
     currentImageFiles.length > 0 && setCustomImageList((prev) => [...prev, ...currentImageFiles]);
   };
@@ -93,9 +116,11 @@ const useImageInput = () => {
   };
 
   return {
+    customImage,
     customImageList,
     isEnter,
-    handler
+    handler,
+    addPreImage
   };
 };
 
