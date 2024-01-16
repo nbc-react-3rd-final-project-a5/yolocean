@@ -43,7 +43,6 @@ export interface CartBox {
   };
 }
 
-
 const page = () => {
   const router = useRouter();
   //로그인 여부 확인
@@ -111,4 +110,4 @@ const page = () => {
   );
 };
 
-export default Page;
+export default page;
