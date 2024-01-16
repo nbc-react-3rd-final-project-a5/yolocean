@@ -23,3 +23,7 @@ export interface ProductProperties extends Product {
     }[];
   };
 }
+
+export interface StoreWithStock extends Store {
+  stock: [{ count: number }];
+}
