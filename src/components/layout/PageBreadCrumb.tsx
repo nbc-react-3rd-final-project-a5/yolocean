@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { Fragment } from "react";
 import { BsChevronCompactRight } from "react-icons/bs";
 
 interface Props {
@@ -37,12 +37,12 @@ const PageBreadCrumb = ({ linkList, marginBottom = "pb-[46px]" }: Props) => {
         {linkList.map((n, i) => {
           const isLastLink = i === linkList.length - 1;
           return (
-            <>
-              <li key={n.url} className={`${isLastLink && "text-[#262626]"} hover:underline`}>
-                <Link href={n.url}>{n.name}</Link>
+            <Fragment key={n.url}>
+              <li className={`${isLastLink && "text-[#262626]"} hover:underline`}>
+                {isLastLink ? <p className="cursor-default">{n.name}</p> : <Link href={n.url}>{n.name}</Link>}
               </li>
-              {!isLastLink && <BsChevronCompactRight />}
-            </>
+              {!isLastLink && <BsChevronCompactRight key={i} />}
+            </Fragment>
           );
         })}
       </ul>
