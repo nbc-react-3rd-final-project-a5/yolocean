@@ -37,7 +37,7 @@ const useImageInput = (inputType: "single" | "multiple") => {
     });
     setCustomImageList((pre) => [...pre, ...storageImageList]);
   };
-  // useEffect dependency array => customImage
+
   const handleAddImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const currentFiles = e.currentTarget.files;
     const currentImageFiles: CustomImage[] = [];
