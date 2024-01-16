@@ -238,6 +238,7 @@ export interface Database {
           created_at: string;
           id: string;
           product_id: string;
+          store_id: string | null;
           title: string;
           url: Json | null;
           user_id: string;
@@ -247,6 +248,7 @@ export interface Database {
           created_at?: string;
           id?: string;
           product_id: string;
+          store_id?: string | null;
           title: string;
           url?: Json | null;
           user_id: string;
@@ -256,6 +258,7 @@ export interface Database {
           created_at?: string;
           id?: string;
           product_id?: string;
+          store_id?: string | null;
           title?: string;
           url?: Json | null;
           user_id?: string;
@@ -266,6 +269,13 @@ export interface Database {
             columns: ["product_id"];
             isOneToOne: false;
             referencedRelation: "product";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "review_store_id_fkey";
+            columns: ["store_id"];
+            isOneToOne: false;
+            referencedRelation: "store";
             referencedColumns: ["id"];
           },
           {
