@@ -9,6 +9,7 @@ input::-webkit-inner-spin-button {
 }
 
 * {
-  line-height: 14px;
-  white-space: -3%;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: #262626;
 }
