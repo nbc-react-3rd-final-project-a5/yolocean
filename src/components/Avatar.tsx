@@ -1,17 +1,16 @@
 import Image from "next/image";
 import React from "react";
-
+import defaultUser from "../../public/images/avatar_default.jpg";
 interface Props {
-  size: "sm" | "md" | "lg";
-  src: string;
+  size: "sm" | "lg";
+  src: string | null;
   alt?: string;
 }
 
 // 아바타 사이즈
 const avatarSize = {
-  sm: 50,
-  md: 150,
-  lg: 200
+  sm: "w-[36px] h-[36px]",
+  lg: "w-[200px] h-[200px]"
 };
 
 const Avatar = ({ size, src, alt }: Props) => {
@@ -19,8 +18,6 @@ const Avatar = ({ size, src, alt }: Props) => {
     switch (size) {
       case "sm":
         return "리뷰 유저 이미지";
-      case "md":
-        return "카테고리 이미지";
       case "lg":
         return "마이페이지 유저 이미지";
       default:
@@ -28,15 +25,16 @@ const Avatar = ({ size, src, alt }: Props) => {
     }
   };
   return (
-    <Image
-      className="rounded-full"
-      src={src}
-      width={avatarSize[size]}
-      height={avatarSize[size]}
-      priority
-      alt={alt || altText()}
-      draggable={false}
-    />
+    <figure className={`${avatarSize[size]} rounded-full relative overflow-hidden`}>
+      <Image
+        className="rounded-full"
+        src={src === null ? defaultUser : src}
+        fill
+        priority
+        alt={alt || altText()}
+        draggable={false}
+      />
+    </figure>
   );
 };
 

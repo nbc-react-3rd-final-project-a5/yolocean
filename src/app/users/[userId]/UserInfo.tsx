@@ -1,42 +1,28 @@
 import Avatar from "@/components/Avatar";
 import useUserEditModeStore from "@/store/editUserStore";
 import { UserInfo } from "@/types/db";
-import { useQuery } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
-import React, { useEffect } from "react";
+import React from "react";
 
-const UserInfo = () => {
-  const { userId } = useParams<{ userId: string }>();
+const UserInfo = ({ user }: { user: UserInfo | undefined }) => {
   const { setIsEditMode } = useUserEditModeStore();
 
-  const { data: user } = useQuery({
-    queryKey: ["user"],
-    queryFn: async (): Promise<UserInfo> => {
-      const result = await fetch(`/api/users/${userId}`, { method: "GET" });
-      if (!result.ok) {
-        throw new Error("유저 정보 불러오기 실패");
-      }
-
-      return await result.json();
-    }
-  });
-
   return (
-    <div>
-      <div>{/* <Avatar size="lg" src="/a" /> */}</div>
-      <div>
+    <div className="flex gap-[20px] justify-center items-center">
+      <Avatar size="lg" src={user?.avatar_url as string} />
+      <div className="flex flex-col gap-[10px]">
         <p>이름: {user?.username}</p>
         <p>전화번호:</p>
         <p>이메일:{user?.email}</p>
+        <button
+          className="border border-black mt-5"
+          type="button"
+          onClick={() => {
+            setIsEditMode(true);
+          }}
+        >
+          수정하기
+        </button>
       </div>
-      <button
-        type="button"
-        onClick={() => {
-          setIsEditMode(true);
-        }}
-      >
-        수정하기
-      </button>
     </div>
   );
 };
