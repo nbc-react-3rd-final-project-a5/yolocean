@@ -13,6 +13,8 @@ import { MdErrorOutline } from "react-icons/md";
 import { openConfirm } from "@/store/confirmStore";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
+import { IoShareSocial, IoShareSharp, IoClose } from "react-icons/io5";
+import { RiKakaoTalkFill } from "react-icons/ri";
 
 interface Props {
   category_name: string;
@@ -58,7 +60,7 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
     const { message } = await response.json();
 
     if (submitType === "cart") {
-      const answer = await openConfirm(message, "장바구니로 이동하시겠습니까?");
+      const answer = await openConfirm(message, "장바구니를 바로 확인하시겠습니까?");
       if (answer) {
         router.push(`/cart`);
       }
@@ -75,7 +77,38 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
   return (
     <>
       <div className="flex-1 text-[16px]">
-        <p className="text-[15px] text-tc-light mb-[20px]">{category_name}</p>
+        <div className="flex justify-between items-center mb-[20px]">
+          <p className="text-[15px] text-tc-light ">{category_name}</p>
+          <IoShareSocial
+            size={15}
+            className="text-point cursor-pointer"
+            onClick={() => {
+              openModal(
+                "공유하기",
+                <div className="w-[345px] h-[165px] py-[15px] flex flex-col">
+                  <div className="flex justify-center items-center relative">
+                    <h1 className="font-[700] text-[20px] flex-1 text-center text-point">공유하기</h1>
+                    <IoClose size={25} className="absolute right-[15px] cursor-pointer" />
+                  </div>
+                  <div className="flex justify-center items-center gap-[35px] flex-1">
+                    <div className="flex flex-col gap-[7px]">
+                      <button className="border py-[9px] px-[10px] rounded-full">
+                        <RiKakaoTalkFill size={36} />
+                      </button>
+                      <p className="font-[400] text-[15px]">카카오톡</p>
+                    </div>
+                    <div className="flex flex-col gap-[7px]">
+                      <button className="border py-[9px] px-[10px] rounded-full">
+                        <IoShareSharp size={36} />
+                      </button>
+                      <p className="font-[400] text-[15px]">URL 복사</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            }}
+          />
+        </div>
         <h1 className="text-[18px] mb-[30px] leading-[27px]">{name}</h1>
         <hr className="border-line border-[1px] " />
         <div className="py-[20px] flex flex-col gap-[20px] font-medium text-[16px]">

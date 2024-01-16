@@ -30,10 +30,10 @@ const CreateModal = () => {
       )}
       {createPortal(
         <div className="fixed bg-white top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-20 rounded-lg overflow-hidden">
-          <div className="flex justify-between bg-[#3074F0] h-[60px] text-[20px] text-white items-center p-[20px]">
+          {/* <div className="flex justify-between bg-[#3074F0] h-[60px] text-[20px] text-white items-center p-[20px]">
             <h1>{title}</h1>
             <IoClose className="text-white cursor-pointer" onClick={closeModal} size={30} />
-          </div>
+          </div> */}
           {modalContent}
         </div>,
         document.getElementById("modal") as HTMLElement
