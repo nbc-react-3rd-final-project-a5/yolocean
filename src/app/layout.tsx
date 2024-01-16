@@ -10,7 +10,7 @@ import CreateModal from "@/components/portal/CreateModal";
 import CreateAlert from "@/components/portal/CreateAlert";
 import Footer from "@/components/layout/Footer";
 import CreateConfirm from "@/components/portal/CreateConfirm";
-import AuthChage from "@/components/AuthChage";
+import AuthChage from "@/components/layout/AuthChage";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
