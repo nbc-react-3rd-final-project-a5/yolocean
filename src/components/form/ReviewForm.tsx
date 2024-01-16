@@ -18,10 +18,15 @@ interface Props {
   targetId?: string;
 }
 
-interface uploadForm {
+interface UploadForm {
   title: string;
   content: string;
   url?: string[];
+}
+
+enum EnumFormType {
+  review = "리뷰",
+  qna = "문의"
 }
 
 // Form FieldSet 컴포넌트
@@ -48,7 +53,7 @@ const ReviewForm = ({ formType, userId, productId, storeId, targetId }: Props) =
     setError,
     clearErrors,
     formState: { errors }
-  } = useForm<uploadForm>({ mode: "onChange" });
+  } = useForm<UploadForm>({ mode: "onChange" });
   const { customImageList, isEnter, handler, addPreImage } = useImageInput();
 
   useEffect(() => {
@@ -57,7 +62,7 @@ const ReviewForm = ({ formType, userId, productId, storeId, targetId }: Props) =
     }
   }, [targetId, isLoading]);
 
-  const handleFormSubmit = async (data: uploadForm) => {
+  const handleFormSubmit = async (data: UploadForm) => {
     const storagePath = productId ? `${userId}/${productId}` : userId;
     const imageFileList = customImageList.map((n) => n.file) as File[];
     const imageFileIdList = customImageList.map((n) => n.id);
@@ -83,7 +88,7 @@ const ReviewForm = ({ formType, userId, productId, storeId, targetId }: Props) =
     }
   };
 
-  const handleUpdateFormSubmit = async (data: uploadForm) => {
+  const handleUpdateFormSubmit = async (data: UploadForm) => {
     const storagePath = productId ? `${userId}/${productId}` : userId;
     const preImageURLList = customImageList.filter((n) => n.file === null).map((n) => n.previewURL);
     const deletePreImageURLList =
@@ -120,7 +125,7 @@ const ReviewForm = ({ formType, userId, productId, storeId, targetId }: Props) =
 
   return (
     <form onSubmit={targetId ? handleSubmit(handleUpdateFormSubmit) : handleSubmit(handleFormSubmit)}>
-      <FormFieldSet title="한줄요약">
+      {/* <FormFieldSet title="한줄요약">
         <input
           type="text"
           placeholder="제목을 입력해주세요."
@@ -128,12 +133,12 @@ const ReviewForm = ({ formType, userId, productId, storeId, targetId }: Props) =
           defaultValue={targetId && !!reviewData ? reviewData[0].title : undefined}
           {...register("title")}
         />
-      </FormFieldSet>
-      <FormFieldSet title="문의내용">
+      </FormFieldSet> */}
+      <FormFieldSet title={`${EnumFormType[formType]}내용`}>
         <textarea
           id="form__content"
-          className="p-[15px] w-full min-h-[250px] border-[1px] border-[#E5E5E5] "
-          placeholder="문의내용을 입력해주세요."
+          className="p-[15px] w-full min-h-[250px] border-[1px] border-line "
+          placeholder={`${EnumFormType[formType]}내용을 입력해주세요.`}
           defaultValue={targetId && !!reviewData ? reviewData[0].content : undefined}
           {...register("content", { required: true, maxLength: 500 })}
         />

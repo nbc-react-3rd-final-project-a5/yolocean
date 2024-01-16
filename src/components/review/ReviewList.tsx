@@ -4,17 +4,17 @@ import { ExtendReview } from "@/types/db";
 
 interface Props {
   reviewList: ExtendReview[] | undefined;
-  reviewType: "product" | "user";
+  currentUserId?: string;
 }
 
-const ReviewList = ({ reviewList, reviewType }: Props) => {
+const ReviewList = ({ reviewList, currentUserId }: Props) => {
   if (!reviewList) return <div>등록된 리뷰가 없습니다.</div>;
 
   return (
     <ul>
       {reviewList.map((review, i) => (
         <li key={`review-${i}`}>
-          <ReviewItem review={review} reviewType={reviewType} />
+          <ReviewItem review={review} currentUserId={currentUserId} />
         </li>
       ))}
     </ul>

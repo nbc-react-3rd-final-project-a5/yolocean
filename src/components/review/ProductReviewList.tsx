@@ -12,17 +12,12 @@ const getReviewList = async (domain: string, productId: string) => {
   return data;
 };
 
-/**
- * [서버컴포넌트] productId 기반 상품 리스트
- * @param param0 productId
- * @returns productId의 reviewList
- */
-// TODO : 페이지네이션 추가
+// productId만 전달해주시면 됩니다.
 const ProductReviewList = async ({ productId }: Props) => {
   const { domain } = getPath();
   const reviewList = await getReviewList(domain, productId);
 
-  return <ReviewList reviewList={reviewList} reviewType="product" />;
+  return <ReviewList reviewList={reviewList} />;
 };
 
 export default ProductReviewList;

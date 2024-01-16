@@ -7,9 +7,10 @@ import ReviewList from "@/components/review/ReviewList";
 import useReview from "@/hooks/useReview";
 
 const ReviewListPage = () => {
+  const userId = "3255837d-277c-4e5d-9e52-6956be86f182";
   // 1. 유저가 쓴 전체 리뷰
   const { reviewData, isLoading, isError } = useReview({
-    userId: "3255837d-277c-4e5d-9e52-6956be86f182"
+    userId
   });
 
   // 2. 유저가 쓴 리뷰 단일 데이터
@@ -22,7 +23,7 @@ const ReviewListPage = () => {
 
   return (
     <>
-      <ReviewList reviewList={reviewData} />
+      <ReviewList reviewList={reviewData} currentUserId={userId} />
     </>
   );
 };
