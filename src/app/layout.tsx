@@ -10,6 +10,7 @@ import CreateModal from "@/components/portal/CreateModal";
 import CreateAlert from "@/components/portal/CreateAlert";
 import Footer from "@/components/layout/Footer";
 import CreateConfirm from "@/components/portal/CreateConfirm";
+import AuthChage from "@/components/AuthChage";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
@@ -29,7 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div id="alert" />
 
           <Header />
-
+          <AuthChage />
           <main className="max-w-[1200px] mx-auto w-[90%] min-h-full">{children}</main>
           <Footer />
           <ReactQueryDevtools initialIsOpen={false} />
