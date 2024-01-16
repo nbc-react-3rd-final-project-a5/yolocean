@@ -15,7 +15,6 @@ const UserInfo = ({ user }: { user: UserInfo | undefined }) => {
   return (
     <div className="flex gap-[20px] justify-center items-center">
       <Avatar size="lg" src={user.avatar_url as string} />
-      <img className="w-[50px] h-[50px]" src={user.avatar_url as string} />
       <div className="flex flex-col gap-[10px]">
         <p>이름: {user.username}</p>
         <p>전화번호:</p>
