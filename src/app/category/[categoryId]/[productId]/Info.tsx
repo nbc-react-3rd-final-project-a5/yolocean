@@ -6,18 +6,19 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useStore } from "zustand";
 import StockTable from "./StockTable";
+import CommonGuide from "./CommonGuide";
 
 interface Props {
   info_img: string;
   info: string[];
 }
 
-const ProductTab = ["상세정보", "상품설명", "후기", "제품문의"];
+const ProductTab = ["상품설명", "상세정보", "후기", "제품문의"];
 
 const Info = ({ info_img, info }: Props) => {
-  const [activeTab, setActiveTab] = useState("상품 설명");
+  const [activeTab, setActiveTab] = useState("상품설명");
   const router = useRouter();
-  const { regionId } = useStore(useOfficeStore);
+  // const { regionId } = useStore(useOfficeStore);
 
   return (
     <div className="mt-[16px]">
@@ -31,19 +32,20 @@ const Info = ({ info_img, info }: Props) => {
       />
       {/* <StockTable regionId={regionId} /> */}
 
-      <article className="mt-[40px]" id="상세정보">
+      <article className="mt-[40px]" id="상품설명">
         <Image
           src={info_img}
           alt="product_info"
-          sizes="1200px"
+          sizes="(max-width: 1200px) 1200px"
           width={0}
           height={0}
           style={{ width: "100%", height: "auto" }}
         />
       </article>
 
-      <article id="상품설명">
-        <h1 className="text-[24px] my-[20px]">상품설명</h1>
+      <article id="상세정보">
+        {/* <h1 className="text-[24px] my-[20px]">상세정보</h1> */}
+        <CommonGuide />
         <table className="w-full text-sm text-left border text-gray-500 ">
           <tbody>
             {info.map((item) => (

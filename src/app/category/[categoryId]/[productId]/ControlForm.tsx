@@ -1,58 +1,97 @@
 "use client";
 import NumberInput from "@/components/NumberInput";
-import React, { useEffect, useState } from "react";
-import { FieldValues, SubmitHandler, useForm, Controller } from "react-hook-form";
+import React, { useEffect } from "react";
+import { FieldValues, useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import { ko } from "date-fns/esm/locale";
 import "react-datepicker/dist/react-datepicker.css";
 import { useStore } from "zustand";
 import { useOfficeStore } from "@/store/officeStore";
 import { useModalStore } from "@/store/modalStore";
-import { FaLocationDot } from "react-icons/fa6";
 import SelectOffice from "../SelectOffice";
+import { MdErrorOutline } from "react-icons/md";
+import { openConfirm } from "@/store/confirmStore";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/authStore";
 
 interface Props {
   category_name: string;
   name: string;
   price: number;
   original_price: number;
+  id: string;
+  percentage_off: null | number;
 }
 
-const ControlForm = ({ category_name, name, price, original_price }: Props) => {
+const ControlForm = ({ category_name, name, price, original_price, id, percentage_off }: Props) => {
   const {
     register,
     setValue,
     getValues,
     formState: { errors },
     control,
+    clearErrors,
     handleSubmit
-  } = useForm({ mode: "onChange" });
+  } = useForm({ mode: "onChange", shouldFocusError: false });
   const { office } = useStore(useOfficeStore);
   const { openModal } = useStore(useModalStore);
+  const router = useRouter();
+  // const { auth } = useStore(useAuthStore);
 
   useEffect(() => {
     setValue("address", office.name);
-  }, [office.name, setValue]);
+    clearErrors("address");
+  }, [office.name, setValue, clearErrors]);
 
-  function handleAddCartSubmit(onValid: FieldValues) {
-    console.log(onValid);
+  function handleFormSubmit(onValid: FieldValues, event: any) {
+    const submitType = event.nativeEvent.submitter.name;
+    const UID = "c50b47e6-faa8-4dc0-b00e-c220242e3d3c";
+
+    const { rent_date, count } = onValid;
+    const store_id = office.id;
+    const product_id = id;
+    const body = JSON.stringify({ product_id, user_id: UID, rent_date, count, store_id });
+    addCart(body, submitType);
+  }
+
+  async function addCart(body: string, submitType: string) {
+    const UID = "c50b47e6-faa8-4dc0-b00e-c220242e3d3c";
+    const response = await fetch(`/api/cart/${UID}`, { body, method: "POST" });
+    const { message } = await response.json();
+
+    if (submitType === "cart") {
+      const answer = await openConfirm(message, "장바구니로 이동하시겠습니까?");
+      if (answer) {
+        router.push(`/cart`);
+      }
+    }
+
+    if (submitType === "buy") {
+      const answer = await openConfirm(message, "구매페이지로 이동하시겠습니까?");
+      if (answer) {
+        router.push(`/payment`);
+      }
+    }
   }
 
   return (
     <>
       <div className="flex-1 text-[16px]">
-        <p className="text-[15px] text-[#999999] mb-[20px]">{category_name}</p>
+        <p className="text-[15px] text-tc-light mb-[20px]">{category_name}</p>
         <h1 className="text-[18px] mb-[30px] leading-[27px]">{name}</h1>
-        <hr className="border-[#E5E5E5] border-[1px] " />
+        <hr className="border-line border-[1px] " />
         <div className="py-[20px] flex flex-col gap-[20px] font-medium text-[16px]">
           <div className="flex gap-[12px]">
             <p className="w-[89px]">제품가</p>
-            <p>{original_price}</p>
+            <p>{original_price}원</p>
           </div>
-          <div className="flex gap-[12px] ">
-            <p className="w-[89px]">할인가</p>
-            <p>할인가격</p>
-          </div>
+          {percentage_off && (
+            <div className="flex gap-[12px] ">
+              <p className="w-[89px]">할인가</p>
+              {/* <p>{Math.floor(original_price / percentage_off)}원</p> */}
+              <p>{price}원</p>
+            </div>
+          )}
           <div className="flex gap-[12px] ">
             <p className="w-[89px]">수령방법</p>
             <p>현장수령</p>
@@ -60,29 +99,29 @@ const ControlForm = ({ category_name, name, price, original_price }: Props) => {
           <div className="flex gap-[12px] ">
             <p className="w-[89px]">최종가격</p>
             <p className="font-[700]">{price}원</p>
+            {/* {percentage_off && <p>{Math.floor(original_price / percentage_off)}원</p>}
+            {!percentage_off && <p className="font-[700]">{original_price}원</p>} */}
           </div>
         </div>
-        <hr className="border-[#E5E5E5] border-[1px]" />
-
-        <form onSubmit={handleSubmit(handleAddCartSubmit)} className="flex flex-col gap-[10px] my-[20px]">
-          <div className="flex items-center text-[#595959] gap-[12px]">
-            <label className="w-[89px]" htmlFor="date">
+        <hr className="border-line border-[1px]" />
+        <form onSubmit={handleSubmit(handleFormSubmit)} className="flex flex-col gap-[10px] my-[20px]">
+          <div className="flex items-center text-tc-middle gap-[12px]">
+            <label className="w-[89px]" htmlFor="rent_date">
               날짜
             </label>
             <Controller
               rules={{
-                required: "필수 입력값입니다.",
+                required: "날짜를 선택해주세요",
                 pattern: /^d{4}.d{2}.d{2}$/
               }}
               control={control}
-              name="date"
+              name="rent_date"
               render={({ field }) => (
                 <DatePicker
-                  className="py-[8px] px-[20px] border-[#E5E5E5] border rounded-md w-[292px] font-[500] text-[12px]"
+                  className="py-[8px] px-[20px] border-line border rounded-md w-[292px] font-[500] text-[12px]"
                   dateFormat="yyyy.MM.dd"
                   locale={ko}
-                  id="date"
-                  autoComplete="off"
+                  id="rent_date"
                   minDate={new Date(Date.now())}
                   placeholderText="날짜를 선택해주세요"
                   onChangeRaw={(e) => (e.target.value = "")}
@@ -91,8 +130,16 @@ const ControlForm = ({ category_name, name, price, original_price }: Props) => {
                 />
               )}
             />
+            <div className="flex text-red-400 text-[12px] gap-1">
+              {errors["rent_date"] && (
+                <>
+                  <MdErrorOutline />
+                  {errors["rent_date"]?.message as string}
+                </>
+              )}
+            </div>
           </div>
-          <div className="flex gap-[12px]">
+          <div className="flex items-center gap-[12px]">
             <label className="w-[89px]" htmlFor="address">
               위치
             </label>
@@ -101,12 +148,20 @@ const ControlForm = ({ category_name, name, price, original_price }: Props) => {
               placeholder="위치를 선택해 주세요"
               readOnly
               onClick={() => openModal("위치선택", <SelectOffice />)}
-              className="py-[8px] px-[20px] border-[#E5E5E5] border rounded-md w-[292px] font-[500] text-[12px]"
+              className="py-[8px] px-[20px] border-line border rounded-md w-[292px] font-[500] text-[12px]"
               {...register("address", {
                 value: office.name,
-                required: true
+                required: "날짜를 선택해주세요"
               })}
             />
+            <div className="flex text-red-400 text-[12px] gap-1">
+              {errors.address && (
+                <>
+                  <MdErrorOutline />
+                  {errors.address?.message as string}
+                </>
+              )}
+            </div>
           </div>
           <div className="flex gap-[12px] ">
             <label className="w-[89px]" htmlFor="count">
@@ -115,10 +170,12 @@ const ControlForm = ({ category_name, name, price, original_price }: Props) => {
             <NumberInput setValue={setValue} getValues={getValues} register={register} errors={errors} name="count" />
           </div>
           <div className="flex mt-[40px] mb-[100px] text-[16px] font-[600] gap-[5px] text-white">
-            <button className="w-[244px] h-[50px] border-[#3074F0] border rounded-sm text-[#3074F0]">
+            <button name="cart" className="w-[244px] h-[50px] border-point border rounded-sm text-point">
               장바구니 담기
             </button>
-            <button className="w-[244px] h-[50px] border-[#3074F0] border rounded-sm bg-[#3074F0]">구매하기</button>
+            <button name="buy" className="w-[244px] h-[50px] border-point border rounded-sm bg-point">
+              구매하기
+            </button>
           </div>
         </form>
       </div>
