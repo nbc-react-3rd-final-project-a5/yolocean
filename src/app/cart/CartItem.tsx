@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { CartBox } from "./page";
+import { CartBox, Object } from "./page";
 import { VscChromeClose } from "react-icons/vsc";
 import { useCart } from "@/hooks";
 import { useForm } from "react-hook-form";
@@ -8,9 +8,9 @@ import NumberInput from "@/components/NumberInput";
 
 interface Props {
   cart: CartBox;
-  total: number;
-  setTotal: React.Dispatch<React.SetStateAction<number>>;
-  initTotalPrice: number;
+  cartPrice: number[];
+  setCartPrice: React.Dispatch<React.SetStateAction<number[]>>;
+  idx: number;
 }
 
 interface Input {
@@ -20,7 +20,7 @@ interface Input {
 const CartItem = (cart: Props) => {
   const { count, id, product_id, store_id, user_id, rent_date, store, product } = cart.cart;
   const { name, thumbnail, price, percentage_off, category } = product;
-  const { total, setTotal, initTotalPrice } = cart;
+  const { cartPrice, setCartPrice, idx } = cart;
 
   const [isVisible, setIsVisible] = useState(true);
 
@@ -38,18 +38,15 @@ const CartItem = (cart: Props) => {
   useEffect(() => {
     //count가 아니라 이전값 빼줘야함, total price 구하는 로직 수정해야함.
     const updateCount = async () => {
-      // console.log(total, watchCount.count, getValues("count"));
-      if (count !== null) {
-        if (isVisible) {
-          watchCount.count === count ? setTotal(initTotalPrice) : setTotal(total + (watchCount.count - count) * price);
-        } else {
-          //삭제했을 때
-          setTotal(total + (0 - count) * price);
-        }
+      if (isVisible) {
+        cartPrice[idx] = getValues("count") * price;
+        setCartPrice([...cartPrice, 0]);
+        updateCountMutation.mutate(watchCount.count);
+      } else {
+        //삭제했을 때
+        cartPrice[idx] = 0;
+        setCartPrice([...cartPrice, 0]);
       }
-
-      updateCountMutation.mutate(watchCount.count);
-      // console.log("------update!-----", total);
     };
     updateCount();
   }, [watchCount.count, isVisible]);
@@ -99,10 +96,10 @@ const CartItem = (cart: Props) => {
         <div className="flex flex-row justify-between mt-[20px]">
           <div>
             <p className="text-[16px] font-medium ">
-              상품금액 {price}원 / 수량 {watchCount.count}개
+              상품금액 {price}원 / 수량 {getValues("count")}개
             </p>
           </div>
-          <p className="font-bold text-[18px] ">총금액 {price * watchCount.count}원</p>
+          <p className="font-bold text-[18px] ">총금액 {price * getValues("count")}원</p>
         </div>
       </div>
     </>

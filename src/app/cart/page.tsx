@@ -9,6 +9,7 @@ import { useAuth } from "@/hooks";
 import { useQuery } from "@tanstack/react-query";
 import useLogedInStore from "@/store/logedStore";
 import { useRouter } from "next/navigation";
+import { MdNumbers } from "react-icons/md";
 
 const linkList = [
   {
@@ -42,6 +43,11 @@ export interface CartBox {
   };
 }
 
+export interface Object {
+  key: string;
+  value: number;
+}
+
 const page = () => {
   const router = useRouter();
 
@@ -60,21 +66,10 @@ const page = () => {
   });
   const userId = loginUser?.session?.user.id;
 
-  //useCart에 사용자 id
+  //useCart에 사용자 id 수정 필
   const { cart, isLoading } = useCart({ userId: "aba26c49-82c0-42b2-913c-c7676527b553", cartId: "" });
 
-  //총 상품 금액?!?!?
-  let totalPrice = 0;
-  const [total, setTotal] = useState<number>(0);
-  // console.log(total);
-
-  if (cart !== undefined) {
-    (cart as CartBox[]).forEach((cartItem) => {
-      if (cartItem.count !== null) {
-        totalPrice += cartItem.product.price * cartItem.count;
-      }
-    });
-  }
+  const [cartPrice, setCartPrice] = useState<number[]>([]);
 
   return (
     <>
@@ -83,14 +78,14 @@ const page = () => {
         {!isLoading ? (
           <div>
             <div className="flex flex-col items-center justify-center">
-              {(cart as CartBox[]).map((cartItem) => {
+              {(cart as CartBox[]).map((cartItem, idx) => {
                 return (
                   cartItem && (
                     <CartItem
                       cart={cartItem}
-                      total={total}
-                      setTotal={setTotal}
-                      initTotalPrice={totalPrice}
+                      cartPrice={cartPrice}
+                      setCartPrice={setCartPrice}
+                      idx={idx}
                       key={cartItem.id}
                     />
                   )
@@ -100,9 +95,13 @@ const page = () => {
 
             <div className="mt-[80px] flex flex-col content-end">
               <div className="mb-[30px]">
-                <p className="text-right text-[16px] font-bold mr-1">
-                  총 결제금액<p className="text-[24px] font-bold inline-block ml-1"> {total}원</p>
-                </p>
+                <div className="text-right text-[16px] font-bold mr-1">
+                  총 결제금액
+                  <p className="text-[24px] font-bold inline-block ml-1">
+                    {" "}
+                    {cartPrice.reduce((acc, num) => acc + num, 0)}원
+                  </p>
+                </div>
               </div>
 
               <button
