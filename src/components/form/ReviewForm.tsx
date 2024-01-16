@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import InputImage from "../InputImage";
 import { TablesInsert } from "@/types/supabase";
@@ -38,7 +38,7 @@ const FormFieldSet = ({ title, children }: { title: string; children: React.Reac
 
 // Form 컴포넌트
 const ReviewForm = ({ formType, userId, productId, storeId, targetId }: Props) => {
-  const { reviewData, isError, isLoading } = useReview({ userId, reviewId: targetId });
+  const { reviewData, isError, isLoading, mutationReview } = useReview({ userId, reviewId: targetId });
   const preReviewData = reviewData ? reviewData[0] : null;
   const { uploadMultipleImages, deleteMultipleImage } = useStorage();
   const {
@@ -49,10 +49,17 @@ const ReviewForm = ({ formType, userId, productId, storeId, targetId }: Props) =
     clearErrors,
     formState: { errors }
   } = useForm<uploadForm>({ mode: "onChange" });
-  const { customImageList, isEnter, handler } = useImageInput();
+  const { customImageList, isEnter, handler, addPreImage } = useImageInput();
+
+  useEffect(() => {
+    if (targetId && preReviewData?.url) {
+      addPreImage(preReviewData.url);
+    }
+  }, [targetId, isLoading]);
+
   const handleFormSubmit = async (data: uploadForm) => {
     const storagePath = productId ? `${userId}/${productId}` : userId;
-    const imageFileList = customImageList.map((n) => n.file);
+    const imageFileList = customImageList.map((n) => n.file) as File[];
     const imageFileIdList = customImageList.map((n) => n.id);
 
     try {
@@ -78,28 +85,34 @@ const ReviewForm = ({ formType, userId, productId, storeId, targetId }: Props) =
 
   const handleUpdateFormSubmit = async (data: uploadForm) => {
     const storagePath = productId ? `${userId}/${productId}` : userId;
-    const imageFileList = customImageList.map((n) => n.file);
-    const imageFileIdList = customImageList.map((n) => n.id);
-    console.log(preReviewData);
+    const preImageURLList = customImageList.filter((n) => n.file === null).map((n) => n.previewURL);
+    const deletePreImageURLList =
+      preReviewData?.url &&
+      preReviewData.url.filter((n) => {
+        const isDelete = !preImageURLList.find((k) => k === n);
+        return isDelete;
+      });
+    const newImageFileList = customImageList.filter((n) => n.file !== null).map((n) => n.file as File);
+    const newImageFileIdList = customImageList.filter((n) => n.file !== null).map((n) => n.id);
+
     try {
-      if (preReviewData?.url) {
-        await deleteMultipleImage(formType, preReviewData?.url);
+      if (deletePreImageURLList) {
+        await deleteMultipleImage(formType, deletePreImageURLList);
+      }
+      let newImageURLList;
+      if (newImageFileList.length > 0) {
+        const res = await uploadMultipleImages(newImageFileList, formType, newImageFileIdList, storagePath);
+        newImageURLList = res as string[];
       }
 
-      const imageURLList = await uploadMultipleImages(imageFileList, formType, imageFileIdList, storagePath);
-      const formData: TablesInsert<"review"> = {
+      const formData = {
         user_id: userId,
         title: data.title,
-        product_id: productId,
-        store_id: storeId,
         content: data.content,
-        url: imageURLList
+        url: newImageURLList ? [...preImageURLList, ...newImageURLList] : preImageURLList
       };
-      const res = await fetch(`${window.location.origin}/api/review/users/${userId}/${targetId}`, {
-        method: "PATCH",
-        body: JSON.stringify(formData)
-      });
-      console.log(res);
+
+      mutationReview.mutate(formData);
     } catch (error) {
       console.error(error);
     }

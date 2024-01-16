@@ -25,6 +25,18 @@ const useImageInput = () => {
   const [customImageList, setCustomImageList] = useState<CustomImage[]>([]);
   const [isEnter, setIsEnter] = useState(false);
 
+  const addPreImage = (urlList: string[]) => {
+    const storageImageList = urlList.map((url) => {
+      const imageId = url.split("/").reverse()[0];
+      return {
+        file: null,
+        previewURL: url,
+        id: imageId
+      };
+    });
+    setCustomImageList((pre) => [...pre, ...storageImageList]);
+  };
+
   const handleAddImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const currentFiles = e.currentTarget.files;
     const currentImageFiles: CustomImage[] = [];
@@ -95,7 +107,8 @@ const useImageInput = () => {
   return {
     customImageList,
     isEnter,
-    handler
+    handler,
+    addPreImage
   };
 };
 

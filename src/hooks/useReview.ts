@@ -1,9 +1,16 @@
 import { ExtendReview } from "@/types/db";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   userId?: string;
   reviewId?: string;
+}
+
+interface UpdateReview {
+  user_id: string;
+  title: string;
+  content: string;
+  url: string[];
 }
 
 enum FetchCase {
@@ -14,20 +21,21 @@ enum FetchCase {
 }
 
 const useReview = ({ userId, reviewId }: Props = {}) => {
+  const queryClient = useQueryClient();
+  let fetchCase: FetchCase;
+
+  if (!userId && !reviewId) {
+    fetchCase = FetchCase.AllReviewList;
+  } else if (userId && reviewId) {
+    fetchCase = FetchCase.UserReview;
+  } else if (userId && !reviewId) {
+    fetchCase = FetchCase.UserReviewList;
+  } else {
+    fetchCase = FetchCase.Error;
+  }
+
   const getFetchPath = () => {
     if (typeof window === "undefined") return null;
-    let fetchCase: FetchCase;
-
-    if (!userId && !reviewId) {
-      fetchCase = FetchCase.AllReviewList;
-    } else if (userId && reviewId) {
-      fetchCase = FetchCase.UserReview;
-    } else if (userId && !reviewId) {
-      fetchCase = FetchCase.UserReviewList;
-    } else {
-      fetchCase = FetchCase.Error;
-    }
-
     switch (fetchCase) {
       case FetchCase.Error:
         console.error("💥💥💥 useReview : switchFetchPath 내 if 조건문 에러 💥💥💥");
@@ -44,9 +52,20 @@ const useReview = ({ userId, reviewId }: Props = {}) => {
     }
   };
   const fetchPath = getFetchPath();
-  const getReviewList = async () => {
-    const response = await fetch(`${fetchPath}`);
-    const data = await response.json();
+
+  //
+  const getReview = async () => {
+    const res = await fetch(`${fetchPath}`);
+    const data = await res.json();
+    return data;
+  };
+
+  const patchReview = async (formData: UpdateReview) => {
+    const res = await fetch(`${fetchPath}`, {
+      method: "PATCH",
+      body: JSON.stringify(formData)
+    });
+    const data = await res.json();
     return data;
   };
 
@@ -56,11 +75,16 @@ const useReview = ({ userId, reviewId }: Props = {}) => {
     isError
   } = useQuery<ExtendReview[]>({
     queryKey: ["review"],
-    queryFn: getReviewList,
+    queryFn: getReview,
     enabled: fetchPath !== null
   });
 
-  return { reviewData, isLoading, isError };
+  const mutationReview = useMutation({
+    mutationFn: patchReview,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["review"] })
+  });
+
+  return { reviewData, isLoading, isError, mutationReview };
 };
 
 export default useReview;

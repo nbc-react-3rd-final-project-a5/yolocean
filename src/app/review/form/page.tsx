@@ -9,14 +9,15 @@ import { useProduct } from "@/hooks";
 import { ProductProperties } from "@/types/db";
 
 const ReviewFormPage = () => {
-  // 1. 리뷰 작성하기
+  // 1. 새로운 리뷰 작성하기
+  // 필요한 데이터 userId, storeId, productId
   const userId = "3255837d-277c-4e5d-9e52-6956be86f182";
   const storeId = "a1c143ed-6276-43ad-b6c8-fbe5573169db";
   const productId = "0b61d2e4-7750-4153-a1ce-0a8dcf2108c9";
   const { product, isLoading } = useProduct(productId) as { product: ProductProperties; isLoading: boolean };
 
   // 2. 유저가 작성한 리뷰 수정하기
-  // url parameter로 reviewId를 받아서 해당 데이터를 얻는다.
+  // 추가적으로 필요한 데이더 reviewId
   const searchParams = useSearchParams();
   const reviewId = searchParams.get("reviewId") || undefined;
 
