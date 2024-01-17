@@ -20,9 +20,17 @@ const CategorySection = ({ categoryName, categoryId }: { categoryName: string; c
       if (office.id) {
         const res = await fetch(`/api/products/${categoryId}`);
         const result = await res.json();
-        return result.filter((item: any) => {
-          return item.stock[0]?.store_id === office.id;
+
+        const Product = result.filter((item: any) => {
+          console.log(item);
+          return item.stock.find((store: any) => {
+            if (store["store_id"] === office.id) {
+              console.log(store["store_id"]);
+              return true;
+            } else return false;
+          });
         });
+        return Product;
       } else {
         const res = await fetch(`/api/products/${categoryId}`);
         const result = await res.json();
@@ -32,6 +40,7 @@ const CategorySection = ({ categoryName, categoryId }: { categoryName: string; c
     queryKey: office.id ? ["products", categoryId] : ["products", categoryId, office.id]
   });
 
+  console.log(data);
   useEffect(() => {
     refetch({});
   }, [office, refetch]);
