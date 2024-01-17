@@ -65,10 +65,15 @@ const EditUserInfo = ({ user, refetch }: { user: UserInfo | undefined; refetch: 
       >
         <div className="flex flex-col gap-[122px]">
           <div className="flex gap-[12px]">
-            <label htmlFor="name" className="w-[89px]">
+            <label htmlFor="name" className="w-[89px] h-[16px]">
               이름
             </label>
-            <input className="border border-black " id="name" value={name} onChange={(e) => setName(e.target.value)} />
+            <input
+              className="border border-black h-[24px] "
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
           <div className="flex gap-[5px]">
             <button className="w-[125px] h-[30px] bg-point text-white rounded-[5px]" type="submit">

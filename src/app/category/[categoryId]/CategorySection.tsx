@@ -1,5 +1,6 @@
 "use client";
 import Card from "@/components/Card";
+import CardLists from "@/components/CardLists";
 import Section from "@/components/layout/Section";
 import { useOfficeStore } from "@/store/officeStore";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -47,9 +48,7 @@ const CategorySection = ({ categoryName, categoryId }: { categoryName: string; c
 
   return (
     <Section title={`${categoryName}`} isCenter={true}>
-      <div className="grid grid-cols-4 gap-[30px]">
-        {!isLoading && data && data.map((item: any) => <Card categoryId={categoryId} product={item} key={item.id} />)}
-      </div>
+      {!isLoading && data && <CardLists cardLists={data} />}
     </Section>
   );
 };
