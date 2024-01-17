@@ -77,6 +77,7 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
       <div className="flex-1 text-[16px]">
         <p className="text-[15px] text-tc-light mb-[20px]">{category_name}</p>
         <h1 className="text-[18px] mb-[30px] leading-[27px]">{name}</h1>
+
         <hr className="border-line border-[1px] " />
         <div className="py-[20px] flex flex-col gap-[20px] font-medium text-[16px]">
           <div className="flex gap-[12px]">
@@ -97,6 +98,7 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
             {!percentage_off && <p className="font-[700]">{price}원</p>}
           </div>
         </div>
+
         <hr className="border-line border-[1px]" />
         <form onSubmit={handleSubmit(handleFormSubmit)} className="flex flex-col gap-[10px] my-[20px]">
           <div className="flex items-center text-tc-middle gap-[12px]">
@@ -106,6 +108,7 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
             <Controller
               rules={{
                 required: "날짜를 선택해주세요",
+
                 pattern: /^d{4}.d{2}.d{2}$/
               }}
               control={control}
