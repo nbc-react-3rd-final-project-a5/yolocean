@@ -22,6 +22,9 @@ const CartItem = (cart: Props) => {
   const { name, thumbnail, price, percentage_off, category } = product;
   const { cartPrice, setCartPrice, idx } = cart;
 
+  const finalPrice = price * (1 - percentage_off * 0.01);
+  console.log(price, percentage_off, finalPrice);
+
   const [isVisible, setIsVisible] = useState(true);
 
   const { updateCountMutation, deleteCart } = useCart({ userId: user_id, cartId: id });
@@ -36,10 +39,9 @@ const CartItem = (cart: Props) => {
   const watchCount = watch();
 
   useEffect(() => {
-    //count가 아니라 이전값 빼줘야함, total price 구하는 로직 수정해야함.
     const updateCount = async () => {
       if (isVisible) {
-        cartPrice[idx] = getValues("count") * price;
+        cartPrice[idx] = getValues("count") * finalPrice;
         setCartPrice([...cartPrice, 0]);
         updateCountMutation.mutate(watchCount.count);
       } else {
@@ -78,7 +80,7 @@ const CartItem = (cart: Props) => {
               <p className="text-[16px] font-medium ">{store.name}</p>
             </div>
             <div className="mb-[13px]">
-              <p className="text-[16px] font-medium ">{price}원</p>
+              <p className="text-[16px] font-medium ">{finalPrice}원</p>
             </div>
 
             <div>
@@ -96,10 +98,10 @@ const CartItem = (cart: Props) => {
         <div className="flex flex-row justify-between mt-[20px]">
           <div>
             <p className="text-[16px] font-medium ">
-              상품금액 {price}원 / 수량 {getValues("count")}개
+              상품금액 {finalPrice}원 / 수량 {getValues("count")}개
             </p>
           </div>
-          <p className="font-bold text-[18px] ">총금액 {price * getValues("count")}원</p>
+          <p className="font-bold text-[18px] ">총금액 {finalPrice * getValues("count")}원</p>
         </div>
       </div>
     </>
