@@ -26,7 +26,7 @@ const CategoryHeader = ({ categoryName }: { categoryName: string }) => {
         <button
           className="bg-[#3074F0] text-white text-[14px] flex items-center gap-[6px] justify-center w-[89px] h-[24px] rounded-[999px]"
           onClick={() => {
-            openModal("위치선택", <SelectOffice />);
+            openModal(<SelectOffice />);
           }}
         >
           <FaLocationDot />

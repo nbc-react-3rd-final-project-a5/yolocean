@@ -35,7 +35,7 @@ export const POST = async (req: NextRequest, context: { params: { id: string } }
       .update({ ...body })
       .eq("id", eqProduct[0].id);
 
-    return NextResponse.json({ message: "장바구니 상품이 업데이트 되었습니다." }, { status: 200 });
+    return NextResponse.json({ message: "장바구니 업데이트 성공" }, { status: 200 });
   }
 
   const { data: cart, error } = await supabase.from("cart").insert([{ ...body }]);
@@ -43,5 +43,5 @@ export const POST = async (req: NextRequest, context: { params: { id: string } }
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
-  return NextResponse.json({ message: "상품이 장바구니에 추가되었습니다" }, { status: 200 });
+  return NextResponse.json({ message: "장바구니 담기 성공" }, { status: 200 });
 };
