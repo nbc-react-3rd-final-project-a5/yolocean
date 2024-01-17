@@ -13,6 +13,9 @@ import { MdErrorOutline } from "react-icons/md";
 import { openConfirm } from "@/store/confirmStore";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
+import { IoShareSocial, IoShareSharp, IoClose } from "react-icons/io5";
+import { RiKakaoTalkFill } from "react-icons/ri";
+import ShareModal from "./ShareModal";
 
 interface Props {
   category_name: string;
@@ -58,7 +61,7 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
     const { message } = await response.json();
 
     if (submitType === "cart") {
-      const answer = await openConfirm(message, "장바구니로 이동하시겠습니까?");
+      const answer = await openConfirm(message, "장바구니를 바로 확인하시겠습니까?");
       if (answer) {
         router.push(`/cart`);
       }
@@ -75,8 +78,18 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
   return (
     <>
       <div className="flex-1 text-[16px]">
-        <p className="text-[15px] text-tc-light mb-[20px]">{category_name}</p>
+        <div className="flex justify-between items-center mb-[20px]">
+          <p className="text-[15px] text-tc-light ">{category_name}</p>
+          <IoShareSocial
+            size={15}
+            className="text-point cursor-pointer"
+            onClick={() => {
+              openModal(<ShareModal />);
+            }}
+          />
+        </div>
         <h1 className="text-[18px] mb-[30px] leading-[27px]">{name}</h1>
+
         <hr className="border-line border-[1px] " />
         <div className="py-[20px] flex flex-col gap-[20px] font-medium text-[16px]">
           <div className="flex gap-[12px]">
@@ -97,6 +110,7 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
             {!percentage_off && <p className="font-[700]">{price}원</p>}
           </div>
         </div>
+
         <hr className="border-line border-[1px]" />
         <form onSubmit={handleSubmit(handleFormSubmit)} className="flex flex-col gap-[10px] my-[20px]">
           <div className="flex items-center text-tc-middle gap-[12px]">
@@ -106,6 +120,7 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
             <Controller
               rules={{
                 required: "날짜를 선택해주세요",
+
                 pattern: /^d{4}.d{2}.d{2}$/
               }}
               control={control}
@@ -141,7 +156,7 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
               id="address"
               placeholder="위치를 선택해 주세요"
               readOnly
-              onClick={() => openModal("위치선택", <SelectOffice />)}
+              onClick={() => openModal(<SelectOffice />)}
               className="py-[8px] px-[20px] border-line border rounded-md w-[292px] font-[500] text-[12px]"
               {...register("address", {
                 value: office.name,
