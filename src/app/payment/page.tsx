@@ -54,7 +54,7 @@ const PaymentPage = () => {
       <PageBreadCrumb linkList={linkList} />
       <Section title={"주문서"} isCenter={true}>
         {!isLoading && cart !== undefined ? (
-          <div>
+          <div className="mb-[120px]">
             <div className="flex flex-col items-center justify-center">
               {(cart as CartBox[]).map((cartItem, idx) => {
                 return (
@@ -78,51 +78,83 @@ const PaymentPage = () => {
         )}
         <form action="">
           <div>
-            <h2 className="border-b-4 my-5">렌탈 약관 동의</h2>
-            <input type="checkbox" required /> 전체 약관 동의 (필수)
-            <br />
-            <input type="checkbox" required /> 개인 정보 보호를 위한 이용자 동의 (필수)
-            <br />
-            <input type="checkbox" required /> 렌트 상품 이용약관 동의 (필수)
-          </div>
-          <div>
-            <h2 className="border-b-4 my-5">신청자 정보</h2>
-            <div>
-              신청인
-              <p>{user?.username}</p>
+            <div className="border-black border-b">
+              <h2 className="mb-4 font-bold text-[20px]">렌탈 약관동의</h2>
             </div>
 
-            <div>
-              이메일
-              <p>{user?.email}</p>
+            <div className="p-7 border-b text-tc-middle">
+              <input id="fullTerms" type="checkbox" required className="w-4 h-4 mr-[20px]" />
+              <label htmlFor="fullTerms">전체 약관 동의 (필수)</label>
             </div>
-
-            <div>
-              휴대전화
-              <p>010-1234-5678</p>
+            <div className="p-7 border-b text-tc-middle flex justify-between">
+              <div>
+                <input id="protection" type="checkbox" required className="w-4 h-4 mr-[20px]" />
+                <label htmlFor="protection">개인 정보 보호를 위한 이용자 동의 (필수)</label>
+              </div>
+              <p className="text-[14px] font-medium text-tc-light text underline cursor-pointer">내역보기</p>
             </div>
-
-            <div>
-              수령지점
-              <p>{shop}</p>
+            <div className="p-7 border-b text-tc-middle flex justify-between">
+              <div>
+                <input id="useTerms" type="checkbox" required className="w-4 h-4 mr-[20px]" />
+                <label htmlFor="useTerms">렌트 상품 이용약관 동의 (필수)</label>
+              </div>
+              <p className="text-[14px] font-medium text-tc-light text underline cursor-pointer">내역보기</p>
             </div>
           </div>
-          <div>
-            <h2 className="border-b-4 my-5">총 주문 금액</h2>
-            <p>주문 금액</p>
-            <p>{salePrice}원</p>
-            <p>할인 금액</p>
-            <p>{salePrice - discountedPrice}원</p>
-            <p>최종결제금액</p>
-            <p>{discountedPrice}원</p>
+          <div className="mt-[60px] text-tc-middle">
+            <div className="border-black border-b mt-[60px]">
+              <h2 className="mb-4 font-bold text-[20px] text-black">신청인 정보</h2>
+            </div>
+            <div className="grid grid-cols-8 place-items-baseline my-[30px] gap-[15px]">
+              <p className=" text-[16px] font-medium">신청인</p>
+              <p className="col-span-7 w-[800px] p-[15px]  border">{user?.username}</p>
+
+              <p className=" text-[16px] font-medium">이메일</p>
+              <p className="col-span-7 w-[800px] p-[15px] border">{user?.email}</p>
+
+              <p className=" text-[16px] font-medium">휴대폰 번호</p>
+              <p className="col-span-7 w-[800px] p-[15px] border">{"010 - 1234 - 5678"}</p>
+
+              <p className=" text-[16px] font-medium">수령지점</p>
+              <p className="col-span-7 w-[800px] p-[15px] border">{shop}</p>
+            </div>
           </div>
-          <input type="checkbox" required />
-          렌탈을 진행하실 제품, 신청인 정보, 할인 내역 등을 최종 확인하였으며, 결제에 동의하시겠습니까?(전자상거래법
-          제8조 제2항)
+          <div className="flex border-black border-y justify-between">
+            <div className="">
+              <h2 className="mt-[30px] font-bold text-[20px] text-black">총 주문금액</h2>
+            </div>
+            <div className="mt-[30px] w-[400px] text-[16px] font-medium text-tc-middle">
+              <div className=" border-b">
+                <div className="flex justify-between mb-[20px]">
+                  <p>주문 금액</p>
+                  <p>{salePrice}원</p>
+                </div>
+                <div className="flex justify-between  mb-[30px]">
+                  <p>할인 금액</p>
+                  <p>-{salePrice - discountedPrice}원</p>
+                </div>
+              </div>
+              <div className="flex justify-between my-[30px]">
+                <p className="text-black text-[20px] font-bold">최종 결제금액</p>
+                <p className="text-point text-[24px] font-bold">{discountedPrice}원</p>
+              </div>
+            </div>
+          </div>
+          <div className="mt-[22px] mb-[100px] text-[14px] font-medium text-tc-light">
+            <input id="payAgree" type="checkbox" required className="w-4 h-4 mr-[20px]" />
+            <label htmlFor="payAgree">
+              렌탈을 진행하실 제품, 신청인 정보, 할인 내역 등을 최종 확인하였으며, 결제에 동의하시겠습니까?(전자상거래법
+              제8조 제2항)
+            </label>
+          </div>
         </form>
-        <div>
-          <button>취소하기</button>
-          <button>결제하기</button>
+        <div className="flex items-center justify-center space-x-[12px]">
+          <button className="w-[290px] h-[50px] bg-point text-[16px] font-semibold text-white rounded-[5px]">
+            결제하기
+          </button>
+          <button className="w-[290px] h-[50px] bg-tc-middle text-[16px] font-semibold text-white rounded-[5px]">
+            취소
+          </button>
         </div>
       </Section>
     </>
