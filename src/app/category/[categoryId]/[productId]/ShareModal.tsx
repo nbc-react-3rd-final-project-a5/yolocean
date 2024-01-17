@@ -1,3 +1,4 @@
+import { usealertStore } from "@/store/alertStore";
 import { useModalStore } from "@/store/modalStore";
 import React from "react";
 import { IoShareSocial, IoShareSharp, IoClose } from "react-icons/io5";
@@ -5,6 +6,7 @@ import { RiKakaoTalkFill } from "react-icons/ri";
 import { useStore } from "zustand";
 const ShareModal = () => {
   const { closeModal } = useStore(useModalStore);
+  const { alertFire } = useStore(usealertStore);
 
   return (
     <div className="w-[345px] h-[165px] py-[15px] flex flex-col">
@@ -20,7 +22,14 @@ const ShareModal = () => {
           <p className="font-[400] text-[15px]">카카오톡</p>
         </div>
         <div className="flex flex-col gap-[7px]">
-          <button className="border py-[9px] px-[10px] rounded-full">
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.href);
+              closeModal();
+              alertFire("클립보드 저장이 완료되었습니다", "success");
+            }}
+            className="border py-[9px] px-[10px] rounded-full"
+          >
             <IoShareSharp size={36} />
           </button>
           <p className="font-[400] text-[15px]">URL 복사</p>
