@@ -7,20 +7,14 @@ import React, { useEffect } from "react";
 import { useStore } from "zustand";
 
 const CategorySection = ({ categoryName, categoryId }: { categoryName: string; categoryId: string }) => {
-  const { office } = useStore(useOfficeStore);
+  const { office, regionId } = useStore(useOfficeStore);
 
-  // const {} = useMutation({
-  //   mutationFn: async () => {
-
-  //   },
-  //   mutationKey: office.id ? ["products", categoryId] : ["products", categoryId, office.id]
-  // });
   const { data, isLoading, refetch } = useQuery({
     queryFn: async () => {
       if (office.id) {
         const res = await fetch(`/api/products/${categoryId}`);
         const result = await res.json();
-
+        console.log(result);
         const Product = result.filter((item: any) => {
           console.log(item);
           return item.stock.find((store: any) => {

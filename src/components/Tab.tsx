@@ -10,7 +10,7 @@ interface TabProps {
 
 const Tab = ({ activeTab, handleTabClick, tabs, isVariable = false }: TabProps) => {
   return (
-    <ul className={`flex w-full items-center justify-center ${isVariable && "gap-[20px]"}`}>
+    <ul className={`flex w-full items-center justify-center sticky top-0  ${isVariable && "gap-[20px]"}`}>
       {tabs.map((tab, index) => {
         if (isVariable) {
           return (
@@ -29,7 +29,7 @@ const Tab = ({ activeTab, handleTabClick, tabs, isVariable = false }: TabProps) 
             <li
               key={tab}
               className={`w-[291px] text-[16px] py-[15px] px-[10px]  font-[500] text-center border-line border-b cursor-pointer  ${
-                activeTab === tab ? "bg-point  text-white" : "text-tc-base"
+                activeTab === tab ? "bg-point  text-white" : "bg-bg text-tc-base"
               }`}
               onClick={() => handleTabClick(tab)}
             >

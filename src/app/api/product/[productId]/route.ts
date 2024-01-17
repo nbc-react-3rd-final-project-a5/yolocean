@@ -5,6 +5,7 @@ export const GET = async (req: NextRequest, context: { params: { productId: stri
   const {
     params: { productId }
   } = context;
+
   let { data: post, error } = await supabase
     .from("product")
     .select("*,category(category_name),stock(count,store(address,name))")

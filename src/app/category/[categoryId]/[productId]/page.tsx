@@ -1,21 +1,25 @@
-"use client";
-import { useProduct } from "@/hooks";
+// import { useProduct } from "@/hooks";
 import { ProductProperties } from "@/types/db";
 import Image from "next/image";
 import React from "react";
 import Controller from "./ControlForm";
 import Info from "./Info";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
+import getPath from "@/utils/getPath";
+import ProductReviewList from "@/components/review/ProductReviewList";
 interface Props {
   params: { productId: string };
 }
 
-const ProductDetailPage = ({ params: { productId } }: Props) => {
-  const { product, isLoading } = useProduct(productId);
+async function getProductDetail(productId: string) {
+  const { domain } = getPath();
+  const data = await fetch(`http://${domain}/api/product/${productId}`, { method: "GET" });
+  const result = data.json();
+  return result;
+}
 
-  if (isLoading && product === undefined) {
-    return <>로딩</>;
-  }
+const ProductDetailPage = async ({ params: { productId } }: Props) => {
+  const product = await getProductDetail(productId);
 
   const {
     name,
@@ -33,7 +37,7 @@ const ProductDetailPage = ({ params: { productId } }: Props) => {
   } = product as ProductProperties;
 
   return (
-    <section>
+    <section className="relative">
       <PageBreadCrumb
         linkList={[
           { name: "홈", url: "/" },
@@ -41,7 +45,6 @@ const ProductDetailPage = ({ params: { productId } }: Props) => {
           { name: name, url: `/category/${category_id}/${id}` }
         ]}
       />
-      {/*  */}
       <div className="flex gap-[24px]">
         <div className="relative w-[500px] h-[500px]">
           <Image
@@ -62,8 +65,7 @@ const ProductDetailPage = ({ params: { productId } }: Props) => {
           name={name}
         />
       </div>
-      {/*  */}
-      <Info info_img={info_img} info={info} />
+      <Info id={id} info_img={info_img} info={info} />
     </section>
   );
 };
