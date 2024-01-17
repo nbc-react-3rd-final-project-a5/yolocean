@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { IoShareSocial, IoShareSharp, IoClose } from "react-icons/io5";
 import { RiKakaoTalkFill } from "react-icons/ri";
-import SharpModal from "./SharpModal";
+import ShareModal from "./ShareModal";
 
 interface Props {
   category_name: string;
@@ -84,7 +84,7 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
             size={15}
             className="text-point cursor-pointer"
             onClick={() => {
-              openModal(<SharpModal />);
+              openModal(<ShareModal />);
             }}
           />
         </div>

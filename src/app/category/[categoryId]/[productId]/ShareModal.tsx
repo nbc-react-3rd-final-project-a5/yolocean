@@ -3,7 +3,7 @@ import React from "react";
 import { IoShareSocial, IoShareSharp, IoClose } from "react-icons/io5";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { useStore } from "zustand";
-const SharpModal = () => {
+const ShareModal = () => {
   const { closeModal } = useStore(useModalStore);
 
   return (
@@ -30,4 +30,4 @@ const SharpModal = () => {
   );
 };
 
-export default SharpModal;
+export default ShareModal;
