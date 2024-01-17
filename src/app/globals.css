@@ -8,23 +8,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-@font-face {
-  font-family: "Pretendard";
-  src: url("./fonts/PretendardVariable.woff2") format("woff2");
-  font-display: swap;
-  font-weight: 200 900;
-  unicode-range: U+AC00-D7A3;
-}
-
-@font-face {
-  font-family: "Rem";
-  src: url("./fonts/REM-VariableFont_wght.ttf") format("truetype");
-  font-display: swap;
-  font-weight: 200 900;
-}
-
 * {
   line-height: 1;
   letter-spacing: -0.03em;
-  font-family: "Pretendard", "Rem";
 }
