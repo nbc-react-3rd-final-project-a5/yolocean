@@ -24,7 +24,7 @@ const CategoryHeader = ({ categoryName }: { categoryName: string }) => {
     <div className="flex justify-between container ">
       <PageBreadCrumb linkList={linkList} />
       <div className="flex gap-[12px] leading-none items-center h-[24px]">
-        {!!office ? (
+        {office.address !== "" ? (
           <div className="flex gap-[6px] text-[#3074F0]">
             <FaLocationDot />
             <p>{office.address}</p>
