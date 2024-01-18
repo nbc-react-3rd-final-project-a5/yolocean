@@ -1,15 +1,14 @@
 "use client";
 import Tab from "@/components/Tab";
-import { useOfficeStore } from "@/store/officeStore";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useStore } from "zustand";
-import StockTable from "./StockTable";
 import CommonGuide from "./CommonGuide";
-import ProductReviewList from "@/components/review/ProductReviewList";
 import { useReview } from "@/hooks";
 import ReviewList from "@/components/review/ReviewList";
+import { useQuery } from "@tanstack/react-query";
+import { useStore } from "zustand";
+import { useAuthStore } from "@/store/authStore";
 
 interface Props {
   info_img: string;
@@ -23,7 +22,17 @@ const Info = ({ info_img, info, id }: Props) => {
   const [activeTab, setActiveTab] = useState("상품설명");
   const router = useRouter();
   const { reviewData } = useReview({ productId: id });
+  const { auth } = useStore(useAuthStore);
+  const { data, isLoading } = useQuery({
+    queryFn: async () => {
+      const response = await fetch(`/api/qna/${id}`);
+      const result = await response.json();
+      return result;
+    },
+    queryKey: ["qna", id]
+  });
 
+  console.log(data);
   const observerRef = useRef<any>([]);
 
   const scrollObsuerver = useMemo(
@@ -48,9 +57,6 @@ const Info = ({ info_img, info, id }: Props) => {
     });
 
     return () => {
-      observerRef.current.forEach((el: any) => {
-        scrollObsuerver.unobserve(el);
-      });
       scrollObsuerver.disconnect();
     };
   }, [observerRef, scrollObsuerver]);
@@ -96,6 +102,10 @@ const Info = ({ info_img, info, id }: Props) => {
 
       <article ref={(el) => (observerRef.current[2] = el)} className="w-[795px] mx-auto  mt-[40px" id="후기">
         {reviewData && <ReviewList reviewList={reviewData} listType="review" />}
+      </article>
+
+      <article ref={(el) => (observerRef.current[3] = el)} className="w-[795px] mx-auto  mt-[40px" id="제품문의">
+        {data && !isLoading && <ReviewList currentUserId={auth} reviewList={[data]} listType="qna" />}
       </article>
     </div>
   );
