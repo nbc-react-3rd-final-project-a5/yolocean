@@ -68,15 +68,15 @@ const FindID = ({ setMode }: Props) => {
           {!find ? (
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-[15px]">
-                <label htmlFor="email" className="">
+                <label htmlFor="email" className="block mb-2">
                   Username
-                  <span className="text-xs text-red-600">{errors?.name?.message}</span>
+                  <span className="inline-block ml-2 text-[12px] text-red-600">{errors?.name?.message}</span>
                 </label>
                 <input
                   id="name"
                   type="text"
                   {...register("name", {
-                    required: "   이름을 입력하세요."
+                    required: "이름을 입력하세요."
                   })}
                   placeholder="이름"
                   className="block w-full h-[50px] border p-[15px]"
@@ -84,9 +84,9 @@ const FindID = ({ setMode }: Props) => {
               </div>
 
               <div className="mb-[20px]">
-                <label htmlFor="phone" className="">
+                <label htmlFor="phone" className="block mb-2">
                   Phone Number
-                  <span className="text-xs text-red-600">{errors?.phone?.message}</span>
+                  <span className="inline-block ml-2 text-[12px] text-red-600">{errors?.phone?.message}</span>
                 </label>
                 <div className="grid grid-cols-5 w-full  border">
                   <input
@@ -94,7 +94,7 @@ const FindID = ({ setMode }: Props) => {
                     type="phone"
                     placeholder="휴대폰번호"
                     {...register("phone", {
-                      required: "   휴대폰번호를 입력하세요"
+                      required: "휴대폰번호를 입력하세요"
                     })}
                     className="block col-span-4 h-[50px] p-[15px]"
                   />

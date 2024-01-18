@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -28,6 +28,11 @@ const linkList = [
 ];
 
 const FindPW = ({ setMode }: Props) => {
+  //찾기
+  const [find, setFind] = useState(false);
+  //찾기 결과
+  const [result, setResult] = useState<boolean | string>(false);
+
   const {
     register,
     handleSubmit,
