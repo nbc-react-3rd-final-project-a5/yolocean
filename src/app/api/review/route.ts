@@ -6,7 +6,7 @@ export const GET = async (req: NextRequest) => {
   const { data, error } = await supabase
     .from("review")
     .select(
-      "*, store!inner(name, region!inner(region)), userinfo!inner(username, avatar_url), product!inner(name, thumbnail)"
+      "*, store!inner(name, region!inner(region)), userinfo!inner(username, avatar_url), product!inner(name, thumbnail, category_id)"
     );
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

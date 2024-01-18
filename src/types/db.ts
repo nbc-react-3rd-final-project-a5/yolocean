@@ -29,6 +29,6 @@ export interface StoreWithStock extends Store {
 export interface ExtendReview extends Review {
   store: { name: string; region: { region: string } };
   userinfo: { username: string; avatar_url: string };
-  product: { name: string; thumbnail: string };
+  product: { name: string; thumbnail: string; category_id: string };
   url: string[] | null;
 }
