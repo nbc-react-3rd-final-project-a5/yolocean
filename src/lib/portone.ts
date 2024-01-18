@@ -24,21 +24,23 @@ const createPayment = ({ amount, buyer_tel }: { amount: number; buyer_tel: strin
     IMP.init(`${process.env.NEXT_PUBLIC_PORTONE_CODE}`);
 
     const data = {
+      amount: amount, // 결제금액
+      buyer_tel: buyer_tel, // 구매자 전화번호
       pg: "kcp", // PG사
       pay_method: "card", // 결제수단
       merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
-      amount: amount, // 결제금액
-      buyer_tel: buyer_tel, // 구매자 전화번호
+      name: "욜로오션 렌탈 서비스",
+      currency: "KRW",
       popup: true
     };
 
     IMP.request_pay(data, (res: any) => {
       const { success, error_msg } = res;
       if (success) {
-        // 결제 및 인증에 성공한 뒤 실행할 코드
+        // 결제 성공 시 실행할 로직
         resolve({ isPass: true, msg: `결제 성공` });
       } else {
-        // 결제 및 인증에 실패한 뒤 실행할 코드
+        // 결제 실패 시 실행할 로직
         resolve({ isPass: false, msg: `결제 실패: ${error_msg}` });
       }
     });
@@ -61,6 +63,7 @@ const createCertification = async (phone_number: string) => {
     IMP.certification(data, async (res: PortOneRes) => {
       const { success, imp_uid, merchant_uid, error_msg } = res;
       if (success) {
+        // 인증 성공 시 실행할 로직
         const checkPhoneNumber = await fetch("/api/auth", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -69,6 +72,7 @@ const createCertification = async (phone_number: string) => {
         const result: CallBackReturn = await checkPhoneNumber.json();
         resolve(result);
       } else {
+        // 인증 실패 시 실행할 로직
         resolve({ isPass: false, msg: `인증 실패 : ${error_msg}` });
       }
     });
