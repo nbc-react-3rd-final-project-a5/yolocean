@@ -25,6 +25,7 @@ export interface Database {
           id?: string;
           product_id?: string | null;
           rent_date?: string | null;
+          store_id?: string | null;
           user_id?: string;
         };
         Relationships: [
@@ -289,21 +290,18 @@ export interface Database {
       stock: {
         Row: {
           count: number;
-          created_at: string;
           id: string;
           product_id: string;
           store_id: string;
         };
         Insert: {
           count: number;
-          created_at?: string;
           id?: string;
           product_id: string;
           store_id: string;
         };
         Update: {
           count?: number;
-          created_at?: string;
           id?: string;
           product_id?: string;
           store_id?: string;
@@ -366,6 +364,7 @@ export interface Database {
           avatar_url: string | null;
           email: string | null;
           id: string;
+          phone: string;
           username: string | null;
           verified: boolean | null;
         };
@@ -374,6 +373,7 @@ export interface Database {
           avatar_url?: string | null;
           email?: string | null;
           id: string;
+          phone?: string;
           username?: string | null;
           verified?: boolean | null;
         };
@@ -382,6 +382,7 @@ export interface Database {
           avatar_url?: string | null;
           email?: string | null;
           id?: string;
+          phone?: string;
           username?: string | null;
           verified?: boolean | null;
         };
