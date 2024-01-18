@@ -50,8 +50,6 @@ const Home = async () => {
     })
     .slice(0, 8);
 
-  console.log("review", reviews[0].url![0]);
-
   return (
     <div className="flex flex-col ">
       <div className=" bg-slate-300 w-[1200px] h-[450px] mb-[200px]">케러셀</div>
