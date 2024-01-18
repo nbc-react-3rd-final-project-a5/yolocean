@@ -127,7 +127,7 @@ const SignIn = ({ mode, setMode }: Props) => {
               </div>
 
               <div className="text-point my-[20px] text-right">
-                <Link href={"/"}>
+                <Link href={"/auth/find"}>
                   {"아이디 / 비밀번호 찾기"}
                   <SlArrowRight className="inline-block mb-1 ml-[10px]" size={10} />
                 </Link>
