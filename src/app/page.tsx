@@ -1,19 +1,29 @@
 import CardLists from "@/components/CardLists";
 import Section from "@/components/layout/Section";
-import { ProductProperties } from "@/types/db";
+import { ExtendReview, ProductProperties } from "@/types/db";
 import getPath from "@/utils/getPath";
 
-const getData = async (): Promise<ProductProperties[]> => {
+const getProductData = async (): Promise<ProductProperties[]> => {
   const { domain } = getPath();
   const result = await fetch(`http://${domain}/api/product`, { method: "GET" });
   if (!result.ok) {
-    throw new Error("카테고리 데이터 불러오기 실패");
+    throw new Error("Product 데이터 불러오기 실패");
+  }
+  return result.json();
+};
+
+const getReviewData = async (): Promise<ExtendReview[]> => {
+  const { domain } = getPath();
+  const result = await fetch(`http://${domain}/api/review`, { method: "GET" });
+  if (!result.ok) {
+    throw new Error("Review 데이터 불러오기 실패");
   }
   return result.json();
 };
 
 const Home = async () => {
-  const items = await getData();
+  const items = await getProductData();
+  const reviews = await getReviewData();
 
   const discountFilteredItems = items
     .filter((item) => item.percentage_off !== 0)
@@ -40,6 +50,8 @@ const Home = async () => {
     })
     .slice(0, 8);
 
+  console.log("review", reviews[0].url![0]);
+
   return (
     <div className="flex flex-col ">
       <div className=" bg-slate-300 w-[1200px] h-[450px] mb-[200px]">케러셀</div>
@@ -52,7 +64,11 @@ const Home = async () => {
       </Section>
       <div className="bg-slate-300 w-[1200px] h-[280px] mb-[200px]">베너</div>
       <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
-        <div></div>
+        <div className="grid grid-cols-4 gap-[13px]">
+          {reviews.map((review) => (
+            <img key={review.id} className="w-[291px] h-[291px]" src={review.url![0]} />
+          ))}
+        </div>
       </Section>
     </div>
   );
