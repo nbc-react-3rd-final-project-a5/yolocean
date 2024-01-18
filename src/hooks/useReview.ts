@@ -88,7 +88,7 @@ const useReview = ({ userId, reviewId, productId }: Props = {}) => {
     isLoading,
     isError
   } = useQuery<ExtendReview[]>({
-    queryKey: ["review"],
+    queryKey: ["review", fetchCase],
     queryFn: getReview,
     enabled: fetchPath !== null
   });

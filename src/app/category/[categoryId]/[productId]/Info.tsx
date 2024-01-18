@@ -1,15 +1,14 @@
 "use client";
 import Tab from "@/components/Tab";
-import { useOfficeStore } from "@/store/officeStore";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useStore } from "zustand";
-import StockTable from "./StockTable";
 import CommonGuide from "./CommonGuide";
-import ProductReviewList from "@/components/review/ProductReviewList";
 import { useReview } from "@/hooks";
 import ReviewList from "@/components/review/ReviewList";
+import { useQuery } from "@tanstack/react-query";
+import { useStore } from "zustand";
+import { useAuthStore } from "@/store/authStore";
 
 interface Props {
   info_img: string;
@@ -22,20 +21,32 @@ const ProductTab = ["상품설명", "상세정보", "후기", "제품문의"];
 const Info = ({ info_img, info, id }: Props) => {
   const [activeTab, setActiveTab] = useState("상품설명");
   const router = useRouter();
-
-  const observerRef = useRef<any>([]);
   const { reviewData } = useReview({ productId: id });
+  const { auth } = useStore(useAuthStore);
+  const { data, isLoading } = useQuery({
+    queryFn: async () => {
+      const response = await fetch(`/api/qna/${id}`);
+      const result = await response.json();
+      return result;
+    },
+    queryKey: ["qna", id]
+  });
+
+  console.log(data);
+  const observerRef = useRef<any>([]);
 
   const scrollObsuerver = useMemo(
     () =>
       new IntersectionObserver(
         (entries) => {
           if (entries[0].isIntersecting) {
+            console.log(entries[0].target.id);
             setActiveTab(entries[0].target.id);
           }
         },
-        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+        { rootMargin: `0px 0px -90% 0px` }
       ),
+
     []
   );
 
@@ -46,37 +57,34 @@ const Info = ({ info_img, info, id }: Props) => {
     });
 
     return () => {
-      // observerRef.current = null;
+      scrollObsuerver.disconnect();
     };
   }, [observerRef, scrollObsuerver]);
 
   return (
     <div className="mt-[16px]">
-      <Tab
-        tabs={ProductTab}
-        activeTab={activeTab}
-        handleTabClick={(tab: string) => {
-          setActiveTab(tab);
-          router.push(`#${tab}`);
-        }}
-      />
-
-      <article
-        ref={(el) => (observerRef.current[0] = el)}
-        id="상품설명"
-        className="mt-[40px] w-[795px] mx-auto h-auto w-full"
-      >
+      <div className="sticky top-0">
+        <Tab
+          tabs={ProductTab}
+          activeTab={activeTab}
+          handleTabClick={(tab: string) => {
+            setActiveTab(tab);
+            router.push(`#${tab}`);
+          }}
+        />
+      </div>
+      <article ref={(el) => (observerRef.current[0] = el)} id="상품설명" className="mt-[40px] w-[795px] mx-auto  ">
         <Image
           src={info_img}
           alt="product_info"
           sizes="(max-width: 1200px) 795px"
           width={0}
           height={0}
-          className="w-[795px] mx-auto h-auto w-full"
+          className="w-[795px] h-auto "
         />
       </article>
 
-      <article ref={(el) => (observerRef.current[1] = el)} className="w-[795px] mx-auto h-auto w-full" id="상세정보">
+      <article ref={(el) => (observerRef.current[1] = el)} className="w-[795px] mx-auto  mt-[40px " id="상세정보">
         <CommonGuide />
         <table className="w-full text-sm text-left border text-gray-500 ">
           <tbody>
@@ -92,8 +100,12 @@ const Info = ({ info_img, info, id }: Props) => {
         </table>
       </article>
 
-      <article ref={(el) => (observerRef.current[2] = el)} className="w-[795px] mx-auto h-auto" id="후기">
+      <article ref={(el) => (observerRef.current[2] = el)} className="w-[795px] mx-auto  mt-[40px" id="후기">
         {reviewData && <ReviewList reviewList={reviewData} listType="review" />}
+      </article>
+
+      <article ref={(el) => (observerRef.current[3] = el)} className="w-[795px] mx-auto  mt-[40px" id="제품문의">
+        {data && !isLoading && <ReviewList currentUserId={auth} reviewList={[data]} listType="qna" />}
       </article>
     </div>
   );

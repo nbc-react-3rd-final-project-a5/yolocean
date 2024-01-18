@@ -20,7 +20,7 @@ const ReviewItem = ({ review, currentUserId, listType }: Props) => {
   const { shortDateFormat } = convertTime(review.created_at);
   const isCurrentUser = currentUserId === review.user_id;
   const reviewImageList = review.url;
-  const reviewStore = [review.store.region.region, review.store.name].join(" - ");
+  const reviewStore = listType === "review" ? [review.store.region.region, review.store.name].join(" - ") : "";
   const reviewUserName = isCurrentUser
     ? review.userinfo.username
     : review.userinfo.username[0] + "*".repeat(review.userinfo.username.length - 1);
@@ -28,9 +28,11 @@ const ReviewItem = ({ review, currentUserId, listType }: Props) => {
   return (
     <div className="flex flex-col gap-[30px] border-b-[1px] border-line py-[40px]">
       <div className="flex flex-row  gap-[20px] items-center justify-between ">
-        <Avatar size="sm" src={review.userinfo.avatar_url} />
-        <p className="font-medium text-tc-light">{reviewUserName}</p>
-        <p className="font-medium text-tc-light ml-auto">{reviewStore}</p>
+        <div className="flex items-center gap-[24px]">
+          <Avatar size="sm" src={review.userinfo.avatar_url} />
+          <p className="font-medium text-tc-light">{reviewUserName}</p>
+        </div>
+        {listType === "review" && <p className="font-medium text-tc-light ml-auto">{reviewStore}</p>}
         <p className="font-medium text-tc-light">{shortDateFormat}</p>
       </div>
 

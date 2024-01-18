@@ -10,7 +10,6 @@ const AuthChage = () => {
   useEffect(() => {
     const test = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "INITIAL_SESSION") {
-        console.log(session);
         session ? setAuth(session.user.id) : setAuth("");
       }
     });

@@ -10,25 +10,28 @@ interface Card {
 
 const Card = ({ product, overlay, categoryId }: Card) => {
   return (
-    <div className="relative w-[264px]  group ">
-      <Link className="flex flex-col w-[264px] h-[338px]  gap-[20px]" href={`/category/${categoryId}/${product.id}`}>
-        <div className="relative w-[264px] h-[264px] bg-bg">
+    <div className="relative w-[246px]  group ">
+      <Link className="flex flex-col w-[246px] h-[340px]  gap-[20px]" href={`/category/${categoryId}/${product.id}`}>
+        <div className="relative w-[246px] h-[246px] bg-bg">
           <Image
             alt={`${product.name}_image`}
-            style={{ objectFit: "fill" }}
-            fill
-            sizes="(max-width: 1200px) 264px"
+            sizes="(max-width: 1200px) 246px"
+            width={0}
+            height={0}
+            className="w-[246px] h-[246px]"
             src={product.thumbnail}
           />
         </div>
         <div className="flex flex-col gap-[10px]">
           <span className="text-[12px] text-tc-light">{product.category.category_name}</span>
-          <h1 className="text-[14px] font-[500] ">{product.name}</h1>
+          <h1 className="text-[14px] font-[500] truncate ">{product.name}</h1>
         </div>
         <div className="flex justify-between items-center">
           <div className="flex gap-[8px] items-center">
-            <p className="text-[16px] ">{product.price}</p>
-            {product.percentage_off && <span className="text-[13px] line-through text-tc-light">{product.price}</span>}
+            <p className="text-[16px] ">{product.price}원</p>
+            {product.percentage_off && (
+              <span className="text-[13px] line-through text-tc-light">{product.price}원</span>
+            )}
           </div>
           {product.percentage_off && (
             <span className="text-[18px] font-[500] text-point">{product.percentage_off}%</span>
