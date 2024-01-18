@@ -1,8 +1,23 @@
 import React from "react";
 import { supabase } from "@/service/supabase";
 import { useForm, SubmitHandler } from "react-hook-form";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import useLogedInStore from "@/store/logedStore";
+import Section from "@/components/layout/Section";
+import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
+import { SlArrowRight } from "react-icons/sl";
+
+const linkList = [
+  {
+    name: "홈",
+    url: "http://localhost:3000/"
+  },
+  {
+    name: "로그인",
+    url: "http://localhost:3000/auth"
+  }
+];
 
 interface Props {
   mode: boolean;
@@ -64,19 +79,18 @@ const SignIn = ({ mode, setMode }: Props) => {
 
   return (
     <>
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">로그인</h2>
-        </div>
+      <PageBreadCrumb linkList={linkList} />
 
-        <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                Email address
-                <span className="text-xs text-red-600">{errors?.id?.message}</span>
-              </label>
-              <div>
+      <Section title={"로그인"} isCenter={true}>
+        <div className="flex flex-col justify-center items-center ">
+          <div className="w-[345px]">
+            <form onSubmit={handleSubmit(onSubmit)} className="w-[345px]">
+              <div className="mb-[15px]">
+                <label htmlFor="email" className="">
+                  Email address
+                  <span className="text-xs text-red-600">{errors?.id?.message}</span>
+                </label>
+
                 <input
                   id="email"
                   type="email"
@@ -87,61 +101,61 @@ const SignIn = ({ mode, setMode }: Props) => {
                       message: "   이메일 형식이 유효하지 않습니다."
                     }
                   })}
-                  placeholder="example@yolocean.com"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6"
+                  placeholder="이메일"
+                  className="block w-full h-[50px] border p-[15px]"
                 />
               </div>
-            </div>
 
-            <div>
-              <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+              <div>
+                <label htmlFor="password" className="">
                   Password
                   <span className="text-xs text-red-600">{errors?.pw?.message}</span>
                 </label>
-              </div>
-              <div>
+
                 <input
                   id="password"
                   type="password"
                   {...register("pw", {
                     required: "   비밀번호를 입력하세요."
                   })}
-                  placeholder="비밀번호를 입력하세요."
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-300 sm:text-sm sm:leading-6"
+                  placeholder="비밀번호"
+                  className="block w-full h-[50px] border p-[15px]"
                 />
               </div>
-            </div>
 
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 cursor-pointer"
-              >
-                login
-              </button>
-
-              <br />
-              <div className="grid grid-cols-2 gap-4 place-items-center">
-                <button type="button" onClick={signInWithKakao}>
-                  <img src="/images/kakao_login.png" className="h-10 w-44" />
-                </button>
-
-                <button type="button" onClick={signInWithGoogle}>
-                  <img src="/images/google_login.png" />
-                </button>
+              <div className="text-point my-[20px] text-right">
+                <Link href={"/"}>
+                  {"아이디 / 비밀번호 찾기"}
+                  <SlArrowRight className="inline-block mb-1 ml-[10px]" size={10} />
+                </Link>
               </div>
-            </div>
-          </form>
 
-          <p
-            onClick={() => setMode(!mode)}
-            className="mt-10 text-center text-sm text-blue-700 hover:text-blue-500 cursor-pointer"
-          >
-            회원가입 하기
-          </p>
+              <div className="space-y-[10px] pb-[20px] border-b">
+                <button type="submit" className="h-[50px] rounded-[5px] w-[100%] bg-point text-white">
+                  login
+                </button>
+
+                <div className="grid grid-cols-2 gap-[10px] place-items-center">
+                  <button type="button" onClick={signInWithKakao}>
+                    <img src="/images/kakao_login.png" className="h-10 w-44" />
+                  </button>
+
+                  <button type="button" onClick={signInWithGoogle}>
+                    <img src="/images/google_login.png" />
+                  </button>
+                </div>
+              </div>
+            </form>
+            <button
+              type="button"
+              onClick={() => setMode(!mode)}
+              className="h-[50px] rounded-[5px] w-[100%] mt-[20px] border"
+            >
+              회원가입 하기
+            </button>
+          </div>
         </div>
-      </div>
+      </Section>
     </>
   );
 };
