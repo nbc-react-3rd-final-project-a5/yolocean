@@ -5,6 +5,7 @@ import { AiOutlineShopping } from "react-icons/ai";
 import { AiOutlineSearch } from "react-icons/ai";
 import AuthBtn from "../auth/AuthBtn";
 import HeadCategory from "../category/HeadCategory";
+import HeaderSearch from "./HeaderSearch";
 
 const Header = () => {
   return (
@@ -21,10 +22,7 @@ const Header = () => {
             <HeadCategory />
           </div>
           <div className="flex flex-row space-x-6">
-            <div className="w-[392px] h-[32px] border border-point rounded-full p-1">
-              <input type="text" className="mx-2 w-[330px] focus:outline-none" />
-              <AiOutlineSearch className="inline " size="22" color="#3074F0" />
-            </div>
+            <HeaderSearch />
             <div>
               <AuthBtn />
             </div>
