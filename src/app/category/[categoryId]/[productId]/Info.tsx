@@ -22,20 +22,22 @@ const ProductTab = ["상품설명", "상세정보", "후기", "제품문의"];
 const Info = ({ info_img, info, id }: Props) => {
   const [activeTab, setActiveTab] = useState("상품설명");
   const router = useRouter();
+  const { reviewData } = useReview({ productId: id });
 
   const observerRef = useRef<any>([]);
-  const { reviewData } = useReview({ productId: id });
 
   const scrollObsuerver = useMemo(
     () =>
       new IntersectionObserver(
         (entries) => {
           if (entries[0].isIntersecting) {
+            console.log(entries[0].target.id);
             setActiveTab(entries[0].target.id);
           }
         },
-        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+        { rootMargin: `0px 0px -90% 0px` }
       ),
+
     []
   );
 
@@ -46,37 +48,37 @@ const Info = ({ info_img, info, id }: Props) => {
     });
 
     return () => {
-      // observerRef.current = null;
+      observerRef.current.forEach((el: any) => {
+        scrollObsuerver.unobserve(el);
+      });
+      scrollObsuerver.disconnect();
     };
   }, [observerRef, scrollObsuerver]);
 
   return (
     <div className="mt-[16px]">
-      <Tab
-        tabs={ProductTab}
-        activeTab={activeTab}
-        handleTabClick={(tab: string) => {
-          setActiveTab(tab);
-          router.push(`#${tab}`);
-        }}
-      />
-
-      <article
-        ref={(el) => (observerRef.current[0] = el)}
-        id="상품설명"
-        className="mt-[40px] w-[795px] mx-auto h-auto w-full"
-      >
+      <div className="sticky top-0">
+        <Tab
+          tabs={ProductTab}
+          activeTab={activeTab}
+          handleTabClick={(tab: string) => {
+            setActiveTab(tab);
+            router.push(`#${tab}`);
+          }}
+        />
+      </div>
+      <article ref={(el) => (observerRef.current[0] = el)} id="상품설명" className="mt-[40px] w-[795px] mx-auto  ">
         <Image
           src={info_img}
           alt="product_info"
           sizes="(max-width: 1200px) 795px"
           width={0}
           height={0}
-          className="w-[795px] mx-auto h-auto w-full"
+          className="w-[795px] h-auto "
         />
       </article>
 
-      <article ref={(el) => (observerRef.current[1] = el)} className="w-[795px] mx-auto h-auto w-full" id="상세정보">
+      <article ref={(el) => (observerRef.current[1] = el)} className="w-[795px] mx-auto  mt-[40px " id="상세정보">
         <CommonGuide />
         <table className="w-full text-sm text-left border text-gray-500 ">
           <tbody>
@@ -92,7 +94,7 @@ const Info = ({ info_img, info, id }: Props) => {
         </table>
       </article>
 
-      <article ref={(el) => (observerRef.current[2] = el)} className="w-[795px] mx-auto h-auto" id="후기">
+      <article ref={(el) => (observerRef.current[2] = el)} className="w-[795px] mx-auto  mt-[40px" id="후기">
         {reviewData && <ReviewList reviewList={reviewData} listType="review" />}
       </article>
     </div>
