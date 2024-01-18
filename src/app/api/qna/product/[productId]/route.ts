@@ -6,13 +6,15 @@ export const GET = async (req: NextRequest, context: { params: { productId: stri
     params: { productId }
   } = context;
 
-  let { data: post, error } = await supabase
+  let { data: qna, error } = await supabase
     .from("qna")
     .select("*,userinfo(username,avatar_url)")
     .eq("product_id", productId);
 
+  console.log();
+
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
-  return NextResponse.json(post![0]);
+  return NextResponse.json(qna);
 };

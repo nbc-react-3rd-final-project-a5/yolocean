@@ -6,6 +6,7 @@ import useLogedInStore from "@/store/logedStore";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import Section from "@/components/layout/Section";
 import { createCertification } from "@/lib/portone";
+import { usealertStore } from "@/store/alertStore";
 
 const linkList = [
   {
@@ -34,6 +35,8 @@ interface FormValue {
 const SignUp = ({ mode, setMode }: Props) => {
   const router = useRouter();
   const { setLogedIn } = useLogedInStore();
+  const { alertFire } = usealertStore();
+
   //회원가입 함수
   async function signUpNewUser(id: string, pw: string, name: string, phone: string) {
     const { data, error } = await supabase.auth.signUp({
@@ -47,7 +50,12 @@ const SignUp = ({ mode, setMode }: Props) => {
         }
       }
     });
-    console.log(data || error);
+    if (error) {
+      alertFire("회원가입 실패", "error");
+    } else {
+      setLogedIn(true);
+      router.push("/");
+    }
   }
 
   const {
@@ -65,8 +73,6 @@ const SignUp = ({ mode, setMode }: Props) => {
 
   const onSubmit: SubmitHandler<FormValue> = (inputData) => {
     signUpNewUser(inputData.id, inputData.pw, inputData.name, inputData.phone);
-    setLogedIn(true);
-    router.push("/");
   };
 
   // 회원가입버튼 disable 을 위해 존재하는 state
@@ -123,10 +129,10 @@ const SignUp = ({ mode, setMode }: Props) => {
                   id="password"
                   type="password"
                   {...register("pw", {
-                    required: "   비밀번호를 입력하세요.",
+                    required: "비밀번호를 입력하세요.",
                     minLength: {
                       value: 6,
-                      message: "   6자리 이상 입력하세요."
+                      message: "6자리 이상 입력하세요."
                     }
                   })}
                   placeholder="비밀번호"
@@ -163,7 +169,7 @@ const SignUp = ({ mode, setMode }: Props) => {
                   type="name"
                   placeholder="이름"
                   {...register("name", {
-                    required: "   이름을 입력하세요"
+                    required: "이름을 입력하세요"
                   })}
                   className="block w-full h-[50px] border p-[15px]"
                 />
