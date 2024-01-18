@@ -3,21 +3,58 @@ import React, { useState } from "react";
 import CartItem from "../cart/CartItem";
 import { CartBox } from "../cart/page";
 import { useCart } from "@/hooks";
+import { UserInfo } from "@/types/db";
+import { useQuery } from "@tanstack/react-query";
+import { useAuthStore } from "@/store/authStore";
+
 import Section from "@/components/layout/Section";
+import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 
-const Page = () => {
+const linkList = [
+  {
+    name: "홈",
+    url: "http://localhost:3000/"
+  },
+  {
+    name: "장바구니",
+    url: "http://localhost:3000/cart"
+  },
+  {
+    name: "주문서",
+    url: "http://localhost:3000/payment"
+  }
+];
+
+const PaymentPage = () => {
   //useCart에 사용자 id
-  const { cart, isLoading } = useCart({ userId: "aba26c49-82c0-42b2-913c-c7676527b553", cartId: "" });
+  const { auth } = useAuthStore();
+  const { cart, isLoading } = useCart({ userId: auth, cartId: "" });
+  const shop = cart !== undefined ? cart[0].store.name : "no-shop";
 
-  //상품별 총금액
+  //상품별 총금액(할인적용)
   const [cartPrice, setCartPrice] = useState<number[]>([]);
+  const [originPrice, setOriginPrice] = useState<number[]>([]);
+  let discountedPrice = cartPrice.reduce((acc, num) => acc + num, 0); //햘인 가격
+  let salePrice = originPrice.reduce((acc, num) => acc + num, 0); //비할인 가격
+
+  const { data: user, isLoading: isUserDataLoading } = useQuery({
+    queryKey: ["user"],
+    queryFn: async (): Promise<UserInfo> => {
+      const result = await fetch(`/api/users/${auth}`, { method: "GET" });
+      if (!result.ok) {
+        throw new Error("유저 정보 불러오기 실패");
+      }
+      return await result.json();
+    }
+  });
+  // console.log(cartPrice);
 
   return (
     <>
-      <Section title={"렌탈 신청"} isCenter={true}>
-        <h2 className="border-b-4 mb-3">렌탈 제품 정보</h2>
-        {!isLoading ? (
-          <div>
+      <PageBreadCrumb linkList={linkList} />
+      <Section title={"주문서"} isCenter={true}>
+        {!isLoading && cart !== undefined ? (
+          <div className="mb-[120px]">
             <div className="flex flex-col items-center justify-center">
               {(cart as CartBox[]).map((cartItem, idx) => {
                 return (
@@ -26,6 +63,8 @@ const Page = () => {
                       cart={cartItem}
                       cartPrice={cartPrice}
                       setCartPrice={setCartPrice}
+                      originPrice={originPrice}
+                      setOriginPrice={setOriginPrice}
                       idx={idx}
                       key={cartItem.id}
                     />
@@ -33,52 +72,93 @@ const Page = () => {
                 );
               })}
             </div>
-
-            <div>
-              <p>총금액</p>
-              <p>{cartPrice.reduce((acc, num) => acc + num, 0)}원</p>
-            </div>
           </div>
         ) : (
           <div>Loading...</div>
         )}
-        <h2 className="border-b-4 my-5">렌탈 약관 동의</h2>
         <form action="">
-          <input type="radio" required /> 전체 약관 동의 (필수)
-          <br />
-          <input type="radio" required /> 개인 정보 보호를 위한 이용자 동의 (필수)
-          <br />
-          <input type="radio" required /> 렌트 상품 이용약관 동의 (필수)
-          <h2 className="border-b-4 my-5">신청자 정보</h2>
-          <label htmlFor="name">신청인</label>
-          <input type="text" id="name" required />
-          <br />
-          <label htmlFor="email">이메일</label>
-          <input type="email" id="email" required />
-          <br />
-          <label htmlFor="phone">휴대전화</label>
-          <input type="tel" id="phone" required />
-          <br />
-          <label htmlFor="shop">수령지점</label>
-          <input type="text" id="shop" required />
-          <h2 className="border-b-4 my-5">총 주문 금액</h2>
-          <p>주문 금액</p>
-          <p>{cartPrice.reduce((acc, num) => acc + num, 0)}원</p>
-          <p>할인 금액</p>
-          <p>{0}원</p>
-          <p>최종결제금액</p>
-          <p>{cartPrice.reduce((acc, num) => acc + num, 0)}원</p>
-          <input type="radio" required />
-          렌탈을 진행하실 제품, 신청인 정보, 할인 내역 등을 최종 확인하였으며, 결제에 동의하시겠습니까?(전자상거래법
-          제8조 제2항)
+          <div>
+            <div className="border-black border-b">
+              <h2 className="mb-4 font-bold text-[20px]">렌탈 약관동의</h2>
+            </div>
+
+            <div className="p-7 border-b text-tc-middle">
+              <input id="fullTerms" type="checkbox" required className="w-4 h-4 mr-[20px]" />
+              <label htmlFor="fullTerms">전체 약관 동의 (필수)</label>
+            </div>
+            <div className="p-7 border-b text-tc-middle flex justify-between">
+              <div>
+                <input id="protection" type="checkbox" required className="w-4 h-4 mr-[20px]" />
+                <label htmlFor="protection">개인 정보 보호를 위한 이용자 동의 (필수)</label>
+              </div>
+              <p className="text-[14px] font-medium text-tc-light text underline cursor-pointer">내역보기</p>
+            </div>
+            <div className="p-7 border-b text-tc-middle flex justify-between">
+              <div>
+                <input id="useTerms" type="checkbox" required className="w-4 h-4 mr-[20px]" />
+                <label htmlFor="useTerms">렌트 상품 이용약관 동의 (필수)</label>
+              </div>
+              <p className="text-[14px] font-medium text-tc-light text underline cursor-pointer">내역보기</p>
+            </div>
+          </div>
+          <div className="mt-[60px] text-tc-middle">
+            <div className="border-black border-b mt-[60px]">
+              <h2 className="mb-4 font-bold text-[20px] text-black">신청인 정보</h2>
+            </div>
+            <div className="grid grid-cols-8 place-items-baseline my-[30px] gap-[15px]">
+              <p className=" text-[16px] font-medium">신청인</p>
+              <p className="col-span-7 w-[800px] p-[15px]  border">{user?.username}</p>
+
+              <p className=" text-[16px] font-medium">이메일</p>
+              <p className="col-span-7 w-[800px] p-[15px] border">{user?.email}</p>
+
+              <p className=" text-[16px] font-medium">휴대폰 번호</p>
+              <p className="col-span-7 w-[800px] p-[15px] border">{"010 - 1234 - 5678"}</p>
+
+              <p className=" text-[16px] font-medium">수령지점</p>
+              <p className="col-span-7 w-[800px] p-[15px] border">{shop}</p>
+            </div>
+          </div>
+          <div className="flex border-black border-y justify-between">
+            <div className="">
+              <h2 className="mt-[30px] font-bold text-[20px] text-black">총 주문금액</h2>
+            </div>
+            <div className="mt-[30px] w-[400px] text-[16px] font-medium text-tc-middle">
+              <div className=" border-b">
+                <div className="flex justify-between mb-[20px]">
+                  <p>주문 금액</p>
+                  <p>{salePrice}원</p>
+                </div>
+                <div className="flex justify-between  mb-[30px]">
+                  <p>할인 금액</p>
+                  <p>-{salePrice - discountedPrice}원</p>
+                </div>
+              </div>
+              <div className="flex justify-between my-[30px]">
+                <p className="text-black text-[20px] font-bold">최종 결제금액</p>
+                <p className="text-point text-[24px] font-bold">{discountedPrice}원</p>
+              </div>
+            </div>
+          </div>
+          <div className="mt-[22px] mb-[100px] text-[14px] font-medium text-tc-light">
+            <input id="payAgree" type="checkbox" required className="w-4 h-4 mr-[20px]" />
+            <label htmlFor="payAgree">
+              렌탈을 진행하실 제품, 신청인 정보, 할인 내역 등을 최종 확인하였으며, 결제에 동의하시겠습니까?(전자상거래법
+              제8조 제2항)
+            </label>
+          </div>
         </form>
-        <div>
-          <button>취소하기</button>
-          <button>결제하기</button>
+        <div className="flex items-center justify-center space-x-[12px]">
+          <button className="w-[290px] h-[50px] bg-point text-[16px] font-semibold text-white rounded-[5px]">
+            결제하기
+          </button>
+          <button className="w-[290px] h-[50px] bg-tc-middle text-[16px] font-semibold text-white rounded-[5px]">
+            취소
+          </button>
         </div>
       </Section>
     </>
   );
 };
 
-export default Page;
+export default PaymentPage;

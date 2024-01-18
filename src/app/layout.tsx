@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
-import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import ReactQueryProvider from "./ReactQueryProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Script from "next/script";
-
+import { rem, pretendard } from "@/app/styles/fonts/fonts";
+import styles from "@/app/styles/fonts/fonts.module.css";
 import Header from "@/components/layout/Header";
 import CreateModal from "@/components/portal/CreateModal";
 import CreateAlert from "@/components/portal/CreateAlert";
 import Footer from "@/components/layout/Footer";
 import CreateConfirm from "@/components/portal/CreateConfirm";
 import AuthChage from "@/components/layout/AuthChage";
-
-const openSans = Open_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,8 +20,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ReactQueryProvider>
-      <html lang="ko">
-        <body className={`${openSans.className} text-tc-base`}>
+      <html lang="ko" className={`${rem.variable} ${pretendard.variable}`}>
+        <body className={`${styles.font} text-tc-base`}>
           <div id="modal" />
           <div id="back_drop" />
           <div id="confirm" />

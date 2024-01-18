@@ -53,6 +53,7 @@ const Page = () => {
   const { cart, isLoading } = useCart({ userId: auth, cartId: "" });
 
   const [cartPrice, setCartPrice] = useState<number[]>([]);
+  const [originPrice, setOriginPrice] = useState<number[]>([]);
 
   //로그인 했는지 ▷ 로딩중인지 ▷ 카트가 불러와졌는지 ▷ 카트가 비어있는지
   return (
@@ -72,6 +73,8 @@ const Page = () => {
                             cart={cartItem}
                             cartPrice={cartPrice}
                             setCartPrice={setCartPrice}
+                            originPrice={originPrice}
+                            setOriginPrice={setOriginPrice}
                             idx={idx}
                             key={cartItem.id}
                           />

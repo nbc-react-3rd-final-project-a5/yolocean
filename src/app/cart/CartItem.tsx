@@ -11,19 +11,17 @@ interface Props {
   cartPrice: number[];
   setCartPrice: React.Dispatch<React.SetStateAction<number[]>>;
   idx: number;
-}
-
-interface Input {
-  count: number;
+  originPrice: number[];
+  setOriginPrice: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 const CartItem = (cart: Props) => {
   const { count, id, product_id, store_id, user_id, rent_date, store, product } = cart.cart;
   const { name, thumbnail, price, percentage_off, category } = product;
-  const { cartPrice, setCartPrice, idx } = cart;
+  const { cartPrice, setCartPrice, idx, originPrice, setOriginPrice } = cart;
 
   const finalPrice = price * (1 - percentage_off * 0.01);
-  console.log(price, percentage_off, finalPrice);
+  // console.log(name, price, percentage_off, finalPrice);
 
   const [isVisible, setIsVisible] = useState(true);
 
@@ -41,13 +39,17 @@ const CartItem = (cart: Props) => {
   useEffect(() => {
     const updateCount = async () => {
       if (isVisible) {
+        originPrice[idx] = getValues("count") * price;
+        setOriginPrice([...originPrice]);
         cartPrice[idx] = getValues("count") * finalPrice;
-        setCartPrice([...cartPrice, 0]);
+        setCartPrice([...cartPrice]);
         updateCountMutation.mutate(watchCount.count);
       } else {
         //삭제했을 때
+        originPrice[idx] = 0;
+        setOriginPrice([...originPrice]);
         cartPrice[idx] = 0;
-        setCartPrice([...cartPrice, 0]);
+        setCartPrice([...cartPrice]);
       }
     };
     updateCount();
