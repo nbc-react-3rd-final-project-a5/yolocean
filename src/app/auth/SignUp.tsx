@@ -47,7 +47,12 @@ const SignUp = ({ mode, setMode }: Props) => {
         }
       }
     });
-    console.log(data || error);
+    if (error) {
+      window.confirm("회원가입 실패");
+    } else {
+      setLogedIn(true);
+      router.push("/");
+    }
   }
 
   const {
@@ -64,8 +69,6 @@ const SignUp = ({ mode, setMode }: Props) => {
 
   const onSubmit: SubmitHandler<FormValue> = (inputData) => {
     signUpNewUser(inputData.id, inputData.pw, inputData.name, inputData.phone);
-    setLogedIn(true);
-    router.push("/");
   };
 
   return (

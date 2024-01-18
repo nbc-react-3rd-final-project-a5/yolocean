@@ -39,7 +39,12 @@ const SignIn = ({ mode, setMode }: Props) => {
       email: id,
       password: pw
     });
-    console.log(data || error);
+    if (error) {
+      window.confirm("로그인 실패");
+    } else {
+      setLogedIn(true);
+      router.push("/");
+    }
   };
 
   //react-hook-form
@@ -51,8 +56,6 @@ const SignIn = ({ mode, setMode }: Props) => {
 
   const onSubmit: SubmitHandler<FormValue> = (inputData) => {
     signInWithEmail(inputData.id, inputData.pw);
-    setLogedIn(true);
-    router.push("/");
   };
 
   //카카오 로그인
