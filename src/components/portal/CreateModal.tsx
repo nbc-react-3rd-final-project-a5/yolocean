@@ -24,11 +24,11 @@ const CreateModal = () => {
   return mounted ? (
     <>
       {createPortal(
-        <div className="fixed inset-0 bg-black z-10 opacity-65 cursor-pointer" onClick={closeModal} />,
+        <div className="fixed inset-0 bg-black z-20 opacity-65 cursor-pointer" onClick={closeModal} />,
         document.getElementById("back_drop") as HTMLElement
       )}
       {createPortal(
-        <div className="fixed bg-white top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-20 rounded-lg overflow-hidden">
+        <div className="fixed bg-white top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-30 rounded-lg overflow-hidden">
           {modalContent}
         </div>,
         document.getElementById("modal") as HTMLElement

@@ -47,6 +47,10 @@ const ReviewForm = ({ formType, userId, productId, storeId, targetId }: Props) =
     userId,
     reviewId: targetId
   });
+
+  console.log(reviewData);
+  console.log(userId);
+  console.log(targetId);
   const preReviewData = reviewData ? reviewData[0] : null;
   const { uploadMultipleImages, deleteMultipleImage } = useStorage();
   const {

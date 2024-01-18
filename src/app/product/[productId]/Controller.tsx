@@ -21,7 +21,6 @@ const Controller = ({ category_name, name, price }: Props) => {
   const [startDate, setStartDate] = useState<Date | null>(null);
 
   console.log(getValues("date"));
-  console.log(startDate);
   return (
     <>
       <div className="flex-1 text-[16px]">

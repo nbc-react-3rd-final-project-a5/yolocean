@@ -26,11 +26,11 @@ const CreateConfirm: React.FC = () => {
   return isConfirmOpen ? (
     <>
       {createPortal(
-        <div className="fixed inset-0 bg-black z-10 opacity-65 cursor-pointer" />,
+        <div className="fixed inset-0 bg-black z-20 opacity-65 cursor-pointer" />,
         document.getElementById("back_drop") as HTMLElement
       )}
       {createPortal(
-        <div className="fixed border overflow-hidden border-black top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex flex-col z-20 bg-white rounded-xl w-[345px] h-[170px]">
+        <div className="fixed border overflow-hidden border-black top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex flex-col z-30 bg-white rounded-xl w-[345px] h-[170px]">
           <div>
             <h1 className="text-[20px] font-[700] line-clamp-2 px-[60px] text-center leading-tight text-point pt-[30px] pb-[15px]">
               {title}

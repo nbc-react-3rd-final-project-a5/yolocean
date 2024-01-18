@@ -18,7 +18,10 @@ enum EnumListType {
 
 const ReviewBtnGroup = ({ userId, reviewId, listType }: Props) => {
   const { deleteReviewMutation } = useReview({ reviewId, userId });
-  const editLink = `${window.location.origin}/review/form?reviewId=${reviewId}`;
+  const editLink =
+    listType === "review"
+      ? `${window.location.origin}/review/form?reviewId=${reviewId}`
+      : `${window.location.origin}/qna/${reviewId}`;
   const handleDeleteReviewClick = async () => {
     const isConfirm = await openConfirm(
       `${EnumListType[listType]} 삭제`,
