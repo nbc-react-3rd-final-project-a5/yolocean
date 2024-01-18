@@ -1,7 +1,7 @@
 "use client";
-import { useSearchStore } from "@/store/searchStore";
+
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiOutlineSearch } from "react-icons/ai";
 
@@ -17,17 +17,17 @@ const HeaderSearch = () => {
     watch,
     formState: { errors }
   } = useForm<Input>();
-  const { searchWord, setSearchWord, hasSearchWord, setHasSearchWord } = useSearchStore();
   const router = useRouter();
+
   const onSubmit: SubmitHandler<Input> = (data) => {
-    if (data.searchWord === "") {
-      setHasSearchWord(false);
+    if (data.searchWord === undefined) {
+      alert("검색어를 입력해주세요.");
+      return;
     }
-    setSearchWord(data.searchWord);
-    setHasSearchWord(true);
+    console.log(data.searchWord);
     resetField("searchWord");
 
-    router.push("/search");
+    router.push(`/search/${data.searchWord}`);
   };
 
   return (
