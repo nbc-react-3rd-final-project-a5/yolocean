@@ -15,12 +15,9 @@ const CategorySection = ({ categoryName, categoryId }: { categoryName: string; c
       if (office.id) {
         const res = await fetch(`/api/products/${categoryId}`);
         const result = await res.json();
-        console.log(result);
         const Product = result.filter((item: any) => {
-          console.log(item);
           return item.stock.find((store: any) => {
             if (store["store_id"] === office.id) {
-              console.log(store["store_id"]);
               return true;
             } else return false;
           });
