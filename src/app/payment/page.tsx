@@ -47,7 +47,7 @@ const PaymentPage = () => {
       return await result.json();
     }
   });
-  console.log(user);
+  // console.log(cartPrice);
 
   return (
     <>
