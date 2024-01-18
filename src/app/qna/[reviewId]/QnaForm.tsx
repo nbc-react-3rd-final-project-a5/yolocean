@@ -3,12 +3,13 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Review } from "@/types/db";
+import { useRouter } from "next/navigation";
 
 interface Props {
   formType: "review" | "qna";
   userId: string;
   productId: string;
-  review?: Review;
+  review?: any;
 }
 
 // Form FieldSet 컴포넌트
@@ -31,36 +32,22 @@ const QnaForm = ({ userId, productId, review }: Props) => {
     formState: { errors }
   } = useForm({ mode: "onChange" });
 
+  const router = useRouter();
+
   const handleFormSubmit = async (data: any) => {
     if (review) {
       const body = JSON.stringify({ ...data });
       const respones = await fetch(`/api/qna/user/${review.id}`, { body, method: "POST" });
       const result = await respones.json();
-      console.log(result);
+      router.push(`/category/${review.product.category.id}/${productId}#제품문의`);
     }
 
     if (!review) {
       const body = JSON.stringify({ ...data, user_id: userId, product_id: productId });
       const respones = await fetch(`/api/qna/`, { body, method: "POST" });
       const result = await respones.json();
-      console.log(result);
+      router.push(`/category/${result.category_id}/${productId}#제품문의`);
     }
-
-    // try {
-    //   const formData: TablesInsert<"review"> = {
-    //     user_id: userId,
-    //     title: data.title,
-    //     product_id: productId,
-    //     content: data.content
-    //   };
-    //   const res = await fetch(`${window.location.origin}/api/qna/user/${review.id}`, {
-    //     method: "POST",
-    //     body: JSON.stringify(formData)
-    //   });
-    //   console.log(res);
-    // } catch (error) {
-    //   console.error(error);
-    // }
   };
 
   return (

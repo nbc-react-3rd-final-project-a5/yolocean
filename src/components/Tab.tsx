@@ -10,7 +10,7 @@ interface TabProps {
 
 const Tab = ({ activeTab, handleTabClick, tabs, isVariable = false }: TabProps) => {
   return (
-    <ul className={`flex w-full items-center justify-center sticky top-0  ${isVariable && "gap-[20px]"}`}>
+    <ul className={`flex w-full items-center justify-center ${isVariable && "gap-[20px]"}`}>
       {tabs.map((tab, index) => {
         if (isVariable) {
           return (

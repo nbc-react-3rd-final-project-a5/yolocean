@@ -62,7 +62,7 @@ const Info = ({ info_img, info, id }: Props) => {
 
   return (
     <div className="mt-[16px]">
-      <div className="sticky top-0">
+      <div className="sticky top-0 z-10">
         <Tab
           tabs={ProductTab}
           activeTab={activeTab}
