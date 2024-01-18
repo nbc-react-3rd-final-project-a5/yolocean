@@ -7,6 +7,7 @@ import useLogedInStore from "@/store/logedStore";
 import Section from "@/components/layout/Section";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import { SlArrowRight } from "react-icons/sl";
+import { usealertStore } from "@/store/alertStore";
 
 const linkList = [
   {
@@ -32,6 +33,7 @@ interface FormValue {
 const SignIn = ({ mode, setMode }: Props) => {
   const router = useRouter();
   const { setLogedIn } = useLogedInStore();
+  const { alertFire } = usealertStore();
 
   //이메일 로그인
   const signInWithEmail = async (id: string, pw: string) => {
@@ -40,7 +42,7 @@ const SignIn = ({ mode, setMode }: Props) => {
       password: pw
     });
     if (error) {
-      window.confirm("로그인 실패");
+      alertFire("아이디와 비밀번호를 확인해주세요", "error");
     } else {
       setLogedIn(true);
       router.push("/");

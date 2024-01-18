@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import useLogedInStore from "@/store/logedStore";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import Section from "@/components/layout/Section";
+import { usealertStore } from "@/store/alertStore";
 
 const linkList = [
   {
@@ -33,6 +34,7 @@ interface FormValue {
 const SignUp = ({ mode, setMode }: Props) => {
   const router = useRouter();
   const { setLogedIn } = useLogedInStore();
+  const { alertFire } = usealertStore();
 
   //회원가입 함수
   async function signUpNewUser(id: string, pw: string, name: string, phone: string) {
@@ -48,7 +50,7 @@ const SignUp = ({ mode, setMode }: Props) => {
       }
     });
     if (error) {
-      window.confirm("회원가입 실패");
+      alertFire("회원가입 실패", "error");
     } else {
       setLogedIn(true);
       router.push("/");
