@@ -28,7 +28,7 @@ const Card = ({ product, overlay, categoryId }: Card) => {
         </div>
         <div className="flex justify-between items-center">
           <div className="flex gap-[8px] items-center">
-            <p className="text-[16px] ">{product.price}원</p>
+            <p className="text-[16px] ">{(product.price * (100 - product.percentage_off!)) / 100}원</p>
             {product.percentage_off && (
               <span className="text-[13px] line-through text-tc-light">{product.price}원</span>
             )}
