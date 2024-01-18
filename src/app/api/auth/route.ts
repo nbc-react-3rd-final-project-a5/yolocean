@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 
 // [POST] 결제 인증 정보를 받을 수 있게 imp_uid를 post한 뒤 access_token을 발급받는다.
-export async function POST(req: NextRequest): Promise<NextResponse<{ data: boolean; msg: string; error?: any }>> {
+export async function POST(req: NextRequest): Promise<NextResponse<{ isPass: boolean; msg: string; error?: any }>> {
   const { imp_uid, merchant_uid, phone_number } = await req.json();
 
   console.log(`imp_uid : ${imp_uid}`);
@@ -27,20 +27,14 @@ export async function POST(req: NextRequest): Promise<NextResponse<{ data: boole
 
     const certificationsInfo = await getInfo.json();
     if (phone_number === certificationsInfo.response.phone) {
-      return NextResponse.json(
-        { data: true, msg: "입력한 핸드폰 번호와 인증 핸드폰 번호가 일치합니다." },
-        { status: 200 }
-      );
+      return NextResponse.json({ isPass: true, msg: "핸드폰 번호가 일치합니다." }, { status: 200 });
     } else {
-      return NextResponse.json(
-        { data: false, msg: "입력한 핸드폰 번호와 인증 핸드폰 번호가 일치하지않습니다." },
-        { status: 200 }
-      );
+      return NextResponse.json({ isPass: false, msg: "핸드폰 번호가 일치하지않습니다." }, { status: 200 });
     }
   } catch (error) {
     return NextResponse.json(
       {
-        data: false,
+        isPass: false,
         msg: "인증과정 중 에러가 발생하였습니다.",
         error
       },
