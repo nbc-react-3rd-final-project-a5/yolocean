@@ -7,21 +7,39 @@ import React from "react";
 import Section from "@/components/layout/Section";
 import { useProduct } from "@/hooks";
 import { ProductProperties } from "@/types/db";
+import { useStore } from "zustand";
+import { useAuthStore } from "@/store/authStore";
+import { useQuery } from "@tanstack/react-query";
+import QnaForm from "./QnaForm";
 
 const QnaPage = () => {
-  const userId = "3255837d-277c-4e5d-9e52-6956be86f182";
-  const { productId } = useParams<{ productId: string }>();
-  const { product, isLoading } = useProduct(productId);
+  const { reviewId } = useParams<{ reviewId: string }>();
+  // const { product, isLoading } = useProduct(reviewId);
 
+  const { data, isLoading } = useQuery({
+    queryFn: async () => {
+      const response = await fetch(`/api/qna/user/${reviewId}`);
+      const result = await response.json();
+      return result;
+    },
+    queryKey: ["qna", reviewId]
+  });
+
+  const { auth: userId } = useStore(useAuthStore);
+
+  console.log(data);
   // TODO : 로그인 여부 및 제품이 있는지 확인하기
 
   if (isLoading) return <>로딩중</>;
 
+  console.log(data);
   const {
     name,
     thumbnail,
     category: { category_name }
-  } = product as ProductProperties;
+  } = data.product as ProductProperties;
+
+  console.log(data);
   return (
     <>
       <Section title={"1:1 문의하기"} className="font-[600] text-[25px] leading-none" isCenter={true}>
@@ -36,8 +54,8 @@ const QnaPage = () => {
             </div>
           </div>
         </div>
-
-        <ReviewForm bucket="review" userId={userId} productId={productId} isReview={true} />
+        {!isLoading && data && <QnaForm formType="qna" productId={data.product.id} review={data} userId={userId} />}
+        {/* <ReviewForm userId={userId} productId={data.product.id} formType="qna" storeId={""} targetId={reviewId} /> */}
       </Section>
     </>
   );

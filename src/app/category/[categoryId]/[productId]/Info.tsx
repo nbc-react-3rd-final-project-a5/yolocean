@@ -9,6 +9,7 @@ import ReviewList from "@/components/review/ReviewList";
 import { useQuery } from "@tanstack/react-query";
 import { useStore } from "zustand";
 import { useAuthStore } from "@/store/authStore";
+import Link from "next/link";
 
 interface Props {
   info_img: string;
@@ -25,14 +26,13 @@ const Info = ({ info_img, info, id }: Props) => {
   const { auth } = useStore(useAuthStore);
   const { data, isLoading } = useQuery({
     queryFn: async () => {
-      const response = await fetch(`/api/qna/${id}`);
+      const response = await fetch(`/api/qna/product/${id}`, { method: "GET" });
       const result = await response.json();
       return result;
     },
     queryKey: ["qna", id]
   });
 
-  console.log(data);
   const observerRef = useRef<any>([]);
 
   const scrollObsuerver = useMemo(
@@ -40,7 +40,6 @@ const Info = ({ info_img, info, id }: Props) => {
       new IntersectionObserver(
         (entries) => {
           if (entries[0].isIntersecting) {
-            console.log(entries[0].target.id);
             setActiveTab(entries[0].target.id);
           }
         },
@@ -105,7 +104,8 @@ const Info = ({ info_img, info, id }: Props) => {
       </article>
 
       <article ref={(el) => (observerRef.current[3] = el)} className="w-[795px] mx-auto  mt-[40px" id="제품문의">
-        {data && !isLoading && <ReviewList currentUserId={auth} reviewList={[data]} listType="qna" />}
+        <Link href={`/qna/product/${id}`}>작성테스트</Link>
+        {data && !isLoading && <ReviewList currentUserId={auth} reviewList={data} listType="qna" />}
       </article>
     </div>
   );
