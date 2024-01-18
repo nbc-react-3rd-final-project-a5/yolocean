@@ -21,7 +21,7 @@ const Header = () => {
             <HeadCategory />
           </div>
           <div className="flex flex-row space-x-6">
-            <div className="w-[392px] h-[32px] border border-point rounded-xl p-1">
+            <div className="w-[392px] h-[32px] border border-point rounded-full p-1">
               <input type="text" className="mx-2 w-[330px] focus:outline-none" />
               <AiOutlineSearch className="inline " size="22" color="#3074F0" />
             </div>
