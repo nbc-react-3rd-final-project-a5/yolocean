@@ -33,7 +33,11 @@ const HeaderSearch = () => {
   return (
     <div className="w-[392px] h-[32px] border border-point rounded-full p-1">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input type="text" className="mx-2 w-[330px] focus:outline-none" {...register("searchWord")} />
+        <input
+          type="text"
+          className="mx-2 w-[330px] focus:outline-none"
+          {...register("searchWord", { required: true })}
+        />
         <button className="inline cursor-pointer " type="submit">
           <AiOutlineSearch className="inline cursor-pointer " size="22" color="#3074F0" />
         </button>
