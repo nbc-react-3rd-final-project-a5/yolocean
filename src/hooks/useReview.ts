@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 interface Props {
   userId?: string;
   reviewId?: string;
+  productId?: string;
 }
 
 interface UpdateReview {
@@ -17,19 +18,22 @@ enum FetchCase {
   Error,
   AllReviewList,
   UserReviewList,
-  UserReview
+  UserReview,
+  ProductReviewList
 }
 
-const useReview = ({ userId, reviewId }: Props = {}) => {
+const useReview = ({ userId, reviewId, productId }: Props = {}) => {
   const queryClient = useQueryClient();
   let fetchCase: FetchCase;
 
-  if (!userId && !reviewId) {
+  if (!userId && !reviewId && !productId) {
     fetchCase = FetchCase.AllReviewList;
-  } else if (userId && reviewId) {
+  } else if (userId && reviewId && !productId) {
     fetchCase = FetchCase.UserReview;
-  } else if (userId && !reviewId) {
+  } else if (userId && !reviewId && !productId) {
     fetchCase = FetchCase.UserReviewList;
+  } else if (!userId && !reviewId && productId) {
+    fetchCase = FetchCase.ProductReviewList;
   } else {
     fetchCase = FetchCase.Error;
   }
@@ -46,6 +50,8 @@ const useReview = ({ userId, reviewId }: Props = {}) => {
         return `${window.location.origin}/api/review/users/${userId}`;
       case FetchCase.UserReview:
         return `${window.location.origin}/api/review/users/${userId}/${reviewId}`;
+      case FetchCase.ProductReviewList:
+        return `${window.location.origin}/api/review/products/${productId}`;
       default:
         console.error("💥💥💥 useReview : switchFetchPath의 switch 문에서 에러 발생 💥💥💥");
         return null;
