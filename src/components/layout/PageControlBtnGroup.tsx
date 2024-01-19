@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import React from "react";
 import { IoIosArrowUp } from "react-icons/io";
@@ -12,17 +10,13 @@ enum EnumStyle {
 }
 
 const PageControlBtnGroup = () => {
-  const handleScrollTopClick = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   return (
     <aside className="fixed bottom-[10rem] right-4">
       <ul className={`${EnumStyle.textSize} flex flex-col gap-4`}>
         <li className={EnumStyle.liStyle}>
-          <button onClick={handleScrollTopClick} className={EnumStyle.liInnerStyle}>
+          <Link href={"#"} className={EnumStyle.liInnerStyle} prefetch={true}>
             <IoIosArrowUp />
-          </button>
+          </Link>
         </li>
         <li className={EnumStyle.liStyle}>
           <Link href={"/customer"} className={EnumStyle.liInnerStyle} prefetch={true}>
