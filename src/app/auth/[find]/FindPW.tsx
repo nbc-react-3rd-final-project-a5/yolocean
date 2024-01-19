@@ -133,7 +133,7 @@ const FindPW = ({ setMode }: Props) => {
               </button>
             </form>
           ) : (
-            <ResultPW result={result} setFind={setFind} setMode={setMode} />
+            <ResultPW result={result} setFind={setFind} />
           )}
         </div>
       </div>
