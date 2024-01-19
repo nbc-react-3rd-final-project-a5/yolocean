@@ -65,13 +65,8 @@ const PaymentPage = () => {
   // 결제하기 버튼 핸들러
   const handlePaymentClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    //  현재 유저 데이터에 전화번호가 없는 경우가 많아 주석처리하였습니다.
-    // if (!user?.phone) return alertFire("회원 전화번호 입력 에러", "error");
-    // const { isPass, msg } = await createPayment({ amount: salePrice, buyer_tel: user.phone });
-
-    // 테스트 코드: 결제 확인을 위해 작성하였습니다.
-    // 유저 데이터에 전화번호가 다 입력되면 삭제하시면 됩니다.
-    const { isPass, msg } = await createPayment({ amount: 100, buyer_tel: user?.phone || "01012341234" });
+    if (!user?.phone) return alertFire("회원 전화번호 입력 에러", "error");
+    const { isPass, msg } = await createPayment({ amount: discountedPrice, buyer_tel: user?.phone || "01012341234" });
 
     if (isPass) {
       // 결제 성공 후 진행할 로직
