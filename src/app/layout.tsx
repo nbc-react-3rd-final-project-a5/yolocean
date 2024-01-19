@@ -11,6 +11,7 @@ import CreateAlert from "@/components/portal/CreateAlert";
 import Footer from "@/components/layout/Footer";
 import CreateConfirm from "@/components/portal/CreateConfirm";
 import AuthChage from "@/components/layout/AuthChage";
+import PageControlBtnGroup from "@/components/layout/PageControlBtnGroup";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Header />
           <AuthChage />
           <main className="max-w-[1200px] mx-auto w-[90%] min-h-full">{children}</main>
+          <PageControlBtnGroup />
           <Footer />
           <ReactQueryDevtools initialIsOpen={false} />
           <CreateModal />
