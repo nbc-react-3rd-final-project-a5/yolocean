@@ -47,7 +47,7 @@ const FindPW = ({ setMode }: Props) => {
     const { data, error } = await supabase
       .from("userinfo")
       .select("id")
-      .match({ email: inputData.email, phone: inputData.phone });
+      .match({ username: inputData.name, email: inputData.email, phone: inputData.phone });
     if (error) {
       window.confirm("supabase error");
     } else {
