@@ -48,9 +48,9 @@ const FindID = ({ setMode }: Props) => {
       .select("email")
       .match({ username: inputData.name, phone: inputData.phone });
     if (error) {
-      window.confirm("아이디 찾기 실패");
+      window.confirm("supabase error");
     } else {
-      setResult(data[0].email || false);
+      setResult(data[0]?.email || false);
     }
   };
   return (
