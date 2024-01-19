@@ -10,7 +10,9 @@ const Footer = () => {
         <ul className="max-w-[1200px] mx-auto w-[90%] flex  gap-[20px] text-[14px] ">
           {linkList.map((n) => (
             <li className="hover:underline" key={`footer__nav-${n.title}`}>
-              <Link href={n.link}>{n.title}</Link>
+              <Link href={n.disable ? "#" : n.link} prefetch={false}>
+                {n.title}
+              </Link>
             </li>
           ))}
         </ul>
