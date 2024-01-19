@@ -65,7 +65,7 @@ const ProductDetailPage = async ({ params: { productId } }: Props) => {
           name={name}
         />
       </div>
-      <Info id={id} info_img={info_img} info={info} />
+      <Info productId={id} info_img={info_img} info={info} />
     </section>
   );
 };
