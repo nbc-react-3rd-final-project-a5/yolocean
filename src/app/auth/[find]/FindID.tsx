@@ -3,6 +3,7 @@ import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { supabase } from "@/service/supabase";
 import ResultID from "./ResultID";
+import { createCertification } from "@/lib/portone";
 
 interface Props {
   setMode: React.Dispatch<React.SetStateAction<boolean>>;
@@ -37,8 +38,27 @@ const FindID = ({ setMode }: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    watch,
+    formState: { errors, isValid },
+    setError,
+    clearErrors
   } = useForm<FormValue>({ mode: "onBlur" });
+
+  // 본인 인증 전 아이디 찾기 버튼 disable 을 위해 존재하는 state
+  const [isValidPhoneNumber, setIsValidPhoneNumber] = useState(false);
+
+  // 본인인증 전화번호 확인 이벤트 핸들러
+  const handleCertificateClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    const snapshotPhoneNumber = watch("phone");
+    const { isPass, msg } = await createCertification(snapshotPhoneNumber);
+    if (!isPass) {
+      setError("phone", { type: "custom", message: msg });
+    } else {
+      clearErrors("phone");
+    }
+    setIsValidPhoneNumber(isPass);
+  };
 
   const onSubmit: SubmitHandler<FormValue> = async (inputData) => {
     //아이디 찾기 버튼 눌렀을 때
@@ -86,22 +106,36 @@ const FindID = ({ setMode }: Props) => {
               <div className="mb-[20px]">
                 <label htmlFor="phone" className="block mb-2">
                   Phone Number
-                  <span className="inline-block ml-2 text-[12px] text-red-600">{errors?.phone?.message}</span>
+                  <span className="inline-block ml-2 text-[12px]  text-red-600">{errors?.phone?.message}</span>
                 </label>
                 <div className="grid grid-cols-5 w-full  border">
                   <input
                     id="phone"
                     type="phone"
-                    placeholder="휴대폰번호"
+                    placeholder="휴대폰번호 11자리"
                     {...register("phone", {
-                      required: "휴대폰번호를 입력하세요"
+                      required: "휴대폰번호를 입력하세요",
+                      pattern: {
+                        value: /^010[0-9]{8}$/,
+                        message: "휴대폰번호 형식이 유효하지 않습니다."
+                      }
                     })}
                     className="block col-span-4 h-[50px] p-[15px]"
                   />
-                  <button className="border-l h-[50px] text-tc-middle font-normal">인증하기</button>
+                  <button
+                    disabled={!/^(010[0-9]{8})$/.test(watch("phone"))}
+                    className="border-l h-[50px] text-tc-middle font-normal disabled:bg-line disabled:text-tc-light"
+                    onClick={handleCertificateClick}
+                  >
+                    인증하기
+                  </button>
                 </div>
               </div>
-              <button type="submit" className="h-[50px] rounded-[5px] w-[100%] bg-point text-white">
+              <button
+                disabled={!(isValid && isValidPhoneNumber)}
+                type="submit"
+                className="h-[50px] rounded-[5px] w-[100%] bg-point text-white  disabled:bg-line disabled:text-tc-light"
+              >
                 아이디 찾기
               </button>
             </form>

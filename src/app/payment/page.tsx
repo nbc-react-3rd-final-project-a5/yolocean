@@ -9,6 +9,11 @@ import { useAuthStore } from "@/store/authStore";
 
 import Section from "@/components/layout/Section";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
+import { useForm } from "react-hook-form";
+import { createPayment } from "@/lib/portone";
+import { usealertStore } from "@/store/alertStore";
+import { openConfirm } from "@/store/confirmStore";
+import { useRouter } from "next/navigation";
 
 const linkList = [
   {
@@ -49,6 +54,37 @@ const PaymentPage = () => {
   });
   // console.log(cartPrice);
 
+  // === 결제 관련 ===
+  const { alertFire } = usealertStore();
+  const {
+    register,
+    formState: { isValid }
+  } = useForm({ mode: "onBlur" });
+  const router = useRouter();
+
+  // 결제하기 버튼 핸들러
+  const handlePaymentClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    if (!user?.phone) return alertFire("회원 전화번호 입력 에러", "error");
+    const { isPass, msg } = await createPayment({ amount: discountedPrice, buyer_tel: user?.phone || "01012341234" });
+
+    if (isPass) {
+      // 결제 성공 후 진행할 로직
+      alertFire("결제 성공", "success");
+    } else {
+      // 결제 실패 시 진행할 로직
+      alertFire(msg, "error");
+    }
+  };
+
+  // 취소하기 버튼 핸들러
+  const handleCancelClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+
+    const result: boolean = await openConfirm("결제 취소", "결제를 취소하시겠습니까?");
+    result && router.push(`/cart`);
+  };
+
   return (
     <>
       <PageBreadCrumb linkList={linkList} />
@@ -83,19 +119,30 @@ const PaymentPage = () => {
             </div>
 
             <div className="p-7 border-b text-tc-middle">
-              <input id="fullTerms" type="checkbox" required className="w-4 h-4 mr-[20px]" />
+              <input id="fullTerms" type="checkbox" {...register("fullTerms")} required className="w-4 h-4 mr-[20px]" />
               <label htmlFor="fullTerms">전체 약관 동의 (필수)</label>
             </div>
             <div className="p-7 border-b text-tc-middle flex justify-between">
               <div>
-                <input id="protection" type="checkbox" required className="w-4 h-4 mr-[20px]" />
+                <input
+                  id="protection"
+                  type="checkbox"
+                  {...register("protection", { required: "필수체크 사항입니다." })}
+                  className="w-4 h-4 mr-[20px]"
+                />
                 <label htmlFor="protection">개인 정보 보호를 위한 이용자 동의 (필수)</label>
               </div>
               <p className="text-[14px] font-medium text-tc-light text underline cursor-pointer">내역보기</p>
             </div>
             <div className="p-7 border-b text-tc-middle flex justify-between">
               <div>
-                <input id="useTerms" type="checkbox" required className="w-4 h-4 mr-[20px]" />
+                <input
+                  id="useTerms"
+                  type="checkbox"
+                  {...register("useTerms", { required: "필수체크 사항입니다." })}
+                  required
+                  className="w-4 h-4 mr-[20px]"
+                />
                 <label htmlFor="useTerms">렌트 상품 이용약관 동의 (필수)</label>
               </div>
               <p className="text-[14px] font-medium text-tc-light text underline cursor-pointer">내역보기</p>
@@ -141,7 +188,12 @@ const PaymentPage = () => {
             </div>
           </div>
           <div className="mt-[22px] mb-[100px] text-[14px] font-medium text-tc-light">
-            <input id="payAgree" type="checkbox" required className="w-4 h-4 mr-[20px]" />
+            <input
+              id="payAgree"
+              type="checkbox"
+              {...register("payAgree", { required: "필수체크 사항입니다." })}
+              className="w-4 h-4 mr-[20px]"
+            />
             <label htmlFor="payAgree">
               렌탈을 진행하실 제품, 신청인 정보, 할인 내역 등을 최종 확인하였으며, 결제에 동의하시겠습니까?(전자상거래법
               제8조 제2항)
@@ -149,10 +201,18 @@ const PaymentPage = () => {
           </div>
         </form>
         <div className="flex items-center justify-center space-x-[12px]">
-          <button className="w-[290px] h-[50px] bg-point text-[16px] font-semibold text-white rounded-[5px]">
+          <button
+            disabled={!isValid}
+            onClick={handlePaymentClick}
+            type="button"
+            className="w-[290px] h-[50px] bg-point text-[16px] font-semibold text-white rounded-[5px] disabled:bg-line disabled:text-tc-light"
+          >
             결제하기
           </button>
-          <button className="w-[290px] h-[50px] bg-tc-middle text-[16px] font-semibold text-white rounded-[5px]">
+          <button
+            onClick={handleCancelClick}
+            className="w-[290px] h-[50px] bg-tc-middle text-[16px] font-semibold text-white rounded-[5px]"
+          >
             취소
           </button>
         </div>

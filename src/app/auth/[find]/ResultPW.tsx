@@ -8,7 +8,6 @@ import { usealertStore } from "@/store/alertStore";
 interface Props {
   result: string;
   setFind: React.Dispatch<React.SetStateAction<boolean>>;
-  setMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface FormValue {
@@ -16,7 +15,7 @@ interface FormValue {
   pwCheck: string;
 }
 
-const ResultPW = ({ result, setFind, setMode }: Props) => {
+const ResultPW = ({ result, setFind }: Props) => {
   const router = useRouter();
   const { alertFire } = usealertStore();
 
