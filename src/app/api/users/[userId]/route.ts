@@ -1,7 +1,7 @@
 import { supabase } from "@/service/supabase";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (res: NextResponse, context: { params: { userId: string } }) => {
+export const GET = async (req: NextRequest, context: { params: { userId: string } }) => {
   const {
     params: { userId }
   } = context;

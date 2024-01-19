@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import CartItem from "../cart/CartItem";
-import { CartBox } from "../cart/page";
+import { CartBox } from "@/types/db";
 import { useCart } from "@/hooks";
 import { UserInfo } from "@/types/db";
 import { useQuery } from "@tanstack/react-query";
@@ -14,6 +14,7 @@ import { createPayment } from "@/lib/portone";
 import { usealertStore } from "@/store/alertStore";
 import { openConfirm } from "@/store/confirmStore";
 import { useRouter } from "next/navigation";
+import { AiOutlineConsoleSql } from "react-icons/ai";
 
 const linkList = [
   {
@@ -65,16 +66,18 @@ const PaymentPage = () => {
   // 결제하기 버튼 핸들러
   const handlePaymentClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    if (!user?.phone) return alertFire("회원 전화번호 입력 에러", "error");
-    const { isPass, msg } = await createPayment({ amount: discountedPrice, buyer_tel: user?.phone || "01012341234" });
+    // if (!user?.phone) return alertFire("회원 전화번호 입력 에러", "error");
+    // const { isPass, msg } = await createPayment({ amount: discountedPrice, buyer_tel: user?.phone || "01012341234" });
 
-    if (isPass) {
-      // 결제 성공 후 진행할 로직
-      alertFire("결제 성공", "success");
-    } else {
-      // 결제 실패 시 진행할 로직
-      alertFire(msg, "error");
-    }
+    // if (isPass) {
+    //   // 결제 성공 후 진행할 로직
+    //   alertFire("결제 성공", "success");
+    //   router.push("/receipt");
+    // } else {
+    //   // 결제 실패 시 진행할 로직
+    //   alertFire(msg, "error");
+    // }
+    console.log(cart);
   };
 
   // 취소하기 버튼 핸들러
@@ -160,7 +163,7 @@ const PaymentPage = () => {
               <p className="col-span-7 w-[800px] p-[15px] border">{user?.email}</p>
 
               <p className=" text-[16px] font-medium">휴대폰 번호</p>
-              <p className="col-span-7 w-[800px] p-[15px] border">{"010 - 1234 - 5678"}</p>
+              <p className="col-span-7 w-[800px] p-[15px] border">{user?.phone}</p>
 
               <p className=" text-[16px] font-medium">수령지점</p>
               <p className="col-span-7 w-[800px] p-[15px] border">{shop}</p>

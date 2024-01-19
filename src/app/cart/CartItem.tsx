@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { CartBox } from "./page";
+import { CartBox } from "@/types/db";
 import { VscChromeClose } from "react-icons/vsc";
 import { useCart } from "@/hooks";
 import { useForm } from "react-hook-form";
