@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { secretbase } from "@/service/sercretbase";
+import { secretbase } from "@/service/supabase";
 import Section from "@/components/layout/Section";
 import { usealertStore } from "@/store/alertStore";
 
