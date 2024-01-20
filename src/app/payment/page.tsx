@@ -14,7 +14,6 @@ import { createPayment } from "@/lib/portone";
 import { usealertStore } from "@/store/alertStore";
 import { openConfirm } from "@/store/confirmStore";
 import { useRouter } from "next/navigation";
-import { AiOutlineConsoleSql } from "react-icons/ai";
 
 const linkList = [
   {
@@ -34,7 +33,7 @@ const linkList = [
 const PaymentPage = () => {
   //useCart에 사용자 id
   const { auth } = useAuthStore();
-  const { cart, isLoading } = useCart({ userId: auth, cartId: "" });
+  const { cart, isLoading, deleteUserCartMutation } = useCart({ userId: auth, cartId: "" });
   const shop = cart !== undefined ? cart[0].store.name : "no-shop";
 
   //상품별 총금액(할인적용)
@@ -53,7 +52,6 @@ const PaymentPage = () => {
       return await result.json();
     }
   });
-  // console.log(cartPrice);
 
   // === 결제 관련 ===
   const { alertFire } = usealertStore();
@@ -71,8 +69,9 @@ const PaymentPage = () => {
 
     // if (isPass) {
     //   // 결제 성공 후 진행할 로직
+    //   deleteUserCartMutation.mutate(auth);
+
     //   alertFire("결제 성공", "success");
-    //   router.push("/receipt");
     // } else {
     //   // 결제 실패 시 진행할 로직
     //   alertFire(msg, "error");

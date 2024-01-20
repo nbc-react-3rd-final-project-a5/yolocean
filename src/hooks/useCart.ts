@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/service/supabase";
 import { CartBox } from "@/types/db";
-import { useEffect } from "react";
 
 interface Props {
   userId: string;
@@ -36,12 +35,29 @@ const useCart = ({ userId, cartId }: Props) => {
     }
   });
 
-  const deleteCart = async (cartId: string) => {
-    const { error } = await supabase.from("cart").delete().eq("id", cartId);
-    if (error) console.log(error);
-  };
+  const deleteCartMutation = useMutation({
+    mutationFn: async (cartId: string) => {
+      await supabase.from("cart").delete().eq("id", cartId);
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["cart", cartId]
+      });
+      refetch();
+    }
+  });
+  const deleteUserCartMutation = useMutation({
+    mutationFn: async (userId: string) => {
+      const response = await fetch(`/api/cart/${userId}`, { method: "DELETE" });
+      const data = await response.json();
+      return data;
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["cart", userId] });
+    }
+  });
 
-  return { cart, isLoading, updateCountMutation, deleteCart };
+  return { cart, isLoading, updateCountMutation, deleteCartMutation, deleteUserCartMutation };
 };
 
 export default useCart;
