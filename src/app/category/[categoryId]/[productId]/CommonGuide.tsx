@@ -20,33 +20,34 @@ const CommonGuide = () => {
       </ul>
 
       <ul className="text-[14px]">
-        <h3 className="text-tc-base font-[600] text-[16px] mt-[20px] mb-[10px]">배송정보</h3>
-        <li className="leading-snug">배송 방법 : 택배, 현장수령령</li>
-        <li className="leading-snug">배송 지역 : 전국지역</li>
-        <li className="leading-snug"> 배송 비용 : 무료</li>
-        <li className="leading-snug"> 배송 기간 : 2일 ~ 7일 </li>
+        <h3 className="text-tc-base font-[600] text-[16px] mt-[20px] mb-[10px]">수령 안내</h3>
+        <li className="leading-snug">수령 방법 : 현장수령</li>
+        <li className="leading-snug"> 수령 기간 : 2일 ~ 7일 </li>
         <li className="leading-snug">
-          배송 안내 : 반품 및 교환시 배송비 7000원이 발생됨을 알려드립니다.(일부품목 제외)
-          <br /> 산간벽지나 도서지방은 별도의 추가금액을 지불하셔야 하는 경우가 있습니다.
-          <br /> 고객님께서 주문하신 상품은 입금 확인후 배송해 드립니다. 다만, 상품종류에 따라서 상품의 배송이 다소
-          지연될 수 있습니다.
-          <br /> 오후 1시전까지의 결제완료된 주문건은 당일 발송해 드립니다. 오후 1시 이후 취소 요청건은 택배준비중으로
-          출고전 취소가 불가능 합니다. 제품을 받으신후 반품 요청 해주시길 바랍니다. 반품비는 고객부담입니다.
+          수령 안내 : 주문하신 상품은 현장에서 직접 수령이 가능합니다.
+          <br /> 반품 및 교환시 추가 비용이 발생할 수 있으며, 자세한 내용은 상담 부탁드립니다.
+          <br /> 오후 1시전까지의 주문건은 당일 수령이 가능합니다. 오후 1시 이후 주문건은 익일 수령 예정이며,
+          <br /> 특별한 사유로 인해 수령이 지연될 경우 고객님께 안내 드리겠습니다.
         </li>
       </ul>
 
       <ul className="text-[14px]">
-        <h3 className="text-tc-base font-[600] text-[16px] mt-[20px] mb-[10px]">교환 및 반품정보</h3>
+        <h3 className="text-tc-base font-[600] text-[16px] mt-[20px] mb-[10px]">수령 및 렌탈 정보</h3>
         <ul>
-          <h4 className="text-tc-base text-[16px] my-[10px]">교환 및 반품이 가능한 경우</h4>
+          <h4 className="text-tc-base text-[16px] my-[10px]">수령 및 렌탈 상품 안내</h4>
+          <li className="leading-snug">- 현장에서 상품을 직접 수령하거나 렌탈 서비스를 이용하실 수 있습니다.</li>
           <li className="leading-snug">
-            - 상품을 공급 받으신 날로부터 7일이내 교환 및 반품이 가능합니다.(일부품목 제외)
+            - 상품을 수령하신 날로부터 7일 이내에는 교환 및 반품이 가능합니다. (일부 품목 제외)
           </li>
           <li className="leading-snug">
-            - 공급받으신 상품 및 용역의 내용이 표시.광고 내용과 다르거나 다르게 이행된 경우에는 공급받은 날로부터 3개월
-            이내, 그사실을 알게 된 날로부터 30일 이내 가능합니다.
+            - 렌탈 서비스 이용 시에는 계약 내용을 정확히 확인하시고, 광고 내용과 일치하는지 확인해주세요.
+          </li>
+          <li className="leading-snug">
+            - 상품 또는 용역의 내용이 표시나 광고 내용과 다르게 이행된 경우, 상품 수령 후 3개월 이내 또는 그 사실을 알게
+            된 날로부터 30일 이내에 교환 및 반품이 가능합니다.
           </li>
         </ul>
+
         <ul>
           <h4 className="text-tc-base  text-[16px] mt-[20px] mb-[10px]"> 교환 및 반품이 불가능한 경우</h4>
           <li className="leading-snug">- 상품에 부착된 택 및 품질보증서를 제거하거나 제거한 흔적이 있는 경우 </li>
@@ -62,12 +63,7 @@ const CommonGuide = () => {
             - 시간의 경과에 의하여 재판매가 곤란할 정도로 상품등의 가치가 현저히 감소한 경우
           </li>
         </ul>
-        <p className="my-[20px]">
-          ※ 욜로오션션 전 제품은 현장수령/무료배송송입니다. 단, 배송된 건에 한해 반품, 환불을 하실 경우 상품반송 비용
-          7000원은 고객님께서 부담하셔야 합니다.
-          <br />
-          (일부품목 제외) (색상 교환, 사이즈 교환 등 포함)
-        </p>
+        <p className="my-[20px]">※ 욜로오션션 전 제품은 현장수령입니다.</p>
       </ul>
     </>
   );
