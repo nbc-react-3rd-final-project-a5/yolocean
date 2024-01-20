@@ -12,27 +12,29 @@ const CategorySection = ({ categoryName, categoryId }: { categoryName: string; c
 
   const { data, isLoading, refetch } = useQuery({
     queryFn: async () => {
-      if (office.id) {
-        const res = await fetch(`/api/products/${categoryId}`);
-        const result = await res.json();
-        const Product = result.filter((item: any) => {
-          return item.stock.find((store: any) => {
-            if (store["store_id"] === office.id) {
-              return true;
-            } else return false;
-          });
-        });
-        return Product;
-      } else {
-        const res = await fetch(`/api/products/${categoryId}`);
-        const result = await res.json();
-        return result;
-      }
+      const res = await fetch(`/api/products/${categoryId}`);
+      const result = await res.json();
+      return result;
+      // if (office.id) {
+      //   const res = await fetch(`/api/products/${categoryId}`);
+      //   const result = await res.json();
+      //   const Product = result.filter((item: any) => {
+      //     return item.stock.find((store: any) => {
+      //       if (store["store_id"] === office.id) {
+      //         return true;
+      //       } else return false;
+      //     });
+      //   });
+      //   return Product;
+      // } else {
+      //   const res = await fetch(`/api/products/${categoryId}`);
+      //   const result = await res.json();
+      //   return result;
+      // }
     },
     queryKey: office.id ? ["products", categoryId] : ["products", categoryId, office.id]
   });
 
-  console.log(data);
   useEffect(() => {
     refetch({});
   }, [office, refetch]);

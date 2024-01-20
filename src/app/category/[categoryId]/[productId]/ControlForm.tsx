@@ -14,7 +14,6 @@ import { openConfirm } from "@/store/confirmStore";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { IoShareSocial, IoShareSharp, IoClose } from "react-icons/io5";
-import { RiKakaoTalkFill } from "react-icons/ri";
 import ShareModal from "./ShareModal";
 
 interface Props {
@@ -120,7 +119,6 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
             <Controller
               rules={{
                 required: "날짜를 선택해주세요",
-
                 pattern: /^d{4}.d{2}.d{2}$/
               }}
               control={control}
@@ -136,6 +134,7 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
                   onChangeRaw={(e) => (e.target.value = "")}
                   onChange={(date) => field.onChange(date)}
                   selected={field.value}
+                  autoComplete="off"
                 />
               )}
             />
