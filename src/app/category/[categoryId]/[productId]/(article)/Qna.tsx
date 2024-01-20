@@ -10,8 +10,9 @@ interface Props {
   productId: string;
 }
 const Qna = ({ productId }: Props) => {
-  const searchParams = useSearchParams();
-  const page = Number(searchParams.get("qna_page")) || 1;
+  // const searchParams = useSearchParams();
+  // const page = Number(searchParams.get("qna_page")) || 1;
+  const [page, setPage] = useState(1);
 
   const { auth } = useAuthStore();
   const { data: qna, isLoading } = useQuery({
@@ -25,10 +26,11 @@ const Qna = ({ productId }: Props) => {
 
   return (
     <div>
-      <button onClick={() => console.log(searchParams.get("page"))}>params</button>
-      <Link href={`/qna/product/${productId}`}>작성테스트</Link>
+      {/* <Link href={`/qna/product/${productId}`}>작성테스트</Link> */}
       {qna && !isLoading && <ReviewList currentUserId={auth} reviewList={qna.qna} listType="qna" />}
-      {qna && <Pagenation maxPage={qna.maxPage} currentPage={page} limit={5} />}
+      {qna && (
+        <Pagenation articleName={"제품문의"} setPage={setPage} maxPage={qna.maxPage} currentPage={page} limit={5} />
+      )}
     </div>
   );
 };

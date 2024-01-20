@@ -66,7 +66,7 @@ const Home = async () => {
         <div className="grid grid-cols-4 gap-[13px]">
           {/* {reviews.map((review) => (
             <Link href={`/category/${review.product.category_id}/${review.product_id}#후기`}>
-              <img key={review.id} className="w-[291px] h-[291px]" src={review.url![0]} />
+              <img key={review.id} className="w-[291px] h-[291px]" src={review?.url![0]} />
             </Link>
           ))} */}
         </div>
