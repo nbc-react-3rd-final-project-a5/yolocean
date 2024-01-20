@@ -19,15 +19,15 @@ import { AiOutlineConsoleSql } from "react-icons/ai";
 const linkList = [
   {
     name: "홈",
-    url: "http://localhost:3000/"
+    url: "https://yolocean.vercel.app/"
   },
   {
     name: "장바구니",
-    url: "http://localhost:3000/cart"
+    url: "https://yolocean.vercel.app/cart"
   },
   {
     name: "주문서",
-    url: "http://localhost:3000/payment"
+    url: "https://yolocean.vercel.app/payment"
   }
 ];
 

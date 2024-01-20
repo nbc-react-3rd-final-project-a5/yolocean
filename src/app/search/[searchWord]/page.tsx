@@ -7,11 +7,11 @@ import React from "react";
 const linkList = [
   {
     name: "홈",
-    url: "http://localhost:3000/"
+    url: "https://yolocean.vercel.app/"
   },
   {
     name: "검색결과",
-    url: "http://localhost:3000/search"
+    url: "https://yolocean.vercel.app/search"
   }
 ];
 

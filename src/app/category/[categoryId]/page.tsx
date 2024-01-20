@@ -1,11 +1,9 @@
 import React from "react";
 import CategorySection from "./CategorySection";
 import CategoryHeader from "./CategoryHeader";
-import getPath from "@/utils/getPath";
 
 const getCategoryName = async ({ categoryId }: { categoryId: string }): Promise<string> => {
-  const { domain } = getPath();
-  const result = await fetch(`http://${domain}/api/category/${categoryId}`, { method: "GET" });
+  const result = await fetch(`https://yolocean.vercel.app/api/category/${categoryId}`, { method: "GET" });
   if (!result.ok) {
     throw new Error("카테고리 데이터 불러오기 실패");
   }
