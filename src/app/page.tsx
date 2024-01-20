@@ -1,7 +1,6 @@
 import CardLists from "@/components/CardLists";
 import Section from "@/components/layout/Section";
-import { supabase } from "@/service/supabase";
-import { ExtendFixedReview, ProductProperties, Review } from "@/types/db";
+import { ExtendFixedReview, ProductProperties } from "@/types/db";
 import getPath from "@/utils/getPath";
 import Link from "next/link";
 
