@@ -1,0 +1,66 @@
+import Link from "next/link";
+import React from "react";
+import footerData from "@/data/footerData.json";
+
+const Footer = () => {
+  const { linkList, infoList } = footerData;
+  return (
+    <footer className="mt-[200px]">
+      <nav className="text-tc-light py-[20px] border-y-[1px] border-line">
+        <ul className="max-w-[1200px] mx-auto w-[90%] flex  gap-[20px] text-[14px] ">
+          {linkList.map((n) => (
+            <li className="hover:underline" key={`footer__nav-${n.title}`}>
+              <Link href={n.disable ? "#" : n.link} prefetch={false}>
+                {n.title}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <div className="max-w-[1200px] mx-auto w-[90%] py-[40px] flex gap-y-[40px] flex-wrap justify-between">
+        {/* left */}
+        <div className="text-[14px] flex flex-col gap-[15px]">
+          {infoList.map((n, i1) => {
+            return (
+              <div key={i1} className="flex gap-[15px]">
+                {n.map((info, i2) => {
+                  return (
+                    <p key={`${i1}-${i2}`}>
+                      <span className="mr-[10px] text-tc-middle">{info.title}</span>
+                      {info.content}
+                      {info.link && (
+                        <Link className="ml-[10px] underline" href={info.link.link}>
+                          {info.link.title}
+                        </Link>
+                      )}
+                    </p>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+        {/* right */}
+        <div className="flex  gap-[30px]">
+          <div className="font-[500]">
+            <p className="mb-[10px] text-tc-middle">고객센터</p>
+            <p className=" text-[34px] tracking-[0.68px]">1234-5678</p>
+          </div>
+          <ul className="flex flex-col gap-[6px] text-tc-middle font-[14px]">
+            <li className="flex  gap-[15px]">
+              <span className="inline-block w-[40px] ">월-금</span>
+              AM 10:00 - PM 17:00
+            </li>
+            <li className="flex  gap-[15px]">
+              <span className="inline-block w-[40px] ">점심</span>
+              PM 12:00 - PM 13:00
+            </li>
+            <li className="">주말, 공휴일은 휴무</li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;

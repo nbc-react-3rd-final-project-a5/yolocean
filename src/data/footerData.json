@@ -1,0 +1,47 @@
+{
+  "linkList": [
+    {
+      "title": "이용약관",
+      "link": "/",
+      "disable": true
+    },
+    {
+      "title": "개인정보취급방침",
+      "link": "/",
+      "disable": true
+    },
+    {
+      "title": "고객센터",
+      "link": "/customer",
+      "disable": false
+    },
+    {
+      "title": "채용정보",
+      "link": "/support",
+      "disable": true
+    }
+  ],
+  "infoList": [
+    [
+      { "title": "상호명 및 호스팅 서비스 제공", "content": "㈜ 욜로오션" },
+      { "title": "대표", "content": "nbc-react-3rd-yolocean" },
+      {
+        "title": "대표전화",
+        "content": "1234-5678"
+      }
+    ],
+    [{ "title": "주소", "content": "부산광역시 부산진구 전포동" }],
+    [
+      { "title": "사업자 등록번호", "content": "123-45-67890" },
+      {
+        "title": "통신판매업 신고",
+        "content": "제 2012-부산진구-1674호",
+        "link": {
+          "title": "사업자정보확인",
+          "link": "https://teht.hometax.go.kr/websquare/websquare.html?w2xPath=/ui/ab/a/a/UTEABAAA13.xml"
+        }
+      }
+    ],
+    [{ "title": "email", "content": "help@yolocean.com" }]
+  ]
+}
