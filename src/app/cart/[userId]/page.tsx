@@ -1,15 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Section from "@/components/layout/Section";
-import CartItem from "./CartItem";
+import CartItem from "../CartItem";
 import { useCart } from "@/hooks";
 import Link from "next/link";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import { CartBox } from "@/types/db";
-import { useQuery } from "@tanstack/react-query";
 import useLogedInStore from "@/store/logedStore";
 import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/store/authStore";
 
 const linkList = [
   {
@@ -22,14 +20,15 @@ const linkList = [
   }
 ];
 
-const Page = () => {
+const CartPage = ({ params }: { params: { userId: string } }) => {
   const router = useRouter();
   //로그인 여부 확인
   const { logedIn } = useLogedInStore();
 
-  const { auth } = useAuthStore();
+  //userId
+  const userId = params.userId;
 
-  const { cart, isLoading } = useCart({ userId: auth, cartId: "" });
+  const { cart, isLoading } = useCart({ userId: userId, cartId: "" });
 
   const [cartPrice, setCartPrice] = useState<number[]>([]);
   const [originPrice, setOriginPrice] = useState<number[]>([]);
@@ -103,4 +102,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default CartPage;
