@@ -12,8 +12,10 @@ import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import { useForm } from "react-hook-form";
 import { createPayment } from "@/lib/portone";
 import { usealertStore } from "@/store/alertStore";
+import { useModalStore } from "@/store/modalStore";
 import { openConfirm } from "@/store/confirmStore";
 import { useRouter } from "next/navigation";
+import SuccessModal from "./SuccessModal";
 
 const linkList = [
   {
@@ -55,6 +57,7 @@ const PaymentPage = () => {
 
   // === 결제 관련 ===
   const { alertFire } = usealertStore();
+  const { openModal } = useModalStore();
   const {
     register,
     formState: { isValid }
@@ -73,19 +76,22 @@ const PaymentPage = () => {
       };
       return rentItem;
     });
-    console.log(rentData);
     return rentData;
   };
 
   //rent data upload
   const insertRentData = async () => {
     if (cart !== undefined) {
+      const rentData = setRentData(cart);
       await fetch(`/api/rent/${auth}`, {
         method: "POST",
-        body: JSON.stringify(setRentData(cart))
+        body: JSON.stringify(rentData)
       })
         .then((res) => {
           deleteUserCartMutation.mutate(auth);
+        })
+        .then(() => {
+          openModal(<SuccessModal rentData={rentData} />);
         })
         .catch((error) => console.log(error));
     }
@@ -99,10 +105,7 @@ const PaymentPage = () => {
 
     if (isPass) {
       // 결제 성공 후 진행할 로직
-      // deleteUserCartMutation.mutate(auth);
       insertRentData();
-      alertFire("결제 성공", "success");
-      router.replace("/");
     } else {
       // 결제 실패 시 진행할 로직
       alertFire(msg, "error");
