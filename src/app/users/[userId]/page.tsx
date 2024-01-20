@@ -4,11 +4,11 @@ import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 const linkList = [
   {
     name: "홈",
-    url: "http://localhost:3000/"
+    url: "https://yolocean.vercel.app/"
   },
   {
     name: "마이페이지",
-    url: "http://localhost:3000/"
+    url: "https://yolocean.vercel.app/"
   }
 ];
 const MyPage = () => {

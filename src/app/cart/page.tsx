@@ -14,11 +14,11 @@ import { useAuthStore } from "@/store/authStore";
 const linkList = [
   {
     name: "홈",
-    url: "http://localhost:3000/"
+    url: "https://yolocean.vercel.app/"
   },
   {
     name: "장바구니",
-    url: "http://localhost:3000/cart"
+    url: "https://yolocean.vercel.app/cart"
   }
 ];
 
