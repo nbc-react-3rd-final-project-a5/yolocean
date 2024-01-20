@@ -3,6 +3,49 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export interface Database {
   public: {
     Tables: {
+      banner: {
+        Row: {
+          banner_id: string;
+          id: string;
+        };
+        Insert: {
+          banner_id: string;
+          id: string;
+        };
+        Update: {
+          banner_id?: string;
+          id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "banner_id_fkey";
+            columns: ["id"];
+            isOneToOne: true;
+            referencedRelation: "objects";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      carousel: {
+        Row: {
+          id: string;
+        };
+        Insert: {
+          id: string;
+        };
+        Update: {
+          id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "carousel_id_fkey";
+            columns: ["id"];
+            isOneToOne: true;
+            referencedRelation: "objects";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       cart: {
         Row: {
           count: number | null;
@@ -66,6 +109,26 @@ export interface Database {
           id?: string;
         };
         Relationships: [];
+      };
+      fixed_review: {
+        Row: {
+          id: string;
+        };
+        Insert: {
+          id: string;
+        };
+        Update: {
+          id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "fixed_review_id_fkey";
+            columns: ["id"];
+            isOneToOne: true;
+            referencedRelation: "review";
+            referencedColumns: ["id"];
+          }
+        ];
       };
       product: {
         Row: {
