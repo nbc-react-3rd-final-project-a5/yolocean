@@ -25,7 +25,10 @@ const useCart = ({ userId, cartId }: Props) => {
 
   const updateCountMutation = useMutation({
     mutationFn: async (count: number) => {
-      await supabase.from("cart").update({ count: count }).eq("id", cartId).select();
+      await fetch(`/api/cart/${cartId}`, {
+        method: "PATCH",
+        body: JSON.stringify(count)
+      });
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
@@ -46,6 +49,7 @@ const useCart = ({ userId, cartId }: Props) => {
       refetch();
     }
   });
+
   const deleteUserCartMutation = useMutation({
     mutationFn: async (userId: string) => {
       const response = await fetch(`/api/cart/${userId}`, { method: "DELETE" });

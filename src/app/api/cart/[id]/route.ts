@@ -59,3 +59,20 @@ export const DELETE = async (_: NextRequest, context: { params: { id: string } }
   }
   return NextResponse.json(true);
 };
+
+//장바구니 수량 변경
+export async function PATCH(req: NextRequest, context: { params: { id: string } }) {
+  const {
+    params: { id: cartId }
+  } = context;
+
+  const body = await req.json();
+
+  const { data: cartItem, error } = await supabase.from("cart").update({ count: body }).eq("id", cartId).select();
+
+  if (error) {
+    console.log(error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+  return NextResponse.json(cartItem);
+}
