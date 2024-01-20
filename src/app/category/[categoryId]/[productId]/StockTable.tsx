@@ -46,7 +46,10 @@ const StockTable = ({ regionId }: Props) => {
                   <td className=" px-6 py-3  text-center border-gray-200 border-b bg-bg">
                     <FaLocationDot
                       onClick={() => {
-                        openModal(name, <KakaoMap store={{ id, address, lat, lng, name, region_id, stock }} />);
+                        openModal(
+                          // name,
+                          <KakaoMap store={{ id, address, lat, lng, name, region_id, stock }} />
+                        );
                       }}
                       className="mx-auto text-point cursor-pointer"
                       size={20}

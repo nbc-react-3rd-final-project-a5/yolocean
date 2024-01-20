@@ -1,30 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/service/supabase";
+import { CartBox } from "@/types/db";
+import { useEffect } from "react";
 
 interface Props {
   userId: string;
   cartId: string;
-}
-
-interface CartBox {
-  count: number | null;
-  id: string;
-  product_id: string | null;
-  store_id: string | null;
-  user_id: string;
-  rent_date: string;
-  product: {
-    name: string;
-    thumbnail: string;
-    price: number;
-    percentage_off: number;
-    category: {
-      category_name: string;
-    };
-  };
-  store: {
-    name: string;
-  };
 }
 
 const useCart = ({ userId, cartId }: Props) => {
@@ -32,7 +13,8 @@ const useCart = ({ userId, cartId }: Props) => {
   const {
     data: cart,
     isLoading,
-    isError
+    isError,
+    refetch
   } = useQuery({
     queryKey: ["cart"],
     queryFn: async (): Promise<CartBox[]> => {
@@ -50,6 +32,7 @@ const useCart = ({ userId, cartId }: Props) => {
       await queryClient.invalidateQueries({
         queryKey: ["cart", cartId]
       });
+      refetch();
     }
   });
 
