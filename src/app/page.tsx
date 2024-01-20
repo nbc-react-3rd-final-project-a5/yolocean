@@ -72,7 +72,7 @@ const Home = async () => {
         <CardLists cardLists={viewSortedItems} />
       </Section>
       <div className="bg-slate-300 w-[1200px] h-[280px] mb-[200px]">베너</div>
-      <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
+      {/* <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
         <div className="grid grid-cols-4 gap-[13px]">
           {reviews.map((review) => (
             <Link key={review.id} href={`/category/${review.product.category_id}/${review.product_id}#후기`}>
@@ -80,7 +80,7 @@ const Home = async () => {
             </Link>
           ))}
         </div>
-      </Section>
+      </Section> */}
     </div>
   );
 };
