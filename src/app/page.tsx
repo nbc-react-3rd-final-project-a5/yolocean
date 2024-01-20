@@ -18,7 +18,7 @@ const getFixedReviewData = async (): Promise<ExtendFixedReview[]> => {
   const { domain } = getPath();
   const result = await fetch(`http://${domain}/api/review/fixed`, { method: "GET" });
   if (!result.ok) {
-    throw new Error("Product 데이터 불러오기 실패");
+    throw new Error("Review 데이터 불러오기 실패");
   }
   return result.json();
 };
