@@ -32,3 +32,24 @@ export interface ExtendReview extends Review {
   product: { name: string; thumbnail: string; category_id: string };
   url: string[] | null;
 }
+
+export interface CartBox {
+  count: number | null;
+  id: string;
+  product_id: string | null;
+  store_id: string | null;
+  user_id: string;
+  rent_date: string;
+  product: {
+    name: string;
+    thumbnail: string;
+    price: number;
+    percentage_off: number;
+    category: {
+      category_name: string;
+    };
+  };
+  store: {
+    name: string;
+  };
+}

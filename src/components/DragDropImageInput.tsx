@@ -1,15 +1,17 @@
 "use client";
 
-import { useImageFile } from "@/hooks";
+import { useImageInput } from "@/hooks";
+import useStorage from "@/utils/useStorage";
 import React, { useRef, useState } from "react";
 
 const DragAndDropImageBox = () => {
   const imageWrap = useRef(null);
   const [isEnter, setIsEnter] = useState(false);
-  const { imageFiles, onChangeImageFiles, OnDropFiles, uploadMultipleImages, onClickDeleteImage } = useImageFile();
+  const { customImage, handler, addPreImage, customImageList, isEnter: inputEnter } = useImageInput("multiple");
+  const { uploadMultipleImages } = useStorage();
 
   const onDrop = (e: React.DragEvent<HTMLLabelElement>) => {
-    OnDropFiles(e);
+    handler.handleDrop(e);
     setIsEnter(false);
   };
 
@@ -55,7 +57,7 @@ const DragAndDropImageBox = () => {
           type="file"
           name="input__image"
           id="input__image"
-          onChange={onChangeImageFiles}
+          onChange={handler.handleAddImageChange}
           multiple
           className="hidden"
         />
@@ -70,7 +72,7 @@ const DragAndDropImageBox = () => {
       </label>
 
       <div className="flex gap-4 min-h-[100px] border-2 border-yellow-500" ref={imageWrap}>
-        {imageFiles?.map((n, i) => {
+        {customImageList?.map((n, i) => {
           return (
             <div
               key={i}
@@ -80,13 +82,18 @@ const DragAndDropImageBox = () => {
               draggable="true"
               className=""
             >
-              <img src={n.url} alt="" className="w-[100px] h-[100px]" onClick={(e) => onClickDeleteImage(e, n)} />
+              <img
+                src={n.previewURL}
+                alt=""
+                className="w-[100px] h-[100px]"
+                onClick={(e) => handler.handleDeleteImageClick(e, n)}
+              />
             </div>
           );
         })}
       </div>
       <div>
-        <button onClick={() => uploadMultipleImages("product", ["pi1", "pi2"], "productName1")}>업로드</button>
+        {/* <button onClick={() => uploadMultipleImages("product", ["pi1", "pi2"], "productName1")}>업로드</button> */}
       </div>
     </div>
   );
