@@ -1,18 +1,8 @@
 import CardLists from "@/components/CardLists";
 import Section from "@/components/layout/Section";
-import { supabase } from "@/service/supabase";
-import { ExtendReview, ProductProperties, Review } from "@/types/db";
-import { Json } from "@/types/supabase";
+import { ExtendReview, ProductProperties } from "@/types/db";
 import getPath from "@/utils/getPath";
 import Link from "next/link";
-
-interface FixedReview extends Review {
-  id: string;
-  store: { name: string; region: { region: string } };
-  userinfo: { username: string; avatar_url: string };
-  product: { name: string; thumbnail: string; category_id: string };
-  url: string[];
-}
 
 const getProductData = async (): Promise<ProductProperties[]> => {
   const { domain } = getPath();
@@ -23,13 +13,13 @@ const getProductData = async (): Promise<ProductProperties[]> => {
   return result.json();
 };
 
-const getReviewData = async (): Promise<FixedReview[]> => {
+const getReviewData = async (): Promise<ExtendReview[]> => {
   const { domain } = getPath();
-  const { data, error } = await supabase.from("fixed_review").select("*, review");
-  if (error) {
+  const result = await fetch(`http://${domain}/api/review`, { method: "GET" });
+  if (!result.ok) {
     throw new Error("Review 데이터 불러오기 실패");
   }
-  return data;
+  return result.json();
 };
 
 const Home = async () => {
@@ -75,8 +65,8 @@ const Home = async () => {
       {/* <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
         <div className="grid grid-cols-4 gap-[13px]">
           {reviews.map((review) => (
-            <Link key={review.id} href={`/category/${review.product.category_id}/${review.product_id}#후기`}>
-              <img className="w-[291px] h-[291px]" src={review.url[0]} />
+            <Link href={`/category/${review.product.category_id}/${review.product_id}#후기`}>
+              <img key={review.id} className="w-[291px] h-[291px]" src={review.url![0]} />
             </Link>
           ))}
         </div>
