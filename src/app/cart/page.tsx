@@ -5,7 +5,7 @@ import CartItem from "./CartItem";
 import { useCart } from "@/hooks";
 import Link from "next/link";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
-
+import { CartBox } from "@/types/db";
 import { useQuery } from "@tanstack/react-query";
 import useLogedInStore from "@/store/logedStore";
 import { useRouter } from "next/navigation";
@@ -21,27 +21,6 @@ const linkList = [
     url: "http://localhost:3000/cart"
   }
 ];
-
-export interface CartBox {
-  count: number | null;
-  id: string;
-  product_id: string | null;
-  store_id: string | null;
-  user_id: string;
-  rent_date: string;
-  product: {
-    name: string;
-    thumbnail: string;
-    price: number;
-    percentage_off: number;
-    category: {
-      category_name: string;
-    };
-  };
-  store: {
-    name: string;
-  };
-}
 
 const Page = () => {
   const router = useRouter();
