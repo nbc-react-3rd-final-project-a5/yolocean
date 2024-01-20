@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import CartItem from "../cart/CartItem";
-import { CartBox } from "@/types/db";
+import { CartBox, RentInsert } from "@/types/db";
 import { useCart } from "@/hooks";
 import { UserInfo } from "@/types/db";
 import { useQuery } from "@tanstack/react-query";
@@ -61,22 +61,52 @@ const PaymentPage = () => {
   } = useForm({ mode: "onBlur" });
   const router = useRouter();
 
+  //rent db형식에 맞게
+  const setRentData = (cart: CartBox[]) => {
+    const rentData: RentInsert[] = cart.map((cartItem) => {
+      let rentItem: RentInsert = {
+        product_id: cartItem.product_id || "",
+        store_id: cartItem.store_id || "",
+        user_id: cartItem.user_id || "",
+        count: cartItem.count || 0,
+        rent_date: cartItem.rent_date || ""
+      };
+      return rentItem;
+    });
+    console.log(rentData);
+    return rentData;
+  };
+
+  //rent data upload
+  const insertRentData = async () => {
+    if (cart !== undefined) {
+      await fetch(`/api/rent/${auth}`, {
+        method: "POST",
+        body: JSON.stringify(setRentData(cart))
+      })
+        .then((res) => {
+          deleteUserCartMutation.mutate(auth);
+        })
+        .catch((error) => console.log(error));
+    }
+  };
+
   // 결제하기 버튼 핸들러
   const handlePaymentClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    // if (!user?.phone) return alertFire("회원 전화번호 입력 에러", "error");
-    // const { isPass, msg } = await createPayment({ amount: discountedPrice, buyer_tel: user?.phone || "01012341234" });
+    if (!user?.phone) return alertFire("회원 전화번호 입력 에러", "error");
+    const { isPass, msg } = await createPayment({ amount: discountedPrice, buyer_tel: user?.phone || "01012341234" });
 
-    // if (isPass) {
-    //   // 결제 성공 후 진행할 로직
-    //   deleteUserCartMutation.mutate(auth);
-
-    //   alertFire("결제 성공", "success");
-    // } else {
-    //   // 결제 실패 시 진행할 로직
-    //   alertFire(msg, "error");
-    // }
-    console.log(cart);
+    if (isPass) {
+      // 결제 성공 후 진행할 로직
+      // deleteUserCartMutation.mutate(auth);
+      insertRentData();
+      alertFire("결제 성공", "success");
+      router.replace("/");
+    } else {
+      // 결제 실패 시 진행할 로직
+      alertFire(msg, "error");
+    }
   };
 
   // 취소하기 버튼 핸들러
