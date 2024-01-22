@@ -98,14 +98,14 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
           {percentage_off && (
             <div className="flex gap-[12px] ">
               <p className="w-[89px]">할인가</p>
-              <p>{Math.floor(price / percentage_off)}원</p>
+              <p>{Math.floor(price - (price - (price * percentage_off) / 100))}원</p>
               {/* <p>{price}원</p> */}
             </div>
           )}
           <div className="flex gap-[12px] ">
             <p className="w-[89px]">최종가격</p>
             {/* <p className="font-[700]">{price}원</p> */}
-            {percentage_off && <p className="font-[700]">{Math.floor(price / percentage_off)}원</p>}
+            {percentage_off && <p className="font-[700]">{Math.floor(price - (price * percentage_off) / 100)}원</p>}
             {!percentage_off && <p className="font-[700]">{price}원</p>}
           </div>
         </div>

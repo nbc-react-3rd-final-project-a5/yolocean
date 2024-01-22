@@ -6,6 +6,7 @@ import Description from "./(article)/Description";
 import Infomation from "./(article)/Infomation";
 import Qna from "./(article)/Qna";
 import Review from "./(article)/Review";
+import Link from "next/link";
 
 interface Props {
   info_img: string;
@@ -58,21 +59,32 @@ const Info = ({ info_img, info, productId }: Props) => {
           }}
         />
       </div>
-      <article ref={(el) => (observerRef.current[0] = el)} id="상품설명" className="mt-[40px] w-[795px] mx-auto  ">
-        <Description info_img={info_img} />
-      </article>
+      <div className="flex flex-col gap-[100px]">
+        <article ref={(el) => (observerRef.current[0] = el)} id="상품설명" className="mt-[40px] w-[795px] mx-auto  ">
+          <h1 className="text-[18px] font-[700] mb-[25px] ">상품설명</h1>
+          <Description info_img={info_img} />
+        </article>
 
-      <article ref={(el) => (observerRef.current[1] = el)} className="w-[795px] mx-auto  mt-[40px " id="상세정보">
-        <Infomation info={info} />
-      </article>
+        <article ref={(el) => (observerRef.current[1] = el)} className="w-[795px] mx-auto  mt-[40px " id="상세정보">
+          <h1 className="text-[18px] font-[700] mb-[25px] ">상세정보</h1>
+          <Infomation info={info} />
+        </article>
 
-      <article ref={(el) => (observerRef.current[2] = el)} className="w-[795px] mx-auto  mt-[40px" id="후기">
-        <Review productId={productId} />
-      </article>
+        <article ref={(el) => (observerRef.current[2] = el)} className="w-[795px] mx-auto  mt-[40px" id="후기">
+          <h1 className="text-[18px] font-[700] mb-[25px] ">후기</h1>
+          <Review productId={productId} />
+        </article>
 
-      <article ref={(el) => (observerRef.current[3] = el)} className="w-[795px] mx-auto  mt-[40px" id="제품문의">
-        <Qna productId={productId} />
-      </article>
+        <article ref={(el) => (observerRef.current[3] = el)} className="w-[795px] mx-auto  mt-[40px" id="제품문의">
+          <div className="flex justify-between items-center  mb-[25px]">
+            <h1 className="text-[18px] font-[700] ">제품문의</h1>
+            <Link href={`/qna/product/${productId}`}>
+              <button className="bg-point text-white text-[14px] rounded-lg  px-[18px] py-[10px]">{`문의 작성`}</button>
+            </Link>
+          </div>
+          <Qna productId={productId} />
+        </article>
+      </div>
     </div>
   );
 };
