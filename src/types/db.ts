@@ -11,6 +11,7 @@ export type Store = Tables<"store">;
 export type UserInfo = Tables<"userinfo">;
 export type Region = Tables<"region">;
 export type RentInsert = TablesInsert<"rent">;
+export type FixedReview = Tables<"fixed_review">;
 export interface ProductProperties extends Product {
   info: [string];
   category: {
@@ -33,7 +34,15 @@ export interface ExtendReview extends Review {
   product: { name: string; thumbnail: string; category_id: string };
   url: string[] | null;
 }
-
+export interface ExtendReviewNotNull extends Review {
+  store: { name: string; region: { region: string } };
+  userinfo: { username: string; avatar_url: string };
+  product: { name: string; thumbnail: string; category_id: string };
+  url: string[];
+}
+export interface ExtendFixedReview extends FixedReview {
+  review: ExtendReviewNotNull;
+}
 export interface CartBox {
   count: number | null;
   id: string;
