@@ -4,13 +4,14 @@ import useUserEditModeStore from "@/store/editUserStore";
 import { UserInfo } from "@/types/db";
 import useStorage from "@/utils/useStorage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+
 import React, { useEffect, useState } from "react";
 import { MdPhotoCameraBack } from "react-icons/md";
 
 const EditUserInfo = ({ user, refetch }: { user: UserInfo | undefined; refetch: any }) => {
   const [name, setName] = useState<string>(`${user!.username}`);
-
+  const router = useRouter();
   const { userId } = useParams() as { userId: string };
   const { setIsEditMode } = useUserEditModeStore();
   const { uploadImage, deleteImage } = useStorage();
@@ -43,6 +44,7 @@ const EditUserInfo = ({ user, refetch }: { user: UserInfo | undefined; refetch: 
       userId: userId
     });
     setIsEditMode(false);
+    router.refresh();
   };
 
   useEffect(() => {

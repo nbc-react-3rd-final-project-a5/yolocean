@@ -6,7 +6,12 @@ export const GET = async (req: NextRequest, context: { params: { userId: string 
     params: { userId }
   } = context;
 
-  const { data: rent, error } = await supabase.from("rent").select("*").eq("user_id", userId);
+  const { data: rent, error } = await supabase
+    .from("rent")
+    .select(
+      "*, product!inner(name, price, thumbnail, category!inner(category_name)), store!inner(name, region!inner(region)) "
+    )
+    .eq("user_id", userId);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
