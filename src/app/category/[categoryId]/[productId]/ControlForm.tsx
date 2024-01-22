@@ -62,14 +62,14 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
     if (submitType === "cart") {
       const answer = await openConfirm(message, "장바구니를 바로 확인하시겠습니까?");
       if (answer) {
-        router.push(`/cart`);
+        router.push(`/cart/${auth}`);
       }
     }
 
     if (submitType === "buy") {
       const answer = await openConfirm(message, "구매페이지로 이동하시겠습니까?");
       if (answer) {
-        router.push(`/payment`);
+        router.push(`/payment/${auth}`);
       }
     }
   }

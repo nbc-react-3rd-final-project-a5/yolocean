@@ -1,4 +1,4 @@
-import { Tables } from "./supabase";
+import { Tables, TablesInsert } from "./supabase";
 
 export type Cart = Tables<"cart">;
 export type CategoryTable = Tables<"category">;
@@ -10,6 +10,7 @@ export type Stock = Tables<"stock">;
 export type Store = Tables<"store">;
 export type UserInfo = Tables<"userinfo">;
 export type Region = Tables<"region">;
+export type RentInsert = TablesInsert<"rent">;
 export interface ProductProperties extends Product {
   info: [string];
   category: {
