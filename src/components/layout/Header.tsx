@@ -1,8 +1,6 @@
 import React from "react";
 import Link from "next/link";
-
-import { AiOutlineShopping } from "react-icons/ai";
-import { AiOutlineSearch } from "react-icons/ai";
+import HeaderCart from "./HeaderCart";
 import AuthBtn from "../auth/AuthBtn";
 import HeadCategory from "../category/HeadCategory";
 import HeaderSearch from "./HeaderSearch";
@@ -27,9 +25,7 @@ const Header = () => {
               <AuthBtn />
             </div>
             <div>
-              <Link href={"/cart"}>
-                <AiOutlineShopping size="22" className="mt-[5px]" color="#3074F0" />
-              </Link>
+              <HeaderCart />
             </div>
           </div>
         </div>

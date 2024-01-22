@@ -45,3 +45,34 @@ export const POST = async (req: NextRequest, context: { params: { id: string } }
   }
   return NextResponse.json({ message: "장바구니 담기 성공" }, { status: 200 });
 };
+
+//결제 완료 시 결제한 유저의 카트정보 모두 삭제
+export const DELETE = async (_: NextRequest, context: { params: { id: string } }) => {
+  const {
+    params: { id: userId }
+  } = context;
+
+  const { error } = await supabase.from("cart").delete().eq("user_id", userId);
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+  return NextResponse.json(true);
+};
+
+//장바구니 수량 변경
+export async function PATCH(req: NextRequest, context: { params: { id: string } }) {
+  const {
+    params: { id: cartId }
+  } = context;
+
+  const body = await req.json();
+
+  const { data: cartItem, error } = await supabase.from("cart").update({ count: body }).eq("id", cartId).select();
+
+  if (error) {
+    console.log(error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+  return NextResponse.json(cartItem);
+}

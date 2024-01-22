@@ -25,7 +25,7 @@ const CartItem = (cart: Props) => {
 
   const [isVisible, setIsVisible] = useState(true);
 
-  const { updateCountMutation, deleteCart } = useCart({ userId: user_id, cartId: id });
+  const { updateCountMutation, deleteCartMutation } = useCart({ userId: user_id, cartId: id });
 
   const {
     register,
@@ -57,7 +57,7 @@ const CartItem = (cart: Props) => {
 
   const handleCartDelete = () => {
     setIsVisible(false);
-    deleteCart(id);
+    deleteCartMutation.mutate(id);
   };
 
   return (
