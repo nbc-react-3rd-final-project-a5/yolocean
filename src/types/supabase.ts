@@ -3,6 +3,49 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 export interface Database {
   public: {
     Tables: {
+      banner: {
+        Row: {
+          banner_id: string;
+          id: string;
+        };
+        Insert: {
+          banner_id: string;
+          id: string;
+        };
+        Update: {
+          banner_id?: string;
+          id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "banner_id_fkey";
+            columns: ["id"];
+            isOneToOne: true;
+            referencedRelation: "objects";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      carousel: {
+        Row: {
+          id: string;
+        };
+        Insert: {
+          id: string;
+        };
+        Update: {
+          id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "carousel_id_fkey";
+            columns: ["id"];
+            isOneToOne: true;
+            referencedRelation: "objects";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       cart: {
         Row: {
           count: number | null;
@@ -66,6 +109,26 @@ export interface Database {
           id?: string;
         };
         Relationships: [];
+      };
+      fixed_review: {
+        Row: {
+          id: string;
+        };
+        Insert: {
+          id: string;
+        };
+        Update: {
+          id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "fixed_review_id_fkey";
+            columns: ["id"];
+            isOneToOne: true;
+            referencedRelation: "review";
+            referencedColumns: ["id"];
+          }
+        ];
       };
       product: {
         Row: {
@@ -238,6 +301,7 @@ export interface Database {
           created_at: string;
           id: string;
           product_id: string;
+          store_id: string | null;
           title: string;
           url: Json | null;
           user_id: string;
@@ -247,6 +311,7 @@ export interface Database {
           created_at?: string;
           id?: string;
           product_id: string;
+          store_id?: string | null;
           title: string;
           url?: Json | null;
           user_id: string;
@@ -256,6 +321,7 @@ export interface Database {
           created_at?: string;
           id?: string;
           product_id?: string;
+          store_id?: string | null;
           title?: string;
           url?: Json | null;
           user_id?: string;
@@ -266,6 +332,13 @@ export interface Database {
             columns: ["product_id"];
             isOneToOne: false;
             referencedRelation: "product";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "review_store_id_fkey";
+            columns: ["store_id"];
+            isOneToOne: false;
+            referencedRelation: "store";
             referencedColumns: ["id"];
           },
           {
@@ -280,21 +353,18 @@ export interface Database {
       stock: {
         Row: {
           count: number;
-          created_at: string;
           id: string;
           product_id: string;
           store_id: string;
         };
         Insert: {
           count: number;
-          created_at?: string;
           id?: string;
           product_id: string;
           store_id: string;
         };
         Update: {
           count?: number;
-          created_at?: string;
           id?: string;
           product_id?: string;
           store_id?: string;
@@ -357,6 +427,7 @@ export interface Database {
           avatar_url: string | null;
           email: string | null;
           id: string;
+          phone: string;
           username: string | null;
           verified: boolean | null;
         };
@@ -365,6 +436,7 @@ export interface Database {
           avatar_url?: string | null;
           email?: string | null;
           id: string;
+          phone?: string;
           username?: string | null;
           verified?: boolean | null;
         };
@@ -373,6 +445,7 @@ export interface Database {
           avatar_url?: string | null;
           email?: string | null;
           id?: string;
+          phone?: string;
           username?: string | null;
           verified?: boolean | null;
         };

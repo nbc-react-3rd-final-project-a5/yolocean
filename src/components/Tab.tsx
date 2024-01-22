@@ -15,9 +15,9 @@ const Tab = ({ activeTab, handleTabClick, tabs, isVariable = false }: TabProps) 
         if (isVariable) {
           return (
             <li
-              onClick={(e) => handleTabClick(e, tab)}
-              className={` px-[20px] py-[10px] text-center rounded-3xl cursor-pointer  border-neutral-400 border    ${
-                activeTab === tab ? "bg-[#3074F0]  text-white" : "bg-white text-black"
+              onClick={() => handleTabClick(tab)}
+              className={` px-[20px] py-[10px] text-center rounded-3xl cursor-pointer  border-line border    ${
+                activeTab === tab ? "bg-point  text-white" : "bg-white text-tc-light"
               }`}
               key={tab}
             >
@@ -28,8 +28,8 @@ const Tab = ({ activeTab, handleTabClick, tabs, isVariable = false }: TabProps) 
           return (
             <li
               key={tab}
-              className={`flex-1 text-center cursor-pointer  border-neutral-400 border-4 rounded-sm p-1  ${
-                activeTab === tab ? "bg-neutral-400  text-black" : "bg-white"
+              className={`w-[291px] text-[16px] py-[15px] px-[10px]  font-[500] text-center border-line border-b cursor-pointer  ${
+                activeTab === tab ? "bg-point  text-white" : "bg-bg text-tc-base"
               }`}
               onClick={() => handleTabClick(tab)}
             >

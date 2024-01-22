@@ -40,9 +40,9 @@ const HeadCategory = () => {
 
   return (
     <>
-      <div className="flex flex-row space-x-4 cursor-pointer relative" onClick={() => setOpen(!open)}>
-        <RxHamburgerMenu size="24" />
-        <p>카테고리</p>
+      <div className="flex flex-row space-x-[10px] cursor-pointer relative mt-[5px]" onClick={() => setOpen(!open)}>
+        <RxHamburgerMenu size="24" color="#3074F0" />
+        <p className="text-[14px] text-point font-medium leading-loose">카테고리</p>
         {open && !isLoading && (
           <ul className="absolute p-1 mt-7 ml-7 text-right w-32 z-50 right-0 bg-white shadow-md cursor-pointer">
             {(category as CategoryTable[]).map((category) => (

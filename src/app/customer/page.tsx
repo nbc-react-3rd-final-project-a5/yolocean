@@ -8,12 +8,12 @@ const CustomerPage = () => {
   const [activeTab, setActiveTab] = useState<string>("사용자 정보 및 약관");
   {
     return (
-      <div className="max-w-[1200px] mx-auto">
-        <h1 className="text-[25px] font-semibold my-[80px] text-center">고객센터</h1>
+      <div>
+        <h1 className="text-[25px] font-[600] my-[80px] text-center">고객센터</h1>
         <Tab
           isVariable
           activeTab={activeTab}
-          handleTabClick={(e: React.MouseEvent<HTMLLIElement, MouseEvent>, tab: string) => setActiveTab(tab)}
+          handleTabClick={(tab: string) => setActiveTab(tab)}
           tabs={customerData.tabs}
         />
         <div className="my-[40px]">
@@ -23,9 +23,7 @@ const CustomerPage = () => {
               <Accordion key={q} title={q} body={a} index={index + 1} />
             ))}
         </div>
-        <button className="w-full bg-[#3074F0] text-white text-[18px] py-[16px] text-center mb-[80px]">
-          1:1문의하기
-        </button>
+        <button className="w-full bg-point text-white text-[18px] py-[16px] text-center mb-[80px]">1:1문의하기</button>
       </div>
     );
   }
