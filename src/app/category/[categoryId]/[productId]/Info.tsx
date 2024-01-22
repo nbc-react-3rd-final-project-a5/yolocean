@@ -58,21 +58,26 @@ const Info = ({ info_img, info, productId }: Props) => {
           }}
         />
       </div>
-      <article ref={(el) => (observerRef.current[0] = el)} id="상품설명" className="mt-[40px] w-[795px] mx-auto  ">
-        <Description info_img={info_img} />
-      </article>
+      <div className="flex flex-col gap-[100px]">
+        <article ref={(el) => (observerRef.current[0] = el)} id="상품설명" className="mt-[40px] w-[795px] mx-auto  ">
+          <Description info_img={info_img} />
+        </article>
 
-      <article ref={(el) => (observerRef.current[1] = el)} className="w-[795px] mx-auto  mt-[40px " id="상세정보">
-        <Infomation info={info} />
-      </article>
+        <article ref={(el) => (observerRef.current[1] = el)} className="w-[795px] mx-auto  mt-[40px " id="상세정보">
+          <h1 className="text-[18px] ">상세정보</h1>
+          <Infomation info={info} />
+        </article>
 
-      <article ref={(el) => (observerRef.current[2] = el)} className="w-[795px] mx-auto  mt-[40px" id="후기">
-        <Review productId={productId} />
-      </article>
+        <article ref={(el) => (observerRef.current[2] = el)} className="w-[795px] mx-auto  mt-[40px" id="후기">
+          <h1 className="text-[18px] ">후기</h1>
+          <Review productId={productId} />
+        </article>
 
-      <article ref={(el) => (observerRef.current[3] = el)} className="w-[795px] mx-auto  mt-[40px" id="제품문의">
-        <Qna productId={productId} />
-      </article>
+        <article ref={(el) => (observerRef.current[3] = el)} className="w-[795px] mx-auto  mt-[40px" id="제품문의">
+          <h1 className="text-[18px] ">제품문의</h1>
+          <Qna productId={productId} />
+        </article>
+      </div>
     </div>
   );
 };
