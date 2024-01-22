@@ -15,9 +15,10 @@ enum EnumListType {
 }
 
 const ReviewList = ({ reviewList, currentUserId, listType, isLoading }: Props) => {
-  if (isLoading) {
-    return <div>{EnumListType[listType]}목록 로딩중...</div>;
-  }
+  // 하이드레이션 에러로 주석처리
+  // if (isLoading) {
+  //   return <div>{EnumListType[listType]}목록 로딩중...</div>;
+  // }
 
   return (
     <>

@@ -7,9 +7,8 @@ import React, { useRef, useState } from "react";
 const DragAndDropImageBox = () => {
   const imageWrap = useRef(null);
   const [isEnter, setIsEnter] = useState(false);
-  const { customImage, handler, addPreImage, customImageList, isEnter: inputEnter } = useImageInput("multiple");
+  const { handler, addPreImage, customImageList, isEnter: isInputEnter } = useImageInput("multiple");
   const { uploadMultipleImages } = useStorage();
-
   const onDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     handler.handleDrop(e);
     setIsEnter(false);
