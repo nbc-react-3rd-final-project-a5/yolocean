@@ -32,14 +32,12 @@ const QnaPage = () => {
 
   if (isLoading) return <>로딩중</>;
 
-  console.log(data);
   const {
     name,
     thumbnail,
     category: { category_name }
   } = data.product as ProductProperties;
 
-  console.log(data);
   return (
     <>
       <Section title={"1:1 문의하기"} className="font-[600] text-[25px] leading-none" isCenter={true}>
