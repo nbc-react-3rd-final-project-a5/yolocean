@@ -5,7 +5,7 @@ import ReviewForm from "@/components/form/ReviewForm";
 import Image from "next/image";
 import React, { Suspense } from "react";
 import Section from "@/components/layout/Section";
-import { useProduct } from "@/hooks";
+import { useProduct } from "@/legacyHook";
 import { ProductProperties } from "@/types/db";
 
 const ReviewFormPage = () => {

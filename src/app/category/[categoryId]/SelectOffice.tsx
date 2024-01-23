@@ -1,5 +1,5 @@
 "use client";
-import { useRegion } from "@/hooks";
+import { useRegion } from "@/legacyHook";
 import { supabase } from "@/service/supabase";
 import { useModalStore } from "@/store/modalStore";
 import { useOfficeStore } from "@/store/officeStore";

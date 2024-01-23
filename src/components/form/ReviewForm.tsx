@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import InputImage from "../InputImage";
 import { TablesInsert } from "@/types/supabase";
-import { useImageInput, useReview } from "@/hooks";
+import { useImageInput, useReview } from "@/legacyHook";
 import useStorage from "@/utils/useStorage";
 
 interface Props {
