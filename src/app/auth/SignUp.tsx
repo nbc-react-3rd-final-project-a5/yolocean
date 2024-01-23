@@ -11,11 +11,11 @@ import { usealertStore } from "@/store/alertStore";
 const linkList = [
   {
     name: "홈",
-    url: "http://localhost:3000/"
+    url: "https://yolocean.vercel.app/"
   },
   {
     name: "회원가입",
-    url: "http://localhost:3000/auth"
+    url: "https://yolocean.vercel.app/auth"
   }
 ];
 

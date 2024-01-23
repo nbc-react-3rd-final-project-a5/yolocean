@@ -1,11 +1,12 @@
 "use client";
 
-import { Store } from "@/types/db";
+import { Region, Store } from "@/types/db";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Postcode } from "./PostCode";
 import { getLatLng } from "./useMap";
-import { useRegion } from "@/legacyHook";
+import { useQuery } from "@tanstack/react-query";
+import { createStore, getAllRegion } from "@/service/table";
 
 type StoreForm = Omit<Store, "id">;
 type LatLng = {
@@ -14,7 +15,7 @@ type LatLng = {
 };
 const StoreForm = () => {
   const [address, setAddress] = useState<string>("");
-  const { regions, isLoading } = useRegion();
+  const { data: regions, isLoading } = useQuery<Region[]>({ queryKey: ["regions"], queryFn: getAllRegion });
 
   const {
     register,
@@ -50,8 +51,7 @@ const StoreForm = () => {
 주소 : ${data.address}`
         )
       ) {
-        insertStoreData(data);
-
+        createStore({ body: JSON.stringify(data) });
         alert("등록이 완료되었습니다!");
       } else {
         return;
@@ -61,14 +61,9 @@ const StoreForm = () => {
       return;
     }
   };
-
-  const insertStoreData = async (data: StoreForm) => {
-    await fetch("/api/store", {
-      method: "POST",
-      body: JSON.stringify(data)
-    });
-  };
-
+  if (isLoading) {
+    return <div>로딩중...</div>;
+  }
   return (
     <div className="m-auto container max-w-[1200px] w-[90%] flex flex-col justify-center align-center gap-1">
       <p className="text-2xl font-bold">지점등록 페이지</p>
@@ -90,7 +85,7 @@ const StoreForm = () => {
           })}
         >
           <option>행정지역 선택 *</option>
-          {regions?.map((data) => {
+          {regions!.map((data) => {
             return (
               <option key={data.id} value={data.id}>
                 {data.region}
