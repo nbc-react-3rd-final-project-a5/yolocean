@@ -1,9 +1,10 @@
 "use client";
 
-import { useCategory } from "@/legacyHook";
+import { createProduct, getAllCategory } from "@/service/table";
 import { CategoryTable, Product } from "@/types/db";
 import useStorage from "@/utils/useStorage";
-import React, { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 
@@ -15,7 +16,10 @@ const ProductForm = () => {
   const [rangeValue, setRangeValue] = useState<string>("할인없음");
 
   const { uploadImage } = useStorage();
-  const { category, isLoading: isCategoryLoading } = useCategory();
+  const { data: category, isLoading: isCategoryLoading } = useQuery<CategoryTable[]>({
+    queryKey: ["category"],
+    queryFn: getAllCategory
+  });
   const {
     register,
     formState: { errors },
@@ -79,16 +83,12 @@ const ProductForm = () => {
     data.thumbnail = thumbnailUrl;
     data.info_img = infoImgUrl;
     if (data.info && data.name && data.category_id && data.price && data.thumbnail && data.id && data.original_price) {
-      insertProductData(data);
+      createProduct({ body: JSON.stringify(data) });
       alert("상품이 등록 되었습니다!");
     } else {
       alert("필수 항목을 모두 입력해주세요!");
       return;
     }
-  };
-
-  const insertProductData = async (data: Product) => {
-    await fetch("/api/product", { method: "POST", body: JSON.stringify(data) });
   };
 
   if (isCategoryLoading) {
@@ -186,7 +186,7 @@ const ProductForm = () => {
           <option>카테고리 선택 *</option>
           {errors?.category_id ? <p className=" text-red-500">{errors.category_id.message}</p> : null}
 
-          {(category as CategoryTable[]).map((data: CategoryTable) => {
+          {category!.map((data: CategoryTable) => {
             return (
               <option key={data.id} value={data.id}>
                 {data.category_name}
