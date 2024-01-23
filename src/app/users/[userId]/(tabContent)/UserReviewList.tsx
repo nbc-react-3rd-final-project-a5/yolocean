@@ -1,18 +1,17 @@
-"use client";
-
 import ReviewList from "@/components/review/ReviewList";
-import { useReview } from "@/legacyHook";
+import { getAllUserReview } from "@/service/table";
+
 import React from "react";
 
 interface Props {
   userId: string;
 }
 
-const UserReviewList = ({ userId }: Props) => {
-  const { reviewData, isLoading, isError } = useReview({ userId });
+const UserReviewList = async ({ userId }: Props) => {
+  const reviewList = await getAllUserReview({ userId, page: 1 });
   return (
     <>
-      <ReviewList listType="review" reviewList={reviewData} currentUserId={userId} isLoading={isLoading} />
+      <ReviewList listType="review" reviewList={reviewList} currentUserId={userId} />
     </>
   );
 };

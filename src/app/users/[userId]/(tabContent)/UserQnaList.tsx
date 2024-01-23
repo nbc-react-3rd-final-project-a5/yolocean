@@ -1,6 +1,6 @@
 import React from "react";
-import getPath from "@/utils/getPath";
 import ReviewList from "@/components/review/ReviewList";
+import { getAllUserQna } from "@/service/table";
 
 interface Props {
   userId: string;
@@ -8,16 +8,8 @@ interface Props {
 
 // 현재 문제 발생
 
-const getUserQnaList = async (domain: string, userId: string) => {
-  const res = await fetch(`http://${domain}/api/qna/user/${userId}`);
-  const data = await res.json();
-  console.log(data);
-  return data;
-};
-
 const UserQnaList = async ({ userId }: Props) => {
-  const { domain } = getPath();
-  const qnaList = await getUserQnaList(domain, userId);
+  const qnaList = await getAllUserQna({ userId, page: 1 });
 
   return (
     <>

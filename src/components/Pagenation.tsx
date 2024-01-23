@@ -17,7 +17,7 @@ const Pagenation = ({ maxPage, currentPage, limit, setPage, articleName }: Props
   const pageArray = Array.from({ length: Math.min(limit, maxPage) }, (v, i) => firstPageNumber + i);
 
   return (
-    <nav>
+    <nav className=" py-[25px]">
       <ul className="flex h-auto items-center text-[14px] cursor-pointer text-tc-light text-sm gap-[30px] w-fit mx-auto">
         {currentPage > 1 && (
           <Link
