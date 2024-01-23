@@ -7,13 +7,16 @@ import useUserEditModeStore from "@/store/editUserStore";
 import useLogedInStore from "@/store/logedStore";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "@/legacyHook";
+import { supabase } from "@/service/supabase";
 
 const UserInfoSection = () => {
   const { isEditMode, setIsEditMode } = useUserEditModeStore();
   const { logedIn } = useLogedInStore();
   const { userId } = useParams();
-  const { getLoginUser } = useAuth();
+  const getLoginUser = async () => {
+    const { data: user, error } = await supabase.auth.getSession();
+    return user;
+  };
 
   // 현재 로그인한 유저 정보 가져오기
   const { data: loginUser, isLoading } = useQuery({
