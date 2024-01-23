@@ -50,8 +50,8 @@ const MyPage = ({ params, searchParams }: Props) => {
     <>
       <PageBreadCrumb linkList={linkList} />
       <UserInfoSection />
-      <UserTab className="mt-[78px] mb-[40px]" />
-      {currentTap(activeTab)}
+      {/* <UserTab className="mt-[78px] mb-[40px]" />
+      {currentTap(activeTab)} */}
     </>
   );
 };
