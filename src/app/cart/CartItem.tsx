@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { CartBox } from "@/types/db";
 import { VscChromeClose } from "react-icons/vsc";
-import { useCart } from "@/hooks";
+import { useCart } from "@/legacyHook";
 import { useForm } from "react-hook-form";
 import NumberInput from "@/components/NumberInput";
 

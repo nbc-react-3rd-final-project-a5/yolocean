@@ -5,7 +5,7 @@ import ReviewForm from "@/components/form/ReviewForm";
 import Image from "next/image";
 import React from "react";
 import Section from "@/components/layout/Section";
-import { useProduct } from "@/hooks";
+import { useProduct } from "@/legacyHook";
 import { ProductProperties } from "@/types/db";
 import { useStore } from "zustand";
 import { useAuthStore } from "@/store/authStore";
@@ -32,14 +32,12 @@ const QnaPage = () => {
 
   if (isLoading) return <>로딩중</>;
 
-  console.log(data);
   const {
     name,
     thumbnail,
     category: { category_name }
   } = data.product as ProductProperties;
 
-  console.log(data);
   return (
     <>
       <Section title={"1:1 문의하기"} className="font-[600] text-[25px] leading-none" isCenter={true}>

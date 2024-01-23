@@ -1,7 +1,7 @@
 "use client";
 
 import ReviewList from "@/components/review/ReviewList";
-import { useReview } from "@/hooks";
+import { useReview } from "@/legacyHook";
 import React from "react";
 
 interface Props {

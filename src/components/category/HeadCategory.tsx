@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { RxHamburgerMenu } from "react-icons/rx";
 import { CategoryTable } from "@/types/db";
-import { useCategory } from "@/hooks";
+import { useCategory } from "@/legacyHook";
 
 interface Props {
   category: CategoryTable;
