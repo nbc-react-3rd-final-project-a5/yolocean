@@ -1,7 +1,7 @@
 import { MutationFunction, useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface Props {
-  mutationFn: MutationFunction<unknown, void> | undefined;
+  mutationFn: MutationFunction<unknown, any> | undefined;
   queryKey: string[];
 }
 

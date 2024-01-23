@@ -35,10 +35,10 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
   const userId = params.userId;
   const { data: cart, isLoading } = useQuery({
     queryKey: ["cart"],
-    queryFn: () => getAllCart({ userId })
+    queryFn: async () => await getAllCart({ userId })
   });
   const { mutate: deleteUserCartMutation } = useCustomMutation({
-    mutationFn: () => deleteAllCart({ userId: userId }),
+    mutationFn: async () => await deleteAllCart({ userId: userId }),
     queryKey: ["cart"]
   });
   const shop = cart !== undefined ? (cart.length > 0 ? cart[0].store.name : "no-shop") : "no-shop";
@@ -51,7 +51,7 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
 
   const { data: user, isLoading: isUserDataLoading } = useQuery({
     queryKey: ["user"],
-    queryFn: () => getUser({ userId })
+    queryFn: async () => await getUser({ userId })
   });
 
   // === 결제 관련 ===
@@ -84,7 +84,7 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
       const rentData = setRentData(cart);
       createAllUserRent({ userId, body: JSON.stringify(rentData) })
         .then((res) => {
-          deleteUserCartMutation();
+          deleteUserCartMutation({});
         })
         .then(() => {
           openModal(<SuccessModal rentData={rentData} />);

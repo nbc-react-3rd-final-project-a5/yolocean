@@ -26,11 +26,11 @@ const CartItem = (cart: Props) => {
   const [isVisible, setIsVisible] = useState(true);
 
   const { mutate: updateCountMutation } = useCustomMutation({
-    mutationFn: () => updateCart({ userId: user_id, cartId: id, body: JSON.stringify(watchCount.count) }),
+    mutationFn: async () => await updateCart({ userId: user_id, cartId: id, body: JSON.stringify(watchCount.count) }),
     queryKey: ["cart"]
   });
   const { mutate: deleteCartMutation } = useCustomMutation({
-    mutationFn: () => deleteCart({ userId: user_id, cartId: id }),
+    mutationFn: async () => await deleteCart({ userId: user_id, cartId: id }),
     queryKey: ["cart"]
   });
 
@@ -50,7 +50,7 @@ const CartItem = (cart: Props) => {
         setOriginPrice([...originPrice]);
         cartPrice[idx] = getValues("count") * finalPrice;
         setCartPrice([...cartPrice]);
-        updateCountMutation();
+        updateCountMutation({});
       } else {
         //삭제했을 때
         originPrice[idx] = 0;
@@ -64,7 +64,7 @@ const CartItem = (cart: Props) => {
 
   const handleCartDelete = () => {
     setIsVisible(false);
-    deleteCartMutation();
+    deleteCartMutation({});
   };
 
   return (
