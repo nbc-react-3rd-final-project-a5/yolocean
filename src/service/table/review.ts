@@ -44,4 +44,17 @@ const deleteUserReview = async ({ userId, reviewId }: Pick<API, "userId" | "revi
   return data;
 };
 
-export { getAllProductReview, getAllUserReview, createUserReview, getUserReview, updateUserReview, deleteUserReview };
+const getFixedReview = async () => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/product/fixedReview`);
+  const data = await res.json();
+  return data;
+};
+export {
+  getAllProductReview,
+  getAllUserReview,
+  createUserReview,
+  getUserReview,
+  updateUserReview,
+  deleteUserReview,
+  getFixedReview
+};
