@@ -1,14 +1,11 @@
 import Avatar from "@/components/Avatar";
 import useUserEditModeStore from "@/store/editUserStore";
 import { UserInfo } from "@/types/db";
-import React, { useEffect } from "react";
+import React from "react";
 
 const UserInfo = ({ user }: { user: UserInfo | undefined }) => {
   const { setIsEditMode } = useUserEditModeStore();
-  console.log("user avatar", user?.avatar_url);
-  useEffect(() => {
-    console.log("avatar", user?.avatar_url);
-  }, [user?.avatar_url]);
+
   if (typeof user === "undefined") {
     return <div>로딩 중..</div>;
   }

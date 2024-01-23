@@ -1,33 +1,25 @@
 import Avatar from "@/components/Avatar";
-import { useImageInput } from "@/hook";
+import { useCustomMutation, useImageInput } from "@/hook";
+import { updateUser } from "@/service/table";
 import useUserEditModeStore from "@/store/editUserStore";
 import { UserInfo } from "@/types/db";
 import useStorage from "@/utils/useStorage";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
 import React, { useEffect, useState } from "react";
 import { MdPhotoCameraBack } from "react-icons/md";
 
 const EditUserInfo = ({ user, refetch }: { user: UserInfo | undefined; refetch: any }) => {
   const [name, setName] = useState<string>(`${user!.username}`);
-  const router = useRouter();
   const { userId } = useParams() as { userId: string };
   const { setIsEditMode } = useUserEditModeStore();
   const { uploadImage, deleteImage } = useStorage();
-  const { customImage, handler, addPreImage } = useImageInput("single");
-  const queryClient = useQueryClient();
+  const { customImage, handler } = useImageInput("single");
 
-  const updateUser = async (data: { username: string; avatar_url: string | null }, userId: string) => {
-    await fetch(`/api/users/${userId}`, { method: "PATCH", body: JSON.stringify(data) });
-  };
-
-  const { mutate: updateUserMutation } = useMutation({
-    mutationFn: (data: { content: { username: string; avatar_url: string | null }; userId: string }) =>
-      updateUser(data.content, data.userId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["user"] });
-    }
+  const updateUserMutation = useCustomMutation({
+    mutationFn: async (data: { content: { username: string; avatar_url?: string | null } }) =>
+      await updateUser({ userId: userId, body: JSON.stringify(data.content) }),
+    queryKey: ["user"]
   });
 
   const handleUpdateUserInfoSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -36,15 +28,19 @@ const EditUserInfo = ({ user, refetch }: { user: UserInfo | undefined; refetch: 
     if (user && user!.avatar_url) {
       await deleteImage("user", user.avatar_url);
     }
+    if (customImage) {
+      const url = await uploadImage(customImage?.file!, "user", customImage!.id, user!.id);
 
-    const url = await uploadImage(customImage?.file!, "user", customImage!.id, user!.id);
-
-    updateUserMutation({
-      content: { username: name, avatar_url: url },
-      userId: userId
-    });
-    setIsEditMode(false);
-    router.refresh();
+      updateUserMutation.mutate({
+        content: { username: name, avatar_url: url }
+      });
+      setIsEditMode(false);
+    } else {
+      updateUserMutation.mutate({
+        content: { username: name }
+      });
+      setIsEditMode(false);
+    }
   };
 
   useEffect(() => {
