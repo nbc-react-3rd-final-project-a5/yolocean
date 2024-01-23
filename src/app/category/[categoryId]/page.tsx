@@ -12,6 +12,7 @@ const getCategoryName = async ({ categoryId }: { categoryId: string }): Promise<
 
 const CategoryPage = async ({ params }: { params: { categoryId: string } }) => {
   const categoryName = await getCategoryName({ categoryId: params.categoryId });
+  // const categoryName = await getCategoryName({ categoryId: params.categoryId });
   return (
     <div>
       <CategoryHeader categoryName={categoryName} />

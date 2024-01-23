@@ -1,14 +1,21 @@
 "use client";
-import { useRegion } from "@/legacyHook";
 import { supabase } from "@/service/supabase";
+import { getAllRegion } from "@/service/table";
 import { useModalStore } from "@/store/modalStore";
 import { useOfficeStore } from "@/store/officeStore";
+import { Region } from "@/types/db";
+import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 
 const SelectOffice = () => {
-  const { regions, isLoading } = useRegion();
+  // const { regions, isLoading } = useRegion();
+  const {
+    data: regions,
+    isError,
+    isLoading
+  } = useQuery<Region[]>({ queryFn: async () => await getAllRegion(), queryKey: ["region"] });
   const [selectedId, setSelectedId] = useState<string>("");
   const [officeInfo, setOfficeInfo] = useState<{ name: string; address: string; id: string }[]>([]);
   const [selectedOffice, setSelectedOffice] = useState<{ name: string; address: string; id: string }>({
