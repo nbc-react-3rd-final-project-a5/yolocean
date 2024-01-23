@@ -21,6 +21,15 @@ const createCart = async ({ userId, cartId, body }: Pick<API, "userId" | "cartId
   return result;
 };
 
+const getCart = async ({ userId, productId }: Pick<API, "userId" | "productId">) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/cart/cartId?productId=${productId}`,
+    { method: "GET" }
+  );
+  const result = await response.json();
+  return result;
+};
+
 const updateCart = async ({ userId, cartId, body }: Pick<API, "userId" | "cartId" | "body">) => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/cart/${cartId}`, {
     method: "PATCH",
@@ -38,4 +47,4 @@ const deleteCart = async ({ userId, cartId }: Pick<API, "userId" | "cartId">) =>
   return result;
 };
 
-export { getAllCart, deleteAllCart, createCart, updateCart, deleteCart };
+export { getAllCart, deleteAllCart, createCart, updateCart, deleteCart, getCart };

@@ -29,3 +29,14 @@ export async function PATCH(req: NextRequest, context: { params: { qnaId: string
   }
   return NextResponse.json(insertData);
 }
+
+export async function DELETE(_: NextRequest, context: { params: { qnaId: string } }) {
+  const { qnaId } = context.params;
+
+  const { error } = await supabase.from("qna").delete().eq("id", qnaId);
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+  return NextResponse.json(true);
+}

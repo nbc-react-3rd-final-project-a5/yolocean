@@ -33,7 +33,7 @@ export async function PATCH(req: NextRequest, context: { params: { reviewId: str
   return NextResponse.json(data);
 }
 
-// [PATCH] 해당 유저아이디와 리뷰 아이디가 일치하는 리뷰를 삭제한다.
+// [DELETE] 해당 유저아이디와 리뷰 아이디가 일치하는 리뷰를 삭제한다.
 export async function DELETE(_: NextRequest, context: { params: { reviewId: string } }) {
   const { reviewId } = context.params;
 

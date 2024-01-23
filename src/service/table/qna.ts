@@ -1,6 +1,6 @@
 import { API } from "@/types/api";
 
-// [GET] 상품에 해당하는 모든 리뷰
+// [GET] 상품에 해당하는 모든 문의
 const getAllProductQna = async ({ productId, page = 1 }: Pick<API, "productId" | "page">) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/product/${productId}/qna?page=${page}`, {
     method: "GET"
@@ -9,7 +9,7 @@ const getAllProductQna = async ({ productId, page = 1 }: Pick<API, "productId" |
   return result;
 };
 
-// [CREATE] 유저가 리뷰 생성
+// [CREATE] 유저가 문의 생성
 const createUserQna = async ({ userId, body }: Pick<API, "userId" | "body">) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/qna`, {
     method: "POST",
@@ -19,7 +19,7 @@ const createUserQna = async ({ userId, body }: Pick<API, "userId" | "body">) => 
   return result;
 };
 
-// [GET] 유저의 모든 리뷰
+// [GET] 유저의 모든 문의
 const getAllUserQna = async ({ userId, page }: Pick<API, "userId" | "page">) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/qna?page=${page}`, {
     method: "GET"
@@ -28,7 +28,7 @@ const getAllUserQna = async ({ userId, page }: Pick<API, "userId" | "page">) => 
   return result;
 };
 
-// [GET] 유저의 단일 리뷰
+// [GET] 유저의 단일 문의
 const getUserQna = async ({ userId, qnaId }: Pick<API, "userId" | "qnaId">) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/qna/${qnaId}`, {
     method: "GET"
@@ -37,7 +37,7 @@ const getUserQna = async ({ userId, qnaId }: Pick<API, "userId" | "qnaId">) => {
   return result;
 };
 
-// [UPDATE] 유저 리뷰 수정
+// [UPDATE] 유저 문의 수정
 const updateUserQna = async ({ userId, body, qnaId }: Pick<API, "userId" | "body" | "qnaId">) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/qna/${qnaId}`, {
     method: "PATCH",
@@ -46,5 +46,13 @@ const updateUserQna = async ({ userId, body, qnaId }: Pick<API, "userId" | "body
   const result = await res.json();
   return result;
 };
+// [DELETE] 유저 문의 삭제
+const deleteUserQna = async ({ userId, qnaId }: Pick<API, "userId" | "qnaId">) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/qna/${qnaId}`, {
+    method: "DELETE"
+  });
+  const result = await res.json();
+  return result;
+};
 
-export { getAllProductQna, createUserQna, getUserQna, getAllUserQna, updateUserQna };
+export { getAllProductQna, createUserQna, getUserQna, getAllUserQna, updateUserQna, deleteUserQna };

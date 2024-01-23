@@ -7,6 +7,7 @@ interface Props {
   currentUserId?: string;
   isLoading?: boolean;
   listType: "review" | "qna";
+  productId?: string;
 }
 
 enum EnumListType {
@@ -14,7 +15,7 @@ enum EnumListType {
   qna = "문의"
 }
 
-const ReviewList = ({ reviewList, currentUserId, listType, isLoading }: Props) => {
+const ReviewList = ({ reviewList, currentUserId, listType, isLoading, productId }: Props) => {
   if (isLoading) {
     return <div>{EnumListType[listType]}목록 로딩중...</div>;
   }
@@ -24,7 +25,7 @@ const ReviewList = ({ reviewList, currentUserId, listType, isLoading }: Props) =
       <ul>
         {reviewList?.map((review, i) => (
           <li key={`review-${i}`}>
-            <ReviewItem review={review} currentUserId={currentUserId} listType={listType} />
+            <ReviewItem productId={productId} review={review} currentUserId={currentUserId} listType={listType} />
           </li>
         ))}
       </ul>
