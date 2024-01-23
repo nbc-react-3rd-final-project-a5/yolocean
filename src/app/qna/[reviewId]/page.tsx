@@ -5,27 +5,26 @@ import ReviewForm from "@/components/form/ReviewForm";
 import Image from "next/image";
 import React from "react";
 import Section from "@/components/layout/Section";
-import { useProduct } from "@/legacyHook";
 import { ProductProperties } from "@/types/db";
 import { useStore } from "zustand";
 import { useAuthStore } from "@/store/authStore";
 import { useQuery } from "@tanstack/react-query";
 import QnaForm from "./QnaForm";
+import { getUserReview } from "@/service/table";
 
 const QnaPage = () => {
   const { reviewId } = useParams<{ reviewId: string }>();
   // const { product, isLoading } = useProduct(reviewId);
+  const { auth: userId } = useStore(useAuthStore);
 
   const { data, isLoading } = useQuery({
     queryFn: async () => {
-      const response = await fetch(`/api/qna/user/${reviewId}`);
+      const response = await getUserReview({ reviewId, userId });
       const result = await response.json();
       return result;
     },
     queryKey: ["qna", reviewId]
   });
-
-  const { auth: userId } = useStore(useAuthStore);
 
   console.log(data);
   // TODO : 로그인 여부 및 제품이 있는지 확인하기

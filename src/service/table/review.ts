@@ -21,7 +21,7 @@ const createUserReview = async ({ userId, body }: Pick<API, "userId" | "body">) 
   return data;
 };
 
-const getUserReview = async ({ userId, reviewId, body }: Pick<API, "userId" | "reviewId" | "body">) => {
+const getUserReview = async ({ userId, reviewId }: Pick<API, "userId" | "reviewId">) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/review/${reviewId}`, {});
   const data = await res.json();
   return data;
