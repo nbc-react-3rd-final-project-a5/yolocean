@@ -1,5 +1,6 @@
 import Pagenation from "@/components/Pagenation";
 import ReviewList from "@/components/review/ReviewList";
+import { getAllProductQna } from "@/service/table";
 import { useAuthStore } from "@/store/authStore";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
@@ -16,11 +17,7 @@ const Qna = ({ productId }: Props) => {
 
   const { auth } = useAuthStore();
   const { data: qna, isLoading } = useQuery({
-    queryFn: async () => {
-      const response = await fetch(`/api/qna/product/${productId}?page=${page}`, { method: "GET" });
-      const result = await response.json();
-      return result;
-    },
+    queryFn: async () => await getAllProductQna({ page, productId }),
     queryKey: ["qna", productId, page]
   });
 

@@ -8,10 +8,9 @@ export const GET = async (req: NextRequest, context: { params: { productId: stri
 
   let { data: post, error } = await supabase
     .from("product")
-    .select("*,category!inner(category_name),stock!inner(count,store(address,name))")
+    .select("*,category!inner(category_name)")
     .eq("id", productId);
 
-  console.log(post);
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

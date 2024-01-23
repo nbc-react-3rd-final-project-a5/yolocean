@@ -1,5 +1,22 @@
 import { supabase } from "@/service/supabase";
+import { useSearchParams } from "next/navigation";
 import { NextResponse, NextRequest } from "next/server";
+
+export const GET = async (req: NextRequest, context: { params: { userId: string; cartId: string } }) => {
+  const {
+    params: { userId }
+  } = context;
+
+  const searchParams = useSearchParams();
+  const productId = searchParams.get("productId");
+
+  const { data, error } = await supabase.from("cart").select("*").eq("product_id", productId!).eq("user_id", userId);
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+  return NextResponse.json(data);
+};
 
 export const POST = async (req: NextRequest, context: { params: { userId: string; cartId: string } }) => {
   const {
