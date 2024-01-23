@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import CartItem from "@/app/cart/CartItem";
 import { CartBox, RentInsert } from "@/types/db";
-import { useCart } from "@/hooks";
+import { useCart } from "@/legacyHook";
 import { UserInfo } from "@/types/db";
 import { useQuery } from "@tanstack/react-query";
 import { useAuthStore } from "@/store/authStore";

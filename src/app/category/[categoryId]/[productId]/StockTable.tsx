@@ -1,4 +1,4 @@
-import useOffice from "@/hooks/useOffice";
+import useOffice from "@/legacyHook/useOffice";
 import KakaoMap from "@/lib/KakaoMap";
 import { useModalStore } from "@/store/modalStore";
 import React from "react";

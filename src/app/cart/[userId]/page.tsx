@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Section from "@/components/layout/Section";
 import CartItem from "../CartItem";
-import { useCart } from "@/hooks";
+import { useCart } from "@/legacyHook";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import { CartBox } from "@/types/db";
 import { useRouter } from "next/navigation";

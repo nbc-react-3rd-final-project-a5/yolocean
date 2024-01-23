@@ -1,6 +1,6 @@
 "use client";
 
-import { useReview } from "@/hooks";
+import { useReview } from "@/legacyHook";
 import { openConfirm } from "@/store/confirmStore";
 import Link from "next/link";
 import React from "react";
