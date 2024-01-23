@@ -4,7 +4,7 @@
 
 import React from "react";
 import ReviewList from "@/components/review/ReviewList";
-import useReview from "@/hooks/useReview";
+import useReview from "@/legacyHook/useReview";
 
 const ReviewListPage = () => {
   const userId = "3255837d-277c-4e5d-9e52-6956be86f182";

@@ -1,5 +1,5 @@
 import Avatar from "@/components/Avatar";
-import { useImageInput } from "@/hooks";
+import { useImageInput } from "@/hook";
 import useUserEditModeStore from "@/store/editUserStore";
 import { UserInfo } from "@/types/db";
 import useStorage from "@/utils/useStorage";

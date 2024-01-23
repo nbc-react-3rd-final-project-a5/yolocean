@@ -1,6 +1,6 @@
 "use client";
 
-import { useCategory } from "@/hooks";
+import { useCategory } from "@/legacyHook";
 import { CategoryTable, Product } from "@/types/db";
 import useStorage from "@/utils/useStorage";
 import React, { useEffect, useState } from "react";

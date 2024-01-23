@@ -104,7 +104,6 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
           )}
           <div className="flex gap-[12px] ">
             <p className="w-[89px]">최종가격</p>
-            {/* <p className="font-[700]">{price}원</p> */}
             {percentage_off && <p className="font-[700]">{Math.floor(price - (price * percentage_off) / 100)}원</p>}
             {!percentage_off && <p className="font-[700]">{price}원</p>}
           </div>

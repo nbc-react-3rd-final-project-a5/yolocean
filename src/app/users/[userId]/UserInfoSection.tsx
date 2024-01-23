@@ -7,7 +7,7 @@ import useUserEditModeStore from "@/store/editUserStore";
 import useLogedInStore from "@/store/logedStore";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "@/hooks";
+import { useAuth } from "@/legacyHook";
 
 const UserInfoSection = () => {
   const { isEditMode, setIsEditMode } = useUserEditModeStore();
