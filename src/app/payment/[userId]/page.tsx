@@ -4,7 +4,7 @@ import CartItem from "@/app/cart/CartItem";
 import { CartBox, RentInsert } from "@/types/db";
 import { UserInfo } from "@/types/db";
 import { useQuery } from "@tanstack/react-query";
-import { deleteAllCart, getAllCart, getUser } from "@/service/table";
+import { createAllUserRent, deleteAllCart, getAllCart, getUser } from "@/service/table";
 import { useCustomMutation } from "@/hook";
 import Section from "@/components/layout/Section";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
@@ -82,10 +82,7 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
   const insertRentData = async () => {
     if (cart !== undefined) {
       const rentData = setRentData(cart);
-      await fetch(`/api/rent/${userId}`, {
-        method: "POST",
-        body: JSON.stringify(rentData)
-      })
+      createAllUserRent({ userId, body: JSON.stringify(rentData) })
         .then((res) => {
           deleteUserCartMutation();
         })
