@@ -48,7 +48,7 @@ MVP 발표 때 까지 진행을 저장한 branch
 [MVP 자료 드라이브](https://docs.google.com/presentation/d/1DSWY9IvmfSzBKlAx4xBqj0KomcSyalTX_j8-8kxBT1I/edit?usp=drive_link)
 
 ## 발표 진행 후 피드백
-- [ ] 도메인 구입하여 퍼블리싱할 것
+- [x] 도메인 구입하여 퍼블리싱할 것
 - [ ] 후기, 제품문의 페이지네이션 클릭시 레이아웃 쉬프트 현상 발생
 - [ ] 리드미 작성할 것
 - [ ] 깃헙 프로젝트 사용할 것
