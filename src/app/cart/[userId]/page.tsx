@@ -2,19 +2,20 @@
 import React, { useState } from "react";
 import Section from "@/components/layout/Section";
 import CartItem from "../CartItem";
-import { useCart } from "@/legacyHook";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import { CartBox } from "@/types/db";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { getAllCart } from "@/service/table";
 
 const linkList = [
   {
     name: "홈",
-    url: "http://localhost:3000/"
+    url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}`
   },
   {
     name: "장바구니",
-    url: "http://localhost:3000/cart"
+    url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/cart`
   }
 ];
 
@@ -24,7 +25,10 @@ const CartPage = ({ params }: { params: { userId: string } }) => {
   //userId
   const userId = params.userId;
 
-  const { cart, isLoading } = useCart({ userId: userId, cartId: "" });
+  const { data: cart, isLoading } = useQuery({
+    queryKey: ["cart"],
+    queryFn: () => getAllCart({ userId })
+  });
 
   const [cartPrice, setCartPrice] = useState<number[]>([]);
   const [originPrice, setOriginPrice] = useState<number[]>([]);

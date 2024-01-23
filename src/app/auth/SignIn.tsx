@@ -46,6 +46,7 @@ const SignIn = ({ mode, setMode }: Props) => {
     } else {
       setLogedIn(true);
       router.push("/");
+      console.log(data);
     }
   };
 
