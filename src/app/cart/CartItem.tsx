@@ -26,7 +26,8 @@ const CartItem = (cart: Props) => {
   const [isVisible, setIsVisible] = useState(true);
 
   const { mutate: updateCountMutation } = useCustomMutation({
-    mutationFn: async () => await updateCart({ userId: user_id, cartId: id, body: JSON.stringify(watchCount.count) }),
+    mutationFn: async () =>
+      await updateCart({ userId: user_id, cartId: id, body: JSON.stringify({ count: watchCount.count }) }),
     queryKey: ["cart"]
   });
   const { mutate: deleteCartMutation } = useCustomMutation({

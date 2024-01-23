@@ -55,7 +55,11 @@ export async function PATCH(req: NextRequest, context: { params: { cartId: strin
 
   const body = await req.json();
 
-  const { data: cartItem, error } = await supabase.from("cart").update({ count: body }).eq("id", cartId).select();
+  const { data: cartItem, error } = await supabase
+    .from("cart")
+    .update({ ...body })
+    .eq("id", cartId)
+    .select();
 
   if (error) {
     console.log(error);
