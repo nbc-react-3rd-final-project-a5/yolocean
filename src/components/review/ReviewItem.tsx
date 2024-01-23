@@ -9,6 +9,7 @@ interface Props {
   review: ExtendReview;
   currentUserId?: string;
   listType: "review" | "qna";
+  productId?: string;
 }
 
 enum EnumListType {
@@ -16,7 +17,7 @@ enum EnumListType {
   qna = "문의"
 }
 
-const ReviewItem = ({ review, currentUserId, listType }: Props) => {
+const ReviewItem = ({ review, currentUserId, listType, productId }: Props) => {
   const { shortDateFormat } = convertTime(review.created_at);
   const isCurrentUser = currentUserId === review.user_id;
   const reviewImageList = review.url;
@@ -54,7 +55,9 @@ const ReviewItem = ({ review, currentUserId, listType }: Props) => {
         </ul>
       )}
 
-      {isCurrentUser && <ReviewBtnGroup userId={currentUserId} reviewId={review.id} listType={listType} />}
+      {isCurrentUser && (
+        <ReviewBtnGroup productId={productId} userId={currentUserId} reviewId={review.id} listType={listType} />
+      )}
     </div>
   );
 };
