@@ -32,9 +32,9 @@ const useCart = ({ userId, cartId }: Props) => {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ["cart", cartId]
+        queryKey: ["cart"]
       });
-      refetch();
+      // refetch();
     }
   });
 
@@ -44,9 +44,9 @@ const useCart = ({ userId, cartId }: Props) => {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ["cart", cartId]
+        queryKey: ["cart"]
       });
-      refetch();
+      // refetch();
     }
   });
 

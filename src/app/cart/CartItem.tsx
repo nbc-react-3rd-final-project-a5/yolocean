@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { CartBox } from "@/types/db";
 import { VscChromeClose } from "react-icons/vsc";
-import { useCart } from "@/legacyHook";
 import { useForm } from "react-hook-form";
 import NumberInput from "@/components/NumberInput";
+import { useCustomMutation } from "@/hook";
+import { deleteCart, updateCart } from "@/service/table";
 
 interface Props {
   cart: CartBox;
@@ -21,11 +22,17 @@ const CartItem = (cart: Props) => {
   const { cartPrice, setCartPrice, idx, originPrice, setOriginPrice } = cart;
 
   const finalPrice = price * (1 - percentage_off * 0.01);
-  // console.log(name, price, percentage_off, finalPrice);
 
   const [isVisible, setIsVisible] = useState(true);
 
-  const { updateCountMutation, deleteCartMutation } = useCart({ userId: user_id, cartId: id });
+  const { mutate: updateCountMutation } = useCustomMutation({
+    mutationFn: () => updateCart({ userId: user_id, cartId: id, body: JSON.stringify(watchCount.count) }),
+    queryKey: ["cart"]
+  });
+  const { mutate: deleteCartMutation } = useCustomMutation({
+    mutationFn: () => deleteCart({ userId: user_id, cartId: id }),
+    queryKey: ["cart"]
+  });
 
   const {
     register,
@@ -43,7 +50,7 @@ const CartItem = (cart: Props) => {
         setOriginPrice([...originPrice]);
         cartPrice[idx] = getValues("count") * finalPrice;
         setCartPrice([...cartPrice]);
-        updateCountMutation.mutate(watchCount.count);
+        updateCountMutation();
       } else {
         //삭제했을 때
         originPrice[idx] = 0;
@@ -57,7 +64,7 @@ const CartItem = (cart: Props) => {
 
   const handleCartDelete = () => {
     setIsVisible(false);
-    deleteCartMutation.mutate(id);
+    deleteCartMutation();
   };
 
   return (
