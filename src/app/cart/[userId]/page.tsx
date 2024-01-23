@@ -27,7 +27,7 @@ const CartPage = ({ params }: { params: { userId: string } }) => {
 
   const { data: cart, isLoading } = useQuery({
     queryKey: ["cart"],
-    queryFn: () => getAllCart({ userId })
+    queryFn: async () => await getAllCart({ userId })
   });
 
   const [cartPrice, setCartPrice] = useState<number[]>([]);
