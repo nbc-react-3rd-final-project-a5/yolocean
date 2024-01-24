@@ -7,7 +7,7 @@ import { ko } from "date-fns/esm/locale";
 import "react-datepicker/dist/react-datepicker.css";
 import { useOfficeStore } from "@/store/officeStore";
 import { useModalStore } from "@/store/modalStore";
-import SelectOffice from "../SelectOffice";
+
 import { MdErrorOutline } from "react-icons/md";
 import { openConfirm } from "@/store/confirmStore";
 import { useRouter } from "next/navigation";
@@ -15,6 +15,7 @@ import { useAuthStore } from "@/store/authStore";
 import { IoShareSocial } from "react-icons/io5";
 import ShareModal from "./ShareModal";
 import { createCart, getCart, updateCart } from "@/service/table";
+import SelectOffice from "@/app/category/[categoryId]/SelectOffice";
 
 interface Props {
   category_name: string;

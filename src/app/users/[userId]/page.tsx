@@ -32,10 +32,10 @@ const linkList = [
 
 const MyPage = ({ params, searchParams }: Props) => {
   const { userId } = params;
-  const activeTab = searchParams?.activeTab;
+  const article = searchParams?.article;
 
-  const currentTap = (activeTab: string | string[] | undefined) => {
-    switch (activeTab) {
+  const currentTap = (article: string | string[] | undefined) => {
+    switch (article) {
       case "rent":
         return <UserRentList userId={userId} />;
       case "review":
@@ -51,7 +51,7 @@ const MyPage = ({ params, searchParams }: Props) => {
       <PageBreadCrumb linkList={linkList} />
       <UserInfoSection />
       <UserTab className="mt-[78px] mb-[40px]" />
-      {currentTap(activeTab)}
+      {currentTap(article)}
     </>
   );
 };

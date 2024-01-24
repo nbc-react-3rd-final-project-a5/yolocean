@@ -4,8 +4,9 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import InputImage from "../InputImage";
 import { TablesInsert } from "@/types/supabase";
-import { useImageInput, useReview } from "@/legacyHook";
+import { useImageInput } from "@/hook";
 import useStorage from "@/utils/useStorage";
+import { useQuery } from "@tanstack/react-query";
 
 interface Props {
   formType: "review" | "qna";
@@ -42,15 +43,17 @@ const FormFieldSet = ({ title, children }: { title: string; children: React.Reac
 };
 
 // Form 컴포넌트
-const ReviewForm = ({ formType, userId, productId, storeId, targetId }: Props) => {
+const ReviewQnaForm = ({ formType, userId, productId, storeId, targetId }: Props) => {
   const { reviewData, isError, isLoading, updateReviewMutation } = useReview({
     userId,
     reviewId: targetId
   });
 
-  console.log(reviewData);
-  console.log(userId);
-  console.log(targetId);
+  // const query = useQuery({
+  //   queryKey :
+  // }
+  // )
+
   const preReviewData = reviewData ? reviewData[0] : null;
   const { uploadMultipleImages, deleteMultipleImage } = useStorage();
   const {

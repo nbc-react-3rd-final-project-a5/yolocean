@@ -19,19 +19,19 @@ const UserTab = ({ className }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const activeTab = searchParams.get("activeTab");
+  const article = searchParams.get("article");
   const tabList = Object.values(EnumTabList);
 
   const handleTabClick = (tab: EnumTabList) => {
     const validateTab = Object.values(EnumTabList).includes(tab);
     const key = Object.keys(EnumTabList).filter((key) => EnumTabList[key as keyof typeof EnumTabList] === tab);
-    validateTab ? router.push(`${pathname}?activeTab=${key}`) : router.push(`${pathname}?activeTab=reservation`);
+    validateTab ? router.push(`${pathname}?article=${key}`) : router.push(`${pathname}?article=reservation`);
   };
 
   return (
     <div className={className}>
       <Tab
-        activeTab={EnumTabList[activeTab as keyof typeof EnumTabList] || EnumTabList["reservation"]}
+        activeTab={EnumTabList[article as keyof typeof EnumTabList] || "reservation"}
         handleTabClick={handleTabClick}
         tabs={tabList}
         isVariable={false}
