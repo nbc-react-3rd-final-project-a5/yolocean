@@ -2,7 +2,6 @@
 
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Review } from "@/types/db";
 import { useRouter } from "next/navigation";
 import { createUserQna, createUserReview } from "@/service/table";
 
@@ -25,6 +24,7 @@ const FormFieldSet = ({ title, children }: { title: string; children: React.Reac
   );
 };
 
+// 디바운싱
 // Form 컴포넌트
 const QnaForm = ({ userId, productId, review }: Props) => {
   const {
@@ -45,9 +45,9 @@ const QnaForm = ({ userId, productId, review }: Props) => {
     }
 
     if (!review) {
-      const body = JSON.stringify({ ...data, user_id: userId, product_id: productId });
+      const body = JSON.stringify({ ...data, product_id: productId });
       const respones = await createUserQna({ body, userId });
-      const result = await respones.json();
+      const result = await respones;
       console.log(result);
 
       router.push(`/category/${result.category_id}/${productId}#제품문의`);

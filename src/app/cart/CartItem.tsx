@@ -26,7 +26,8 @@ const CartItem = (cart: Props) => {
   const [isVisible, setIsVisible] = useState(true);
 
   const { mutate: updateCountMutation } = useCustomMutation({
-    mutationFn: async () => await updateCart({ userId: user_id, cartId: id, body: JSON.stringify(watchCount.count) }),
+    mutationFn: async () =>
+      await updateCart({ userId: user_id, cartId: id, body: JSON.stringify({ count: watchCount.count }) }),
     queryKey: ["cart"]
   });
   const { mutate: deleteCartMutation } = useCustomMutation({
@@ -61,6 +62,9 @@ const CartItem = (cart: Props) => {
     };
     updateCount();
   }, [watchCount.count, isVisible]);
+
+  // console.log("db값", count);
+  // console.log(getValues("count"));
 
   const handleCartDelete = () => {
     setIsVisible(false);
@@ -98,7 +102,7 @@ const CartItem = (cart: Props) => {
                 register={register}
                 setValue={setValue}
                 getValues={getValues}
-                value={count || 0}
+                value={count || 1}
                 name="count"
               />
             </div>
