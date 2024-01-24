@@ -28,7 +28,7 @@ const Info = ({ info_img, info, productId, searchParams }: Props) => {
       )}
 
       {searchParams === "상세정보" && (
-        <article className="w-[795px] mt-[40px] mx-aut">
+        <article className="w-[795px] mt-[40px] mx-auto">
           <Infomation info={info} />
         </article>
       )}
