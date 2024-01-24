@@ -48,10 +48,7 @@ const Home = async () => {
       <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
         <div className="grid grid-cols-4 gap-[13px]">
           {reviews.map((fixedReview: any) => (
-            <Link
-              key={fixedReview.id}
-              href={`/category/${fixedReview.review.product.category_id}/${fixedReview.review.product_id}#후기`}
-            >
+            <Link key={fixedReview.id} href={`/product/${fixedReview.review.product_id}#후기`}>
               <img className="w-[291px] h-[291px]" src={fixedReview.review.url[0]} />
             </Link>
           ))}

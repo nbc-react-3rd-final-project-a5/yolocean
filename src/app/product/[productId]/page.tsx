@@ -1,15 +1,16 @@
-// import { useProduct } from "@/hooks";
 import Image from "next/image";
 import React from "react";
 import Controller from "./ControlForm";
 import Info from "./Info";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import { getProduct } from "@/service/table";
+
 interface Props {
   params: { productId: string };
+  searchParams: { [key: string]: any } | undefined;
 }
 
-const ProductDetailPage = async ({ params: { productId } }: Props) => {
+const ProductDetailPage = async ({ params: { productId }, searchParams }: Props) => {
   const product = await getProduct({ productId });
   const {
     name,
@@ -26,7 +27,7 @@ const ProductDetailPage = async ({ params: { productId } }: Props) => {
   } = product;
 
   return (
-    <section className="relative">
+    <section className="relative scroll-smooth">
       <PageBreadCrumb
         linkList={[
           { name: "홈", url: "/" },
@@ -54,7 +55,7 @@ const ProductDetailPage = async ({ params: { productId } }: Props) => {
           name={name}
         />
       </div>
-      <Info productId={id} info_img={info_img} info={info} />
+      <Info productId={id} info_img={info_img} info={info} searchParams={searchParams?.article || "상품설명"} />
     </section>
   );
 };

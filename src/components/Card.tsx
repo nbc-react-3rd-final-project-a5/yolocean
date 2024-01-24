@@ -11,7 +11,7 @@ interface Card {
 const Card = ({ product, overlay, categoryId }: Card) => {
   return (
     <div className="relative w-[246px]  group ">
-      <Link className="flex flex-col w-[246px] h-[340px]  gap-[20px]" href={`/category/${categoryId}/${product.id}`}>
+      <Link className="flex flex-col w-[246px] h-[340px]  gap-[20px]" href={`/product/${product.id}`}>
         <div className="relative w-[246px] h-[246px] bg-bg">
           <Image
             alt={`${product.name}_image`}
@@ -41,7 +41,7 @@ const Card = ({ product, overlay, categoryId }: Card) => {
       {overlay && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 group-hover:before:bg-black group-hover:before:opacity-60 before:content-[''] before:absolute before:inset-0">
           <Link
-            href={`/category/${categoryId}/${product.id}`}
+            href={`/product/${product.id}`}
             className="bg-white w-[80%] py-4 rounded-lg relative group-hover:block hidden"
           >
             페이지 이동
