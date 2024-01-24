@@ -6,15 +6,8 @@ import { useRouter } from "next/navigation";
 import { AiOutlineUser } from "react-icons/ai";
 import useLogedInStore from "@/store/logedStore";
 import { useAuthStore } from "@/store/authStore";
-
-const logedInCheck = async (setLogedIn: (state: boolean) => void, setAuth: (auth: string) => void) => {
-  const { data, error } = await supabase.auth.getSession();
-  // console.log(data);
-  if (data.session !== null) {
-    setLogedIn(true);
-    setAuth(data.session.user.id);
-  }
-};
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Database } from "@/types/supabase";
 
 const AuthBtn = () => {
   //로그인 상태
@@ -26,9 +19,20 @@ const AuthBtn = () => {
 
   const router = useRouter();
 
+  const supabaseAuth = createClientComponentClient<Database>();
+
+  const logedInCheck = async (setLogedIn: (state: boolean) => void, setAuth: (auth: string) => void) => {
+    const { data, error } = await supabaseAuth.auth.getSession();
+
+    if (data.session !== null) {
+      setLogedIn(true);
+      setAuth(data.session.user.id);
+    } else console.log("로그인x");
+  };
+
   //로그아웃
   async function signOut() {
-    const { error } = await supabase.auth.signOut();
+    const { error } = await supabaseAuth.auth.signOut();
     setLogedIn(false);
     router.push("/");
   }
