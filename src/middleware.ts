@@ -11,11 +11,17 @@ export async function middleware(req: NextRequest) {
   const supabase = createMiddlewareClient<Database>({ req, res });
 
   // Refresh session if expired - required for Server Components
-  const { data, error } = await supabase.auth.getSession();
-  console.log("in middleware", data || error);
+  //   const { data, error } = await supabase.auth.getSession();
+  //   console.log("in middleware", data || error);
 
-  let cookie = req.cookies.get("sb-hntpomvsqgbdpwrjnsun-auth-token");
-  console.log("cookie: ", cookie);
+  let authCookie = req.cookies.get("sb-hntpomvsqgbdpwrjnsun-auth-token");
+  if (authCookie !== undefined) {
+    const tokens = JSON.parse(authCookie.value);
+    const {
+      data: { user }
+    } = await supabase.auth.getUser(tokens[0]);
+    console.log("누구야: ", user);
+  }
   return res;
 }
 
