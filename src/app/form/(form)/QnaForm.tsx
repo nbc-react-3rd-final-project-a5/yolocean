@@ -1,10 +1,14 @@
 "use client";
 
+import InputImage from "@/components/InputImage";
 import FormFieldSet from "@/components/form/FormFieldSet";
+import { useCustomMutation, useImageInput } from "@/hook";
+import { createUserQna, updateUserQna } from "@/service/table";
 import { useAuthStore } from "@/store/authStore";
-import { ExtendQna } from "@/types/db";
+import { ExtendQna, Qna } from "@/types/db";
+import useStorage from "@/utils/useStorage";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 interface Props {
@@ -13,6 +17,7 @@ interface Props {
 }
 
 const QnaForm = ({ qnaData, productId }: Props) => {
+  const preReviewImageUrl = qnaData?.url;
   const { auth: userId } = useAuthStore();
   const router = useRouter();
 
@@ -21,23 +26,95 @@ const QnaForm = ({ qnaData, productId }: Props) => {
     handleSubmit,
     formState: { errors }
   } = useForm({ mode: "onChange" });
+  //   ========== Image Upload ============
+  const { uploadMultipleImages, deleteMultipleImage } = useStorage();
+  const { customImageList, isEnter, handler, addPreImage } = useImageInput("multiple");
 
+  // 이미지가 있을 경우 이미지 불러오기 기능
+  useEffect(() => {
+    if (preReviewImageUrl) {
+      addPreImage(preReviewImageUrl);
+    }
+  }, []);
+
+  //   ========== Mutation ============
+  const { mutate: createQnaMutate } = useCustomMutation({
+    queryKey: productId ? ["review ", productId] : ["review ", userId],
+    mutationFn: async (formData) => await createUserQna({ userId, body: JSON.stringify(formData) })
+  });
+
+  const { mutate: updateQnaMutate } = useCustomMutation({
+    queryKey: ["review ", productId] && ["review ", userId],
+    mutationFn: async (formData) => await updateUserQna({ userId, qnaId: qnaData.id, body: JSON.stringify(formData) })
+  });
+
+  //   ========== Submit ============
   const handleCreateFormSubmit = async (data: any) => {
-    const body = JSON.stringify({ ...data, user_id: userId, product_id: productId });
-    const respones = await fetch(`/api/qna/`, { body, method: "POST" });
-    const result = await respones.json();
-    productId ? router.push(`/category/${result.category_id}/${productId}#제품문의`) : router.push(`/users/${userId}`);
+    // Image
+    const storagePath = productId ? `${userId}/${productId}` : userId;
+    const imageFileList = customImageList.map((n) => n.file) as File[];
+    const imageFileIdList = customImageList.map((n) => n.id);
+
+    try {
+      const imageURLList = await uploadMultipleImages(imageFileList, "qna", imageFileIdList, storagePath);
+      const formData: Omit<Qna, "id" | "answer" | "created_at"> = {
+        user_id: userId,
+        title: data.title,
+        product_id: productId,
+        content: data.content,
+        url: imageURLList
+      };
+
+      createQnaMutate(formData);
+      return productId
+        ? router.push(`/product/${productId}?article=제품문의`)
+        : router.push(`/users/${userId}?activeTab=qna`);
+    } catch (error) {
+      // 나중에 에러처리할 것
+      alert(error);
+      return router.push(`/`);
+    }
   };
 
   const handleUpdateFormSubmit = async (data: any) => {
-    const body = JSON.stringify({ ...data });
-    const respones = await fetch(`/api/qna/user/${qnaData.id}`, { body, method: "POST" });
-    const result = await respones.json();
-    router.push(`/category/${qnaData.product.category_id}/${qnaData.product_id}#제품문의`);
+    const storagePath = productId ? `${userId}/${productId}` : userId;
+    const preImageURLList = customImageList.filter((n) => n.file === null).map((n) => n.previewURL);
+    const deletePreImageURLList =
+      preReviewImageUrl &&
+      preReviewImageUrl.filter((n) => {
+        const isDelete = !preImageURLList.find((k) => k === n);
+        return isDelete;
+      });
+    const newImageFileList = customImageList.filter((n) => n.file !== null).map((n) => n.file as File);
+    const newImageFileIdList = customImageList.filter((n) => n.file !== null).map((n) => n.id);
+
+    try {
+      if (deletePreImageURLList) {
+        await deleteMultipleImage("qna", deletePreImageURLList);
+      }
+      let newImageURLList;
+      if (newImageFileList.length > 0) {
+        const res = await uploadMultipleImages(newImageFileList, "qna", newImageFileIdList, storagePath);
+        newImageURLList = res as string[];
+      }
+
+      const formData = {
+        ...data,
+        url: newImageURLList ? [...preImageURLList, ...newImageURLList] : preImageURLList
+      };
+
+      updateQnaMutate(formData);
+      return qnaData?.product_id
+        ? router.push(`/product/${qnaData.product_id}?article=제품문의`)
+        : router.push(`/users/${userId}?activeTab=qna`);
+    } catch (error) {
+      alert(error);
+      return router.push(`/`);
+    }
   };
 
   return (
-    <form onSubmit={qnaData ? handleSubmit(handleCreateFormSubmit) : handleSubmit(handleUpdateFormSubmit)}>
+    <form onSubmit={qnaData ? handleSubmit(handleUpdateFormSubmit) : handleSubmit(handleCreateFormSubmit)}>
       <FormFieldSet title={`문의 제목`}>
         <input
           type="text"
@@ -56,7 +133,9 @@ const QnaForm = ({ qnaData, productId }: Props) => {
           {...register("content", { required: true, maxLength: 500 })}
         />
       </FormFieldSet>
-
+      <FormFieldSet title="사진첨부">
+        <InputImage customImageList={customImageList} isEnter={isEnter} handler={handler} />
+      </FormFieldSet>
       <div className="flex flex-row gap-[12px] mt-[60px]">
         <input
           type="submit"

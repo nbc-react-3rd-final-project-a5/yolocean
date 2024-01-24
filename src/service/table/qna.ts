@@ -31,9 +31,7 @@ const getAllUserQna = async ({ userId, page }: Pick<API, "userId" | "page">) => 
 
 // [GET] 유저의 단일 문의
 const getUserQna = async ({ userId, qnaId }: Pick<API, "userId" | "qnaId">) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/qna/${qnaId}`, {
-    method: "GET"
-  });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/qna/${qnaId}`);
   const result = await res.json();
   return result;
 };
