@@ -17,7 +17,7 @@ const Review = ({ productId }: Props) => {
   const { auth } = useAuthStore();
   const { data: review, isLoading } = useQuery({
     queryFn: async () => await getAllProductReview({ productId, page }),
-    queryKey: ["review", productId, page]
+    queryKey: ["review", productId]
   });
 
   return (

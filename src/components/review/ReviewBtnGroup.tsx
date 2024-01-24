@@ -40,9 +40,9 @@ const ReviewBtnGroup = ({ userId, reviewId, listType, productId }: Props) => {
     );
     if (isConfirm) {
       if (listType === "review") {
-        reviewMutate();
+        reviewMutate({});
       } else {
-        qnaMutate();
+        qnaMutate({});
       }
     }
   };
