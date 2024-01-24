@@ -21,6 +21,7 @@ const QnaPage = () => {
     queryFn: async () => await getUserQna({ qnaId, userId }),
     queryKey: ["qna", qnaId]
   });
+  console.log(data);
 
   useEffect(() => {
     if (!userId) {

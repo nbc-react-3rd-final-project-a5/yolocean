@@ -2,8 +2,8 @@
 
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import { createUserQna, createUserReview } from "@/service/table";
+import { useParams, useRouter } from "next/navigation";
+import { createUserQna, createUserReview, updateUserQna } from "@/service/table";
 
 interface Props {
   formType: "review" | "qna";
@@ -26,21 +26,22 @@ const FormFieldSet = ({ title, children }: { title: string; children: React.Reac
 
 // 디바운싱
 // Form 컴포넌트
-const QnaForm = ({ userId, productId, review }: Props) => {
+const QnaForm = ({ userId, productId, review, formType }: Props) => {
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm({ mode: "onChange" });
 
+  const { qnaId } = useParams<{ qnaId: string }>();
+
   const router = useRouter();
 
   const handleFormSubmit = async (data: any) => {
     if (review) {
       const body = JSON.stringify({ ...data });
-      const respones = await createUserReview({ body, userId });
-      const result = await respones.json();
-      console.log(result);
+      const respones = await updateUserQna({ body, userId, qnaId });
+      console.log(respones);
       router.push(`/category/${review.product.category.id}/${productId}#후기`);
     }
 
@@ -48,7 +49,6 @@ const QnaForm = ({ userId, productId, review }: Props) => {
       const body = JSON.stringify({ ...data, product_id: productId });
       const respones = await createUserQna({ body, userId });
       const result = await respones;
-      console.log(result);
 
       router.push(`/category/${result.category_id}/${productId}#제품문의`);
     }
