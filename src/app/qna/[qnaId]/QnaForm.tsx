@@ -42,7 +42,7 @@ const QnaForm = ({ userId, productId, review, formType }: Props) => {
       const body = JSON.stringify({ ...data });
       const respones = await updateUserQna({ body, userId, qnaId });
       console.log(respones);
-      router.push(`/category/${review.product.category.id}/${productId}#후기`);
+      router.push(`/product/${productId}#후기`);
     }
 
     if (!review) {
@@ -50,7 +50,7 @@ const QnaForm = ({ userId, productId, review, formType }: Props) => {
       const respones = await createUserQna({ body, userId });
       const result = await respones;
 
-      router.push(`/category/${result.category_id}/${productId}#제품문의`);
+      router.push(`/product/${productId}#제품문의`);
     }
   };
 
