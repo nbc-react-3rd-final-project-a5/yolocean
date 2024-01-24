@@ -1,6 +1,7 @@
 "use client";
 
-import { useReview } from "@/hooks";
+import { useCustomMutation } from "@/hook";
+import { deleteUserQna, deleteUserReview } from "@/service/table";
 import { openConfirm } from "@/store/confirmStore";
 import Link from "next/link";
 import React from "react";
@@ -9,6 +10,7 @@ interface Props {
   reviewId: string;
   userId: string;
   listType: "review" | "qna";
+  productId?: string;
 }
 
 enum EnumListType {
@@ -16,8 +18,17 @@ enum EnumListType {
   qna = "문의"
 }
 
-const ReviewBtnGroup = ({ userId, reviewId, listType }: Props) => {
-  const { deleteReviewMutation } = useReview({ reviewId, userId });
+const ReviewBtnGroup = ({ userId, reviewId, listType, productId }: Props) => {
+  const { mutate: reviewMutate } = useCustomMutation({
+    mutationFn: async () => deleteUserReview({ userId, reviewId }),
+    queryKey: productId ? [listType, productId] : [listType]
+  });
+
+  const { mutate: qnaMutate } = useCustomMutation({
+    mutationFn: async () => deleteUserQna({ userId, qnaId: reviewId }),
+    queryKey: productId ? [listType, productId] : [listType]
+  });
+
   const editLink =
     listType === "review"
       ? `${window.location.origin}/review/form?reviewId=${reviewId}`
@@ -28,8 +39,11 @@ const ReviewBtnGroup = ({ userId, reviewId, listType }: Props) => {
       `${EnumListType[listType]} 삭제를 진행하겠습니까?`
     );
     if (isConfirm) {
-      const res = deleteReviewMutation.mutate();
-      console.log(res);
+      if (listType === "review") {
+        reviewMutate({});
+      } else {
+        qnaMutate({});
+      }
     }
   };
   return (

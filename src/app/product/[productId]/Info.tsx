@@ -1,55 +1,49 @@
-"use client";
 import Tab from "@/components/Tab";
-import Section from "@/components/layout/Section";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
+import Description from "./(article)/Description";
+import Infomation from "./(article)/Infomation";
+import Qna from "./(article)/Qna";
+import Review from "./(article)/Review";
+import Link from "next/link";
 
 interface Props {
   info_img: string;
   info: string[];
+  productId: string;
+  searchParams: string;
 }
 
-const ProductTab = ["상세정보", "상품설명", "후기", "제품문의"];
+const ProductTab = ["상품설명", "상세정보", "후기", "제품문의"];
 
-const Info = ({ info_img, info }: Props) => {
-  const [activeTab, setActiveTab] = useState("상품 설명");
-  const router = useRouter();
-
+const Info = ({ info_img, info, productId, searchParams }: Props) => {
   return (
-    <div className="mt-[16px]">
-      <Tab
-        tabs={ProductTab}
-        activeTab={activeTab}
-        handleTabClick={(e: React.MouseEvent<HTMLLIElement, MouseEvent>, tab: string) => {
-          setActiveTab(tab);
-          router.push(`#${e}`);
-        }}
-      />
-      <article id="상세정보">
-        <h1 className="text-[24px] my-[20px]">상세정보</h1>
-        <Image
-          src={info_img}
-          alt="product_info"
-          sizes="1200px"
-          width={0}
-          height={0}
-          style={{ width: "100%", height: "auto" }}
-        />
-      </article>
-      <article id="상품설명">
-        <h1 className="text-[24px] my-[20px]">상품설명</h1>
-        <table className="w-full text-sm text-left border text-gray-500 ">
-          {info.map((item) => (
-            <tr key={item.split("&")[0]} className="bg-white border-b ">
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                {item.split("&")[0]}
-              </th>
-              <td className="px-6 py-4 text-center border-l">{item.split("&")[1]}</td>
-            </tr>
-          ))}
-        </table>
-      </article>
+    <div className="mt-[16px]" id="tab">
+      <div className="sticky top-0 z-10">
+        <Tab tabs={ProductTab} activeTab={searchParams} />
+      </div>
+      {searchParams === "상품설명" && (
+        <article className="mt-[40px] w-[795px] mx-auto">
+          <Description info_img={info_img} />
+        </article>
+      )}
+
+      {searchParams === "상세정보" && (
+        <article className="w-[795px] mt-[40px] mx-auto">
+          <Infomation info={info} />
+        </article>
+      )}
+
+      {searchParams === "후기" && (
+        <article className="w-[795px] mx-auto">
+          <Review productId={productId} />
+        </article>
+      )}
+
+      {searchParams === "제품문의" && (
+        <article className="w-[795px] mt-[40px] mx-auto">
+          <Qna productId={productId} />
+        </article>
+      )}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { useCart } from "@/hooks";
+import { useCart } from "@/legacyHook";
 import { useAuthStore } from "@/store/authStore";
 
 const Receipt = () => {

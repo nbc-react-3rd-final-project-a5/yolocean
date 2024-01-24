@@ -4,7 +4,8 @@ import Link from "next/link";
 
 import { RxHamburgerMenu } from "react-icons/rx";
 import { CategoryTable } from "@/types/db";
-import { useCategory } from "@/hooks";
+import { useQuery } from "@tanstack/react-query";
+import { getAllCategory } from "@/service/table";
 
 interface Props {
   category: CategoryTable;
@@ -21,7 +22,7 @@ const CategoryName = ({ category: { id, category_name } }: Props) => {
 const HeadCategory = () => {
   //카테고리 메뉴 열기
   const [open, setOpen] = useState(false);
-  const { category, isLoading } = useCategory();
+  const { data: category, isLoading } = useQuery<CategoryTable[]>({ queryKey: ["category"], queryFn: getAllCategory });
   //   console.log(category);
 
   useEffect(() => {
@@ -45,7 +46,7 @@ const HeadCategory = () => {
         <p className="text-[14px] text-point font-medium leading-loose">카테고리</p>
         {open && !isLoading && (
           <ul className="absolute p-1 mt-7 ml-7 text-right w-32 z-50 right-0 bg-white shadow-md cursor-pointer">
-            {(category as CategoryTable[]).map((category) => (
+            {category!.map((category) => (
               <CategoryName category={category} key={category.id} />
             ))}
           </ul>

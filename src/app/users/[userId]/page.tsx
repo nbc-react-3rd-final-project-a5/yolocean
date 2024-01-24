@@ -37,7 +37,7 @@ const MyPage = ({ params, searchParams }: Props) => {
   const currentTap = (activeTab: string | string[] | undefined) => {
     switch (activeTab) {
       case "rent":
-        return <UserRentList />;
+        return <UserRentList userId={userId} />;
       case "review":
         return <UserReviewList userId={userId} />;
       case "qna":

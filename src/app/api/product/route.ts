@@ -1,7 +1,7 @@
 import { supabase } from "@/service/supabase";
 import { NextResponse, NextRequest } from "next/server";
 
-export const GET = async () => {
+export const GET = async (req: NextRequest) => {
   let { data: post, error } = await supabase
     .from("product")
     .select("*,category(category_name),stock(count,store(address,name))");

@@ -1,10 +1,12 @@
 import { supabase } from "@/service/supabase";
+import { useSearchParams } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest, context: { params: { categoryId: string } }) => {
   const {
     params: { categoryId }
   } = context;
+
   let { data, error } = await supabase.from("category").select("category_name").eq("id", categoryId);
 
   if (error) {
