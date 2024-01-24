@@ -6,11 +6,9 @@ interface Props {
   userId: string;
 }
 
-// 현재 문제 발생
-
 const UserQnaList = async ({ userId }: Props) => {
   const qnaList = await getAllUserQna({ userId, page: 1 });
-
+  console.log("QNA LIST" + qnaList);
   return (
     <>
       {qnaList?.length > 0 ? (
