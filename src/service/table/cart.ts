@@ -12,11 +12,12 @@ const deleteAllCart = async ({ userId }: Pick<API, "userId">) => {
   return result;
 };
 
-const createCart = async ({ userId, cartId, body }: Pick<API, "userId" | "cartId" | "body">) => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/cart/${cartId}`, {
+const createCart = async ({ userId, body }: Pick<API, "userId" | "body">) => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/cart`, {
     method: "POST",
     body
   });
+  console.log(response);
   const result = await response.json();
   return result;
 };

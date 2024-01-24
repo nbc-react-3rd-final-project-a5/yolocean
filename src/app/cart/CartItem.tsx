@@ -63,6 +63,9 @@ const CartItem = (cart: Props) => {
     updateCount();
   }, [watchCount.count, isVisible]);
 
+  // console.log("db값", count);
+  // console.log(getValues("count"));
+
   const handleCartDelete = () => {
     setIsVisible(false);
     deleteCartMutation({});
@@ -99,7 +102,7 @@ const CartItem = (cart: Props) => {
                 register={register}
                 setValue={setValue}
                 getValues={getValues}
-                value={count || 0}
+                value={count || 1}
                 name="count"
               />
             </div>

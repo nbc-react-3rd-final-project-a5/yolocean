@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { IoShareSocial } from "react-icons/io5";
 import ShareModal from "./ShareModal";
-import { getCart, updateCart } from "@/service/table";
+import { createCart, getCart, updateCart } from "@/service/table";
 
 interface Props {
   category_name: string;
@@ -52,24 +52,27 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
     const body = JSON.stringify({ product_id, user_id, rent_date, count, store_id });
     const cart = await getCart({ productId: product_id, userId: user_id });
 
-    addCart(body, submitType, cart);
+    console.log(cart);
+    addCart(body, submitType, cart[0]?.id);
   }
 
-  async function addCart(body: string, submitType: string, cart: any) {
-    // const response = await fetch(`/api/cart/${auth}`, { body, method: "POST" });
-
-    const response = await updateCart({ userId: user_id, body, cartId: cart.id });
-    const { message } = await response.json();
+  async function addCart(body: string, submitType: string, cartId: string) {
+    // 완료될때까지 기다리는 로직 필요
+    if (cartId) {
+      await updateCart({ userId: user_id, body, cartId });
+    } else {
+      await createCart({ body, userId: user_id });
+    }
 
     if (submitType === "cart") {
-      const answer = await openConfirm(message, "장바구니를 바로 확인하시겠습니까?");
+      const answer = await openConfirm("장바구니에 상품을 추가하였습니다.", "장바구니를 바로 확인하시겠습니까?");
       if (answer) {
         router.push(`/cart/${user_id}`);
       }
     }
 
     if (submitType === "buy") {
-      const answer = await openConfirm(message, "구매페이지로 이동하시겠습니까?");
+      const answer = await openConfirm("장바구니에 상품을 추가하였습니다.", "구매페이지로 이동하시겠습니까?");
       if (answer) {
         router.push(`/payment/${user_id}`);
       }

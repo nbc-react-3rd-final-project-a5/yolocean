@@ -6,15 +6,16 @@ export const GET = async (req: NextRequest, context: { params: { qnaId: string }
     params: { qnaId }
   } = context;
 
-  let { data: post, error } = await supabase
+  let { data: qna, error } = await supabase
     .from("qna")
     .select("*,userinfo!inner(username,avatar_url),product!inner(*,category(*))")
     .eq("id", qnaId);
-
+  console.log(qnaId);
+  console.log(qna);
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
-  return NextResponse.json(post![0]);
+  return NextResponse.json(qna![0]);
 };
 
 export async function PATCH(req: NextRequest, context: { params: { qnaId: string } }) {

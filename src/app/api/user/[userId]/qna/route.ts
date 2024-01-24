@@ -38,7 +38,7 @@ export const GET = async (req: NextRequest, context: { params: { userId: string 
 export async function POST(req: NextRequest, context: { params: { userId: string } }) {
   const { userId } = context.params;
   const data = await req.json();
-  const { data: insertData, error } = await supabase.from("qna").insert({ ...data, userId });
+  const { data: insertData, error } = await supabase.from("qna").insert({ ...data, user_id: userId });
   console.log(data);
   const { data: category, error: categoryError } = await supabase
     .from("product")

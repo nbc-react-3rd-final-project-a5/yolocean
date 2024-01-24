@@ -17,7 +17,7 @@ const NumberInput = ({ register, name, setValue, getValues, errors, value }: Pro
 
   return (
     <>
-      <div className="relative flex items-center text-[14px] ">
+      <div className="relative flex items-center text-[14px]">
         <button
           onClick={() => setValue(name, Math.max(Number(getValues(name)) - 1, 1))}
           type="button"
@@ -31,10 +31,13 @@ const NumberInput = ({ register, name, setValue, getValues, errors, value }: Pro
           type="text"
           defaultValue={value !== undefined ? value : 1}
           {...register(name, {
-            onChange: (e) => setValue(name, e.target.value),
+            onChange: (e) => {
+              setValue(name, e.target.value);
+            },
+            max: { value: 99, message: "최대 수량을 넘었습니다" },
             required: "수량을 선택해주세요",
-            min: { value: 1, message: "한개이상의 수량을 선택해주세요" },
-            pattern: { value: /^(?:[1-9]|[1-9]\d)$/, message: "1~99까지만 입력 가능합니다." }
+            min: { value: 1, message: "한개 이상의 수량을 선택해주세요" },
+            pattern: { value: /^(?:[1-9]|[1-9][0-9])$/, message: "1~99까지만 입력 가능합니다." }
           })}
         />
         <button

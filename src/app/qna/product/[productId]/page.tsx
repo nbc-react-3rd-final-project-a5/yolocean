@@ -1,13 +1,14 @@
 "use client";
 import React, { useEffect } from "react";
 import Section from "@/components/layout/Section";
-import QnaForm from "../../[reviewId]/QnaForm";
+import QnaForm from "../../[qnaId]/QnaForm";
 import { useStore } from "zustand";
 import { useAuthStore } from "@/store/authStore";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { ProductProperties } from "@/types/db";
+import { getProduct } from "@/service/table";
 
 const QnaPage = () => {
   const { auth } = useStore(useAuthStore);
@@ -17,12 +18,7 @@ const QnaPage = () => {
     isLoading,
     isError
   } = useQuery<ProductProperties>({
-    queryFn: async (): Promise<ProductProperties> => {
-      const response = await fetch(`/api/product/${productId}`, { method: "GET" });
-      const data = await response.json();
-      return data;
-    },
-
+    queryFn: async () => getProduct({ productId }),
     queryKey: ["product", productId]
   });
 
