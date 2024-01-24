@@ -21,8 +21,10 @@ const Pagenation = ({ maxPage, currentPage, limit, setPage, articleName }: Props
       <ul className="flex h-auto items-center text-[14px] cursor-pointer text-tc-light text-sm gap-[30px] w-fit mx-auto">
         {currentPage > 1 && (
           <Link
-            href={`#${articleName}`}
+            scroll={false}
+            href={{ href: pathName, query: { article: articleName } }}
             onClick={() => {
+              document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" });
               setPage((prev) => Math.max(prev - 1, 1));
             }}
             className="text-black"
@@ -35,8 +37,12 @@ const Pagenation = ({ maxPage, currentPage, limit, setPage, articleName }: Props
 
         {pageArray.map((page, index) => (
           <Link
-            href={`#${articleName}`}
-            onClick={() => setPage(page)}
+            scroll={false}
+            href={{ href: pathName, query: { article: articleName } }}
+            onClick={() => {
+              document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" });
+              setPage(page);
+            }}
             key={page}
             className={`${
               currentPage === page && "rounded-full bg-point text-white"
@@ -48,8 +54,12 @@ const Pagenation = ({ maxPage, currentPage, limit, setPage, articleName }: Props
 
         {currentPage < maxPage && (
           <Link
-            onClick={() => setPage((prev) => Math.min(prev + 1, maxPage))}
-            href={`#${articleName}`}
+            scroll={false}
+            href={{ href: pathName, query: { article: articleName } }}
+            onClick={() => {
+              document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" });
+              setPage((prev) => Math.min(prev + 1, maxPage));
+            }}
             className="text-black"
           >
             <MdKeyboardArrowRight />
