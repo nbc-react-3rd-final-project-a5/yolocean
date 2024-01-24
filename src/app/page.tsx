@@ -1,33 +1,16 @@
 import CardLists from "@/components/CardLists";
 import Section from "@/components/layout/Section";
-import { ExtendReview, ProductProperties } from "@/types/db";
+import { getAllProduct, getFixedReview } from "@/service/table";
+import { ExtendFixedReview, ProductProperties } from "@/types/db";
 import getPath from "@/utils/getPath";
 import Link from "next/link";
 
-const getProductData = async (): Promise<ProductProperties[]> => {
-  const { domain } = getPath();
-  const result = await fetch(`http://${domain}/api/product`, { method: "GET" });
-  if (!result.ok) {
-    throw new Error("Product 데이터 불러오기 실패");
-  }
-  return result.json();
-};
-
-const getReviewData = async (): Promise<ExtendReview[]> => {
-  const { domain } = getPath();
-  const result = await fetch(`http://${domain}/api/review`, { method: "GET" });
-  if (!result.ok) {
-    throw new Error("Review 데이터 불러오기 실패");
-  }
-  return result.json();
-};
-
 const Home = async () => {
-  const items = await getProductData();
-  const reviews = await getReviewData();
+  const items = await getAllProduct();
+  const reviews = await getFixedReview();
 
   const discountFilteredItems = items
-    .filter((item) => item.percentage_off !== 0)
+    .filter((item: ProductProperties) => item.percentage_off !== 0)
     .sort((a: ProductProperties, b: ProductProperties) => {
       if (a.percentage_off! < b.percentage_off!) {
         return 1;
@@ -62,15 +45,18 @@ const Home = async () => {
         <CardLists cardLists={viewSortedItems} />
       </Section>
       <div className="bg-slate-300 w-[1200px] h-[280px] mb-[200px]">베너</div>
-      {/* <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
+      <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
         <div className="grid grid-cols-4 gap-[13px]">
-          {reviews.map((review) => (
-            <Link href={`/category/${review.product.category_id}/${review.product_id}#후기`}>
-              <img key={review.id} className="w-[291px] h-[291px]" src={review.url![0]} />
+          {reviews.map((fixedReview: any) => (
+            <Link
+              key={fixedReview.id}
+              href={`/category/${fixedReview.review.product.category_id}/${fixedReview.review.product_id}#후기`}
+            >
+              <img className="w-[291px] h-[291px]" src={fixedReview.review.url[0]} />
             </Link>
           ))}
         </div>
-      </Section> */}
+      </Section>
     </div>
   );
 };

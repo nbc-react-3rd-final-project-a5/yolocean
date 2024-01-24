@@ -8,7 +8,7 @@ export const GET = async (req: NextRequest, context: { params: { productId: stri
 
   let { data: post, error } = await supabase
     .from("product")
-    .select("*,category(category_name),stock(count,store(address,name))")
+    .select("*,category!inner(category_name)")
     .eq("id", productId);
 
   if (error) {

@@ -2,11 +2,10 @@
 import React, { useState } from "react";
 import CartItem from "@/app/cart/CartItem";
 import { CartBox, RentInsert } from "@/types/db";
-import { useCart } from "@/hooks";
 import { UserInfo } from "@/types/db";
 import { useQuery } from "@tanstack/react-query";
-import { useAuthStore } from "@/store/authStore";
-
+import { createAllUserRent, deleteAllCart, getAllCart, getUser } from "@/service/table";
+import { useCustomMutation } from "@/hook";
 import Section from "@/components/layout/Section";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import { useForm } from "react-hook-form";
@@ -20,22 +19,28 @@ import SuccessModal from "./SuccessModal";
 const linkList = [
   {
     name: "홈",
-    url: "http://localhost:3000/"
+    url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}`
   },
   {
     name: "장바구니",
-    url: "http://localhost:3000/cart"
+    url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/cart`
   },
   {
     name: "주문서",
-    url: "http://localhost:3000/payment"
+    url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/payment`
   }
 ];
 
 const PaymentPage = ({ params }: { params: { userId: string } }) => {
-  //useCart에 사용자 id
   const userId = params.userId;
-  const { cart, isLoading, deleteUserCartMutation } = useCart({ userId: userId, cartId: "" });
+  const { data: cart, isLoading } = useQuery({
+    queryKey: ["cart"],
+    queryFn: async () => await getAllCart({ userId })
+  });
+  const { mutate: deleteUserCartMutation } = useCustomMutation({
+    mutationFn: async () => await deleteAllCart({ userId: userId }),
+    queryKey: ["cart"]
+  });
   const shop = cart !== undefined ? (cart.length > 0 ? cart[0].store.name : "no-shop") : "no-shop";
 
   //상품별 총금액(할인적용)
@@ -46,13 +51,7 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
 
   const { data: user, isLoading: isUserDataLoading } = useQuery({
     queryKey: ["user"],
-    queryFn: async (): Promise<UserInfo> => {
-      const result = await fetch(`/api/users/${userId}`, { method: "GET" });
-      if (!result.ok) {
-        throw new Error("유저 정보 불러오기 실패");
-      }
-      return await result.json();
-    }
+    queryFn: async () => await getUser({ userId })
   });
 
   // === 결제 관련 ===
@@ -83,12 +82,9 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
   const insertRentData = async () => {
     if (cart !== undefined) {
       const rentData = setRentData(cart);
-      await fetch(`/api/rent/${userId}`, {
-        method: "POST",
-        body: JSON.stringify(rentData)
-      })
+      createAllUserRent({ userId, body: JSON.stringify(rentData) })
         .then((res) => {
-          deleteUserCartMutation.mutate(userId);
+          deleteUserCartMutation({});
         })
         .then(() => {
           openModal(<SuccessModal rentData={rentData} />);
@@ -109,6 +105,7 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
     } else {
       // 결제 실패 시 진행할 로직
       alertFire(msg, "error");
+      console.log(msg);
     }
   };
 

@@ -1,26 +1,16 @@
 // import { useProduct } from "@/hooks";
-import { ProductProperties } from "@/types/db";
 import Image from "next/image";
 import React from "react";
 import Controller from "./ControlForm";
 import Info from "./Info";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
-import getPath from "@/utils/getPath";
-import ProductReviewList from "@/components/review/ProductReviewList";
+import { getProduct } from "@/service/table";
 interface Props {
   params: { productId: string };
 }
 
-async function getProductDetail(productId: string) {
-  const { domain } = getPath();
-  const data = await fetch(`http://${domain}/api/product/${productId}`, { method: "GET" });
-  const result = data.json();
-  return result;
-}
-
 const ProductDetailPage = async ({ params: { productId } }: Props) => {
-  const product = await getProductDetail(productId);
-
+  const product = await getProduct({ productId });
   const {
     name,
     category_id,
@@ -32,9 +22,8 @@ const ProductDetailPage = async ({ params: { productId } }: Props) => {
     info,
     original_price,
     view,
-    percentage_off,
-    stock: { count, store }
-  } = product as ProductProperties;
+    percentage_off
+  } = product;
 
   return (
     <section className="relative">
@@ -58,7 +47,7 @@ const ProductDetailPage = async ({ params: { productId } }: Props) => {
         </div>
         <Controller
           percentage_off={percentage_off}
-          id={id}
+          product_id={id}
           price={price}
           original_price={original_price}
           category_name={category_name}

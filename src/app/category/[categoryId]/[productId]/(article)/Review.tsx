@@ -1,5 +1,6 @@
 import Pagenation from "@/components/Pagenation";
 import ReviewList from "@/components/review/ReviewList";
+import { getAllProductReview } from "@/service/table";
 import { useAuthStore } from "@/store/authStore";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
@@ -9,18 +10,14 @@ interface Props {
   productId: string;
 }
 const Review = ({ productId }: Props) => {
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
   // const page = Number(searchParams.get("review_page")) || 1;
   const [page, setPage] = useState(1);
 
   const { auth } = useAuthStore();
   const { data: review, isLoading } = useQuery({
-    queryFn: async () => {
-      const response = await fetch(`/api/review/products/${productId}?page=${page}`, { method: "GET" });
-      const result = await response.json();
-      return result;
-    },
-    queryKey: ["review", productId, page]
+    queryFn: async () => await getAllProductReview({ productId, page }),
+    queryKey: ["review", productId]
   });
 
   return (

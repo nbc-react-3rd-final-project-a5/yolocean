@@ -5,7 +5,6 @@ import { FieldValues, useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import { ko } from "date-fns/esm/locale";
 import "react-datepicker/dist/react-datepicker.css";
-import { useStore } from "zustand";
 import { useOfficeStore } from "@/store/officeStore";
 import { useModalStore } from "@/store/modalStore";
 import SelectOffice from "../SelectOffice";
@@ -13,19 +12,20 @@ import { MdErrorOutline } from "react-icons/md";
 import { openConfirm } from "@/store/confirmStore";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
-import { IoShareSocial, IoShareSharp, IoClose } from "react-icons/io5";
+import { IoShareSocial } from "react-icons/io5";
 import ShareModal from "./ShareModal";
+import { createCart, getCart, updateCart } from "@/service/table";
 
 interface Props {
   category_name: string;
   name: string;
   price: number;
   original_price: number;
-  id: string;
+  product_id: string;
   percentage_off: null | number;
 }
 
-const ControlForm = ({ category_name, name, price, original_price, id, percentage_off }: Props) => {
+const ControlForm = ({ category_name, name, price, original_price, product_id, percentage_off }: Props) => {
   const {
     register,
     setValue,
@@ -35,41 +35,46 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
     clearErrors,
     handleSubmit
   } = useForm({ mode: "onChange", shouldFocusError: false });
-  const { office } = useStore(useOfficeStore);
-  const { openModal } = useStore(useModalStore);
+  const { office } = useOfficeStore();
+  const { openModal } = useModalStore();
   const router = useRouter();
-  const { auth } = useStore(useAuthStore);
+  const { auth: user_id } = useAuthStore();
 
   useEffect(() => {
     setValue("address", office.name);
     clearErrors("address");
   }, [office.name, setValue, clearErrors]);
 
-  function handleFormSubmit(onValid: FieldValues, event: any) {
+  async function handleFormSubmit(onValid: FieldValues, event: any) {
     const submitType = event.nativeEvent.submitter.name;
-
     const { rent_date, count } = onValid;
     const store_id = office.id;
-    const product_id = id;
-    const body = JSON.stringify({ product_id, user_id: auth, rent_date, count, store_id });
-    addCart(body, submitType);
+    const body = JSON.stringify({ product_id, user_id, rent_date, count, store_id });
+    const cart = await getCart({ productId: product_id, userId: user_id });
+
+    console.log(cart);
+    addCart(body, submitType, cart[0]?.id);
   }
 
-  async function addCart(body: string, submitType: string) {
-    const response = await fetch(`/api/cart/${auth}`, { body, method: "POST" });
-    const { message } = await response.json();
+  async function addCart(body: string, submitType: string, cartId: string) {
+    // 완료될때까지 기다리는 로직 필요
+    if (cartId) {
+      await updateCart({ userId: user_id, body, cartId });
+    } else {
+      await createCart({ body, userId: user_id });
+    }
 
     if (submitType === "cart") {
-      const answer = await openConfirm(message, "장바구니를 바로 확인하시겠습니까?");
+      const answer = await openConfirm("장바구니에 상품을 추가하였습니다.", "장바구니를 바로 확인하시겠습니까?");
       if (answer) {
-        router.push(`/cart/${auth}`);
+        router.push(`/cart/${user_id}`);
       }
     }
 
     if (submitType === "buy") {
-      const answer = await openConfirm(message, "구매페이지로 이동하시겠습니까?");
+      const answer = await openConfirm("장바구니에 상품을 추가하였습니다.", "구매페이지로 이동하시겠습니까?");
       if (answer) {
-        router.push(`/payment/${auth}`);
+        router.push(`/payment/${user_id}`);
       }
     }
   }
@@ -98,14 +103,12 @@ const ControlForm = ({ category_name, name, price, original_price, id, percentag
           {percentage_off && (
             <div className="flex gap-[12px] ">
               <p className="w-[89px]">할인가</p>
-              <p>{Math.floor(price / percentage_off)}원</p>
-              {/* <p>{price}원</p> */}
+              <p>{Math.floor(price - (price - (price * percentage_off) / 100))}원</p>
             </div>
           )}
           <div className="flex gap-[12px] ">
             <p className="w-[89px]">최종가격</p>
-            {/* <p className="font-[700]">{price}원</p> */}
-            {percentage_off && <p className="font-[700]">{Math.floor(price / percentage_off)}원</p>}
+            {percentage_off && <p className="font-[700]">{Math.floor(price - (price * percentage_off) / 100)}원</p>}
             {!percentage_off && <p className="font-[700]">{price}원</p>}
           </div>
         </div>
