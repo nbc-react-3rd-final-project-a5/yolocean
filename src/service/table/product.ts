@@ -21,7 +21,10 @@ const getAllCategoryProduct = async ({ categoryId }: Pick<API, "categoryId">) =>
 
 // [UPDATE] 새 상품 생성, 관리자 및 조회수용
 const updateProduct = async ({ body, productId }: Pick<API, "body" | "productId">) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/product/${productId}`, { method: "PATCH", body });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/product/${productId}`, {
+    method: "PATCH",
+    body
+  });
   const result = res.json();
   return result;
 };

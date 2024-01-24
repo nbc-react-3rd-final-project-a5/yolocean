@@ -21,7 +21,6 @@ export async function PATCH(req: NextRequest, context: { params: { productId: st
   const { productId } = context.params;
   const body = await req.json();
   console.log(body);
-  console.log(req);
   console.log("야임마");
   let { data: post, error } = await supabase
     .from("product")
