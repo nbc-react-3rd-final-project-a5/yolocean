@@ -33,7 +33,7 @@ const FormPage = async ({ searchParams }: Props) => {
   const reivewData: ExtendReview = reviewId && (await getUserReview({ userId, reviewId }))[0];
   const qnaId = searchParams?.qnaId;
   const qnaData: ExtendQna = qnaId && (await getUserQna({ userId, qnaId }));
-  const storeId: string = (searchParams?.reviewId || reivewData?.store_id)!;
+  const storeId: string = (searchParams?.storeId || reivewData?.store_id)!;
   const productId = searchParams?.productId || reivewData?.product_id || qnaData?.product_id;
   const formtype = searchParams?.formtype || (reivewData && "review") || (qnaData && "qna");
 

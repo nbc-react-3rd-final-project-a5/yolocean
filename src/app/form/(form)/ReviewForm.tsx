@@ -9,6 +9,7 @@ import { useCustomMutation, useImageInput } from "@/hook";
 import InputImage from "@/components/InputImage";
 import { useAuthStore } from "@/store/authStore";
 import { createUserReview, updateUserReview } from "@/service/table";
+import { useRouter } from "next/navigation";
 
 interface Props {
   reviewData: ExtendReview;
@@ -23,7 +24,7 @@ interface UploadForm {
 }
 
 const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
-  const preReviewImageUrl = reviewData?.url;
+  const router = useRouter();
   const { auth: userId } = useAuthStore();
   const {
     register,
@@ -33,9 +34,19 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
     clearErrors,
     formState: { errors }
   } = useForm<UploadForm>({ mode: "onChange" });
+
+  // ========== Image Upload ==========
+  const preReviewImageUrl = reviewData?.url;
   const { uploadMultipleImages, deleteMultipleImage } = useStorage();
   const { customImageList, isEnter, handler, addPreImage } = useImageInput("multiple");
+  // 이미지가 있을 경우 이미지 불러오기 기능
+  useEffect(() => {
+    if (preReviewImageUrl) {
+      addPreImage(preReviewImageUrl);
+    }
+  }, []);
 
+  // ========== Mutation ==========
   const { mutate: createReviewMutate } = useCustomMutation({
     queryKey: ["review ", productId],
     mutationFn: async (formData) => await createUserReview({ userId, body: JSON.stringify(formData) })
@@ -47,13 +58,16 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
       await updateUserReview({ userId, reviewId: reviewData.id, body: JSON.stringify(formData) })
   });
 
+  // ========== Submit ==========
+
   const handleFormSubmit = async (data: UploadForm) => {
     const storagePath = productId ? `${userId}/${productId}` : userId;
+    console.log(storagePath);
     const imageFileList = customImageList.map((n) => n.file) as File[];
     const imageFileIdList = customImageList.map((n) => n.id);
 
     try {
-      const imageURLList = await uploadMultipleImages(imageFileList, "reivew", imageFileIdList, storagePath);
+      const imageURLList = await uploadMultipleImages(imageFileList, "review", imageFileIdList, storagePath);
       const formData: Omit<Review, "id" | "created_at"> = {
         user_id: userId,
         title: data.title,
@@ -64,8 +78,9 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
       };
 
       createReviewMutate(formData);
+      return router.push(`/product/${productId}?article=후기`);
     } catch (error) {
-      console.error(error);
+      alert(error);
     }
   };
 
@@ -99,17 +114,11 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
       };
 
       updateReviewMutate(formData);
+      return router.push(`/product/${productId}?article=후기`);
     } catch (error) {
       console.error(error);
     }
   };
-
-  // 이미지가 있을 경우 이미지 불러오기 기능
-  useEffect(() => {
-    if (preReviewImageUrl) {
-      addPreImage(preReviewImageUrl);
-    }
-  }, []);
 
   return (
     <form onSubmit={reviewData ? handleSubmit(handleUpdateFormSubmit) : handleSubmit(handleFormSubmit)}>
