@@ -31,7 +31,7 @@ const Qna = ({ productId }: Props) => {
   return (
     <div>
       <div className="flex justify-end items-center  mb-[25px]">
-        <Link href={`/qna/product/${productId}`}>
+        <Link href={`/form?productId=${productId}`}>
           <button className="bg-point text-white text-[14px] rounded-lg  px-[18px] py-[10px]">{`문의 작성`}</button>
         </Link>
       </div>

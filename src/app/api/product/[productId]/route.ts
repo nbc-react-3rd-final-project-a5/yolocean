@@ -16,3 +16,21 @@ export const GET = async (req: NextRequest, context: { params: { productId: stri
   }
   return NextResponse.json(post![0]);
 };
+
+export async function PATCH(req: NextRequest, context: { params: { productId: string } }) {
+  const { productId } = context.params;
+  const body = await req.json();
+  console.log(body);
+  console.log(req);
+  console.log("야임마");
+  let { data: post, error } = await supabase
+    .from("product")
+    .update({ ...body })
+    .eq("id", productId)
+    .select("*");
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+  return NextResponse.json(post);
+}

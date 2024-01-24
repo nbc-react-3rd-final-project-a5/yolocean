@@ -3,7 +3,7 @@ import React from "react";
 import Controller from "./ControlForm";
 import Info from "./Info";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
-import { getProduct } from "@/service/table";
+import { getProduct, updateProduct } from "@/service/table";
 
 interface Props {
   params: { productId: string };
@@ -25,6 +25,8 @@ const ProductDetailPage = async ({ params: { productId }, searchParams }: Props)
     view,
     percentage_off
   } = product;
+
+  await updateProduct({ productId, body: JSON.stringify({ view: Number(view) + 1 }) });
 
   return (
     <section className="relative scroll-smooth">
