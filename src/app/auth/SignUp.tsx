@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
-import { supabase } from "@/service/supabase";
+import React, { useRef, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import useLogedInStore from "@/store/logedStore";
@@ -7,6 +6,8 @@ import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import Section from "@/components/layout/Section";
 import { createCertification } from "@/lib/portone";
 import { usealertStore } from "@/store/alertStore";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Database } from "@/types/supabase";
 
 const linkList = [
   {
@@ -34,12 +35,15 @@ interface FormValue {
 
 const SignUp = ({ mode, setMode }: Props) => {
   const router = useRouter();
+  const supabaseAuth = createClientComponentClient<Database>();
+
   const { setLogedIn } = useLogedInStore();
   const { alertFire } = usealertStore();
 
   //회원가입 함수
+
   async function signUpNewUser(id: string, pw: string, name: string, phone: string) {
-    const { data, error } = await supabase.auth.signUp({
+    const { data, error } = await supabaseAuth.auth.signUp({
       email: id,
       password: pw,
       options: {
@@ -47,7 +51,8 @@ const SignUp = ({ mode, setMode }: Props) => {
           name: name,
           avatar_url: null,
           phone: phone
-        }
+        },
+        emailRedirectTo: `${location.origin}/auth/callback`
       }
     });
     if (error) {

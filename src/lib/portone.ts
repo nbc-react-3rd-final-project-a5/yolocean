@@ -64,7 +64,7 @@ const createCertification = async (phone_number: string) => {
       const { success, imp_uid, merchant_uid, error_msg } = res;
       if (success) {
         // 인증 성공 시 실행할 로직
-        const checkPhoneNumber = await fetch("/api/auth", {
+        const checkPhoneNumber = await fetch("/api/certification", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ imp_uid, merchant_uid, phone_number })
