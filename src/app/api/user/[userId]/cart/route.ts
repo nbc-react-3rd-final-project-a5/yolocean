@@ -31,3 +31,14 @@ export const DELETE = async (_: NextRequest, context: { params: { userId: string
   }
   return NextResponse.json(true);
 };
+
+export const POST = async (req: NextRequest, context: { params: { userId: string } }) => {
+  const body = await req.json();
+
+  const { data: cart, error } = await supabase.from("cart").insert([{ ...body }]);
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+  return NextResponse.json({ message: "장바구니 담기 성공" }, { status: 200 });
+};

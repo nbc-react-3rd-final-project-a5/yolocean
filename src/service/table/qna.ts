@@ -15,6 +15,7 @@ const createUserQna = async ({ userId, body }: Pick<API, "userId" | "body">) => 
     method: "POST",
     body
   });
+  console.log(res);
   const result = await res.json();
   return result;
 };

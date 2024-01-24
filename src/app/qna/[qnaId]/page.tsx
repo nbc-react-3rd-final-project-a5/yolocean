@@ -1,31 +1,33 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import ReviewForm from "@/components/form/ReviewForm";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import Section from "@/components/layout/Section";
-import { useProduct } from "@/legacyHook";
 import { ProductProperties } from "@/types/db";
 import { useStore } from "zustand";
 import { useAuthStore } from "@/store/authStore";
 import { useQuery } from "@tanstack/react-query";
 import QnaForm from "./QnaForm";
+import { getUserQna, getUserReview } from "@/service/table";
 
 const QnaPage = () => {
-  const { reviewId } = useParams<{ reviewId: string }>();
-  // const { product, isLoading } = useProduct(reviewId);
-
+  const { qnaId } = useParams<{ qnaId: string }>();
+  const { auth: userId } = useAuthStore();
+  const router = useRouter();
+  console.log(userId);
   const { data, isLoading } = useQuery({
-    queryFn: async () => {
-      const response = await fetch(`/api/qna/user/${reviewId}`);
-      const result = await response.json();
-      return result;
-    },
-    queryKey: ["qna", reviewId]
+    queryFn: async () => await getUserQna({ qnaId, userId }),
+    queryKey: ["qna", qnaId]
   });
+  console.log(data);
 
-  const { auth: userId } = useStore(useAuthStore);
+  useEffect(() => {
+    if (!userId) {
+      return router.back();
+    }
+  }, []);
 
   console.log(data);
   // TODO : 로그인 여부 및 제품이 있는지 확인하기
