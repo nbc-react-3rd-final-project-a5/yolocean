@@ -23,12 +23,12 @@ export async function PATCH(req: NextRequest, context: { params: { qnaId: string
     params: { qnaId }
   } = context;
   const data = await req.json();
-  const { data: insertData, error } = await supabase.from("qna").update(data).eq("id", qnaId);
+  const { data: insertData, error } = await supabase.from("qna").update(data).eq("id", qnaId).select("*");
   if (error) {
     console.log(error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
-  return NextResponse.json(insertData);
+  return NextResponse.json(insertData[0]);
 }
 
 export async function DELETE(_: NextRequest, context: { params: { qnaId: string } }) {
