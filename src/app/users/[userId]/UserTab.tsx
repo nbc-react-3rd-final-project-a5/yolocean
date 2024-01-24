@@ -31,7 +31,7 @@ const UserTab = ({ className }: Props) => {
   return (
     <div className={className}>
       <Tab
-        article={EnumTabList[article as keyof typeof EnumTabList] || "reservation"}
+        activeTab={EnumTabList[article as keyof typeof EnumTabList] || "reservation"}
         handleTabClick={handleTabClick}
         tabs={tabList}
         isVariable={false}

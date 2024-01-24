@@ -19,7 +19,7 @@ const Info = ({ info_img, info, productId, searchParams }: Props) => {
   return (
     <div className="mt-[16px]" id="tab">
       <div className="sticky top-0 z-10">
-        <Tab tabs={ProductTab} article={searchParams} />
+        <Tab tabs={ProductTab} activeTab={searchParams} />
       </div>
       {searchParams === "상품설명" && (
         <article className="mt-[40px] w-[795px] mx-auto">
