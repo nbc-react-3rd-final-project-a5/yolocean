@@ -66,7 +66,7 @@ const CartPage = ({ params }: { params: { userId: string } }) => {
                       총 결제금액
                       <p className="text-[24px] font-bold inline-block ml-1">
                         {" "}
-                        {cartPrice.reduce((acc, num) => acc + num, 0)}원
+                        {cartPrice.reduce((acc, num) => acc + num, 0).toLocaleString()}원
                       </p>
                     </div>
                   </div>

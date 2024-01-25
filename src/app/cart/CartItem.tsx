@@ -93,7 +93,7 @@ const CartItem = (cart: Props) => {
               <p className="text-[16px] font-medium ">{store.name}</p>
             </div>
             <div className="mb-[13px]">
-              <p className="text-[16px] font-medium ">{finalPrice}원</p>
+              <p className="text-[16px] font-medium ">{finalPrice.toLocaleString()}원</p>
             </div>
 
             <div>
@@ -111,10 +111,10 @@ const CartItem = (cart: Props) => {
         <div className="flex flex-row justify-between mt-[20px]">
           <div>
             <p className="text-[16px] font-medium ">
-              상품금액 {finalPrice}원 / 수량 {getValues("count")}개
+              상품금액 {finalPrice.toLocaleString()}원 / 수량 {getValues("count")}개
             </p>
           </div>
-          <p className="font-bold text-[18px] ">총금액 {finalPrice * getValues("count")}원</p>
+          <p className="font-bold text-[18px] ">총금액 {(finalPrice * getValues("count")).toLocaleString()}원</p>
         </div>
       </div>
     </>

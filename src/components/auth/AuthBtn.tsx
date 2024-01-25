@@ -56,14 +56,19 @@ const AuthBtn = () => {
   const UserMenu = () => {
     return (
       <>
-        <ul className="absolute p-1 mt-1 ml-7 text-right w-32 z-50 right-0 bg-white shadow-md cursor-pointer">
-          <li className="mr-1">
-            <Link href={`/users/${auth}`}>마이 페이지</Link>
-          </li>
-          <li className="mr-1" onClick={signOut}>
-            로그아웃
-          </li>
-        </ul>
+        <div
+          id="dropdown"
+          className={menu ? "absolute space-y-2 z-10 p-2 bg-white rounded-sm shadow w-32 text-end" : "hidden"}
+        >
+          <ul className="cursor-pointer text-sm">
+            <li className="p-2 hover:underline decoration-wavy decoration-point">
+              <Link href={`/users/${auth}`}>마이 페이지</Link>
+            </li>
+            <li onClick={signOut} className="p-2 hover:underline decoration-wavy decoration-point">
+              로그아웃
+            </li>
+          </ul>
+        </div>
       </>
     );
   };
@@ -71,9 +76,17 @@ const AuthBtn = () => {
   return (
     <>
       {logedIn ? (
-        <div onClick={() => setMenu(!menu)} className="relative">
-          <AiOutlineUser size="22" className="cursor-pointer mt-[5px]" color="#3074F0" />
-          {menu && <UserMenu />}
+        <div onClick={() => setMenu(!menu)} className="">
+          <AiOutlineUser
+            size="22"
+            id="userDropDown"
+            data-dropdown-toggle="dropdown"
+            className="cursor-pointer mt-[5px]"
+            color="#3074F0"
+          />
+          <div className="flex flex-col items-end">
+            <UserMenu />
+          </div>
         </div>
       ) : (
         <Link href={"/auth"}>

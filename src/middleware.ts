@@ -32,6 +32,7 @@ export async function middleware(req: NextRequest) {
       console.log("잘못된 페이지 접근");
       return NextResponse.redirect(new URL("/", req.url));
     }
+  }
 }
 
 export const config = {
