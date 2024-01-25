@@ -20,7 +20,7 @@ export async function middleware(req: NextRequest) {
     const {
       data: { user }
     } = await supabase.auth.getUser(tokens[0]);
-    console.log("누구야: ", user);
+    // console.log("누구야: ", user);
   }
   return res;
 }
