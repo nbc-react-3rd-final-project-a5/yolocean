@@ -15,8 +15,8 @@ const UserRentList = async ({ userId }: Props) => {
         <ul>
           {reservationList.map((n: any) => {
             return (
-              <li key={`rentItem`} className="bg-red-50">
-                <RentItem rentData={n} />
+              <li key={`rentItem`} className="first:border-t border-t border-b border-line py-5">
+                <RentItem rentData={n} isReturn={true} />
               </li>
             );
           })}

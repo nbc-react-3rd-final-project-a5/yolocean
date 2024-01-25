@@ -25,7 +25,7 @@ const UserInfoSection = () => {
     refetch
   } = useQuery({
     queryKey: ["user"],
-    queryFn: () => getUser({ userId })
+    queryFn: async () => getUser({ userId })
   });
 
   useEffect(() => {
