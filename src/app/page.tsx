@@ -44,11 +44,11 @@ const Home = async () => {
       <Section title="욜루오션 BIG SALE 👍" isCenter={false}>
         <CardLists cardLists={discountFilteredItems} />
       </Section>
-      <Banner url={main02Banner.banner_url} link={main02Banner.link} />
+      <Banner url={main02Banner.banner_url} link={main02Banner.banner_link} />
       <Section title="욜루오션 HOT 아이템 ❤️" isCenter={false}>
         <CardLists cardLists={viewSortedItems} />
       </Section>
-      <Banner url={main01Banner.banner_url} link={main01Banner.link} />
+      <Banner url={main01Banner.banner_url} link={main01Banner.banner_link} />
       <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
         <div className="grid grid-cols-4 gap-[13px]">
           {reviews.map((fixedReview: any) => (
