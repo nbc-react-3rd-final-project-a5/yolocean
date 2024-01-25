@@ -36,8 +36,8 @@ const UserInfoSection = () => {
     return <div>로딩 중...</div>;
   }
   if (!logedIn) {
-    alert("로그인이 필요합니다!");
-    router.push("/auth");
+    // alert("로그인이 필요합니다!");
+    // router.push("/auth");
   }
   if (logedIn && auth === userId) {
     return <div>{!isEditMode ? <UserInfo user={user} /> : <EditUserInfo user={user} refetch={refetch} />}</div>;

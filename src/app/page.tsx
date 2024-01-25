@@ -3,7 +3,6 @@ import Carousel from "@/components/Carousel";
 import Section from "@/components/layout/Section";
 import { getAllProduct, getFixedReview } from "@/service/table";
 import { ExtendFixedReview, ProductProperties } from "@/types/db";
-import getPath from "@/utils/getPath";
 import Link from "next/link";
 
 const Home = async () => {

@@ -22,7 +22,7 @@ const UserInfo = ({ user }: { user: UserInfo | undefined }) => {
           </div>
           <div className="flex gap-[12px]">
             <div className="w-[89px]">전화번호</div>
-            <p>전화번호</p>
+            <p>{user.phone}</p>
           </div>
           <div className="flex gap-[12px]">
             <div className="w-[89px]">이메일</div>
