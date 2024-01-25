@@ -1,4 +1,5 @@
 import CardLists from "@/components/CardLists";
+import Carousel from "@/components/Carousel";
 import Section from "@/components/layout/Section";
 import { getAllProduct, getFixedReview } from "@/service/table";
 import { ExtendFixedReview, ProductProperties } from "@/types/db";
@@ -36,7 +37,8 @@ const Home = async () => {
 
   return (
     <div className="flex flex-col ">
-      <div className=" bg-slate-300 w-[1200px] h-[450px] mb-[200px]">케러셀</div>
+      {/* <div className=" bg-slate-300 w-[1200px] h-[450px] mb-[200px]">케러셀</div> */}
+      <Carousel />
       <Section title="욜루오션 BIG SALE 👍" isCenter={false}>
         <CardLists cardLists={discountFilteredItems} />
       </Section>
