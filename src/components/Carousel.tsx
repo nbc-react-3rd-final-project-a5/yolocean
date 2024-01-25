@@ -10,6 +10,8 @@ import "../app/swiper.css";
 import { useQuery } from "@tanstack/react-query";
 import { getAllCarousel } from "@/service/table";
 import Link from "next/link";
+import ImgPulse from "./pulse/ImgPulse";
+
 
 const Carousel = () => {
   const { data, isLoading } = useQuery({
@@ -23,8 +25,10 @@ const Carousel = () => {
   return (
     <div className="mb-[150px]">
       {isLoading && (
-        <div className="flex items-center justify-center h-[500px] w-full bg-gray-300 rounded-lg animate-pulse">
-          <FaRegFileImage size={50} />
+
+        <div className="h-[500px] relative">
+          <ImgPulse />
+
         </div>
       )}
       {!isLoading && data && (
