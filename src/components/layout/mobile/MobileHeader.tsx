@@ -1,4 +1,9 @@
+import HeadCategory from "@/components/category/HeadCategory";
+import Link from "next/link";
 import React from "react";
+import HeaderSearch from "../HeaderSearch";
+import AuthBtn from "@/components/auth/AuthBtn";
+import HeaderCart from "../HeaderCart";
 
 const MobileHeader = () => {
   return (
