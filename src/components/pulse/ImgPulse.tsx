@@ -1,10 +1,10 @@
 import React from "react";
-import { FaRegFileImage } from "react-icons/fa";
+import { FaRegImage } from "react-icons/fa6";
 
 const ImgPulse = () => {
   return (
-    <div className="flex items-center justify-center  absolute inset-0 bg-gray-300 rounded-lg animate-pulse">
-      <FaRegFileImage size={40} />
+    <div className="flex items-center justify-center  absolute inset-0 bg-gray-200 rounded-lg animate-pulse">
+      <FaRegImage className="text-tc-light" size={40} />
     </div>
   );
 };
