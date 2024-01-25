@@ -12,6 +12,7 @@ import { getAllCarousel } from "@/service/table";
 import Link from "next/link";
 import ImgPulse from "./pulse/ImgPulse";
 
+
 const Carousel = () => {
   const { data, isLoading } = useQuery({
     queryFn: async () => await getAllCarousel(),
@@ -24,8 +25,10 @@ const Carousel = () => {
   return (
     <div className="mb-[150px]">
       {isLoading && (
+
         <div className="h-[500px] relative">
           <ImgPulse />
+
         </div>
       )}
       {!isLoading && data && (
