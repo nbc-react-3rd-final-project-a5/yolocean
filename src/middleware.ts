@@ -1,39 +1,39 @@
 import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
 import { NextResponse } from "next/server";
-
-import type { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 import type { Database } from "./types/supabase";
 
-export async function middleware(req: NextRequest) {
-  const res = NextResponse.next();
-
-  // Create a Supabase client configured to use cookies
+const getUserId = async (req: NextRequest, res: NextResponse) => {
   const supabase = createMiddlewareClient<Database>({ req, res });
-
-  // Refresh session if expired - required for Server Components
-  //   const { data, error } = await supabase.auth.getSession();
-  //   console.log("in middleware", data || error);
-
   let authCookie = req.cookies.get("sb-hntpomvsqgbdpwrjnsun-auth-token");
   if (authCookie !== undefined) {
     const tokens = JSON.parse(authCookie.value);
-    const {
-      data: { user }
-    } = await supabase.auth.getUser(tokens[0]);
-    // console.log("누구야: ", user);
+    const { data } = await supabase.auth.getUser(tokens[0]);
+    if (!data.user) return false;
+    const { user } = data;
+    return user.id;
   }
-  return res;
+  return false;
+};
+
+export async function middleware(req: NextRequest) {
+  const res = NextResponse.next();
+  const tokenUid = await getUserId(req, res);
+
+  if (req.nextUrl.pathname.startsWith("/api")) {
+    if (tokenUid && !req.url.includes(tokenUid)) {
+      console.log("잘못된 요청");
+      return NextResponse.json({ message: "유효하지않은 접근입니다." }, { status: 500 });
+    }
+  }
+
+  if (req.nextUrl.pathname.startsWith("/users")) {
+    if (tokenUid && !req.url.includes(tokenUid)) {
+      console.log("잘못된 페이지 접근");
+      return NextResponse.redirect(new URL("/", req.url));
+    }
 }
 
-// Ensure the middleware is only called for relevant paths.
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
-    "/((?!_next/static|_next/image|favicon.ico).*)"
-  ]
+  matcher: ["/api/user/:path*", "/users/:path*"]
 };
