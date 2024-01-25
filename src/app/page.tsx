@@ -2,6 +2,7 @@ import Banner from "@/components/Banner";
 import CardLists from "@/components/CardLists";
 import Section from "@/components/layout/Section";
 import { getAllProduct, getFixedReview } from "@/service/table";
+import { getBanner } from "@/service/table/banner";
 import { ExtendFixedReview, ProductProperties } from "@/types/db";
 import getPath from "@/utils/getPath";
 import Link from "next/link";
@@ -9,6 +10,8 @@ import Link from "next/link";
 const Home = async () => {
   const items = await getAllProduct();
   const reviews = await getFixedReview();
+  const main01Banner = await getBanner("main-1");
+  const main02Banner = await getBanner("main-2");
 
   const discountFilteredItems = items
     .filter((item: ProductProperties) => item.percentage_off !== 0)
@@ -41,11 +44,11 @@ const Home = async () => {
       <Section title="욜루오션 BIG SALE 👍" isCenter={false}>
         <CardLists cardLists={discountFilteredItems} />
       </Section>
-      <Banner url={""} />
+      <Banner url={main02Banner.banner_url} link={main02Banner.link} />
       <Section title="욜루오션 HOT 아이템 ❤️" isCenter={false}>
         <CardLists cardLists={viewSortedItems} />
       </Section>
-      <Banner url={""} />
+      <Banner url={main01Banner.banner_url} link={main01Banner.link} />
       <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
         <div className="grid grid-cols-4 gap-[13px]">
           {reviews.map((fixedReview: any) => (

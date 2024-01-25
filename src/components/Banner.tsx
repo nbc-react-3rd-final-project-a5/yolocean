@@ -1,10 +1,14 @@
+import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
-const Banner = ({ url }: { url: string }) => {
+const Banner = ({ url, link }: { url: string; link: string }) => {
   return (
-    <div className="bg-slate-300 w-[1200px] h-[280px] mb-[200px]">
-      <img src={url} className="w-full h-full overflow-hidden" alt="banner" />
-    </div>
+    <Link href={`${link}`}>
+      <div className="bg-slate-300 w-[1200px] h-[280px] mb-[200px] animate-purse">
+        <img src={url} alt="banner" className="w-full h-full" />
+      </div>
+    </Link>
   );
 };
 
