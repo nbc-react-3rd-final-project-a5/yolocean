@@ -7,6 +7,9 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}"
   ],
   theme: {
+    screens: {
+      mobile: { max: "430px" }
+    },
     extend: {
       screens: {
         mobile: { max: "430px" }
