@@ -64,7 +64,7 @@ const HeadCategory = () => {
         </button>
         <div id="dropdown" className={open ? "space-y-2 z-10 absolute p-2 bg-white rounded-sm shadow w-44" : "hidden"}>
           {!isLoading && (
-            <ul className="pb-2 text-sm  text-gray-700 dark:text-gray-200">
+            <ul className="pb-2 text-sm  text-gray-700">
               {category!.map((category) => (
                 <CategoryName category={category} key={category.id} />
               ))}

@@ -23,7 +23,7 @@ interface Props {
   price: number;
   original_price: number;
   product_id: string;
-  percentage_off: null | number;
+  percentage_off: number;
 }
 
 const ControlForm = ({ category_name, name, price, original_price, product_id, percentage_off }: Props) => {
@@ -101,7 +101,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
             <p className="w-[89px]">제품가</p>
             <p>{price}원</p>
           </div>
-          {percentage_off && (
+          {percentage_off > 0 && (
             <div className="flex gap-[12px] ">
               <p className="w-[89px]">할인가</p>
               <p>{Math.floor(price - (price - (price * percentage_off) / 100))}원</p>
@@ -109,8 +109,8 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
           )}
           <div className="flex gap-[12px] ">
             <p className="w-[89px]">최종가격</p>
-            {percentage_off && <p className="font-[700]">{Math.floor(price - (price * percentage_off) / 100)}원</p>}
-            {!percentage_off && <p className="font-[700]">{price}원</p>}
+            {percentage_off > 0 && <p className="font-[700]">{Math.floor(price - (price * percentage_off) / 100)}원</p>}
+            {percentage_off === 0 && <p className="font-[700]">{price}원</p>}
           </div>
         </div>
 
