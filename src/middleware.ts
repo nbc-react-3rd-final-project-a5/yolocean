@@ -10,10 +10,10 @@ const getUserId = async (req: NextRequest, res: NextResponse) => {
   let authCookie = req.cookies.get("sb-hntpomvsqgbdpwrjnsun-auth-token");
   if (authCookie !== undefined) {
     const tokens = JSON.parse(authCookie.value);
-    const { data } = await supabase.auth.getUser(tokens[0]);
-    if (!data.user) return false;
-    const { user } = data;
-    return user.id;
+    const {
+      data: { user }
+    } = await supabase.auth.getUser(tokens[0]);
+    // console.log("누구야: ", user);
   }
   return false;
 };
