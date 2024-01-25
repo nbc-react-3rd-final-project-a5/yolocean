@@ -15,6 +15,7 @@ import { useModalStore } from "@/store/modalStore";
 import { openConfirm } from "@/store/confirmStore";
 import { useRouter } from "next/navigation";
 import SuccessModal from "./SuccessModal";
+import CartPulse from "@/components/pulse/CartPulse";
 
 const linkList = [
   {
@@ -258,7 +259,7 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
             <div>카트가 비어있습니다</div>
           )
         ) : (
-          <div>Loading...</div>
+          <CartPulse />
         )}
       </Section>
     </>

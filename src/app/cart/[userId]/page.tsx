@@ -7,6 +7,7 @@ import { CartBox } from "@/types/db";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getAllCart } from "@/service/table";
+import CartPulse from "@/components/pulse/CartPulse";
 
 const linkList = [
   {
@@ -83,10 +84,10 @@ const CartPage = ({ params }: { params: { userId: string } }) => {
               <div>카트가 비어있습니다</div>
             )
           ) : (
-            <div>카트 불러오는 중...</div>
+            <CartPulse />
           )
         ) : (
-          <div>Loading...</div>
+          <CartPulse />
         )}
       </Section>
     </>
