@@ -1,5 +1,6 @@
 "use client";
 import Pagenation from "@/components/Pagenation";
+import ReviewPulse from "@/components/pulse/ReviewPulse";
 import ReviewList from "@/components/review/ReviewList";
 import { getAllProductReview } from "@/service/table";
 import { useAuthStore } from "@/store/authStore";
