@@ -2,19 +2,23 @@
   "linkList": [
     {
       "title": "이용약관",
-      "link": "/support"
+      "link": "/",
+      "disable": true
     },
     {
       "title": "개인정보취급방침",
-      "link": "/support"
+      "link": "/",
+      "disable": true
     },
     {
       "title": "고객센터",
-      "link": "/support"
+      "link": "/customer",
+      "disable": false
     },
     {
       "title": "채용정보",
-      "link": "/support"
+      "link": "/support",
+      "disable": true
     }
   ],
   "infoList": [

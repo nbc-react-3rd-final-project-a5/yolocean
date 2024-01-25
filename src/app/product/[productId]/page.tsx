@@ -1,51 +1,61 @@
-"use client";
-import { useProduct } from "@/hooks";
-import { ProductProperties } from "@/types/db";
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
-import Controller from "./Controller";
+import Controller from "./ControlForm";
 import Info from "./Info";
-import Section from "@/components/layout/Section";
+import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
+import { getProduct } from "@/service/table";
+
 interface Props {
   params: { productId: string };
+  searchParams: { [key: string]: any } | undefined;
 }
 
-const ProductDetailPage = ({ params: { productId } }: Props) => {
-  const { product, isLoading } = useProduct(productId);
-
-  if (isLoading && product === undefined) {
-    return <>로딩</>;
-  }
-
+const ProductDetailPage = async ({ params: { productId }, searchParams }: Props) => {
+  const product = await getProduct({ productId });
   const {
     name,
+    category_id,
     category: { category_name },
     thumbnail,
     price,
+    id,
     info_img,
     info,
     original_price,
     view,
-    stock: { count, store }
-  } = product as ProductProperties;
+    percentage_off
+  } = product;
 
   return (
-    <section>
-      <div className="max-w-[1200px] mx-auto">
-        {/* 조작 */}
-        <div className="flex gap-[24px]">
-          <div className="relative w-[350px] h-[350px]">
-            <Image alt={`${name}_image`} style={{ objectFit: "fill" }} fill src={thumbnail} />
-          </div>
-
-          <Controller price={price} category_name={category_name} name={name} />
+    <section className="relative scroll-smooth">
+      <PageBreadCrumb
+        linkList={[
+          { name: "홈", url: "/" },
+          { name: category_name, url: `/category/${category_id}` },
+          { name: name, url: `/category/${category_id}/${id}` }
+        ]}
+      />
+      <div className="flex gap-[24px]">
+        <div className="relative w-[500px] h-[500px]">
+          <Image
+            priority
+            alt={`${name}_image`}
+            style={{ objectFit: "fill" }}
+            fill
+            sizes="(max-width: 1200px) 500px"
+            src={thumbnail}
+          />
         </div>
-        {/*  */}
-        <Info info_img={info_img} info={info} />
-
-        <article></article>
+        <Controller
+          percentage_off={percentage_off}
+          product_id={id}
+          price={price}
+          original_price={original_price}
+          category_name={category_name}
+          name={name}
+        />
       </div>
+      <Info productId={id} info_img={info_img} info={info} searchParams={searchParams?.article || "상품설명"} />
     </section>
   );
 };

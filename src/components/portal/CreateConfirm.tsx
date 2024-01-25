@@ -26,24 +26,31 @@ const CreateConfirm: React.FC = () => {
   return isConfirmOpen ? (
     <>
       {createPortal(
-        <div className="fixed inset-0 bg-black z-10 opacity-65 cursor-pointer" />,
+        <div className="fixed inset-0 bg-black z-20 opacity-65 cursor-pointer" />,
         document.getElementById("back_drop") as HTMLElement
       )}
       {createPortal(
-        <div className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex flex-col z-20 bg-white rounded-xl w-full h-full max-w-[500px] max-h-[300px]">
-          <div className="text-2xl font-medium flex justify-between items-center px-4 py-4">
-            <h1>{title}</h1>
-            <IoMdCloseCircle className="cursor-pointer" onClick={() => handleCloseConfirmClick(false)} />
+        <div className="fixed border overflow-hidden border-black top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex flex-col z-30 bg-white rounded-xl w-[345px] h-[170px]">
+          <div>
+            <h1 className="text-[20px] font-[700] line-clamp-2 px-[60px] text-center leading-tight text-point pt-[30px] pb-[15px]">
+              {title}
+            </h1>
           </div>
-          <div className="bg-neutral-200 border px-4 flex-1 flex items-center">
+          <div className="text-center text-[16px] flex-1 font-[500] text-black">
             <p>{question}</p>
           </div>
-          <div className="flex py-4 justify-end gap-2 px-4">
-            <button className="p-2 bg-green-400 rounded-lg text-white " onClick={() => handleCloseConfirmClick(true)}>
-              그래
+          <div className="flex  border-t border-black">
+            <button
+              className="flex-1 text-[18px] border-r border-black  py-[20px]  text-tc-base   "
+              onClick={() => handleCloseConfirmClick(true)}
+            >
+              예
             </button>
-            <button className="p-2 bg-red-400 rounded-lg text-white " onClick={() => handleCloseConfirmClick(false)}>
-              아니
+            <button
+              className="flex-1 text-[18px]   py-[20px]  text-tc-light  "
+              onClick={() => handleCloseConfirmClick(false)}
+            >
+              아니요
             </button>
           </div>
         </div>,

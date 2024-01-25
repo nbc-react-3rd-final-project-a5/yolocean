@@ -15,43 +15,44 @@ interface Props {
 const NumberInput = ({ register, name, setValue, getValues, errors, value }: Props) => {
   const error = errors[name]?.message;
 
-  // 에러처리 ref나 onChange로 불가 여차하면 submit시 처리할것!
   return (
     <>
-      <div className="relative flex items-center max-w-[8rem]">
+      <div className="relative flex items-center text-[14px]">
         <button
-          onClick={() => setValue(name, Number(getValues(name)) - 1)}
+          onClick={() => setValue(name, Math.max(Number(getValues(name)) - 1, 1))}
           type="button"
-          className="bg-neutral-100 hover:bg-gray-100 border border-gray-300 rounded-s-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none"
+          className="border border-line h-[30px] w-[30px] flex justify-center items-center"
         >
-          <TiMinus />
+          <TiMinus size={14} />
         </button>
         <input
-          className="bg-neutral-100 border border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5  "
-          placeholder="0"
-          type="number"
-          max={3}
-          maxLength={3}
+          className="border border-line h-[30px] w-[30px] text-center"
+          placeholder="1"
+          type="text"
+          defaultValue={value !== undefined ? value : 1}
           {...register(name, {
+            onChange: (e) => {
+              setValue(name, e.target.value);
+            },
+            max: { value: 99, message: "최대 수량을 넘었습니다" },
             required: "수량을 선택해주세요",
-            value: value ? value : null,
-            pattern: { value: /^(?:\d{1,3}|999)$/, message: "1~999까지만 입력가능합니다." }
+            min: { value: 1, message: "한개 이상의 수량을 선택해주세요" },
+            pattern: { value: /^(?:[1-9]|[1-9][0-9])$/, message: "1~99까지만 입력 가능합니다." }
           })}
         />
         <button
           type="button"
-          onClick={() => setValue(name, Number(getValues(name)) + 1)}
-          className="bg-neutral-100  hover:bg-gray-100 border border-gray-300 rounded-e-lg p-3 h-11 focus:ring-gray-100 focus:ring-2 focus:outline-none"
+          onClick={() => setValue(name, Math.min(Number(getValues(name)) + 1, 99))}
+          className="border border-line h-[30px] w-[30px] flex justify-center items-center"
         >
-          <TiPlus />
+          <TiPlus size={14} />
         </button>
       </div>
-      {/* {error && (
-        <div className={`flex items-center gap-1 text-red-400 ${error ? "opacity-100" : "opacity-0"}`}>
-          <MdErrorOutline />
-          <span className="text-sm">{error as string}.</span>
+      {error && (
+        <div className="text-red-400 text-[12px] mt-1 flex items-center gap-1">
+          <MdErrorOutline size={14} /> <span>{error as string}</span>
         </div>
-      )} */}
+      )}
     </>
   );
 };

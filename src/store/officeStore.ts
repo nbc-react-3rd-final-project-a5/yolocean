@@ -1,10 +1,14 @@
 import { create } from "zustand";
 
 interface Office {
-  office: { name: string; address: string };
-  setOffice: (office: { name: string; address: string }) => void;
+  regionId: string;
+  office: { name: string; address: string; id: string };
+  setRegionId: (regionId: string) => void;
+  setOffice: (office: { name: string; address: string; id: string }) => void;
 }
 export const useOfficeStore = create<Office>((set) => ({
-  office: { name: "", address: "" },
-  setOffice: (office: { name: string; address: string }) => set({ office: office })
+  regionId: "",
+  office: { name: "", address: "", id: "" },
+  setRegionId: (regionId: string) => set({ regionId: regionId }),
+  setOffice: (office: { name: string; address: string; id: string }) => set({ office: office })
 }));

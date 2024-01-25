@@ -1,9 +1,14 @@
 import { supabase } from "@/service/supabase";
 import { NextResponse, NextRequest } from "next/server";
 
-export async function GET() {
-  return NextResponse.json("Store GET");
-}
+export const GET = async () => {
+  let { data: store, error } = await supabase.from("store").select("*");
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+  return NextResponse.json(store);
+};
 
 export async function POST(req: NextRequest) {
   const data = await req.json();

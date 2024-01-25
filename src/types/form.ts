@@ -1,5 +1,5 @@
 export interface CustomImage {
-  file: File;
+  file: File | null;
   previewURL: string;
   id: string;
 }
