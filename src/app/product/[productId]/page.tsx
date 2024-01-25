@@ -3,7 +3,8 @@ import React from "react";
 import Controller from "./ControlForm";
 import Info from "./Info";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
-import { getProduct } from "@/service/table";
+import { getProduct, updateProduct } from "@/service/table";
+import View from "./View";
 
 interface Props {
   params: { productId: string };
@@ -28,6 +29,7 @@ const ProductDetailPage = async ({ params: { productId }, searchParams }: Props)
 
   return (
     <section className="relative scroll-smooth">
+      <View product={product} />
       <PageBreadCrumb
         linkList={[
           { name: "홈", url: "/" },
