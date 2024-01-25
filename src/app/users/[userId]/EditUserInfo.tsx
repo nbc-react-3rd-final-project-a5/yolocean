@@ -1,4 +1,5 @@
 import Avatar from "@/components/Avatar";
+import Spinner from "@/components/Spinner";
 import { useCustomMutation, useImageInput } from "@/hook";
 import { updateUser } from "@/service/table";
 import useUserEditModeStore from "@/store/editUserStore";
