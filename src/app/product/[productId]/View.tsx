@@ -6,7 +6,6 @@ interface Props {
 }
 
 const View = ({ product }: Props) => {
-  console.log(product.view);
   useEffect(() => {
     const visitProduct = sessionStorage.getItem(product.id);
     if (visitProduct) return;

@@ -1,9 +1,10 @@
 import { API } from "@/types/api";
 
 const getAllProductReview = async ({ productId, page = 1 }: Pick<API, "productId" | "page">) => {
-  console.log(page);
   const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/product/${productId}/review?page=${page}`);
   const data = await res.json();
+
+  console.log(data);
   return data;
 };
 

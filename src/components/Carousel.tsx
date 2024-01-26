@@ -12,7 +12,6 @@ import { getAllCarousel } from "@/service/table";
 import Link from "next/link";
 import ImgPulse from "./pulse/ImgPulse";
 
-
 const Carousel = () => {
   const { data, isLoading } = useQuery({
     queryFn: async () => await getAllCarousel(),
@@ -20,15 +19,11 @@ const Carousel = () => {
     staleTime: Infinity
   });
 
-  console.log(data);
-
   return (
     <div className="mb-[150px]">
       {isLoading && (
-
         <div className="h-[500px] relative">
           <ImgPulse />
-
         </div>
       )}
       {!isLoading && data && (
@@ -46,7 +41,7 @@ const Carousel = () => {
           centeredSlides={true}
         >
           {data.map((item: any) => (
-            <SwiperSlide key={item.id} className="relative ">
+            <SwiperSlide key={item.id}>
               <Link href={item.url}>
                 <Image
                   fill

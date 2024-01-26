@@ -16,18 +16,18 @@ const ReviewPulse = () => {
       </div>
 
       <div>
-        <div className=" h-[17px] w-[450px] mb-[10px] bg-gray-200 rounded-full "></div>
+        <div className=" h-[17px] w-[300px] mb-[10px] bg-gray-200 rounded-full "></div>
         <div className=" h-[17px] w-[200px] mb-[10px] bg-gray-200 rounded-full "></div>
       </div>
 
       <ul className="flex flex-row gap-[12px]">
         <li>
-          <div className="w-[190px] h-[190px] relative">
+          <div className="w-[190px] h-[190px] mobile:w-[100px] mobile:h-[100px] relative">
             <ImgPulse />
           </div>
         </li>
         <li>
-          <div className="w-[190px] h-[190px] relative">
+          <div className="w-[190px] h-[190px] mobile:w-[100px] mobile:h-[100px] relative">
             <ImgPulse />
           </div>
         </li>

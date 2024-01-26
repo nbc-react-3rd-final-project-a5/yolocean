@@ -47,7 +47,7 @@ const ReviewItem = ({ review, currentUserId, listType, productId }: Props) => {
         <ul className="flex flex-row gap-[12px]">
           {reviewImageList.map((n, i) => (
             <li key={`${review.id}-${i}`}>
-              <figure className="w-[190px] h-[190px] border-[1px] border-line rounded-[5px] overflow-hidden ">
+              <figure className="w-[190px] h-[190px] border-[1px] border-line rounded-[5px] overflow-hidden mobile:h-[100px] mobile:w-[100px] ">
                 <Image src={n} width={190} height={190} alt={`${EnumListType[listType]} 이미지`} />
               </figure>
             </li>
