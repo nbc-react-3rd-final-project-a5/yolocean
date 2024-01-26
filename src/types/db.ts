@@ -12,6 +12,7 @@ export type UserInfo = Tables<"userinfo">;
 export type Region = Tables<"region">;
 export type RentInsert = TablesInsert<"rent">;
 export type FixedReview = Tables<"fixed_review">;
+export type Banner = Tables<"banner">;
 
 export interface ProductProperties extends Product {
   info: [string];

@@ -51,7 +51,8 @@ const Home = async () => {
           <CardCarousel cardLists={discountFilteredItems} />
         </div>
       </Section>
-      <Banner url={main02Banner.banner_url} link={main02Banner.banner_link} />
+      {main02Banner && <Banner url={main02Banner.banner_url} link={main02Banner.banner_link} />}
+
       <Section title="욜루오션 HOT 아이템 ❤️" isCenter={false}>
         <div className="mobile:hidden">
           <CardLists cardLists={viewSortedItems} />
@@ -60,8 +61,9 @@ const Home = async () => {
           <CardCarousel cardLists={viewSortedItems} />
         </div>
       </Section>
-      <Banner url={main01Banner.banner_url} link={main01Banner.banner_link} />
-      <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
+      {main01Banner && <Banner url={main01Banner.banner_url} link={main01Banner.banner_link} />}
+
+      {/* <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
         <div className="grid grid-cols-4 gap-[13px]">
           {reviews.map((fixedReview: any) => (
             <Link key={fixedReview.id} href={`/product/${fixedReview.review.product_id}#후기`}>
@@ -69,7 +71,7 @@ const Home = async () => {
             </Link>
           ))}
         </div>
-      </Section>
+      </Section> */}
     </div>
   );
 };
