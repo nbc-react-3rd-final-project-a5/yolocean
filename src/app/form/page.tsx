@@ -55,7 +55,7 @@ const FormPage = async ({ searchParams }: Props) => {
     <>
       {productId && <ProductInfo productId={productId} />}
       <FormSwitch
-        productId={productId}
+        productId={productId!}
         formtype={formtype}
         reivewData={reivewData}
         qnaData={qnaData}
