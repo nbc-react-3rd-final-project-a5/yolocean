@@ -27,7 +27,6 @@ export const GET = async (req: NextRequest, context: { params: { userId: string 
     .eq("user_id", userId)
     .limit(limit)
     .range(min, max);
-  console.log(qna);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -46,7 +45,6 @@ export async function POST(req: NextRequest, context: { params: { userId: string
   //   .eq("id", data.product_id);
 
   if (error) {
-    console.log(error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
   // return NextResponse.json(category![0]);

@@ -38,7 +38,7 @@ const ProductDetailPage = async ({ params: { productId }, searchParams }: Props)
         ]}
       />
       <div className="flex gap-[24px] flex-wrap  ">
-        <div className="relative max-w-[500px] w-full h-[500px] min-w-[300px] mx-auto mobile:h-[300px]  ">
+        <div className="relative max-w-[500px] w-full h-[500px] min-w-[300px] mx-auto mobile:h-[300px]   ">
           <Image
             priority
             alt={`${name}_image`}
