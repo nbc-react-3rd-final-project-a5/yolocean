@@ -28,13 +28,17 @@ const ReviewItem = ({ review, currentUserId, listType, productId }: Props) => {
 
   return (
     <div className="flex flex-col gap-[30px] border-b-[1px] border-line py-[40px]">
-      <div className="flex flex-row  gap-[20px] items-center justify-between ">
+      <div className="flex flex-row  gap-[20px] items-center justify-between  relative">
         <div className="flex items-center gap-[24px]">
           <Avatar size="sm" src={review.userinfo.avatar_url} />
           <p className="font-medium text-tc-light">{reviewUserName}</p>
         </div>
-        {listType === "review" && <p className="font-medium text-tc-light ml-auto">{reviewStore}</p>}
-        <p className="font-medium text-tc-light">{shortDateFormat}</p>
+        {listType === "review" && (
+          <p className="font-medium text-tc-light ml-auto mobile:text-[12px] mobile:absolute mobile:bottom-0 mobile:left-[60px]">
+            {reviewStore}
+          </p>
+        )}
+        <p className="font-medium text-tc-light ">{shortDateFormat}</p>
       </div>
 
       <div>
