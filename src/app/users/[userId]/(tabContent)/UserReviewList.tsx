@@ -9,7 +9,6 @@ interface Props {
 
 const UserReviewList = async ({ userId }: Props) => {
   const reviewList = await getAllUserReview({ userId, page: 1 });
-  console.log(reviewList);
   return (
     <>
       <ReviewList listType="review" reviewList={reviewList} currentUserId={userId} />

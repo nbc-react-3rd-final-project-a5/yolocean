@@ -41,7 +41,6 @@ const QnaForm = ({ userId, productId, review, formType }: Props) => {
     if (review) {
       const body = JSON.stringify({ ...data });
       const respones = await updateUserQna({ body, userId, qnaId });
-      console.log(respones);
       router.push(`/product/${productId}#후기`);
     }
 

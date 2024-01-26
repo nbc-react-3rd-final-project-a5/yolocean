@@ -75,7 +75,6 @@ const useStorage = () => {
         body: JSON.stringify(imageInfo)
       });
       const data = await res.json();
-      console.log(data);
       return data;
     } catch (error) {
       console.error("💥💥💥 useStorage : deleteImage 오류 발생 💥💥💥");

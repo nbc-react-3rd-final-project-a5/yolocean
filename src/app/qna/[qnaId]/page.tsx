@@ -16,12 +16,10 @@ const QnaPage = () => {
   const { qnaId } = useParams<{ qnaId: string }>();
   const { auth: userId } = useAuthStore();
   const router = useRouter();
-  console.log(userId);
   const { data, isLoading } = useQuery({
     queryFn: async () => await getUserQna({ qnaId, userId }),
     queryKey: ["qna", qnaId]
   });
-  console.log(data);
 
   useEffect(() => {
     if (!userId) {
@@ -29,7 +27,6 @@ const QnaPage = () => {
     }
   }, []);
 
-  console.log(data);
   // TODO : 로그인 여부 및 제품이 있는지 확인하기
 
   if (isLoading) return <>로딩중</>;

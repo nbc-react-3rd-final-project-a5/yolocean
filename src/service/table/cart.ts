@@ -3,7 +3,6 @@ import { API } from "@/types/api";
 const getAllCart = async ({ userId }: Pick<API, "userId">) => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/cart`, { method: "GET" });
   const result = await response.json();
-  console.log("getAllCart:", result);
   return result;
 };
 
@@ -18,7 +17,6 @@ const createCart = async ({ userId, body }: Pick<API, "userId" | "body">) => {
     method: "POST",
     body
   });
-  console.log(response);
   const result = await response.json();
   return result;
 };

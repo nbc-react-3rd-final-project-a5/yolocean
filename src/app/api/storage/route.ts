@@ -13,7 +13,6 @@ export const POST = async (req: NextRequest) => {
   });
 
   if (error) {
-    console.log(error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 

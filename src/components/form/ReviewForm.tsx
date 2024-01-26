@@ -91,7 +91,6 @@ const ReviewQnaForm = ({ formType, userId, productId, storeId, targetId }: Props
         method: "POST",
         body: JSON.stringify(formData)
       });
-      console.log(res);
     } catch (error) {
       console.error(error);
     }

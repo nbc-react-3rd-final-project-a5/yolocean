@@ -17,7 +17,6 @@ export const Postcode = ({ setAddress }: { setAddress: React.Dispatch<React.SetS
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
 
-    console.log(fullAddress);
     setAddress(fullAddress);
   };
 

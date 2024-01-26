@@ -26,14 +26,12 @@ const CartPage = ({ params }: { params: { userId: string } }) => {
 
   //userId
   const userId = params.userId;
-  console.log(userId, "내 아디");
 
   const { data: cart, isLoading } = useQuery({
     queryKey: ["cart"],
     queryFn: async () => await getAllCart({ userId })
   });
 
-  console.log(cart, "카아트");
   const [cartPrice, setCartPrice] = useState<number[]>([]);
   const [originPrice, setOriginPrice] = useState<number[]>([]);
 

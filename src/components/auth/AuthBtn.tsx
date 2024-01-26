@@ -27,7 +27,7 @@ const AuthBtn = () => {
     if (data.session !== null) {
       setLogedIn(true);
       setAuth(data.session.user.id);
-    } else console.log("로그인x");
+    }
   };
 
   //로그아웃

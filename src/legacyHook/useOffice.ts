@@ -8,7 +8,6 @@ const useOffice = (url?: string) => {
     isError
   } = useQuery<StoreWithStock[]>({
     queryFn: async (): Promise<StoreWithStock[]> => {
-      console.log(url);
       const response = await fetch(`/api/store${url ? `/${url}` : ""}`, { method: "GET" });
       const data = await response.json();
       return data;

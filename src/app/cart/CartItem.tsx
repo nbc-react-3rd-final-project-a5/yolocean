@@ -63,9 +63,6 @@ const CartItem = (cart: Props) => {
     updateCount();
   }, [watchCount.count, isVisible]);
 
-  // console.log("db값", count);
-  // console.log(getValues("count"));
-
   const handleCartDelete = () => {
     setIsVisible(false);
     deleteCartMutation({});

@@ -11,7 +11,6 @@ export const GET = async (req: NextRequest, context: { params: { userId: string;
 
   const { data, error } = await supabase.from("cart").select("*").eq("product_id", productId!).eq("user_id", userId);
 
-  console.log(data);
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
@@ -33,7 +32,6 @@ export async function PATCH(req: NextRequest, context: { params: { cartId: strin
     .select();
 
   if (error) {
-    console.log(error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
   return NextResponse.json(cartItem);
@@ -48,7 +46,6 @@ export async function DELETE(req: NextRequest, context: { params: { cartId: stri
   const { error } = await supabase.from("cart").delete().eq("id", cartId);
 
   if (error) {
-    console.log(error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
   return NextResponse.json(true);

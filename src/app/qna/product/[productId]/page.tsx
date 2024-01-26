@@ -22,8 +22,6 @@ const QnaPage = () => {
     queryKey: ["product", productId]
   });
 
-  console.log(product);
-
   return (
     <>
       <Section title={"1:1 문의하기"} className="font-[600] text-[25px] leading-none" isCenter={true}>

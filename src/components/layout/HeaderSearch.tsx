@@ -24,7 +24,6 @@ const HeaderSearch = () => {
       alert("검색어를 입력해주세요.");
       return;
     }
-    console.log(data.searchWord);
     resetField("searchWord");
 
     router.push(`/search/${data.searchWord}`);

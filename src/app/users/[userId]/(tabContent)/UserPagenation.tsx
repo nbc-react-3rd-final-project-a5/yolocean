@@ -18,7 +18,6 @@ const UserPagenation = ({ maxPage }: Props) => {
 
   const setPage = (changePage: number) => {
     const url = `/${pathname}?article=${article}&page=${changePage}`;
-    console.log(url);
     return router.push(url);
   };
   return (

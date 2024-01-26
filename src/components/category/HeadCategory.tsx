@@ -23,7 +23,6 @@ const HeadCategory = () => {
   //카테고리 메뉴 열기
   const [open, setOpen] = useState(false);
   const { data: category, isLoading } = useQuery<CategoryTable[]>({ queryKey: ["category"], queryFn: getAllCategory });
-  //   console.log(category);
 
   useEffect(() => {
     if (!open) return;

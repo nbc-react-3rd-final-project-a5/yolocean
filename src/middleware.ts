@@ -26,14 +26,12 @@ export async function middleware(req: NextRequest) {
     if (ADMIN) return res;
 
     if (!tokenUid || (tokenUid && !req.url.includes(tokenUid))) {
-      console.log("잘못된 요청");
       return NextResponse.json({ message: "유효하지않은 접근입니다." }, { status: 500 });
     }
   }
 
   if (req.nextUrl.pathname.startsWith("/users")) {
     if (!tokenUid || (tokenUid && !req.url.includes(tokenUid))) {
-      console.log("잘못된 페이지 접근");
       return NextResponse.redirect(new URL("/", req.url));
     }
   }
@@ -50,19 +48,16 @@ export async function middleware(req: NextRequest) {
   }
   if (req.nextUrl.pathname.startsWith("/cart")) {
     if (!tokenUid || (tokenUid && !req.url.includes(tokenUid))) {
-      console.log("로그인을 해야 장바구니를 보지~");
       return NextResponse.redirect(new URL("/", req.url));
     }
   }
   if (req.nextUrl.pathname.startsWith("/payment")) {
     if (!tokenUid || (tokenUid && !req.url.includes(tokenUid))) {
-      console.log("로그인을 해야 결제를 하지~");
       return NextResponse.redirect(new URL("/", req.url));
     }
   }
   if (req.nextUrl.pathname.startsWith("/auth")) {
     if (tokenUid) {
-      console.log("로그인을 또?");
       return NextResponse.redirect(new URL("/", req.url));
     }
   }
@@ -70,7 +65,6 @@ export async function middleware(req: NextRequest) {
   // 어드민 체크 (구현은 안함)
   if (req.nextUrl.pathname.startsWith("/admin")) {
     if (!(tokenUid === ADMIN)) {
-      console.log("어드민 아님?");
       return NextResponse.redirect(new URL("/", req.url));
     }
   }
