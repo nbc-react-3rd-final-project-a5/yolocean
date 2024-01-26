@@ -1,4 +1,5 @@
 "use client";
+import CustomButton from "@/components/CustomButton";
 import { supabase } from "@/service/supabase";
 import { getAllRegion } from "@/service/table";
 import { useModalStore } from "@/store/modalStore";
@@ -96,16 +97,12 @@ const SelectOffice = () => {
             </div>
           </div>
           <div className="mx-auto flex gap-[9px]">
-            <button type="submit" className="w-[168px] h-[50px] rounded-[5px] text-white bg-[#3074F0]">
+            <CustomButton color="blue" onClick={() => {}} size="md" className="h-[50px]">
               위치 선택
-            </button>
-            <button
-              type="button"
-              className="w-[168px] h-[50px] rounded-[5px] text-white bg-[#999999]"
-              onClick={closeModal}
-            >
+            </CustomButton>
+            <CustomButton size="md" type="button" color="gray" className="h-[50px]" onClick={closeModal}>
               취소
-            </button>
+            </CustomButton>
           </div>
         </form>
       </div>
