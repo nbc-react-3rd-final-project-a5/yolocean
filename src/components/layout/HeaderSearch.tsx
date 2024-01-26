@@ -31,7 +31,7 @@ const HeaderSearch = () => {
   };
 
   return (
-    <div className="w-[392px] h-[32px] border border-point rounded-full p-1">
+    <div className="w-[392px] h-[32px] border border-point rounded-full p-1 ">
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
           type="text"
@@ -39,7 +39,7 @@ const HeaderSearch = () => {
           {...register("searchWord", { required: true })}
         />
         <button className="inline cursor-pointer " type="submit">
-          <AiOutlineSearch className="inline cursor-pointer " size="22" color="#3074F0" />
+          <AiOutlineSearch className="inline cursor-pointer" size="22" color="#3074F0" />
         </button>
       </form>
     </div>
