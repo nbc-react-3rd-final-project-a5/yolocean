@@ -14,7 +14,7 @@ const UserQnaList = async ({ userId }: Props) => {
       {qnaList?.length > 0 ? (
         <ReviewList listType="qna" reviewList={qnaList} currentUserId={userId} />
       ) : (
-        "작성된 리뷰가 없습니다."
+        "작성된 문의가 없습니다."
       )}
     </>
   );
