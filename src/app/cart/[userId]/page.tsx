@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getAllCart } from "@/service/table";
 import CartPulse from "@/components/pulse/CartPulse";
+import CustomButton from "@/components/CustomButton";
 
 const linkList = [
   {
@@ -61,23 +62,18 @@ const CartPage = ({ params }: { params: { userId: string } }) => {
                   })}
                 </div>
 
-                <div className="mt-[80px] flex flex-col content-end">
-                  <div className="mb-[30px]">
-                    <div className="text-right text-[16px] font-bold mr-1">
-                      총 결제금액
-                      <p className="text-[24px] font-bold inline-block ml-1">
+                <div className="mt-[80px] grid grid-cols-1 justify-items-end mobile:mt-[20px]">
+                  <div className="mb-[30px] mobile:mb-[20px]">
+                    <div className="flex">
+                      <p className="pt-1.5 text-[16px] font-bold mr-1 mobile:text-[14px]">총 결제금액</p>
+                      <p className="text-[24px] font-bold inline-block ml-1 mobile:text-[22px]">
                         {" "}
                         {cartPrice.reduce((acc, num) => acc + num, 0).toLocaleString()}원
                       </p>
                     </div>
                   </div>
 
-                  <button
-                    onClick={() => router.push(`/payment/${userId}`)}
-                    className="w-[244px] h-[50px] bg-point text-white rounded-[5px] ml-[80%]"
-                  >
-                    결제하기
-                  </button>
+                  <CustomButton children={"결제하기"} onClick={() => router.push(`/payment/${userId}`)} size={"lg"} />
                 </div>
               </div>
             ) : (

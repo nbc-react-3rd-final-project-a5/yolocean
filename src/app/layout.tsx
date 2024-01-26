@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div id="confirm" />
           <div id="alert" />
 
-          {/* <Header /> */}
+          <Header />
           <AuthChage />
           <main className="max-w-[1200px] mx-auto w-[90%] min-h-full">{children}</main>
           <PageControlBtnGroup />
