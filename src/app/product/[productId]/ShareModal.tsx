@@ -9,7 +9,11 @@ const ShareModal = () => {
   const { alertFire } = useStore(usealertStore);
 
   return (
-    <div className="w-[345px] h-[165px] py-[15px] flex flex-col">
+    <div
+      className="w-[345px] h-[165px] py-[15px] flex flex-col bg-white rounded-md mobile:absolute mobile:top-[50%] mobile:left-[50%] mobile:translate-x-[-50%]
+    mobile:translate-y-[-50%]
+    "
+    >
       <div className="flex justify-center items-center relative">
         <h1 className="font-[700] text-[20px] flex-1 text-center text-point">공유하기</h1>
         <IoClose onClick={closeModal} size={25} className="absolute right-[15px] cursor-pointer" />

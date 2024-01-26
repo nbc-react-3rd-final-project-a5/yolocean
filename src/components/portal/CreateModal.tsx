@@ -28,7 +28,7 @@ const CreateModal = () => {
         document.getElementById("back_drop") as HTMLElement
       )}
       {createPortal(
-        <div className="fixed bg-white top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-30 rounded-lg overflow-hidden">
+        <div className="fixed mobile:inset-0 mobile:translate-x-0 mobile:translate-y-0 mobile:rounded-none  top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-30 rounded-lg overflow-hidden">
           {modalContent}
         </div>,
         document.getElementById("modal") as HTMLElement

@@ -30,18 +30,18 @@ const CreateConfirm: React.FC = () => {
         document.getElementById("back_drop") as HTMLElement
       )}
       {createPortal(
-        <div className="fixed border overflow-hidden border-black top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex flex-col z-30 bg-white rounded-xl w-[345px] h-[170px]">
+        <div className="fixed border overflow-hidden border-black top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex flex-col z-30 bg-white rounded-xl w-[345px] ">
           <div>
-            <h1 className="text-[20px] font-[700] line-clamp-2 px-[60px] text-center leading-tight text-point pt-[30px] pb-[15px]">
+            <h1 className="text-[20px] font-[700] line-clamp-2  text-center leading-tight text-point pt-[30px] pb-[15px]">
               {title}
             </h1>
           </div>
-          <div className="text-center text-[16px] flex-1 font-[500] text-black">
+          <div className="text-center text-[16px] flex-1 font-[500] text-black mb-[30px]">
             <p>{question}</p>
           </div>
-          <div className="flex  border-t border-black">
+          <div className="flex  border-t border-line">
             <button
-              className="flex-1 text-[18px] border-r border-black  py-[20px]  text-tc-base   "
+              className="flex-1 text-[18px] border-r border-line  py-[20px]  text-tc-base   "
               onClick={() => handleCloseConfirmClick(true)}
             >
               예

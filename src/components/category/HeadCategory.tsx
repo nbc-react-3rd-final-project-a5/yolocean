@@ -71,7 +71,7 @@ const HeadCategory = () => {
           }
         >
           {!isLoading && (
-            <ul className="pb-2 text-sm  text-gray-700 dark:text-gray-200">
+            <ul className="pb-2 text-sm  text-gray-700">
               {category!.map((category) => (
                 <CategoryName category={category} key={category.id} />
               ))}
