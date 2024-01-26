@@ -8,9 +8,11 @@ interface Props {
 
 const Section = ({ title, isCenter = false, className, children }: Props) => {
   return (
-    <section className="mb-[200px]">
+    <section className="mb-[200px] mobile:mb-[50px]">
       {title && (
-        <h1 className={`${isCenter && "text-center"} font-bold  text-[30px] mb-[60px] ${className}`}>{title}</h1>
+        <h1 className={`${isCenter && "text-center"} font-bold  text-[30px] mb-[60px] ${className} mobile:text-[25px]`}>
+          {title}
+        </h1>
       )}
       <div>{children}</div>
     </section>

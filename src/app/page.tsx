@@ -1,4 +1,5 @@
 import Banner from "@/components/Banner";
+import CardCarousel from "@/components/CardCarousel";
 import CardLists from "@/components/CardLists";
 import Carousel from "@/components/Carousel";
 import Section from "@/components/layout/Section";
@@ -43,11 +44,21 @@ const Home = async () => {
       {/* <div className=" bg-slate-300 w-[1200px] h-[450px] mb-[200px]">케러셀</div> */}
       <Carousel />
       <Section title="욜루오션 BIG SALE 👍" isCenter={false}>
-        <CardLists cardLists={discountFilteredItems} />
+        <div className="mobile:hidden">
+          <CardLists cardLists={discountFilteredItems} />
+        </div>
+        <div className="hidden mobile:block">
+          <CardCarousel cardLists={discountFilteredItems} />
+        </div>
       </Section>
       <Banner url={main02Banner.banner_url} link={main02Banner.banner_link} />
       <Section title="욜루오션 HOT 아이템 ❤️" isCenter={false}>
-        <CardLists cardLists={viewSortedItems} />
+        <div className="mobile:hidden">
+          <CardLists cardLists={viewSortedItems} />
+        </div>
+        <div className="hidden mobile:block">
+          <CardCarousel cardLists={viewSortedItems} />
+        </div>
       </Section>
       <Banner url={main01Banner.banner_url} link={main01Banner.banner_link} />
       <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
