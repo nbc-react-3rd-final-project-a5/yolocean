@@ -20,7 +20,7 @@ const Carousel = () => {
   });
 
   return (
-    <div className="mb-[150px]">
+    <div className="mb-[150px] mobile:mb-[50px]">
       {isLoading && (
         <div className="h-[500px] relative">
           <ImgPulse />
@@ -34,9 +34,6 @@ const Carousel = () => {
             disableOnInteraction: false
           }}
           modules={[Autoplay, Pagination]}
-          pagination={{
-            clickable: true
-          }}
           loop={true}
           centeredSlides={true}
         >
