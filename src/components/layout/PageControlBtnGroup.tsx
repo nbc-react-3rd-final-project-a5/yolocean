@@ -11,15 +11,15 @@ enum EnumStyle {
 
 const PageControlBtnGroup = () => {
   return (
-    <aside className="fixed bottom-[10rem] right-4">
-      <ul className={`${EnumStyle.textSize} flex flex-col gap-4`}>
+    <aside className="fixed bottom-[8rem] right-4 z-20">
+      <ul className={`${EnumStyle.textSize} flex flex-col gap-4 `}>
         <li className={EnumStyle.liStyle}>
-          <Link href={"#"} className={EnumStyle.liInnerStyle} prefetch={true}>
+          <Link href={""} className={EnumStyle.liInnerStyle} prefetch={true}>
             <IoIosArrowUp />
           </Link>
         </li>
         <li className={EnumStyle.liStyle}>
-          <Link href={"/customer"} className={EnumStyle.liInnerStyle} prefetch={true}>
+          <Link href={"/customer"} className={EnumStyle.liInnerStyle} scroll={false} prefetch={true}>
             <RiCustomerService2Fill />
           </Link>
         </li>
