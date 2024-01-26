@@ -4,7 +4,7 @@ import React from "react";
 
 interface Props {
   children: React.ReactNode;
-  onClick: React.MouseEventHandler;
+  onClick?: React.MouseEventHandler;
   disabled?: boolean;
   size?: keyof typeof EnumSize;
   fontWeight?: keyof typeof EnumFontWeight;
@@ -44,7 +44,7 @@ enum EnumColor {
 enum EnumBorder {
   blue = "border-point",
   gray = "border-tc-middle",
-  white = "border-tc-middle"
+  white = "border-point"
 }
 
 const CustomButton = ({
@@ -66,7 +66,7 @@ const CustomButton = ({
     size: EnumSize[size],
     fontWeight: EnumFontWeight[fontWeight],
     bg: isOutline ? EnumBg["white"] : EnumBg[color],
-    color: isOutline ? EnumColor[color] : color === "white" ? EnumColor["gray"] : EnumColor["white"],
+    color: isOutline ? EnumColor[color] : color === "white" ? EnumColor["blue"] : EnumColor["white"],
     border: EnumBorder[color]
   };
   const customStyle = Object.values(customStyleObj).join(" ");
