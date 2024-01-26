@@ -4,7 +4,7 @@ import React from "react";
 
 const Banner = ({ url, link }: { url: string; link: string }) => {
   return (
-    <div className="bg-slate-300 h-[280px] mb-[200px] animate-purse relative">
+    <div className="bg-slate-300 h-[280px] mb-[200px] mobile:mb-[50px] animate-purse relative">
       <Link href={`${link}`}>
         <Image
           fill
