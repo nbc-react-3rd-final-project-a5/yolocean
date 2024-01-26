@@ -37,7 +37,6 @@ const Qna = ({ productId }: Props) => {
     refetch();
   }, [page, refetch, updateQna]);
 
-  console.log(qna);
   return (
     <div>
       <div className="flex justify-end items-center  mb-[25px]">

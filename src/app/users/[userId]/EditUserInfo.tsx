@@ -1,5 +1,6 @@
 import Avatar from "@/components/Avatar";
 import Spinner from "@/components/Spinner";
+import ProfilePulse from "@/components/pulse/ProfilePulse";
 import { useCustomMutation, useImageInput } from "@/hook";
 import { updateUser } from "@/service/table";
 import useUserEditModeStore from "@/store/editUserStore";
@@ -44,10 +45,11 @@ const EditUserInfo = ({ user, refetch }: { user: UserInfo | undefined; refetch: 
     }
   };
 
-  useEffect(() => {
-    refetch();
-  }, [customImage]);
+  useEffect(() => {}, [customImage]);
 
+  if (updateUserMutation.isPending) {
+    return <ProfilePulse />;
+  }
   return (
     <div className="flex gap-[40px] justify-center items-center pt-[114px]">
       <div className="relative">

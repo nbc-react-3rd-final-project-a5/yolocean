@@ -25,7 +25,7 @@ const Pagenation = ({ maxPage, currentPage, limit, setPage, articleName }: Props
             href={{ href: pathName, query: { article: articleName } }}
             onClick={() => {
               document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" });
-              setPage((prev) => Math.max(prev - 1, 1));
+              setPage((currentPage) => Math.max(currentPage - 1, 1));
             }}
             className="text-black"
           >
@@ -58,7 +58,7 @@ const Pagenation = ({ maxPage, currentPage, limit, setPage, articleName }: Props
             href={{ href: pathName, query: { article: articleName } }}
             onClick={() => {
               document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" });
-              setPage((prev) => Math.min(prev + 1, maxPage));
+              setPage((currentPage) => Math.min(currentPage + 1, maxPage));
             }}
             className="text-black"
           >

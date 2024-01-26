@@ -21,7 +21,7 @@ const CategoryHeader = ({ categoryName }: { categoryName: string }) => {
     }
   ];
   return (
-    <div className="flex justify-between container ">
+    <div className="flex justify-between">
       <PageBreadCrumb linkList={linkList} />
       <div className="flex gap-[12px] leading-none items-center h-[24px]">
         {office.address !== "" ? (

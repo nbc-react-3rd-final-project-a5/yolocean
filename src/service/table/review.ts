@@ -4,12 +4,13 @@ const getAllProductReview = async ({ productId, page = 1 }: Pick<API, "productId
   const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/product/${productId}/review?page=${page}`);
   const data = await res.json();
 
-  console.log(data);
   return data;
 };
 
 const getAllUserReview = async ({ userId, page = 1 }: Pick<API, "userId" | "page">) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/review?page=${page}`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/review?page=${page}`, {
+    cache: "no-store"
+  });
   const data = await res.json();
   return data;
 };

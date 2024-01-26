@@ -1,17 +1,15 @@
 import Avatar from "@/components/Avatar";
+import CustomButton from "@/components/CustomButton";
 import useUserEditModeStore from "@/store/editUserStore";
 import { UserInfo } from "@/types/db";
 import React from "react";
 
-const UserInfo = ({ user }: { user: UserInfo | undefined }) => {
+const UserInfo = ({ user }: { user: UserInfo }) => {
   const { setIsEditMode } = useUserEditModeStore();
   const certificatePhoneNumber = (phoneNumber: string) => {};
 
-  if (typeof user === "undefined") {
-    return <div>로딩 중..</div>;
-  }
   return (
-    <div className="flex gap-[40px] justify-center items-center pt-[114px]">
+    <div className="flex gap-[40px] justify-center items-center pt-[78px] flex-wrap ">
       <div>
         <Avatar size="lg" src={user.avatar_url as string} />
       </div>
@@ -31,24 +29,23 @@ const UserInfo = ({ user }: { user: UserInfo | undefined }) => {
           </div>
         </div>
         <div className="flex gap-[5px] text-[14px]">
-          <button
-            className="px-6 py-2 bg-point text-white rounded-[5px]"
-            type="button"
+          <CustomButton
+            size="sm"
             onClick={() => {
               setIsEditMode(true);
             }}
           >
             회원정보 수정
-          </button>
-          <button
-            className="px-6 py-2 bg-point text-white rounded-[5px]"
-            type="button"
+          </CustomButton>
+          <CustomButton
+            size="sm"
+            isOutline={true}
             onClick={() => {
               setIsEditMode(true);
             }}
           >
             {user.phone ? "핸드폰 번호 변경" : "핸드폰 번호 인증"}
-          </button>
+          </CustomButton>
         </div>
       </div>
     </div>

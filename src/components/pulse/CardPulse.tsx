@@ -3,8 +3,8 @@ import ImgPulse from "./ImgPulse";
 
 const CardPulse = () => {
   return (
-    <div className="mobile:max-w-[160px] ">
-      <div className="relative h-[246px] max-w-[246px] w-full mb-[20px] mobile:max-w-[160px] mobile:max-h-[160px]">
+    <div className="mobile:max-w-[160px] tablet:max-w-[180px] max-w-[246px] w-full ">
+      <div className="relative tablet:max-w-[180px] tablet:h-[180px] h-[246px] max-w-[246px] w-full mb-[20px] mobile:max-w-[160px] mobile:max-h-[160px]">
         <ImgPulse />
       </div>
       <div className="flex flex-col gap-[10px] animate-pulse">
