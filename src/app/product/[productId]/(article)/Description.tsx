@@ -13,7 +13,7 @@ const Description = ({ info_img }: Props) => {
       sizes="(max-width: 1200px) 795px"
       width={0}
       height={0}
-      className="w-[795px] h-auto "
+      className="max-w-[795px] w-full h-auto mobile:max-w-[300px] mobile:mx-auto"
     />
   );
 };

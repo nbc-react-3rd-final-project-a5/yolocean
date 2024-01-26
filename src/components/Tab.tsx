@@ -11,7 +11,6 @@ interface TabProps {
 
 const Tab = ({ activeTab, handleTabClick, tabs, isVariable = false }: TabProps) => {
   const pathName = usePathname();
-  console.log(pathName);
   return (
     <ul className={`flex w-full items-center justify-center ${isVariable && "gap-[20px]"}`}>
       {tabs.map((tab, index) => {

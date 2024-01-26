@@ -2,6 +2,7 @@
 import Card from "@/components/Card";
 import CardLists from "@/components/CardLists";
 import Section from "@/components/layout/Section";
+import CardPulse from "@/components/pulse/CardPulse";
 import { getAllCategoryProduct } from "@/service/table";
 import { useOfficeStore } from "@/store/officeStore";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -15,6 +16,7 @@ const CategorySection = ({ categoryName, categoryId }: { categoryName: string; c
     queryFn: async () => await getAllCategoryProduct({ categoryId }),
     queryKey: ["products", categoryId]
   });
+  // 지점 과 일치하는지 까지 필터하는 코드
   // const { data, isLoading, refetch } = useQuery({
   //   queryFn: async () => {
   //     const res = await fetch(`/api/products/${categoryId}`);
@@ -40,12 +42,20 @@ const CategorySection = ({ categoryName, categoryId }: { categoryName: string; c
   //   queryKey: office.id ? ["products", categoryId] : ["products", categoryId, office.id]
   // });
 
-  useEffect(() => {
-    refetch();
-  }, [office, refetch]);
+  // 스토어가 변경될때 리랜더링 해야했지만 현재는 무한재고 무한지점으로 필요없어짐
+  // useEffect(() => {
+  //   refetch();
+  // }, [office, refetch]);
 
   return (
     <Section title={`${categoryName}`} isCenter={true}>
+      {isLoading && (
+        <div className="grid grid-cols-4  mobile:grid-cols-2 gap-y-5">
+          {Array.from({ length: 6 }).map((e, i) => (
+            <CardPulse key={i} />
+          ))}
+        </div>
+      )}
       {!isLoading && data && <CardLists cardLists={data} />}
     </Section>
   );

@@ -22,25 +22,25 @@ const Info = ({ info_img, info, productId, searchParams }: Props) => {
         <Tab tabs={ProductTab} activeTab={searchParams} />
       </div>
       {searchParams === "상품설명" && (
-        <article className="mt-[40px] w-[795px] mx-auto">
+        <article className="mt-[40px] max-w-[795px] w-full mx-auto mobile:max-w-[300px]">
           <Description info_img={info_img} />
         </article>
       )}
 
       {searchParams === "상세정보" && (
-        <article className="w-[795px] mt-[40px] mx-auto">
+        <article className=" max-w-[795px] w-full mt-[40px] mx-auto mobile:max-w-[300px]">
           <Infomation info={info} />
         </article>
       )}
 
       {searchParams === "후기" && (
-        <article className="w-[795px] mx-auto">
+        <article className=" max-w-[795px] w-full mx-auto mobile:max-w-[300px]">
           <Review productId={productId} />
         </article>
       )}
 
       {searchParams === "제품문의" && (
-        <article className="w-[795px] mt-[40px] mx-auto">
+        <article className=" max-w-[795px] w-full mt-[40px] mx-auto mobile:max-w-[300px]">
           <Qna productId={productId} />
         </article>
       )}

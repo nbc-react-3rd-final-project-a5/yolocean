@@ -2,20 +2,18 @@
 import Pagenation from "@/components/Pagenation";
 import ReviewPulse from "@/components/pulse/ReviewPulse";
 import ReviewList from "@/components/review/ReviewList";
+import { useCustomMutation } from "@/hook";
 import { getAllProductReview } from "@/service/table";
 import { useAuthStore } from "@/store/authStore";
-import { useQuery } from "@tanstack/react-query";
-import { useSearchParams } from "next/navigation";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
+import Empty from "./Empty";
 
 interface Props {
   productId: string;
 }
 const Review = ({ productId }: Props) => {
-  // const searchParams = useSearchParams();
-  // const page = Number(searchParams.get("review_page")) || 1;
   const [page, setPage] = useState(1);
-
   const { auth } = useAuthStore();
   const {
     data: review,
@@ -26,17 +24,26 @@ const Review = ({ productId }: Props) => {
     queryKey: ["review", productId]
   });
 
-  useEffect(() => {
-    refetch();
-  }, [page, refetch]);
+  const { mutate: updatePage, isPending } = useCustomMutation({
+    mutationFn: async () => await getAllProductReview({ page, productId }),
+    queryKey: ["review", productId]
+  });
 
-  const test = useSearchParams();
-  console.log(test.get("article"));
+  useEffect(() => {
+    updatePage({});
+    refetch();
+  }, [page, refetch, updatePage]);
+
   return (
     <div>
-      {review && !isLoading && <ReviewList currentUserId={auth} reviewList={review.review} listType="review" />}
-      {review && (
-        <Pagenation articleName={"후기"} setPage={setPage} maxPage={review.maxPage} currentPage={page} limit={5} />
+      {(isLoading || isPending) && Array.from({ length: 6 }).map((e, i) => <ReviewPulse key={i} />)}
+      {review && !isLoading && !isPending && (
+        <>
+          {review.maxPage === 0 && <Empty articleName="문의" />}
+
+          <ReviewList currentUserId={auth} reviewList={review.review} listType="review" />
+          <Pagenation articleName={"후기"} setPage={setPage} maxPage={review.maxPage} currentPage={page} limit={5} />
+        </>
       )}
     </div>
   );
