@@ -34,9 +34,6 @@ const Carousel = () => {
             disableOnInteraction: false
           }}
           modules={[Autoplay, Pagination]}
-          pagination={{
-            clickable: true
-          }}
           loop={true}
           centeredSlides={true}
         >
