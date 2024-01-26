@@ -21,7 +21,7 @@ const UserReservationList = async ({ userId }: Props) => {
           })}
         </ul>
       ) : (
-        "예약 내역이 없습니다."
+        <div className="w-full text-center text-[18px] font-semibold"> 예약 내역이 없습니다 😅</div>
       )}
     </div>
   );
