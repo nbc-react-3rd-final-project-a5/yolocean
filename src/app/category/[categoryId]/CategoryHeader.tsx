@@ -21,7 +21,7 @@ const CategoryHeader = ({ categoryName }: { categoryName: string }) => {
     }
   ];
   return (
-    <div className="flex justify-between tablet:justify-center mobile:justify-center tablet:mb-5 mobile:mb-5">
+    <div className="flex justify-between tablet:justify-end mobile:justify-end tablet:mb-10 mobile:mb-3">
       <div className="mobile:hidden tablet:hidden">
         <PageBreadCrumb linkList={linkList} />
       </div>
@@ -38,13 +38,13 @@ const CategoryHeader = ({ categoryName }: { categoryName: string }) => {
           </button>
         ) : (
           <button
-            className="bg-[#3074F0] text-white text-[14px] flex items-center gap-[6px] justify-center w-[89px] h-[24px] rounded-[999px]"
+            className="bg-[#3074F0] text-white text-[14px] flex items-center gap-[6px] justify-center w-[89px] h-[24px] rounded-[999px] mobile:w-[30px] mobile:h-[30px] mobile:bg-white mobile:text-[#3074F0] mobile:text-[16px]"
             onClick={() => {
               openModal(<SelectOffice />);
             }}
           >
             <FaLocationDot />
-            <p>위치 선택</p>
+            <p className="mobile:hidden">위치 선택</p>
           </button>
         )}
       </div>
