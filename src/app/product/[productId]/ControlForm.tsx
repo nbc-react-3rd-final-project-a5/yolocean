@@ -16,6 +16,7 @@ import { IoShareSocial } from "react-icons/io5";
 import ShareModal from "./ShareModal";
 import { createCart, getCart, updateCart } from "@/service/table";
 import SelectOffice from "@/app/category/[categoryId]/SelectOffice";
+import CustomButton from "@/components/CustomButton";
 
 interface Props {
   category_name: string;
@@ -23,7 +24,7 @@ interface Props {
   price: number;
   original_price: number;
   product_id: string;
-  percentage_off: null | number;
+  percentage_off: number;
 }
 
 const ControlForm = ({ category_name, name, price, original_price, product_id, percentage_off }: Props) => {
@@ -53,7 +54,6 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
     const body = JSON.stringify({ product_id, user_id, rent_date, count, store_id });
     const cart = await getCart({ productId: product_id, userId: user_id });
 
-    console.log(cart);
     addCart(body, submitType, cart[0]?.id);
   }
 
@@ -82,7 +82,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
 
   return (
     <>
-      <div className="flex-1 text-[16px]">
+      <div className="flex-1 text-[16px] max-w-[500px] mx-auto tablet:max-w-full">
         <div className="flex justify-between items-center mb-[20px]">
           <p className="text-[15px] text-tc-light ">{category_name}</p>
           <IoShareSocial
@@ -101,7 +101,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
             <p className="w-[89px]">제품가</p>
             <p>{price}원</p>
           </div>
-          {percentage_off && (
+          {percentage_off > 0 && (
             <div className="flex gap-[12px] ">
               <p className="w-[89px]">할인가</p>
               <p>{Math.floor(price - (price - (price * percentage_off) / 100))}원</p>
@@ -109,14 +109,14 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
           )}
           <div className="flex gap-[12px] ">
             <p className="w-[89px]">최종가격</p>
-            {percentage_off && <p className="font-[700]">{Math.floor(price - (price * percentage_off) / 100)}원</p>}
-            {!percentage_off && <p className="font-[700]">{price}원</p>}
+            {percentage_off > 0 && <p className="font-[700]">{Math.floor(price - (price * percentage_off) / 100)}원</p>}
+            {percentage_off === 0 && <p className="font-[700]">{price}원</p>}
           </div>
         </div>
 
         <hr className="border-line border-[1px]" />
         <form onSubmit={handleSubmit(handleFormSubmit)} className="flex flex-col gap-[10px] my-[20px]">
-          <div className="flex items-center text-tc-middle gap-[12px]">
+          <div className="flex items-center relative text-tc-middle gap-[12px] pb-[14px]">
             <label className="w-[89px]" htmlFor="rent_date">
               날짜
             </label>
@@ -129,7 +129,9 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
               name="rent_date"
               render={({ field }) => (
                 <DatePicker
-                  className="py-[8px] px-[20px] border-line border rounded-md w-[292px] font-[500] text-[12px]"
+                  className="py-[8px] px-[20px] border-line border rounded-md w-[260px] relative  mobile:w-[190px] font-[500] text-[12px]
+                  [&_ .react-datepicker__month-container]:z-20
+                  "
                   dateFormat="yyyy.MM.dd"
                   locale={ko}
                   id="rent_date"
@@ -142,7 +144,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
                 />
               )}
             />
-            <div className="flex text-red-400 text-[12px] gap-1">
+            <div className="flex absolute bottom-0 left-[105px]  text-red-400 text-[12px] gap-1">
               {errors["rent_date"] && (
                 <>
                   <MdErrorOutline />
@@ -151,8 +153,8 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
               )}
             </div>
           </div>
-          <div className="flex items-center gap-[12px]">
-            <label className="w-[89px]" htmlFor="address">
+          <div className="flex items-center gap-[12px] relative pb-[14px]">
+            <label className="w-[89px] " htmlFor="address">
               위치
             </label>
             <input
@@ -160,13 +162,13 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
               placeholder="위치를 선택해 주세요"
               readOnly
               onClick={() => openModal(<SelectOffice />)}
-              className="py-[8px] px-[20px] border-line border rounded-md w-[292px] font-[500] text-[12px]"
+              className="py-[8px] px-[20px] border-line border rounded-md w-[260px]  mobile:w-[190px] font-[500] text-[12px]"
               {...register("address", {
                 value: office.name,
                 required: "날짜를 선택해주세요"
               })}
             />
-            <div className="flex text-red-400 text-[12px] gap-1">
+            <div className="flex absolute bottom-0 left-[105px] text-red-400 text-[12px] gap-1">
               {errors.address && (
                 <>
                   <MdErrorOutline />
@@ -176,18 +178,30 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
             </div>
           </div>
           <div className="flex gap-[12px] ">
-            <label className="w-[89px]" htmlFor="count">
+            <label className="w-[89px] " htmlFor="count">
               수량
             </label>
             <NumberInput setValue={setValue} getValues={getValues} register={register} errors={errors} name="count" />
           </div>
-          <div className="flex mt-[40px] mb-[100px] text-[16px] font-[600] gap-[5px] text-white">
-            <button name="cart" className="w-[244px] h-[50px] border-point border rounded-sm text-point">
+          <div className="flex mt-[40px] mb-[50px] text-[16px] font-[600] gap-[5px] text-white">
+            <CustomButton
+              name="cart"
+              isFull
+              size="md"
+              className="max-w-[244px] h-[50px] mobile:h-[35px]"
+              onClick={() => {}}
+            >
               장바구니 담기
-            </button>
-            <button name="buy" className="w-[244px] h-[50px] border-point border rounded-sm bg-point">
+            </CustomButton>
+            <CustomButton
+              name="buy"
+              isFull
+              size="md"
+              className="max-w-[244px] h-[50px] mobile:h-[35px]"
+              onClick={() => {}}
+            >
               구매하기
-            </button>
+            </CustomButton>
           </div>
         </form>
       </div>

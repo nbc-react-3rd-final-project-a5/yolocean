@@ -63,9 +63,6 @@ const CartItem = (cart: Props) => {
     updateCount();
   }, [watchCount.count, isVisible]);
 
-  // console.log("db값", count);
-  // console.log(getValues("count"));
-
   const handleCartDelete = () => {
     setIsVisible(false);
     deleteCartMutation({});
@@ -73,27 +70,31 @@ const CartItem = (cart: Props) => {
 
   return (
     <>
-      <div className={isVisible ? "border-y border-gray w-[100%] py-5" : "hidden"}>
-        <VscChromeClose onClick={handleCartDelete} className="ml-[98%] cursor-pointer" color="#595959" />
+      <div className={isVisible ? "border-y border-gray w-[100%] py-5 mobile:py-3" : "hidden"}>
+        <VscChromeClose
+          onClick={handleCartDelete}
+          className="ml-[98%] cursor-pointer mobile:ml-[92%]"
+          color="#595959"
+        />
         <div className="flex flex-row my-2">
           <div className="mx-5 w-[190px] h-[190px] relative">
             <Image src={thumbnail} fill style={{ objectFit: "contain" }} alt="상품대표이미지" />
           </div>
           <div className="mx-3">
             <div className="mb-[20px]">
-              <p className="font-semibold text-[16px] text-point">{rent_date}</p>
+              <p className="font-semibold text-[16px] text-point mobile:text-[14px]">{rent_date}</p>
             </div>
             <div className="mb-[10px]">
-              <p className="text-[15px]  text-tc-light">{category.category_name}</p>
+              <p className="text-[15px]  text-tc-light mobile:text-[13px]">{category.category_name}</p>
             </div>
             <div className="mb-[15px]">
-              <p className="text-[16px] font-medium ">{name}</p>
+              <p className="text-[16px] font-medium mobile:text-[14px]">{name}</p>
             </div>
             <div className="mb-[15px]">
-              <p className="text-[16px] font-medium ">{store.name}</p>
+              <p className="text-[16px] font-medium mobile:text-[14px]">{store.name}</p>
             </div>
             <div className="mb-[13px]">
-              <p className="text-[16px] font-medium ">{finalPrice}원</p>
+              <p className="text-[16px] font-medium mobile:text-[14px]">{finalPrice.toLocaleString()}원</p>
             </div>
 
             <div>
@@ -108,13 +109,15 @@ const CartItem = (cart: Props) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-row justify-between mt-[20px]">
+        <div className="flex flex-row justify-between mt-[20px] mobile:flex-col mobile:items-end mobile:gap-2">
           <div>
-            <p className="text-[16px] font-medium ">
-              상품금액 {finalPrice}원 / 수량 {getValues("count")}개
+            <p className="text-[16px] font-medium mobile:text-[14px]">
+              상품금액 {finalPrice.toLocaleString()}원 / 수량 {getValues("count")}개
             </p>
           </div>
-          <p className="font-bold text-[18px] ">총금액 {finalPrice * getValues("count")}원</p>
+          <p className="font-bold text-[18px] mobile:text-[16px]">
+            총금액 {(finalPrice * getValues("count")).toLocaleString()}원
+          </p>
         </div>
       </div>
     </>

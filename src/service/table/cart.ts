@@ -17,7 +17,6 @@ const createCart = async ({ userId, body }: Pick<API, "userId" | "body">) => {
     method: "POST",
     body
   });
-  console.log(response);
   const result = await response.json();
   return result;
 };

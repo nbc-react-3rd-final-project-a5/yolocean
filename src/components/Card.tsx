@@ -10,15 +10,18 @@ interface Card {
 
 const Card = ({ product, overlay, categoryId }: Card) => {
   return (
-    <div className="relative w-[246px]  group ">
-      <Link className="flex flex-col w-[246px] h-[340px]  gap-[20px]" href={`/product/${product.id}`}>
-        <div className="relative w-[246px] h-[246px] bg-bg">
+    <div className="relative  w-full mobile:max-w-[160px] tablet:max-w-[180px]  group ">
+      <Link
+        className="flex flex-col max-w-[246px] mobile:max-w-[160px] w-full max-h-[340px]  gap-[20px]"
+        href={`/product/${product.id}`}
+      >
+        <div className="relative  mobile:max-w-[160px] mobile:h-[160px] tablet:max-w-[180px] tablet:h-[180px] max-w-[246px] w-full h-[246px] bg-bg">
           <Image
             alt={`${product.name}_image`}
             sizes="(max-width: 1200px) 246px"
             width={0}
             height={0}
-            className="w-[246px] h-[246px]"
+            fill
             src={product.thumbnail}
           />
         </div>
@@ -26,11 +29,13 @@ const Card = ({ product, overlay, categoryId }: Card) => {
           <span className="text-[12px] text-tc-light">{product.category.category_name}</span>
           <h1 className="text-[14px] font-[500] truncate ">{product.name}</h1>
         </div>
-        <div className="flex justify-between items-center">
-          <div className="flex gap-[8px] items-center">
+        <div className="flex justify-between items-center flex-wrap">
+          <div className="flex gap-[8px] items-center mobile:relative">
             <p className="text-[16px] ">{(product.price * (100 - product.percentage_off!)) / 100}원</p>
             {(product.percentage_off as number) > 0 && (
-              <span className="text-[13px] line-through text-tc-light">{product.price}원</span>
+              <span className="text-[13px] line-through text-tc-light mobile:absolute mobile:top-[-13px]">
+                {product.price}원
+              </span>
             )}
           </div>
           {(product.percentage_off as number) > 0 && (

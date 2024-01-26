@@ -3,9 +3,12 @@ import Accordion from "@/components/Accordion";
 import Tab from "@/components/Tab";
 import React, { useState } from "react";
 import customerData from "@/data/customerData.json";
+import CustomButton from "@/components/CustomButton";
+import { useRouter } from "next/navigation";
 
 const CustomerPage = () => {
   const [activeTab, setActiveTab] = useState<string>("사용자 정보 및 약관");
+  const router = useRouter();
   {
     return (
       <div>
@@ -23,7 +26,10 @@ const CustomerPage = () => {
               <Accordion key={q} title={q} body={a} index={index + 1} />
             ))}
         </div>
-        <button className="w-full bg-point text-white text-[18px] py-[16px] text-center mb-[80px]">1:1문의하기</button>
+
+        <CustomButton onClick={() => router.push("/form?formtype=qna")} size="lg" isFull={true} className="h-[50px]">
+          1:1 문의하기
+        </CustomButton>
       </div>
     );
   }

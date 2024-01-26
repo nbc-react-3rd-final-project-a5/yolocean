@@ -1,7 +1,7 @@
 import React from "react";
 
-const page = () => {
-  return <div>page</div>;
+const SearchPage = () => {
+  return <div>검색결과를 입력해주세요</div>;
 };
 
-export default page;
+export default SearchPage;

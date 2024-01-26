@@ -11,9 +11,13 @@ interface TabProps {
 
 const Tab = ({ activeTab, handleTabClick, tabs, isVariable = false }: TabProps) => {
   const pathName = usePathname();
-  console.log(pathName);
   return (
-    <ul className={`flex w-full items-center justify-center ${isVariable && "gap-[20px]"}`}>
+    <ul
+      className={`flex w-full items-center justify-center ${isVariable && "gap-[20px]"} mobile:${
+        isVariable && "flex-wrap"
+      }
+      mobile:${isVariable && "gap-[10px]"}`}
+    >
       {tabs.map((tab, index) => {
         if (isVariable) {
           return (
@@ -33,7 +37,7 @@ const Tab = ({ activeTab, handleTabClick, tabs, isVariable = false }: TabProps) 
               scroll={false}
               href={{ href: `${pathName}`, query: { article: tab } }}
               key={tab}
-              className={`w-[291px] text-[16px] py-[15px] px-[10px]  font-[500] text-center border-line border-b cursor-pointer  ${
+              className={`w-[25%] text-[16px] py-[15px] px-[10px] mobile:px-[5px] font-[500] text-center border-line border-b cursor-pointer  ${
                 activeTab === tab ? "bg-point  text-white" : "bg-bg text-tc-base"
               }`}
               onClick={() => document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" })}

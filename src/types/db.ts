@@ -66,3 +66,9 @@ export interface CartBox {
     name: string;
   };
 }
+
+export interface ExtendQna extends Qna {
+  product: Product;
+  userinfo: { username: string; avatar_url: string };
+  url: string[] | null;
+}

@@ -14,14 +14,14 @@ const UserReservationList = async ({ userId }: Props) => {
         <ul>
           {reservationList.map((n: any) => {
             return (
-              <li key={`rentItem`} className="bg-red-50">
-                <RentItem rentData={n} />
+              <li key={`rentItem`} className="first:border-t border-t border-b border-line py-5">
+                <RentItem rentData={n} isReturn={false} />
               </li>
             );
           })}
         </ul>
       ) : (
-        "작성된 리뷰가 없습니다."
+        <div className="w-full text-center text-[18px] font-semibold"> 예약 내역이 없습니다 😅</div>
       )}
     </div>
   );

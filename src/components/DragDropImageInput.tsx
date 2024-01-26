@@ -1,6 +1,6 @@
 "use client";
 
-import { useImageInput } from "@/legacyHook";
+import { useImageInput } from "@/hook";
 import useStorage from "@/utils/useStorage";
 import React, { useRef, useState } from "react";
 

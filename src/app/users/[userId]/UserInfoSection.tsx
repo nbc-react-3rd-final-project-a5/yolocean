@@ -10,6 +10,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getUser } from "@/service/table";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
+import Spinner from "@/components/Spinner";
+import ProfilePulse from "@/components/pulse/ProfilePulse";
 
 const UserInfoSection = () => {
   const router = useRouter();
@@ -25,7 +27,7 @@ const UserInfoSection = () => {
     refetch
   } = useQuery({
     queryKey: ["user"],
-    queryFn: () => getUser({ userId })
+    queryFn: async () => getUser({ userId })
   });
 
   useEffect(() => {
@@ -33,11 +35,11 @@ const UserInfoSection = () => {
   }, []);
 
   if (isLoading) {
-    return <div>로딩 중...</div>;
+    return <ProfilePulse />;
   }
   if (!logedIn) {
-    alert("로그인이 필요합니다!");
-    router.push("/auth");
+    // alert("로그인이 필요합니다!");
+    // router.push("/auth");
   }
   if (logedIn && auth === userId) {
     return <div>{!isEditMode ? <UserInfo user={user} /> : <EditUserInfo user={user} refetch={refetch} />}</div>;

@@ -1,13 +1,18 @@
+import Banner from "@/components/Banner";
+import CardCarousel from "@/components/CardCarousel";
 import CardLists from "@/components/CardLists";
+import Carousel from "@/components/Carousel";
 import Section from "@/components/layout/Section";
 import { getAllProduct, getFixedReview } from "@/service/table";
+import { getBanner } from "@/service/table/banner";
 import { ExtendFixedReview, ProductProperties } from "@/types/db";
-import getPath from "@/utils/getPath";
 import Link from "next/link";
 
 const Home = async () => {
   const items = await getAllProduct();
   const reviews = await getFixedReview();
+  const main01Banner = await getBanner("main-1");
+  const main02Banner = await getBanner("main-2");
 
   const discountFilteredItems = items
     .filter((item: ProductProperties) => item.percentage_off !== 0)
@@ -36,15 +41,26 @@ const Home = async () => {
 
   return (
     <div className="flex flex-col ">
-      <div className=" bg-slate-300 w-[1200px] h-[450px] mb-[200px]">케러셀</div>
+      {/* <div className=" bg-slate-300 w-[1200px] h-[450px] mb-[200px]">케러셀</div> */}
+      <Carousel />
       <Section title="욜루오션 BIG SALE 👍" isCenter={false}>
-        <CardLists cardLists={discountFilteredItems} />
+        <div className="mobile:hidden">
+          <CardLists cardLists={discountFilteredItems} />
+        </div>
+        <div className="hidden mobile:block">
+          <CardCarousel cardLists={discountFilteredItems} />
+        </div>
       </Section>
-      <div className="bg-slate-300 w-[1200px] h-[280px] mb-[200px]">베너</div>
+      <Banner url={main02Banner.banner_url} link={main02Banner.banner_link} />
       <Section title="욜루오션 HOT 아이템 ❤️" isCenter={false}>
-        <CardLists cardLists={viewSortedItems} />
+        <div className="mobile:hidden">
+          <CardLists cardLists={viewSortedItems} />
+        </div>
+        <div className="hidden mobile:block">
+          <CardCarousel cardLists={viewSortedItems} />
+        </div>
       </Section>
-      <div className="bg-slate-300 w-[1200px] h-[280px] mb-[200px]">베너</div>
+      <Banner url={main01Banner.banner_url} link={main01Banner.banner_link} />
       <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
         <div className="grid grid-cols-4 gap-[13px]">
           {reviews.map((fixedReview: any) => (

@@ -20,7 +20,6 @@ export async function PATCH(req: NextRequest, context: { params: { userId: strin
   } = context;
   const { data: userInfo, error } = await supabase.from("userinfo").update(data).eq("id", userId);
   if (error) {
-    console.log(error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
   return NextResponse.json(userInfo);

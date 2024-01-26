@@ -6,15 +6,8 @@ import { useRouter } from "next/navigation";
 import { AiOutlineUser } from "react-icons/ai";
 import useLogedInStore from "@/store/logedStore";
 import { useAuthStore } from "@/store/authStore";
-
-const logedInCheck = async (setLogedIn: (state: boolean) => void, setAuth: (auth: string) => void) => {
-  const { data, error } = await supabase.auth.getSession();
-  // console.log(data);
-  if (data.session !== null) {
-    setLogedIn(true);
-    setAuth(data.session.user.id);
-  }
-};
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Database } from "@/types/supabase";
 
 const AuthBtn = () => {
   //로그인 상태
@@ -26,9 +19,20 @@ const AuthBtn = () => {
 
   const router = useRouter();
 
+  const supabaseAuth = createClientComponentClient<Database>();
+
+  const logedInCheck = async (setLogedIn: (state: boolean) => void, setAuth: (auth: string) => void) => {
+    const { data, error } = await supabaseAuth.auth.getSession();
+
+    if (data.session !== null) {
+      setLogedIn(true);
+      setAuth(data.session.user.id);
+    }
+  };
+
   //로그아웃
   async function signOut() {
-    const { error } = await supabase.auth.signOut();
+    const { error } = await supabaseAuth.auth.signOut();
     setLogedIn(false);
     router.push("/");
   }
@@ -52,14 +56,26 @@ const AuthBtn = () => {
   const UserMenu = () => {
     return (
       <>
-        <ul className="absolute p-1 mt-1 ml-7 text-right w-32 z-50 right-0 bg-white shadow-md cursor-pointer">
-          <li className="mr-1">
-            <Link href={`/users/${auth}`}>마이 페이지</Link>
-          </li>
-          <li className="mr-1" onClick={signOut}>
-            로그아웃
-          </li>
-        </ul>
+        <div
+          id="dropdown"
+          className={
+            menu
+              ? "absolute space-y-2 z-10 p-2 bg-white rounded-sm shadow w-32 text-end mobile:left-0 mobile:w-full mobile:text-center mobile:mt-7"
+              : "hidden"
+          }
+        >
+          <ul className="cursor-pointer text-sm">
+            <li className="hidden mobile:p-2 mobile:block">
+              <Link href={`/cart/${auth}`}>장바구니</Link>
+            </li>
+            <li className="p-2 hover:underline decoration-wavy decoration-point">
+              <Link href={`/users/${auth}`}>마이 페이지</Link>
+            </li>
+            <li onClick={signOut} className="p-2 hover:underline decoration-wavy decoration-point">
+              로그아웃
+            </li>
+          </ul>
+        </div>
       </>
     );
   };
@@ -67,13 +83,21 @@ const AuthBtn = () => {
   return (
     <>
       {logedIn ? (
-        <div onClick={() => setMenu(!menu)} className="relative">
-          <AiOutlineUser size="22" className="cursor-pointer mt-[5px]" color="#3074F0" />
-          {menu && <UserMenu />}
+        <div onClick={() => setMenu(!menu)} className="">
+          <AiOutlineUser
+            size="22"
+            id="userDropDown"
+            data-dropdown-toggle="dropdown"
+            className="cursor-pointer mt-[5px] mobile:mt-0"
+            color="#3074F0"
+          />
+          <div className="flex flex-col items-end">
+            <UserMenu />
+          </div>
         </div>
       ) : (
         <Link href={"/auth"}>
-          <AiOutlineUser size="22" className="cursor-pointer mt-[5px]" color="#3074F0" />
+          <AiOutlineUser size="22" className="cursor-pointer mt-[5px] mobile:mt-0" color="#3074F0" />
         </Link>
       )}
     </>

@@ -1,0 +1,19 @@
+.swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  text-align: center;
+  line-height: 8px;
+  font-size: 12px;
+  color: #000;
+  opacity: 1;
+  background: #e5e5e5;
+}
+
+.swiper-pagination-bullet-active {
+  color: #fff;
+  background: #3074f0;
+}
+
+#CardCarousel {
+  height: 300px;
+}

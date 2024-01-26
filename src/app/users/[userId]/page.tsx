@@ -12,12 +12,7 @@ interface Props {
   searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-enum EnumTabList {
-  reservation = "예약내역",
-  rent = "렌트완료",
-  review = "작성한 리뷰",
-  qna = "Q&A"
-}
+type article = "예약내역" | "렌트완료" | "작성한 리뷰" | "Q&A";
 
 const linkList = [
   {
@@ -32,16 +27,16 @@ const linkList = [
 
 const MyPage = ({ params, searchParams }: Props) => {
   const { userId } = params;
-  const activeTab = searchParams?.activeTab;
+  const article = searchParams?.article;
 
-  const currentTap = (activeTab: string | string[] | undefined) => {
-    switch (activeTab) {
-      case "rent":
+  const currentTap = (article: string | string[] | undefined) => {
+    switch (article as article) {
+      case "렌트완료":
         return <UserRentList userId={userId} />;
-      case "review":
+      case "작성한 리뷰":
         return <UserReviewList userId={userId} />;
-      case "qna":
-        return <UserQnaList userId={userId} />;
+      case "Q&A":
+        return <UserQnaList userId={userId} searchParams={searchParams} />;
       default:
         return <UserReservationList userId={userId} />;
     }
@@ -51,7 +46,7 @@ const MyPage = ({ params, searchParams }: Props) => {
       <PageBreadCrumb linkList={linkList} />
       <UserInfoSection />
       <UserTab className="mt-[78px] mb-[40px]" />
-      {currentTap(activeTab)}
+      {currentTap(article)}
     </>
   );
 };

@@ -1,5 +1,4 @@
 import React from "react";
-import { supabase } from "@/service/supabase";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -8,6 +7,8 @@ import Section from "@/components/layout/Section";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import { SlArrowRight } from "react-icons/sl";
 import { usealertStore } from "@/store/alertStore";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Database } from "@/types/supabase";
 
 const linkList = [
   {
@@ -32,12 +33,13 @@ interface FormValue {
 
 const SignIn = ({ mode, setMode }: Props) => {
   const router = useRouter();
+  const supabaseAuth = createClientComponentClient<Database>();
   const { setLogedIn } = useLogedInStore();
   const { alertFire } = usealertStore();
 
   //이메일 로그인
   const signInWithEmail = async (id: string, pw: string) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabaseAuth.auth.signInWithPassword({
       email: id,
       password: pw
     });
@@ -46,7 +48,6 @@ const SignIn = ({ mode, setMode }: Props) => {
     } else {
       setLogedIn(true);
       router.push("/");
-      console.log(data);
     }
   };
 
@@ -63,15 +64,14 @@ const SignIn = ({ mode, setMode }: Props) => {
 
   //카카오 로그인
   async function signInWithKakao() {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { data, error } = await supabaseAuth.auth.signInWithOAuth({
       provider: "kakao"
     });
-    console.log(data || error);
   }
 
   //구글 로그인
   async function signInWithGoogle() {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { data, error } = await supabaseAuth.auth.signInWithOAuth({
       provider: "google",
       options: {
         queryParams: {
@@ -80,7 +80,6 @@ const SignIn = ({ mode, setMode }: Props) => {
         }
       }
     });
-    console.log(data || error);
   }
 
   return (

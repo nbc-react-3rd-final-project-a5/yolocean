@@ -27,7 +27,6 @@ export const GET = async (req: NextRequest, context: { params: { userId: string 
     .eq("user_id", userId)
     .limit(limit)
     .range(min, max);
-  console.log(qna);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -39,14 +38,15 @@ export async function POST(req: NextRequest, context: { params: { userId: string
   const { userId } = context.params;
   const data = await req.json();
   const { data: insertData, error } = await supabase.from("qna").insert({ ...data, user_id: userId });
-  console.log(data);
-  const { data: category, error: categoryError } = await supabase
-    .from("product")
-    .select("category_id")
-    .eq("id", data.product_id);
+
+  // const { data: category, error: categoryError } = await supabase
+  //   .from("product")
+  //   .select("category_id")
+  //   .eq("id", data.product_id);
+
   if (error) {
-    console.log(error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
-  return NextResponse.json(category![0]);
+  // return NextResponse.json(category![0]);
+  return NextResponse.json(insertData);
 }
