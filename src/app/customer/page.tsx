@@ -29,7 +29,7 @@ const CustomerPage = () => {
 
         <CustomButton
           children={"1:1 문의하기"}
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/form?formtype=qna")}
           size="lg"
           isFull={true}
           className="h-[50px]"

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CartItem from "@/app/cart/CartItem";
 import { CartBox, RentInsert } from "@/types/db";
 import { UserInfo } from "@/types/db";
@@ -44,6 +44,24 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
     queryKey: ["cart"]
   });
   const shop = cart !== undefined ? (cart.length > 0 ? cart[0].store.name : "no-shop") : "no-shop";
+
+  //약관 동의
+  const [allCheck, setAllCheck] = useState(false);
+  const [protectCheck, setProtectCheck] = useState(false);
+  const [useCheck, setUseCheck] = useState(false);
+  //전체 동의 클릭 시
+  const allAgree = () => {
+    setAllCheck(!allCheck);
+    setProtectCheck(!allCheck);
+    setUseCheck(!allCheck);
+  };
+  //약관 동의
+  const agree = (state: boolean, setState: React.Dispatch<React.SetStateAction<boolean>>) => {
+    setState(!state);
+  };
+  useEffect(() => {
+    protectCheck && useCheck ? setAllCheck(true) : setAllCheck(false);
+  }, [protectCheck, useCheck]);
 
   //상품별 총금액(할인적용)
   const [cartPrice, setCartPrice] = useState<number[]>([]);
@@ -159,6 +177,8 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
                       {...register("fullTerms")}
                       required
                       className="w-4 h-4 mr-[20px] mobile:mr-[10px] mobile:w-3"
+                      onClick={allAgree}
+                      checked={allCheck}
                     />
                     <label htmlFor="fullTerms">전체 약관 동의 (필수)</label>
                   </div>
@@ -169,6 +189,8 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
                         type="checkbox"
                         {...register("protection", { required: "필수체크 사항입니다." })}
                         className="w-4 h-4 mr-[20px] mobile:mr-[10px] mobile:w-3"
+                        onClick={() => agree(protectCheck, setProtectCheck)}
+                        checked={protectCheck}
                       />
                       <label htmlFor="protection">개인 정보 보호를 위한 이용자 동의 (필수)</label>
                     </div>
@@ -184,6 +206,8 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
                         {...register("useTerms", { required: "필수체크 사항입니다." })}
                         required
                         className="w-4 h-4 mr-[20px] mobile:mr-[10px] mobile:w-3"
+                        onClick={() => agree(useCheck, setUseCheck)}
+                        checked={useCheck}
                       />
                       <label htmlFor="useTerms">렌트 상품 이용약관 동의 (필수)</label>
                     </div>
@@ -196,24 +220,24 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
                   <div className="border-black border-b mt-[60px] ">
                     <h2 className="mb-4 font-bold text-[20px] text-black mobile:text-[18px]">신청인 정보</h2>
                   </div>
-                  <div className="grid grid-cols-8 place-items-baseline my-[30px] gap-[15px] mobile:grid-cols-7">
-                    <p className=" text-[16px] font-medium mobile:text-[14px]">신청인</p>
-                    <p className="col-span-7 w-[100%] p-[15px]  border mobile:col-span-6 mobile:w-[100%] mobile:p-[10px] mobile:text-[13px]">
+                  <div className="grid place-items-baseline my-[30px] gap-[15px] mobile:grid-cols-7">
+                    <p className=" text-[16px] font-medium mobile:text-[14px] mobile:col-span-2">신청인</p>
+                    <p className="col-span-7 w-[100%] p-[15px]  border mobile:col-span-5 mobile:w-[100%] mobile:p-[10px] mobile:text-[13px]">
                       {user?.username}
                     </p>
 
-                    <p className=" text-[16px] font-medium mobile:text-[14px]">이메일</p>
-                    <p className="col-span-7 w-[100%] p-[15px]  border mobile:col-span-6 mobile:w-[100%] mobile:p-[10px] mobile:text-[13px]">
+                    <p className=" text-[16px] font-medium mobile:text-[14px] mobile:col-span-2">이메일</p>
+                    <p className="col-span-7 w-[100%] p-[15px]  border mobile:col-span-5 mobile:w-[100%] mobile:p-[10px] mobile:text-[13px]">
                       {user?.email}
                     </p>
 
-                    <p className=" text-[16px] font-medium mobile:text-[14px]">휴대폰 번호</p>
-                    <p className="col-span-7 w-[100%] p-[15px]  border mobile:col-span-6 mobile:w-[100%] mobile:p-[10px] mobile:text-[13px]">
+                    <p className=" text-[16px] font-medium mobile:text-[14px] mobile:col-span-2">휴대폰 번호</p>
+                    <p className="col-span-7 w-[100%] p-[15px]  border mobile:col-span-5 mobile:w-[100%] mobile:p-[10px] mobile:text-[13px]">
                       {user?.phone}
                     </p>
 
-                    <p className=" text-[16px] font-medium mobile:text-[14px]">수령지점</p>
-                    <p className="col-span-7 w-[100%] p-[15px]  border mobile:col-span-6 mobile:w-[100%] mobile:p-[10px] mobile:text-[13px]">
+                    <p className=" text-[16px] font-medium mobile:text-[14px] mobile:col-span-2">수령지점</p>
+                    <p className="col-span-7 w-[100%] p-[15px]  border mobile:col-span-5 mobile:w-[100%] mobile:p-[10px] mobile:text-[13px]">
                       {shop}
                     </p>
                   </div>
@@ -261,15 +285,8 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
                   size="lg"
                   disabled={!isValid}
                   type="button"
-                  className="h-[50px]"
                 />
-                <CustomButton
-                  children={"취소"}
-                  onClick={handleCancelClick}
-                  size="lg"
-                  className="h-[50px]"
-                  color="gray"
-                />
+                <CustomButton children={"취소"} onClick={handleCancelClick} size="lg" color="gray" />
               </div>
             </>
           ) : (

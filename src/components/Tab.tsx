@@ -13,9 +13,8 @@ const Tab = ({ activeTab, handleTabClick, tabs, isVariable = false }: TabProps) 
   const pathName = usePathname();
   return (
     <ul
-      className={`flex w-full items-center justify-center ${isVariable && "gap-[20px]"} mobile:flex-wrap mobile:${
-        isVariable && "gap-[10px]"
-      }`}
+      className={`flex w-full items-center justify-center ${isVariable && "gap-[20px]"} mobile:flex-wrap 
+      mobile:${isVariable && "gap-[10px]"}`}
     >
       {tabs.map((tab, index) => {
         if (isVariable) {
