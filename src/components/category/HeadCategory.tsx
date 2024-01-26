@@ -41,17 +41,6 @@ const HeadCategory = () => {
 
   return (
     <>
-      {/* <div className="flex flex-row space-x-[10px] cursor-pointer relative mt-[5px]" onClick={() => setOpen(!open)}>
-        <RxHamburgerMenu size="24" color="#3074F0" />
-        <p className="text-[14px] text-point font-medium leading-loose">카테고리</p>
-        {open && !isLoading && (
-          <ul className="absolute p-1 mt-7 ml-10 text-right w-32 z-50 right-0 bg-white shadow-md cursor-pointer">
-            {category!.map((category) => (
-              <CategoryName category={category} key={category.id} />
-            ))}
-          </ul>
-        )}
-      </div> */}
       <div>
         <button
           id="categoryDropDown"
