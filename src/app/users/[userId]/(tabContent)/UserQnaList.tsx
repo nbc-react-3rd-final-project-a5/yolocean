@@ -7,7 +7,7 @@ interface Props {
 }
 
 const UserQnaList = async ({ userId }: Props) => {
-  const qnaList = await getAllUserQna({ userId, page: 1 });
+  const { qna: qnaList } = await getAllUserQna({ userId, page: 1 });
 
   return (
     <>
