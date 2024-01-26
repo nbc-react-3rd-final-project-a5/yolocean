@@ -1,21 +1,33 @@
 import React from "react";
 import ReviewList from "@/components/review/ReviewList";
 import { getAllUserQna } from "@/service/table";
+// import Pagenation from "@/components/Pagenation";
+// import UserPagenation from "./UserPagenation";
 
 interface Props {
   userId: string;
+  searchParams: { [key: string]: any } | undefined;
 }
 
-const UserQnaList = async ({ userId }: Props) => {
-  const { qna: qnaList } = await getAllUserQna({ userId, page: 1 });
+const UserQnaList = async ({ userId, searchParams }: Props) => {
+  const {
+    qna: qnaList,
+    maxPage,
+    nextPage,
+    prevPage
+  } = await getAllUserQna({ userId, page: Number(searchParams?.page) || 1 });
 
   return (
     <>
+      <>{maxPage}</>
+      <>{nextPage}</>
+      <>{prevPage}</>
       {qnaList?.length > 0 ? (
         <ReviewList listType="qna" reviewList={qnaList} currentUserId={userId} />
       ) : (
         "작성된 리뷰가 없습니다."
       )}
+      {/* <UserPagenation maxPage={maxPage}></UserPagenation> */}
     </>
   );
 };
