@@ -58,9 +58,16 @@ const AuthBtn = () => {
       <>
         <div
           id="dropdown"
-          className={menu ? "absolute space-y-2 z-10 p-2 bg-white rounded-sm shadow w-32 text-end" : "hidden"}
+          className={
+            menu
+              ? "absolute space-y-2 z-10 p-2 bg-white rounded-sm shadow w-32 text-end mobile:left-0 mobile:w-full mobile:text-center mobile:mt-7"
+              : "hidden"
+          }
         >
           <ul className="cursor-pointer text-sm">
+            <li className="hidden mobile:p-2 mobile:block">
+              <Link href={`/cart/${auth}`}>장바구니</Link>
+            </li>
             <li className="p-2 hover:underline decoration-wavy decoration-point">
               <Link href={`/users/${auth}`}>마이 페이지</Link>
             </li>
@@ -81,7 +88,7 @@ const AuthBtn = () => {
             size="22"
             id="userDropDown"
             data-dropdown-toggle="dropdown"
-            className="cursor-pointer mt-[5px]"
+            className="cursor-pointer mt-[5px] mobile:mt-0"
             color="#3074F0"
           />
           <div className="flex flex-col items-end">
@@ -90,7 +97,7 @@ const AuthBtn = () => {
         </div>
       ) : (
         <Link href={"/auth"}>
-          <AiOutlineUser size="22" className="cursor-pointer mt-[5px]" color="#3074F0" />
+          <AiOutlineUser size="22" className="cursor-pointer mt-[5px] mobile:mt-0" color="#3074F0" />
         </Link>
       )}
     </>
