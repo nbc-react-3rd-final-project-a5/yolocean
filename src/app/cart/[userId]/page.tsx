@@ -73,7 +73,9 @@ const CartPage = ({ params }: { params: { userId: string } }) => {
                     </div>
                   </div>
 
-                  <CustomButton children={"결제하기"} onClick={() => router.push(`/payment/${userId}`)} size={"lg"} />
+                  <CustomButton onClick={() => router.push(`/payment/${userId}`)} size={"lg"}>
+                    결제하기
+                  </CustomButton>
                 </div>
               </div>
             ) : (
