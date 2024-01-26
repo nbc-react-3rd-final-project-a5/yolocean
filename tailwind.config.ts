@@ -11,9 +11,6 @@ const config: Config = {
       mobile: { max: "430px" }
     },
     extend: {
-      screens: {
-        mobile: { max: "430px" }
-      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))"
