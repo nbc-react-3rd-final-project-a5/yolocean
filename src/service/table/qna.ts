@@ -24,7 +24,8 @@ const createUserQna = async ({ userId, body }: Pick<API, "userId" | "body">) => 
 // [GET] 유저의 모든 문의
 const getAllUserQna = async ({ userId, page }: Pick<API, "userId" | "page">) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/qna?page=${page}`, {
-    method: "GET"
+    method: "GET",
+    cache: "no-store"
   });
   const result = await res.json();
   return result;
