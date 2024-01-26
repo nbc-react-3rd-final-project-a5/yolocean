@@ -27,7 +27,7 @@ const FormPage = async ({ searchParams }: Props) => {
   // TODO : 구현해야하는 기능
   // 1) 페이지에 접속한 사람의 userId 값을 얻고
   // 2) reviewId 나 qnaId 가 있을 경우 접속한 사람의 userId와 같은지 확인하는 작업
-  const userId = searchParams?.userId || "7ddac094-5da5-4626-b0bc-49bbaae264ab";
+  const userId = searchParams!.userId!;
 
   const reviewId = searchParams?.reviewId;
   const reivewData: ExtendReview = reviewId && (await getUserReview({ userId, reviewId }))[0];

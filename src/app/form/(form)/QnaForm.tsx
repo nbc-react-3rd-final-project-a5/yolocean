@@ -1,5 +1,6 @@
 "use client";
 
+import CustomButton from "@/components/CustomButton";
 import InputImage from "@/components/InputImage";
 import FormFieldSet from "@/components/form/FormFieldSet";
 import { useCustomMutation, useImageInput } from "@/hook";
@@ -136,18 +137,14 @@ const QnaForm = ({ qnaData, productId }: Props) => {
       <FormFieldSet title="사진첨부">
         <InputImage customImageList={customImageList} isEnter={isEnter} handler={handler} />
       </FormFieldSet>
-      <div className="flex flex-row gap-[12px] mt-[60px]">
-        <input
-          type="submit"
-          className="p-[16px] flex-grow text-[18px] cursor-pointer leading-none rounded-[5px] font-[600] text-[#FFFFFF] bg-[#3074F0] "
-          value={qnaData ? "수정하기" : "등록하기"}
-        />
+      <div className="flex flex-row  sm:w-full sm:flex-wrap  gap-[12px] mt-[60px] justify-center">
+        <CustomButton type="submit" size="lg" className="sm:w-full">
+          {qnaData ? "수정하기" : "등록하기"}
+        </CustomButton>
 
-        <input
-          type="button"
-          className="p-[16px] flex-grow text-[18px] cursor-pointer leading-none rounded-[5px] font-[600] text-[#FFFFFF] bg-[#999999]"
-          value={"취소"}
-        />
+        <CustomButton type="button" size="lg" color="white" className="sm:w-full">
+          취소
+        </CustomButton>
       </div>
     </form>
   );

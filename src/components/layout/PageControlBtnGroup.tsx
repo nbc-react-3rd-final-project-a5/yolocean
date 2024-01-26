@@ -5,7 +5,7 @@ import { RiCustomerService2Fill } from "react-icons/ri";
 
 enum EnumStyle {
   textSize = "text-[1.5rem]",
-  liStyle = "w-[50px] h-[50px] transition-colors  rounded-full overflow-hidden border-[1px] border-line bg-white text-tc-light hover:bg-point hover:border-point hover:text-white ",
+  liStyle = "w-[50px] h-[50px] transition-colors  rounded-full overflow-hidden border-[1px] border-line bg-white text-tc-light ",
   liInnerStyle = "w-full h-full flex flex-col justify-center items-center"
 }
 

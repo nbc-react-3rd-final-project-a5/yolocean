@@ -10,6 +10,7 @@ import InputImage from "@/components/InputImage";
 import { useAuthStore } from "@/store/authStore";
 import { createUserReview, updateUserReview } from "@/service/table";
 import { useRouter } from "next/navigation";
+import CustomButton from "@/components/CustomButton";
 
 interface Props {
   reviewData: ExtendReview;
@@ -144,17 +145,14 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
         <InputImage customImageList={customImageList} isEnter={isEnter} handler={handler} />
       </FormFieldSet>
 
-      <div className="flex flex-row gap-[12px] mt-[60px]">
-        <input
-          type="submit"
-          className="p-[16px] flex-grow text-[18px] cursor-pointer leading-none rounded-[5px] font-[600] text-[#FFFFFF] bg-[#3074F0] "
-          value={reviewData ? "수정하기" : "등록하기"}
-        />
-        <input
-          type="button"
-          className="p-[16px] flex-grow text-[18px] cursor-pointer leading-none rounded-[5px] font-[600] text-[#FFFFFF] bg-[#999999]"
-          value={"취소"}
-        />
+      <div className="flex flex-row  sm:w-full sm:flex-wrap  gap-[12px] mt-[60px] justify-center">
+        <CustomButton type="submit" size="lg" className="sm:w-full">
+          {reviewData ? "수정하기" : "등록하기"}
+        </CustomButton>
+
+        <CustomButton type="button" size="lg" color="white" className="sm:w-full">
+          취소
+        </CustomButton>
       </div>
     </form>
   );
