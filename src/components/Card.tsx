@@ -10,15 +10,15 @@ interface Card {
 
 const Card = ({ product, overlay, categoryId }: Card) => {
   return (
-    <div className="relative w-[246px]  group ">
-      <Link className="flex flex-col w-[246px] h-[340px]  gap-[20px]" href={`/product/${product.id}`}>
-        <div className="relative w-[246px] h-[246px] bg-bg">
+    <div className="relative w-[246px] mobile:max-w-[160px]  group ">
+      <Link className="flex flex-col max-w-[246px] w-full max-h-[340px]   gap-[20px]" href={`/product/${product.id}`}>
+        <div className="relative mobile:max-w-[160px] mobile:h-[160px] max-w-[246px] w-full h-[246px] bg-bg">
           <Image
             alt={`${product.name}_image`}
             sizes="(max-width: 1200px) 246px"
             width={0}
             height={0}
-            className="w-[246px] h-[246px]"
+            fill
             src={product.thumbnail}
           />
         </div>

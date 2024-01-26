@@ -12,6 +12,8 @@ interface Props {
   isOutline?: boolean;
   isFull?: boolean;
   className?: string;
+  name?: string;
+  type?: "submit" | "reset" | "button" | undefined;
 }
 
 enum EnumSize {
@@ -46,6 +48,7 @@ enum EnumBorder {
 }
 
 const CustomButton = ({
+  name,
   children,
   onClick,
   disabled = false,
@@ -54,6 +57,7 @@ const CustomButton = ({
   color = "blue",
   isOutline = false,
   isFull = false,
+  type,
   className
 }: Props) => {
   const disabledStyle = "disabled:border-line disabled:bg-line disabled:text-tc-light";
@@ -69,6 +73,8 @@ const CustomButton = ({
 
   return (
     <button
+      type={type || "submit"}
+      name={name}
       onClick={onClick}
       disabled={disabled}
       className={`${defaultStyle} ${customStyle}  ${isFull && "w-full"} ${disabledStyle} ${className}`}

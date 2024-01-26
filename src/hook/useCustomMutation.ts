@@ -10,7 +10,7 @@ export const useCustomMutation = ({ mutationFn, queryKey }: Props) => {
 
   const customMutaion = useMutation({
     mutationFn,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey })
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKey })
   });
 
   return customMutaion;

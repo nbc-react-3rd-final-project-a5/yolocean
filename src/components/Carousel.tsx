@@ -19,8 +19,6 @@ const Carousel = () => {
     staleTime: Infinity
   });
 
-  console.log(data);
-
   return (
     <div className="mb-[150px]">
       {isLoading && (
@@ -43,7 +41,7 @@ const Carousel = () => {
           centeredSlides={true}
         >
           {data.map((item: any) => (
-            <SwiperSlide key={item.id} className="relative ">
+            <SwiperSlide key={item.id}>
               <Link href={item.url}>
                 <Image
                   fill
