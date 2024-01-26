@@ -52,7 +52,6 @@ export const useImageInput = (inputType: "single" | "multiple") => {
 
     if (inputType === "single") {
       setCustomImage(currentImageFiles[0]);
-      console.log(customImage);
       return (e.currentTarget.files = null);
     }
     currentImageFiles.length > 0 && setCustomImageList((prev) => [...prev, ...currentImageFiles]);
@@ -76,7 +75,6 @@ export const useImageInput = (inputType: "single" | "multiple") => {
     }
 
     if (inputType === "single") {
-      console.log(customImage);
       return setCustomImage(currentImageFiles[0]);
     }
     currentImageFiles.length > 0 && setCustomImageList((prev) => [...prev, ...currentImageFiles]);

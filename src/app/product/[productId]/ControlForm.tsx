@@ -54,7 +54,6 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
     const body = JSON.stringify({ product_id, user_id, rent_date, count, store_id });
     const cart = await getCart({ productId: product_id, userId: user_id });
 
-    console.log(cart);
     addCart(body, submitType, cart[0]?.id);
   }
 
@@ -66,7 +65,6 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
       await createCart({ body, userId: user_id });
     }
 
-    console.log(submitType);
     if (submitType === "cart") {
       const answer = await openConfirm("장바구니에 상품을 추가하였습니다.", "장바구니를 바로 확인하시겠습니까?");
       if (answer) {

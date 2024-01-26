@@ -36,8 +36,6 @@ const StoreForm = () => {
   const handleStoreFormSubmit = async (data: StoreForm) => {
     try {
       const result = await getLatLng(address);
-      console.log("address", address);
-      console.log("result", result);
       if (typeof result === "string") {
         alert(result);
       } else {

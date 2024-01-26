@@ -5,46 +5,42 @@ export interface Database {
     Tables: {
       banner: {
         Row: {
-          banner_id: string;
+          banner_link: string | null;
+          banner_name: string;
+          banner_url: string | null;
           id: string;
         };
         Insert: {
-          banner_id: string;
-          id: string;
-        };
-        Update: {
-          banner_id?: string;
+          banner_link?: string | null;
+          banner_name: string;
+          banner_url?: string | null;
           id?: string;
         };
-        Relationships: [
-          {
-            foreignKeyName: "banner_id_fkey";
-            columns: ["id"];
-            isOneToOne: true;
-            referencedRelation: "objects";
-            referencedColumns: ["id"];
-          }
-        ];
+        Update: {
+          banner_link?: string | null;
+          banner_name?: string;
+          banner_url?: string | null;
+          id?: string;
+        };
+        Relationships: [];
       };
       carousel: {
         Row: {
           id: string;
+          img: string | null;
+          url: string | null;
         };
         Insert: {
-          id: string;
+          id?: string;
+          img?: string | null;
+          url?: string | null;
         };
         Update: {
           id?: string;
+          img?: string | null;
+          url?: string | null;
         };
-        Relationships: [
-          {
-            foreignKeyName: "carousel_id_fkey";
-            columns: ["id"];
-            isOneToOne: true;
-            referencedRelation: "objects";
-            referencedColumns: ["id"];
-          }
-        ];
+        Relationships: [];
       };
       cart: {
         Row: {
@@ -183,7 +179,7 @@ export interface Database {
           content: string;
           created_at: string;
           id: string;
-          product_id: string;
+          product_id: string | null;
           title: string;
           url: Json | null;
           user_id: string;
@@ -193,7 +189,7 @@ export interface Database {
           content: string;
           created_at?: string;
           id?: string;
-          product_id: string;
+          product_id?: string | null;
           title: string;
           url?: Json | null;
           user_id: string;
@@ -203,7 +199,7 @@ export interface Database {
           content?: string;
           created_at?: string;
           id?: string;
-          product_id?: string;
+          product_id?: string | null;
           title?: string;
           url?: Json | null;
           user_id?: string;
@@ -427,7 +423,7 @@ export interface Database {
           avatar_url: string | null;
           email: string | null;
           id: string;
-          phone: string;
+          phone: string | null;
           username: string | null;
           verified: boolean | null;
         };
@@ -436,7 +432,7 @@ export interface Database {
           avatar_url?: string | null;
           email?: string | null;
           id: string;
-          phone?: string;
+          phone?: string | null;
           username?: string | null;
           verified?: boolean | null;
         };
@@ -445,7 +441,7 @@ export interface Database {
           avatar_url?: string | null;
           email?: string | null;
           id?: string;
-          phone?: string;
+          phone?: string | null;
           username?: string | null;
           verified?: boolean | null;
         };

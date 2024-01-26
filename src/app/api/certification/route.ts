@@ -4,9 +4,6 @@ import { NextResponse, NextRequest } from "next/server";
 export async function POST(req: NextRequest): Promise<NextResponse<{ isPass: boolean; msg: string; error?: any }>> {
   const { imp_uid, merchant_uid, phone_number } = await req.json();
 
-  console.log(`imp_uid : ${imp_uid}`);
-  console.log(`merchant_uid : ${merchant_uid}`);
-  console.log(`phone_number : ${phone_number}`);
   try {
     const getToken = await fetch("https://api.iamport.kr/users/getToken", {
       method: "POST",

@@ -36,7 +36,7 @@ const MyPage = ({ params, searchParams }: Props) => {
       case "작성한 리뷰":
         return <UserReviewList userId={userId} />;
       case "Q&A":
-        return <UserQnaList userId={userId} />;
+        return <UserQnaList userId={userId} searchParams={searchParams} />;
       default:
         return <UserReservationList userId={userId} />;
     }

@@ -21,7 +21,6 @@ export const GET = async (req: NextRequest, context: { params: { userId: string 
 export async function POST(req: NextRequest, context: { params: { userId: string } }) {
   const { userId } = context.params;
   const formData = await req.json();
-  console.log(formData);
 
   const { data, error } = await supabase.from("review").insert(formData);
   if (error) {

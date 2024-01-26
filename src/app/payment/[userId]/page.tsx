@@ -109,7 +109,7 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
         .then(() => {
           openModal(<SuccessModal rentData={rentData} />);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.error(error));
     }
   };
 
@@ -121,12 +121,10 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
 
     if (isPass) {
       // 결제 성공 후 진행할 로직
-      console.log("결제 성공", isPass);
       insertRentData();
     } else {
       // 결제 실패 시 진행할 로직
       alertFire(msg, "error");
-      console.log(msg);
     }
   };
 
@@ -279,14 +277,12 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
                 </div>
               </form>
               <div className="flex items-center justify-center gap-[12px] mobile:flex-wrap">
-                <CustomButton
-                  children={"결제하기"}
-                  onClick={handlePaymentClick}
-                  size="lg"
-                  disabled={!isValid}
-                  type="button"
-                />
-                <CustomButton children={"취소"} onClick={handleCancelClick} size="lg" color="gray" />
+                <CustomButton onClick={handlePaymentClick} size="lg" disabled={!isValid} type="button">
+                  결제하기
+                </CustomButton>
+                <CustomButton onClick={handleCancelClick} size="lg" color="gray">
+                  취소하기
+                </CustomButton>
               </div>
             </>
           ) : (

@@ -63,7 +63,6 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
 
   const handleFormSubmit = async (data: UploadForm) => {
     const storagePath = productId ? `${userId}/${productId}` : userId;
-    console.log(storagePath);
     const imageFileList = customImageList.map((n) => n.file) as File[];
     const imageFileIdList = customImageList.map((n) => n.id);
 

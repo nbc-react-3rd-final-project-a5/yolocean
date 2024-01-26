@@ -20,8 +20,7 @@ export const GET = async (req: NextRequest, context: { params: { productId: stri
 export async function PATCH(req: NextRequest, context: { params: { productId: string } }) {
   const { productId } = context.params;
   const body = await req.json();
-  console.log(body);
-  console.log("야임마");
+
   let { data: post, error } = await supabase
     .from("product")
     .update({ ...body })
