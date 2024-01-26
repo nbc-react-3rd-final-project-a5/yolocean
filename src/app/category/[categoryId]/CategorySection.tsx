@@ -50,7 +50,7 @@ const CategorySection = ({ categoryName, categoryId }: { categoryName: string; c
   return (
     <Section title={`${categoryName}`} isCenter={true}>
       {isLoading && (
-        <div className="grid grid-cols-4  mobile:grid-cols-2 gap-y-5">
+        <div className="grid grid-cols-4  mobile:grid-cols-2 gap-y-5 tablet:grid-cols-3">
           {Array.from({ length: 6 }).map((e, i) => (
             <CardPulse key={i} />
           ))}

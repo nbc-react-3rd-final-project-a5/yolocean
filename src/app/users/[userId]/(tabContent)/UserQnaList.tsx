@@ -25,7 +25,7 @@ const UserQnaList = async ({ userId, searchParams }: Props) => {
       {qnaList?.length > 0 ? (
         <ReviewList listType="qna" reviewList={qnaList} currentUserId={userId} />
       ) : (
-        "작성된 리뷰가 없습니다."
+        <div className="w-full text-center text-[18px] font-semibold"> 작성된 문의가 없습니다 😅</div>
       )}
       {/* <UserPagenation maxPage={maxPage}></UserPagenation> */}
     </>

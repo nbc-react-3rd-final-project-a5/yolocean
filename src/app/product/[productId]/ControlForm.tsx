@@ -84,7 +84,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
 
   return (
     <>
-      <div className="flex-1 text-[16px] max-w-[500px] mx-auto">
+      <div className="flex-1 text-[16px] max-w-[500px] mx-auto tablet:max-w-full">
         <div className="flex justify-between items-center mb-[20px]">
           <p className="text-[15px] text-tc-light ">{category_name}</p>
           <IoShareSocial
@@ -118,8 +118,8 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
 
         <hr className="border-line border-[1px]" />
         <form onSubmit={handleSubmit(handleFormSubmit)} className="flex flex-col gap-[10px] my-[20px]">
-          <div className="flex items-center relative text-tc-middle gap-[12px] mobile:pb-[14px]">
-            <label className="max-w-[89px] w-full" htmlFor="rent_date">
+          <div className="flex items-center relative text-tc-middle gap-[12px] pb-[14px]">
+            <label className="w-[89px]" htmlFor="rent_date">
               날짜
             </label>
             <Controller
@@ -146,7 +146,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
                 />
               )}
             />
-            <div className="flex mobile:absolute mobile:bottom-0 mobile:left-[105px]  text-red-400 text-[12px] gap-1">
+            <div className="flex absolute bottom-0 left-[105px]  text-red-400 text-[12px] gap-1">
               {errors["rent_date"] && (
                 <>
                   <MdErrorOutline />
@@ -155,8 +155,8 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
               )}
             </div>
           </div>
-          <div className="flex items-center gap-[12px] relative mobile:pb-[14px]">
-            <label className="max-w-[89px] w-full" htmlFor="address">
+          <div className="flex items-center gap-[12px] relative pb-[14px]">
+            <label className="w-[89px] " htmlFor="address">
               위치
             </label>
             <input
@@ -170,7 +170,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
                 required: "날짜를 선택해주세요"
               })}
             />
-            <div className="flex mobile:absolute mobile:bottom-0 mobile:left-[105px] text-red-400 text-[12px] gap-1">
+            <div className="flex absolute bottom-0 left-[105px] text-red-400 text-[12px] gap-1">
               {errors.address && (
                 <>
                   <MdErrorOutline />
@@ -180,7 +180,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
             </div>
           </div>
           <div className="flex gap-[12px] ">
-            <label className="max-w-[89px] w-full" htmlFor="count">
+            <label className="w-[89px] " htmlFor="count">
               수량
             </label>
             <NumberInput setValue={setValue} getValues={getValues} register={register} errors={errors} name="count" />
@@ -204,12 +204,6 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
             >
               구매하기
             </CustomButton>
-            {/* <button name="cart" className="max-w-[244px] w-full h-[50px] border-point border rounded-sm text-point">
-              장바구니 담기
-            </button>
-            <button name="buy" className="max-w-[244px] w-full h-[50px] border-point border rounded-sm bg-point">
-              구매하기
-            </button> */}
           </div>
         </form>
       </div>

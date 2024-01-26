@@ -23,7 +23,6 @@ export async function PATCH(req: NextRequest, context: { params: { qnaId: string
   const data = await req.json();
   const { data: insertData, error } = await supabase.from("qna").update(data).eq("id", qnaId).select("*");
 
-  console.log(insertData);
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

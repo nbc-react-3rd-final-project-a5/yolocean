@@ -31,11 +31,11 @@ const HeaderSearch = () => {
   };
 
   return (
-    <div className="w-[392px] h-[32px] border border-point rounded-full p-1 ">
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div className="max-w-[392px] w-full h-[32px] border border-point rounded-full p-1 ">
+      <form className="flex" onSubmit={handleSubmit(onSubmit)}>
         <input
           type="text"
-          className="mx-2 w-[330px] focus:outline-none"
+          className="mx-2 flex-1 w-full focus:outline-none"
           {...register("searchWord", { required: true })}
         />
         <button className="inline cursor-pointer " type="submit">

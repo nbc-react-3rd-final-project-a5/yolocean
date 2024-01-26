@@ -17,7 +17,15 @@ import Card from "./Card";
 const CardCarousel = ({ cardLists }: { cardLists: ProductProperties[] }) => {
   return (
     <div className="hidden mobile:block">
-      <Swiper slidesPerView={2} spaceBetween={0} modules={[Pagination]} className="mySwiper">
+      <Swiper
+        id="CardCarousel"
+        slidesPerView={2}
+        spaceBetween={0}
+        pagination={{
+          clickable: true
+        }}
+        modules={[Pagination]}
+      >
         {cardLists.map((item) => {
           return (
             <SwiperSlide key={item.id}>

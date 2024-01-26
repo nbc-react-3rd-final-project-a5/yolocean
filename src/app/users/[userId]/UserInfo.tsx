@@ -4,13 +4,10 @@ import useUserEditModeStore from "@/store/editUserStore";
 import { UserInfo } from "@/types/db";
 import React from "react";
 
-const UserInfo = ({ user }: { user: UserInfo | undefined }) => {
+const UserInfo = ({ user }: { user: UserInfo }) => {
   const { setIsEditMode } = useUserEditModeStore();
   const certificatePhoneNumber = (phoneNumber: string) => {};
 
-  if (typeof user === "undefined") {
-    return <div>로딩 중..</div>;
-  }
   return (
     <div className="flex gap-[40px] justify-center items-center pt-[78px] flex-wrap ">
       <div>

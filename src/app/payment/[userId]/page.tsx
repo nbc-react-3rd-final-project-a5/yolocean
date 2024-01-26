@@ -43,6 +43,8 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
   });
   const shop = cart !== undefined ? (cart.length > 0 ? cart[0].store.name : "no-shop") : "no-shop";
 
+  console.log(userId, "내 아디");
+
   //상품별 총금액(할인적용)
   const [cartPrice, setCartPrice] = useState<number[]>([]);
   const [originPrice, setOriginPrice] = useState<number[]>([]);
