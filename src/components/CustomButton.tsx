@@ -12,6 +12,7 @@ interface Props {
   isOutline?: boolean;
   isFull?: boolean;
   className?: string;
+  name?: string;
 }
 
 enum EnumSize {
@@ -46,6 +47,7 @@ enum EnumBorder {
 }
 
 const CustomButton = ({
+  name,
   children,
   onClick,
   disabled = false,
@@ -69,6 +71,7 @@ const CustomButton = ({
 
   return (
     <button
+      name={name}
       onClick={onClick}
       disabled={disabled}
       className={`${defaultStyle} ${customStyle}  ${isFull && "w-full"} ${disabledStyle} ${className}`}

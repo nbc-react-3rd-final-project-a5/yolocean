@@ -36,13 +36,7 @@ const Review = ({ productId }: Props) => {
 
   return (
     <div>
-      {(isLoading || isPending) && (
-        <>
-          <ReviewPulse />
-          <ReviewPulse />
-          <ReviewPulse />
-        </>
-      )}
+      {(isLoading || isPending) && Array.from({ length: 6 }).map((e, i) => <ReviewPulse key={i} />)}
       {review && !isLoading && !isPending && (
         <>
           {review.maxPage === 0 && <Empty articleName="문의" />}

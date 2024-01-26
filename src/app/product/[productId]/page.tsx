@@ -37,14 +37,14 @@ const ProductDetailPage = async ({ params: { productId }, searchParams }: Props)
           { name: name, url: `/category/${category_id}/${id}` }
         ]}
       />
-      <div className="flex gap-[24px]">
-        <div className="relative w-[500px] h-[500px]">
+      <div className="flex gap-[24px] flex-wrap  ">
+        <div className="relative max-w-[500px] w-full h-[500px] min-w-[300px] mx-auto mobile:h-[300px]  ">
           <Image
             priority
             alt={`${name}_image`}
             style={{ objectFit: "fill" }}
             fill
-            sizes="(max-width: 1200px) 500px"
+            sizes="(max-width: 1200px) 500px, 335px"
             src={thumbnail}
           />
         </div>

@@ -45,13 +45,7 @@ const Qna = ({ productId }: Props) => {
           <button className="bg-point text-white text-[14px] rounded-lg  px-[18px] py-[10px]">{`문의 작성`}</button>
         </Link>
       </div>
-      {(isLoading || isPending) && (
-        <>
-          <ReviewPulse />
-          <ReviewPulse />
-          <ReviewPulse />
-        </>
-      )}
+      {(isLoading || isPending) && Array.from({ length: 6 }).map((e, i) => <ReviewPulse key={i} />)}
       {qna && !isLoading && !isPending && (
         <>
           {qna.maxPage === 0 && <Empty articleName="문의" />}
