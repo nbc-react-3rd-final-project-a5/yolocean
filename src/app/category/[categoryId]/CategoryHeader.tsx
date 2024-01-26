@@ -21,26 +21,32 @@ const CategoryHeader = ({ categoryName }: { categoryName: string }) => {
     }
   ];
   return (
-    <div className="flex justify-between">
-      <PageBreadCrumb linkList={linkList} />
-      <div className="flex gap-[12px] leading-none items-center h-[24px]">
+    <div className="flex justify-between tablet:justify-center mobile:justify-center tablet:mb-5 mobile:mb-5">
+      <div className="mobile:hidden tablet:hidden">
+        <PageBreadCrumb linkList={linkList} />
+      </div>
+      <div className="flex gap-[12px] leading-none items-center h-[24px] ">
         {office.address !== "" ? (
-          <div className="flex gap-[6px] text-[#3074F0]">
+          <button
+            className="flex gap-[6px] text-[#3074F0] mobile:text-[14px] tablet:text-[14px]"
+            onClick={() => {
+              openModal(<SelectOffice />);
+            }}
+          >
             <FaLocationDot />
-            <p>{office.address}</p>
-          </div>
+            <p className="mobile:truncate mobile:max-w-[300px] table:truncate table:max-w-[300px]">{office.address}</p>
+          </button>
         ) : (
-          <></>
+          <button
+            className="bg-[#3074F0] text-white text-[14px] flex items-center gap-[6px] justify-center w-[89px] h-[24px] rounded-[999px]"
+            onClick={() => {
+              openModal(<SelectOffice />);
+            }}
+          >
+            <FaLocationDot />
+            <p>위치 선택</p>
+          </button>
         )}
-        <button
-          className="bg-[#3074F0] text-white text-[14px] flex items-center gap-[6px] justify-center w-[89px] h-[24px] rounded-[999px]"
-          onClick={() => {
-            openModal(<SelectOffice />);
-          }}
-        >
-          <FaLocationDot />
-          <p>위치 선택</p>
-        </button>
       </div>
     </div>
   );
