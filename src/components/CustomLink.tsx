@@ -11,6 +11,10 @@ interface Props {
   color?: keyof typeof EnumColor;
   isOutline?: boolean;
   isFull?: boolean;
+  className?: string;
+  replace?: boolean;
+  scroll?: boolean;
+  prefetch?: boolean;
 }
 
 enum EnumSize {
@@ -53,7 +57,11 @@ const CustomLink = ({
   fontWeight = "default",
   color = "blue",
   isOutline = false,
-  isFull = false
+  isFull = false,
+  className,
+  replace,
+  scroll,
+  prefetch
 }: Props) => {
   const disabledStyle = " bg-line text-tc-light";
   const defaultStyle = "inline-block text-center border rounded-[5px]";
@@ -70,8 +78,11 @@ const CustomLink = ({
   return (
     <Link
       href={disabled ? "#" : href}
+      replace={replace}
+      scroll={scroll}
+      prefetch={prefetch}
       onClick={onClick}
-      className={`${defaultStyle} ${customStyle}  ${isFull && "w-full"} ${disabled && disabledStyle} `}
+      className={`${defaultStyle} ${customStyle}  ${isFull && "w-full"} ${disabled && disabledStyle} ${className}`}
     >
       {children}
     </Link>

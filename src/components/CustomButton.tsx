@@ -11,6 +11,7 @@ interface Props {
   color?: keyof typeof EnumColor;
   isOutline?: boolean;
   isFull?: boolean;
+  className?: string;
 }
 
 enum EnumSize {
@@ -52,7 +53,8 @@ const CustomButton = ({
   fontWeight = "default",
   color = "blue",
   isOutline = false,
-  isFull = false
+  isFull = false,
+  className
 }: Props) => {
   const disabledStyle = "disabled:border-line disabled:bg-line disabled:text-tc-light";
   const defaultStyle = "inline-block text-center border rounded-[5px]";
@@ -69,7 +71,7 @@ const CustomButton = ({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`${defaultStyle} ${customStyle}  ${isFull && "w-full"} ${disabledStyle}`}
+      className={`${defaultStyle} ${customStyle}  ${isFull && "w-full"} ${disabledStyle} ${className}`}
     >
       {children}
     </button>
