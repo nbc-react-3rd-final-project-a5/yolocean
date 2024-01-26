@@ -42,7 +42,7 @@ const ReviewItem = ({ review, currentUserId, listType, productId }: Props) => {
       </div>
 
       <div>
-        {listType === "qna" && <h1 className="font-[medium] text-[17px] text-tc-base pb-[10px]">{review.title}</h1>}
+        {listType === "qna" && <h1 className="font-medium text-[17px] text-tc-base pb-[10px]">{review.title}</h1>}
 
         <p className="font-medium text-[15px] text-tc-middle leading-normal">{review.content}</p>
       </div>
