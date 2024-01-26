@@ -22,7 +22,7 @@ const UserRentList = async ({ userId }: Props) => {
           })}
         </ul>
       ) : (
-        "작성된 리뷰가 없습니다."
+        "렌트 내역이 없습니다."
       )}
     </div>
   );
