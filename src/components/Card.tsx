@@ -15,7 +15,7 @@ const Card = ({ product, overlay, categoryId }: Card) => {
         className="flex flex-col max-w-[246px] mobile:max-w-[160px] w-full max-h-[340px]  gap-[20px]"
         href={`/product/${product.id}`}
       >
-        <div className="relative  mobile:max-w-[160px] mobile:-[160px] tablet:max-w-[180px] tablet:h-[180px] max-w-[246px] w-full h-[246px] bg-bg">
+        <div className="relative  mobile:max-w-[160px] mobile:h-[160px] tablet:max-w-[180px] tablet:h-[180px] max-w-[246px] w-full h-[246px] bg-bg">
           <Image
             alt={`${product.name}_image`}
             sizes="(max-width: 1200px) 246px"
