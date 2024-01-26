@@ -3,7 +3,7 @@ import AvatarPulse from "./AvatarPulse";
 
 const ProfilePulse = () => {
   return (
-    <div className="flex gap-[40px] justify-center items-center pt-[114px]">
+    <div className="flex gap-[40px] justify-center items-center pt-[114px] mobile:flex-wrap">
       <div className="relative rounded-full w-[200px] h-[200px]">
         <AvatarPulse />
       </div>
