@@ -6,7 +6,7 @@ import Spinner from "@/components/Spinner";
 import Section from "@/components/layout/Section";
 import { getAllProduct, getFixedReview } from "@/service/table";
 import { getBanner } from "@/service/table/banner";
-import { ExtendFixedReview, ProductProperties } from "@/types/db";
+import { ExtendFixedReview, FixedReview, ProductProperties } from "@/types/db";
 import Link from "next/link";
 
 const Home = async () => {
@@ -51,7 +51,7 @@ const Home = async () => {
           <CardCarousel cardLists={discountFilteredItems} />
         </div>
       </Section>
-      {main02Banner && <Banner url={main02Banner.banner_url} link={main02Banner.banner_link} />}
+      {main02Banner && <Banner banner={main01Banner!} />}
 
       <Section title="욜루오션 HOT 아이템 ❤️" isCenter={false}>
         <div className="mobile:hidden">
@@ -61,17 +61,17 @@ const Home = async () => {
           <CardCarousel cardLists={viewSortedItems} />
         </div>
       </Section>
-      {main01Banner && <Banner url={main01Banner.banner_url} link={main01Banner.banner_link} />}
+      {main01Banner && <Banner banner={main02Banner!} />}
 
-      {/* <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
+      <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
         <div className="grid grid-cols-4 gap-[13px]">
-          {reviews.map((fixedReview: any) => (
+          {reviews.map((fixedReview: ExtendFixedReview) => (
             <Link key={fixedReview.id} href={`/product/${fixedReview.review.product_id}#후기`}>
               <img className="w-[291px] h-[291px]" src={fixedReview.review.url[0]} />
             </Link>
           ))}
         </div>
-      </Section> */}
+      </Section>
     </div>
   );
 };

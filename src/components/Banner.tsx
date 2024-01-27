@@ -1,12 +1,13 @@
+import { Banner } from "@/types/db";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const Banner = ({ url, link }: { url: string; link: string }) => {
-  console.log(url);
+const Banner = ({ banner }: { banner: Banner }) => {
+  console.log(banner.banner_url);
   return (
     <div className="bg-slate-300 h-[280px] mb-[200px] mobile:mb-[50px] animate-purse relative">
-      <Link href={`${link}`}>
+      <Link href={`${banner.banner_link}`}>
         <Image
           fill
           alt="banner"
@@ -14,7 +15,7 @@ const Banner = ({ url, link }: { url: string; link: string }) => {
           sizes="(max-width: 1200px) 1200px "
           width={0}
           height={0}
-          src={url}
+          src={banner.banner_url}
         />
       </Link>
     </div>
