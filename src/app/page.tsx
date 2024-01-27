@@ -2,6 +2,7 @@ import Banner from "@/components/Banner";
 import CardCarousel from "@/components/CardCarousel";
 import CardLists from "@/components/CardLists";
 import Carousel from "@/components/Carousel";
+import Spinner from "@/components/Spinner";
 import Section from "@/components/layout/Section";
 import { getAllProduct, getFixedReview } from "@/service/table";
 import { getBanner } from "@/service/table/banner";
@@ -13,7 +14,7 @@ const Home = async () => {
   const reviews = await getFixedReview();
   const main01Banner = await getBanner("main-1");
   const main02Banner = await getBanner("main-2");
-
+  console.log("main01Banner", main01Banner.banner_url);
   const discountFilteredItems = items
     .filter((item: ProductProperties) => item.percentage_off !== 0)
     .sort((a: ProductProperties, b: ProductProperties) => {
@@ -38,7 +39,9 @@ const Home = async () => {
       return 0;
     })
     .slice(0, 8);
-
+  if (main01Banner.banner_url === undefined || main02Banner.banner_url === undefined) {
+    return <Spinner />;
+  }
   return (
     <div className="flex flex-col ">
       {/* <div className=" bg-slate-300 w-[1200px] h-[450px] mb-[200px]">케러셀</div> */}
@@ -51,7 +54,7 @@ const Home = async () => {
           <CardCarousel cardLists={discountFilteredItems} />
         </div>
       </Section>
-      <Banner url={main02Banner.banner_url} link={main02Banner.banner_link} />
+      <Banner url={main02Banner.banner_url!} link={main02Banner.banner_link!} />
       <Section title="욜루오션 HOT 아이템 ❤️" isCenter={false}>
         <div className="mobile:hidden">
           <CardLists cardLists={viewSortedItems} />
@@ -60,7 +63,7 @@ const Home = async () => {
           <CardCarousel cardLists={viewSortedItems} />
         </div>
       </Section>
-      <Banner url={main01Banner.banner_url} link={main01Banner.banner_link} />
+      <Banner url={main01Banner.banner_url!} link={main01Banner.banner_link!} />
       <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
         <div className="grid grid-cols-4 gap-[13px]">
           {reviews.map((fixedReview: any) => (
