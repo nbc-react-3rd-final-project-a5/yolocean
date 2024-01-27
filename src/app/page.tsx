@@ -6,7 +6,6 @@ import Section from "@/components/layout/Section";
 import { getAllProduct, getFixedReview } from "@/service/table";
 import { getBanner } from "@/service/table/banner";
 import { ExtendFixedReview, ProductProperties } from "@/types/db";
-import Image from "next/image";
 import Link from "next/link";
 
 const Home = async () => {
@@ -51,7 +50,7 @@ const Home = async () => {
           <CardCarousel cardLists={discountFilteredItems} />
         </div>
       </Section>
-      {main02Banner && <Banner banner={main01Banner!} />}
+      <Banner banner={main01Banner} />
 
       <Section title="욜루오션 HOT 아이템 ❤️" isCenter={false}>
         <div className="mobile:hidden">
@@ -61,8 +60,7 @@ const Home = async () => {
           <CardCarousel cardLists={viewSortedItems} />
         </div>
       </Section>
-      {main01Banner && <Banner banner={main02Banner!} />}
-
+      <Banner banner={main02Banner} />
       <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
         <div className="grid grid-cols-4 gap-[20px]  mobile:gap-[10px] tablet:gap-[15px]  mobile:grid-cols-2 tablet:grid-cols-3">
           {reviews.map((fixedReview: ExtendFixedReview) => (
