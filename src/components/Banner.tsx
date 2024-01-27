@@ -4,7 +4,6 @@ import Link from "next/link";
 import React from "react";
 
 const Banner = ({ banner }: { banner: Banner }) => {
-  console.log(banner.banner_url);
   return (
     <div className="bg-slate-300 h-[280px] mb-[200px] mobile:mb-[50px] animate-purse relative">
       <Link href={`${banner.banner_link}`}>
