@@ -14,7 +14,6 @@ const Home = async () => {
   const reviews = await getFixedReview();
   const main01Banner = await getBanner("main-1");
   const main02Banner = await getBanner("main-2");
-  console.log("main01Banner", main01Banner.banner_url);
   const discountFilteredItems = items
     .filter((item: ProductProperties) => item.percentage_off !== 0)
     .sort((a: ProductProperties, b: ProductProperties) => {
@@ -39,9 +38,7 @@ const Home = async () => {
       return 0;
     })
     .slice(0, 8);
-  if (main01Banner.banner_url === undefined || main02Banner.banner_url === undefined) {
-    return <Spinner />;
-  }
+
   return (
     <div className="flex flex-col ">
       {/* <div className=" bg-slate-300 w-[1200px] h-[450px] mb-[200px]">케러셀</div> */}
@@ -54,7 +51,8 @@ const Home = async () => {
           <CardCarousel cardLists={discountFilteredItems} />
         </div>
       </Section>
-      <Banner url={main02Banner.banner_url!} link={main02Banner.banner_link!} />
+      {main02Banner && <Banner url={main02Banner.banner_url} link={main02Banner.banner_link} />}
+
       <Section title="욜루오션 HOT 아이템 ❤️" isCenter={false}>
         <div className="mobile:hidden">
           <CardLists cardLists={viewSortedItems} />
@@ -63,8 +61,9 @@ const Home = async () => {
           <CardCarousel cardLists={viewSortedItems} />
         </div>
       </Section>
-      <Banner url={main01Banner.banner_url!} link={main01Banner.banner_link!} />
-      <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
+      {main01Banner && <Banner url={main01Banner.banner_url} link={main01Banner.banner_link} />}
+
+      {/* <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
         <div className="grid grid-cols-4 gap-[13px]">
           {reviews.map((fixedReview: any) => (
             <Link key={fixedReview.id} href={`/product/${fixedReview.review.product_id}#후기`}>
@@ -72,7 +71,7 @@ const Home = async () => {
             </Link>
           ))}
         </div>
-      </Section>
+      </Section> */}
     </div>
   );
 };
