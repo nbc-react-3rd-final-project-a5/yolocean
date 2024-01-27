@@ -64,10 +64,13 @@ const Home = async () => {
       {main01Banner && <Banner banner={main02Banner!} />}
 
       <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
-        <div className="grid grid-cols-4 gap-[13px]">
+        <div className="grid grid-cols-4 gap-[13px] mobile:gap-[10px] tablet:gap-[15px]  mobile:grid-cols-2 tablet:grid-cols-3">
           {reviews.map((fixedReview: ExtendFixedReview) => (
             <Link key={fixedReview.id} href={`/product/${fixedReview.review.product_id}#후기`}>
-              <img className="w-[291px] h-[291px]" src={fixedReview.review.url[0]} />
+              <img
+                className="w-[291px] h-[291px] mobile:max-w-[160px] mobile:h-[160px] tablet:max-w-[180px] tablet:h-[180px] max-w-[246px]"
+                src={fixedReview.review.url[0]}
+              />
             </Link>
           ))}
         </div>
