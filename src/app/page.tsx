@@ -12,7 +12,6 @@ import Link from "next/link";
 const Home = async () => {
   const items = await getAllProduct();
   const reviews = await getFixedReview();
-  console.log("reviews", reviews);
   const main01Banner = await getBanner("main-1");
   const main02Banner = await getBanner("main-2");
   const discountFilteredItems = items
