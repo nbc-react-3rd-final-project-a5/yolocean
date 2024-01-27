@@ -2,16 +2,17 @@ import Banner from "@/components/Banner";
 import CardCarousel from "@/components/CardCarousel";
 import CardLists from "@/components/CardLists";
 import Carousel from "@/components/Carousel";
-import Spinner from "@/components/Spinner";
 import Section from "@/components/layout/Section";
 import { getAllProduct, getFixedReview } from "@/service/table";
 import { getBanner } from "@/service/table/banner";
-import { ExtendFixedReview, FixedReview, ProductProperties } from "@/types/db";
+import { ExtendFixedReview, ProductProperties } from "@/types/db";
+import Image from "next/image";
 import Link from "next/link";
 
 const Home = async () => {
   const items = await getAllProduct();
   const reviews = await getFixedReview();
+  console.log("reviews", reviews);
   const main01Banner = await getBanner("main-1");
   const main02Banner = await getBanner("main-2");
   const discountFilteredItems = items
@@ -64,13 +65,15 @@ const Home = async () => {
       {main01Banner && <Banner banner={main02Banner!} />}
 
       <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
-        <div className="grid grid-cols-4 gap-[13px] mobile:gap-[10px] tablet:gap-[15px]  mobile:grid-cols-2 tablet:grid-cols-3">
+        <div className="grid grid-cols-4 gap-[30px]  mobile:gap-[10px] tablet:gap-[15px]  mobile:grid-cols-2 tablet:grid-cols-3">
           {reviews.map((fixedReview: ExtendFixedReview) => (
             <Link key={fixedReview.id} href={`/product/${fixedReview.review.product_id}#후기`}>
-              <img
-                className="w-[291px] h-[291px] mobile:max-w-[160px] mobile:h-[160px] tablet:max-w-[180px] tablet:h-[180px] max-w-[246px]"
-                src={fixedReview.review.url[0]}
-              />
+              <div>
+                <img
+                  className="mobile:max-w-[160px] mobile:h-[160px] tablet:max-w-[180px] tablet:h-[180px] max-w-[246px] w-full h-[246px] bg-bg "
+                  src={fixedReview.review.url[0]}
+                />
+              </div>
             </Link>
           ))}
         </div>
