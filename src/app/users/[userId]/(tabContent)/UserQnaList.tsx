@@ -1,6 +1,9 @@
+"use client";
+
 import React from "react";
 import ReviewList from "@/components/review/ReviewList";
 import { getAllUserQna } from "@/service/table";
+import { useQuery } from "@tanstack/react-query";
 // import Pagenation from "@/components/Pagenation";
 // import UserPagenation from "./UserPagenation";
 
@@ -9,13 +12,14 @@ interface Props {
   searchParams: { [key: string]: any } | undefined;
 }
 
-const UserQnaList = async ({ userId, searchParams }: Props) => {
-  const {
-    qna: qnaList,
-    maxPage,
-    nextPage,
-    prevPage
-  } = await getAllUserQna({ userId, page: Number(searchParams?.page) || 1 });
+const UserQnaList = ({ userId, searchParams }: Props) => {
+  const { data, isLoading } = useQuery({
+    queryKey: ["qna", userId],
+    queryFn: async () => await getAllUserQna({ userId, page: Number(searchParams?.page) || 1 })
+  });
+
+  if (isLoading) return <></>;
+  const { qna: qnaList, maxPage, nextPage, prevPage } = data;
 
   return (
     <>
