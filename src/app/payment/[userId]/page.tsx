@@ -45,23 +45,27 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
   });
   const shop = cart !== undefined ? (cart.length > 0 ? cart[0].store.name : "no-shop") : "no-shop";
 
-  //약관 동의
-  const [allCheck, setAllCheck] = useState(false);
-  const [protectCheck, setProtectCheck] = useState(false);
-  const [useCheck, setUseCheck] = useState(false);
   //전체 동의 클릭 시
-  const allAgree = () => {
-    setAllCheck(!allCheck);
-    setProtectCheck(!allCheck);
-    setUseCheck(!allCheck);
+  const allAgree = (e: React.FormEvent<HTMLInputElement>) => {
+    if (e.currentTarget.checked) {
+      setValue(`fullTerms`, true);
+      setValue(`protection`, true);
+      setValue(`useTerms`, true);
+    } else {
+      setValue(`fullTerms`, false);
+      setValue(`protection`, false);
+      setValue(`useTerms`, false);
+    }
   };
   //약관 동의
-  const agree = (state: boolean, setState: React.Dispatch<React.SetStateAction<boolean>>) => {
-    setState(!state);
+  const agree = (e: React.FormEvent<HTMLInputElement>, target: string) => {
+    if (e.currentTarget.checked) {
+      setValue(target, true);
+    } else {
+      setValue(`fullTerms`, false);
+      setValue(`target`, false);
+    }
   };
-  useEffect(() => {
-    protectCheck && useCheck ? setAllCheck(true) : setAllCheck(false);
-  }, [protectCheck, useCheck]);
 
   //상품별 총금액(할인적용)
   const [cartPrice, setCartPrice] = useState<number[]>([]);
@@ -79,8 +83,10 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
   const { openModal } = useModalStore();
   const {
     register,
-    formState: { isValid }
+    formState: { isValid },
+    setValue
   } = useForm({ mode: "onBlur" });
+
   const router = useRouter();
 
   //rent db형식에 맞게
@@ -176,9 +182,8 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
                       required
                       className="w-4 h-4 mr-[20px] mobile:mr-[10px] mobile:w-3"
                       onClick={allAgree}
-                      checked={allCheck}
                     />
-                    <label htmlFor="fullTerms">전체 약관 동의 (필수)</label>
+                    <label htmlFor="fullTerms">전체 약관 동의</label>
                   </div>
                   <div className="p-7 border-b text-tc-middle flex justify-between mobile:p-4">
                     <div>
@@ -187,8 +192,7 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
                         type="checkbox"
                         {...register("protection", { required: "필수체크 사항입니다." })}
                         className="w-4 h-4 mr-[20px] mobile:mr-[10px] mobile:w-3"
-                        onClick={() => agree(protectCheck, setProtectCheck)}
-                        checked={protectCheck}
+                        onClick={(e) => agree(e, `protection`)}
                       />
                       <label htmlFor="protection">개인 정보 보호를 위한 이용자 동의 (필수)</label>
                     </div>
@@ -204,8 +208,7 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
                         {...register("useTerms", { required: "필수체크 사항입니다." })}
                         required
                         className="w-4 h-4 mr-[20px] mobile:mr-[10px] mobile:w-3"
-                        onClick={() => agree(useCheck, setUseCheck)}
-                        checked={useCheck}
+                        onClick={(e) => agree(e, `useTerms`)}
                       />
                       <label htmlFor="useTerms">렌트 상품 이용약관 동의 (필수)</label>
                     </div>
@@ -276,6 +279,10 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
                   </div>
                 </div>
               </form>
+              <p className="text-center mb-[10px] text-red-500 font-medium">
+                결제하기 클릭 시 결제 모듈이 동작하지만 실제로 결제되지 않습니다.
+              </p>
+
               <div className="flex items-center justify-center gap-[12px] mobile:flex-wrap">
                 <CustomButton onClick={handlePaymentClick} size="lg" disabled={!isValid} type="button">
                   결제하기
