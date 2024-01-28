@@ -39,7 +39,7 @@ const Review = ({ productId }: Props) => {
       {(isLoading || isPending) && Array.from({ length: 6 }).map((e, i) => <ReviewPulse key={i} />)}
       {review && !isLoading && !isPending && (
         <>
-          {review.maxPage === 0 && <Empty articleName="문의" />}
+          {review.maxPage === 0 && <Empty articleName="후기" />}
 
           <ReviewList currentUserId={auth} reviewList={review.review} listType="review" />
           <Pagenation articleName={"후기"} setPage={setPage} maxPage={review.maxPage} currentPage={page} limit={5} />
