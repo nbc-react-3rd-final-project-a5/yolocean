@@ -23,7 +23,7 @@ const CustomerPage = () => {
           {customerData.faq
             .find((item) => item.category === activeTab)
             ?.qna.map(({ q, a }, index) => (
-              <Accordion key={q} title={q} body={a} index={index + 1} />
+              <Accordion key={q} title={q} body={a} />
             ))}
         </div>
 
