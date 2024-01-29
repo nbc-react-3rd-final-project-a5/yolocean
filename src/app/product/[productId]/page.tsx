@@ -17,11 +17,9 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 
   const product = await getProduct({ productId });
 
-  // const previousImages = (await parent).openGraph?.images || []
-
   return {
-    title: `욜루오션 ${product.category.category_name}/${product.name} `,
-    description: `${product.name}`,
+    title: `YOLOEAN | ${product.category.category_name} | ${product.name} `,
+    description: `${product.name}의 상세페이지 입니다.`,
     openGraph: {
       images: ["/opengraph-image.png", product.thumbnail]
     }
