@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import customerData from "@/data/customerData.json";
 import CustomButton from "@/components/CustomButton";
 import { useRouter } from "next/navigation";
+import { Metadata } from "next";
 
 const CustomerPage = () => {
   const [activeTab, setActiveTab] = useState<string>("사용자 정보 및 약관");
@@ -23,7 +24,7 @@ const CustomerPage = () => {
           {customerData.faq
             .find((item) => item.category === activeTab)
             ?.qna.map(({ q, a }, index) => (
-              <Accordion key={q} title={q} body={a} index={index + 1} />
+              <Accordion key={q} title={q} body={a} />
             ))}
         </div>
 

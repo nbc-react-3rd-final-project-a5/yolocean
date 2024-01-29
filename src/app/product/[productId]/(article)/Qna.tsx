@@ -24,18 +24,8 @@ const Qna = ({ productId }: Props) => {
     refetch
   } = useQuery({
     queryFn: async () => await getAllProductQna({ page, productId }),
-    queryKey: ["qna", productId]
+    queryKey: ["qna", productId, page]
   });
-
-  const { mutate: updateQna, isPending } = useCustomMutation({
-    mutationFn: async () => await getAllProductQna({ page, productId }),
-    queryKey: ["qna", productId]
-  });
-
-  useEffect(() => {
-    updateQna({});
-    refetch();
-  }, [page, refetch, updateQna]);
 
   return (
     <div>
@@ -44,8 +34,8 @@ const Qna = ({ productId }: Props) => {
           <button className="bg-point text-white text-[14px] rounded-lg  px-[18px] py-[10px]">{`문의 작성`}</button>
         </Link>
       </div>
-      {(isLoading || isPending) && Array.from({ length: 6 }).map((e, i) => <ReviewPulse key={i} />)}
-      {qna && !isLoading && !isPending && (
+      {isLoading && Array.from({ length: 6 }).map((e, i) => <ReviewPulse key={i} />)}
+      {qna && !isLoading && (
         <>
           {qna.maxPage === 0 && <Empty articleName="문의" />}
           <ReviewList productId={productId} currentUserId={auth} reviewList={qna.qna} listType="qna" />

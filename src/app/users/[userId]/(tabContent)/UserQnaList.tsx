@@ -1,33 +1,55 @@
-import React from "react";
+"use client";
+
+import React, { Suspense, useEffect, useState } from "react";
 import ReviewList from "@/components/review/ReviewList";
 import { getAllUserQna } from "@/service/table";
-// import Pagenation from "@/components/Pagenation";
-// import UserPagenation from "./UserPagenation";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import UserRentPulse from "@/components/pulse/UserRentPulse";
+import Pagenation from "@/components/Pagenation";
+import { useCustomMutation } from "@/hook";
+import { useSearchParams } from "next/navigation";
 
 interface Props {
   userId: string;
-  searchParams: { [key: string]: any } | undefined;
+  article: string;
 }
 
-const UserQnaList = async ({ userId, searchParams }: Props) => {
+const UserQnaList = ({ userId, article }: Props) => {
+  const [page, setPage] = useState<number>(1);
+
   const {
-    qna: qnaList,
+    data: { qna: qnaList, maxPage },
+    isLoading,
+    refetch
+  } = useSuspenseQuery({
+    queryKey: ["qna", userId],
+    queryFn: async () => await getAllUserQna({ userId, page })
+  });
+
+  useEffect(() => {
+    refetch();
+  }, [page, refetch]);
+
+  const pageProps = {
+    articleName: article,
+    setPage,
     maxPage,
-    nextPage,
-    prevPage
-  } = await getAllUserQna({ userId, page: Number(searchParams?.page) || 1 });
+    currentPage: page,
+    limit: 5
+  };
 
   return (
     <>
-      <>{maxPage}</>
-      <>{nextPage}</>
-      <>{prevPage}</>
-      {qnaList?.length > 0 ? (
-        <ReviewList listType="qna" reviewList={qnaList} currentUserId={userId} />
-      ) : (
-        <div className="w-full text-center text-[18px] font-semibold"> 작성된 문의가 없습니다 😅</div>
-      )}
-      {/* <UserPagenation maxPage={maxPage}></UserPagenation> */}
+      <Suspense fallback={<UserRentPulse />}>
+        {qnaList?.length > 0 ? (
+          <>
+            <ReviewList listType="qna" reviewList={qnaList} currentUserId={userId} isMypage={true} />
+            <Pagenation {...pageProps} />
+          </>
+        ) : (
+          <div className="w-full text-center text-[18px] font-semibold"> 작성된 문의가 없습니다 😅</div>
+        )}
+      </Suspense>
     </>
   );
 };

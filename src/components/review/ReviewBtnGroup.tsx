@@ -29,10 +29,7 @@ const ReviewBtnGroup = ({ userId, reviewId, listType, productId }: Props) => {
     queryKey: productId ? [listType, productId] : [listType]
   });
 
-  const editLink =
-    listType === "review"
-      ? `${window.location.origin}/form?reviewId=${reviewId}`
-      : `${window.location.origin}/form?qnaId=${reviewId}`;
+  const editLink = listType === "review" ? `/form?reviewId=${reviewId}` : `/form?qnaId=${reviewId}`;
   const handleDeleteReviewClick = async () => {
     const isConfirm = await openConfirm(
       `${EnumListType[listType]} 삭제`,

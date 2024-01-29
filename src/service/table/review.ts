@@ -1,4 +1,5 @@
 import { API } from "@/types/api";
+import { ExtendFixedReview } from "@/types/db";
 
 const getAllProductReview = async ({ productId, page = 1 }: Pick<API, "productId" | "page">) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/product/${productId}/review?page=${page}`);
@@ -47,7 +48,7 @@ const deleteUserReview = async ({ userId, reviewId }: Pick<API, "userId" | "revi
   return data;
 };
 
-const getFixedReview = async () => {
+const getFixedReview = async (): Promise<ExtendFixedReview[]> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/product/fixedReview`);
   const data = await res.json();
   return data;

@@ -5,10 +5,25 @@ import Info from "./Info";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import { getProduct, updateProduct } from "@/service/table";
 import View from "./View";
+import { Metadata, ResolvingMetadata } from "next";
 
 interface Props {
   params: { productId: string };
   searchParams: { [key: string]: any } | undefined;
+}
+
+export async function generateMetadata({ params, searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+  const productId = params.productId;
+
+  const product = await getProduct({ productId });
+
+  return {
+    title: `YOLOEAN | ${product.category.category_name} | ${product.name} `,
+    description: `${product.name}의 상세페이지 입니다.`,
+    openGraph: {
+      images: ["/opengraph-image.png", product.thumbnail]
+    }
+  };
 }
 
 const ProductDetailPage = async ({ params: { productId }, searchParams }: Props) => {
