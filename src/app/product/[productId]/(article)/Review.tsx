@@ -21,23 +21,13 @@ const Review = ({ productId }: Props) => {
     refetch
   } = useQuery({
     queryFn: async () => await getAllProductReview({ productId, page }),
-    queryKey: ["review", productId]
+    queryKey: ["review", productId, page]
   });
-
-  const { mutate: updatePage, isPending } = useCustomMutation({
-    mutationFn: async () => await getAllProductReview({ page, productId }),
-    queryKey: ["review", productId]
-  });
-
-  useEffect(() => {
-    updatePage({});
-    refetch();
-  }, [page, refetch, updatePage]);
 
   return (
     <div>
-      {(isLoading || isPending) && Array.from({ length: 6 }).map((e, i) => <ReviewPulse key={i} />)}
-      {review && !isLoading && !isPending && (
+      {isLoading && Array.from({ length: 6 }).map((e, i) => <ReviewPulse key={i} />)}
+      {review && !isLoading && (
         <>
           {review.maxPage === 0 && <Empty articleName="후기" />}
 

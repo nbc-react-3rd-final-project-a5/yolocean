@@ -13,21 +13,16 @@ interface Props {
 }
 
 export async function generateMetadata({ params, searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
-  // read route params
   const productId = params.productId;
 
-  // fetch data
   const product = await getProduct({ productId });
 
-  // optionally access and extend (rather than replace) parent metadata
-  // const previousImages = (await parent).openGraph?.images || []
-
   return {
-    title: `욜루오션 ${product.category.category_name}/${product.name} `,
-    description: `${product.name}`
-    // openGraph: {
-    //   images: ['/some-specific-page-image.jpg', ...previousImages],
-    // },
+    title: `YOLOEAN | ${product.category.category_name} | ${product.name} `,
+    description: `${product.name}의 상세페이지 입니다.`,
+    openGraph: {
+      images: ["/opengraph-image.png", product.thumbnail]
+    }
   };
 }
 

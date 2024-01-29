@@ -114,7 +114,7 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
       };
 
       updateReviewMutate(formData);
-      return router.push(`/product/${productId}?article=후기`);
+      return router.push(`/product/${productId}`);
     } catch (error) {
       console.error(error);
     }
