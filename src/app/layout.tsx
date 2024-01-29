@@ -12,6 +12,7 @@ import Footer from "@/components/layout/Footer";
 import CreateConfirm from "@/components/portal/CreateConfirm";
 import AuthChage from "@/components/layout/AuthChage";
 import PageControlBtnGroup from "@/components/layout/PageControlBtnGroup";
+import KakaoScript from "@/lib/KakaoScript";
 
 export const metadata: Metadata = {
   title: "YOLOCEAN",
@@ -43,6 +44,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           />
           <Script src="https://cdn.iamport.kr/v1/iamport.js" />
           <Script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></Script>
+          <Script src="https://developers.kakao.com/sdk/js/kakao.js"></Script>
+          <KakaoScript />
         </body>
       </html>
     </ReactQueryProvider>
