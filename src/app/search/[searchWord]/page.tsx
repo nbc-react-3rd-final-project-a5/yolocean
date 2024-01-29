@@ -2,7 +2,19 @@ import CardLists from "@/components/CardLists";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import Section from "@/components/layout/Section";
 import { supabase } from "@/service/supabase";
+import { Metadata } from "next";
 import React from "react";
+
+export async function generateMetadata({ params }: { params: { searchWord: string } }): Promise<Metadata> {
+  const searchWord = params?.searchWord;
+
+  return {
+    title: `YOLOCEAN | ${decodeURIComponent(searchWord)} 검색결과`,
+    openGraph: {
+      images: ["/opengraph-image.png"]
+    }
+  };
+}
 
 const linkList = [
   {
