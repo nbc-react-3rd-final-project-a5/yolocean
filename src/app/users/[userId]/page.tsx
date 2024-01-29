@@ -6,10 +6,25 @@ import UserReviewList from "./(tabContent)/UserReviewList";
 import UserQnaList from "./(tabContent)/UserQnaList";
 import UserReservationList from "./(tabContent)/UserReservationList";
 import UserRentList from "./(tabContent)/UserRentList";
+import { Metadata, ResolvingMetadata } from "next";
+import { getUser } from "@/service/table";
 
 interface Props {
   params: { userId: string };
   searchParams?: { [key: string]: string | string[] | undefined };
+}
+
+export async function generateMetadata({ params, searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+  const userId = params.userId;
+  const userData = await getUser({ userId });
+  const previousImages = (await parent).openGraph?.images || [];
+
+  return {
+    title: `YOLOCEAN - 반갑습니다! ${userData.username} 님!`,
+    openGraph: {
+      images: ["/some-specific-page-image.jpg", ...previousImages]
+    }
+  };
 }
 
 type article = "예약내역" | "렌트완료" | "작성한 리뷰" | "Q&A";
