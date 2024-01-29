@@ -35,6 +35,7 @@ export interface ExtendReview extends Review {
   userinfo: { username: string; avatar_url: string };
   product: { name: string; thumbnail: string; category_id: string };
   url: string[] | null;
+  answer: string | null;
 }
 
 export interface ExtendReviewNotNull extends Review {

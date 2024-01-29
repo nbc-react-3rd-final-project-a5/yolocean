@@ -32,13 +32,13 @@ const MyPage = ({ params, searchParams }: Props) => {
   const currentTap = (article: string | string[] | undefined) => {
     switch (article as article) {
       case "렌트완료":
-        return <UserRentList userId={userId} />;
+        return <UserRentList userId={userId} article={"렌트완료"} />;
       case "작성한 리뷰":
-        return <UserReviewList userId={userId} />;
+        return <UserReviewList userId={userId} article={"작성한 리뷰"} />;
       case "Q&A":
-        return <UserQnaList userId={userId} searchParams={searchParams} />;
+        return <UserQnaList userId={userId} article={"Q&A"} />;
       default:
-        return <UserReservationList userId={userId} />;
+        return <UserReservationList userId={userId} article={"예약내역"} />;
     }
   };
   return (

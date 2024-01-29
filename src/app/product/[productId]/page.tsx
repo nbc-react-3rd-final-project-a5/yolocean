@@ -5,10 +5,30 @@ import Info from "./Info";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import { getProduct, updateProduct } from "@/service/table";
 import View from "./View";
+import { Metadata, ResolvingMetadata } from "next";
 
 interface Props {
   params: { productId: string };
   searchParams: { [key: string]: any } | undefined;
+}
+
+export async function generateMetadata({ params, searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+  // read route params
+  const productId = params.productId;
+
+  // fetch data
+  const product = await getProduct({ productId });
+
+  // optionally access and extend (rather than replace) parent metadata
+  // const previousImages = (await parent).openGraph?.images || []
+
+  return {
+    title: `욜루오션 ${product.category.category_name}/${product.name} `,
+    description: `${product.name}`
+    // openGraph: {
+    //   images: ['/some-specific-page-image.jpg', ...previousImages],
+    // },
+  };
 }
 
 const ProductDetailPage = async ({ params: { productId }, searchParams }: Props) => {
