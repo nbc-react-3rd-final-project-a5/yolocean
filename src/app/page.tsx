@@ -3,11 +3,13 @@ import CardCarousel from "@/components/CardCarousel";
 import CardLists from "@/components/CardLists";
 import Carousel from "@/components/Carousel";
 import Section from "@/components/layout/Section";
+import ImgPulse from "@/components/pulse/ImgPulse";
 import { getAllProduct, getFixedReview } from "@/service/table";
 import { getBanner } from "@/service/table/banner";
 import { ExtendFixedReview, ProductProperties } from "@/types/db";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 
 const Home = async () => {
   const items = await getAllProduct();
@@ -65,22 +67,30 @@ const Home = async () => {
       <Section title="재밌게 즐기구 돌아왔션 ✌️" isCenter={false}>
         <div className="grid grid-cols-4 gap-[20px]  mobile:gap-[10px] tablet:gap-[15px]  mobile:grid-cols-2 tablet:grid-cols-3">
           {reviews.map((fixedReview: ExtendFixedReview) => (
-            <div
-              key={fixedReview.id}
-              className="relative mobile:max-w-[160px] mobile:h-[160px] tablet:max-w-[180px] tablet:h-[180px] max-w-[246px] w-full h-[246px] bg-bg "
+            <Suspense
+              fallback={
+                <div>
+                  <ImgPulse />
+                </div>
+              }
             >
-              <Link href={`/product/${fixedReview.review.product_id}?article=후기`}>
-                {/* <img className="w-full h-full" src={fixedReview.review.url[0]} /> */}
-                <Image
-                  alt={fixedReview.id}
-                  sizes="(max-width: 1200px) 246px"
-                  width={0}
-                  height={0}
-                  fill
-                  src={fixedReview.review.url[0]}
-                />
-              </Link>
-            </div>
+              <div
+                key={fixedReview.id}
+                className="relative mobile:max-w-[160px] mobile:h-[160px] tablet:max-w-[180px] tablet:h-[180px] max-w-[246px] w-full h-[246px] bg-bg "
+              >
+                <Link href={`/product/${fixedReview.review.product_id}?article=후기`}>
+                  {/* <img className="w-full h-full" src={fixedReview.review.url[0]} /> */}
+                  <Image
+                    alt={fixedReview.id}
+                    sizes="(max-width: 1200px) 246px"
+                    width={0}
+                    height={0}
+                    fill
+                    src={fixedReview.review.url[0]}
+                  />
+                </Link>
+              </div>
+            </Suspense>
           ))}
         </div>
       </Section>
