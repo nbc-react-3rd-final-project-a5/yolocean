@@ -79,7 +79,7 @@ const CartPage = ({ params }: { params: { userId: string } }) => {
                 </div>
               </div>
             ) : (
-              <div>카트가 비어있습니다</div>
+              <div className="max-w-[1200px] w-full text-center text-2xl">장바구니가 비어있습니다.</div>
             )
           ) : (
             <CartPulse />
