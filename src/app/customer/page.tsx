@@ -7,15 +7,6 @@ import CustomButton from "@/components/CustomButton";
 import { useRouter } from "next/navigation";
 import { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: `YOLOCEAN - 고객센터`,
-    openGraph: {
-      images: ["/opengraph-image.png"]
-    }
-  };
-}
-
 const CustomerPage = () => {
   const [activeTab, setActiveTab] = useState<string>("사용자 정보 및 약관");
   const router = useRouter();
