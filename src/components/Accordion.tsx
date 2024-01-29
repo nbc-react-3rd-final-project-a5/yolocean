@@ -4,12 +4,11 @@ import { IoIosArrowDown } from "react-icons/io";
 interface Props {
   title: string;
   body: string;
-  index: number | undefined;
 }
 
 // 하나만 열리게 수정필요하면 해야함
 
-const Accordion = ({ title, body, index }: Props) => {
+const Accordion = ({ title, body }: Props) => {
   const [isOpen, setIsopen] = useState(false);
 
   return (
@@ -24,7 +23,6 @@ const Accordion = ({ title, body, index }: Props) => {
         <div
           className={`${isOpen ? "max-h-[500px] h-fit p-[20px]" : "max-h-[0px] overflow-hidden"} bg-bg transition-all `}
         >
-          {index ? `A. ` : null}
           {body}
         </div>
       </div>
