@@ -49,9 +49,7 @@ const deleteUserReview = async ({ userId, reviewId }: Pick<API, "userId" | "revi
 };
 
 const getFixedReview = async (): Promise<ExtendFixedReview[]> => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/product/fixedReview`, {
-    cache: "no-store"
-  });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/product/fixedReview`);
   const data = await res.json();
   return data;
 };
