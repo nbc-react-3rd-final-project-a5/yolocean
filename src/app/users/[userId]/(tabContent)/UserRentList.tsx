@@ -13,11 +13,8 @@ interface Props {
   article: string;
 }
 // 렌트 완료 탭
-// TODO : 테이블 리턴 값이 true 인 상품을 가져올 수 있도록 API 설정할 것
 const UserRentList = ({ userId, article }: Props) => {
-  const searchParams = useSearchParams();
-  const currentPage = Number(searchParams.get("page")) || 1;
-  const [page, setPage] = useState<number>(currentPage);
+  const [page, setPage] = useState<number>(1);
 
   const { data, isLoading, refetch } = useSuspenseQuery({
     queryKey: ["user", "rent"],
@@ -42,21 +39,21 @@ const UserRentList = ({ userId, article }: Props) => {
     <>
       <Suspense fallback={<UserRentPulse />}>
         {rentList?.length > 0 ? (
-          <ul>
-            {rentList.map((n: any) => {
-              return (
-                <li key={n.id} className="first:border-t border-t border-b border-line py-5">
-                  <RentItem rentData={n} isReturn={true} />
-                </li>
-              );
-            })}
-          </ul>
+          <>
+            <ul>
+              {rentList.map((n: any) => {
+                return (
+                  <li key={n.id} className="first:border-t border-t border-b border-line py-5">
+                    <RentItem rentData={n} isReturn={true} />
+                  </li>
+                );
+              })}
+            </ul>
+            <Pagenation {...pageProps} />
+          </>
         ) : (
           <div className="w-full text-center text-[18px] font-semibold"> 렌트 완료된 내역이 없습니다 😅</div>
         )}
-      </Suspense>
-      <Suspense>
-        <Pagenation {...pageProps} />
       </Suspense>
     </>
   );

@@ -23,7 +23,7 @@ export const GET = async (req: NextRequest, context: { params: { userId: string 
 
   let { data: qna, error } = await supabase
     .from("qna")
-    .select("*,userinfo!inner(username,avatar_url)")
+    .select("*,userinfo!inner(username,avatar_url), product(name, thumbnail)")
     .eq("user_id", userId)
     .limit(limit)
     .range(min, max);

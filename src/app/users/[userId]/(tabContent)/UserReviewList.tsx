@@ -4,7 +4,6 @@ import Pagenation from "@/components/Pagenation";
 import ReviewList from "@/components/review/ReviewList";
 import { getAllUserReview } from "@/service/table";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useSearchParams } from "next/navigation";
 
 import React, { Suspense, useEffect, useState } from "react";
 
@@ -14,9 +13,7 @@ interface Props {
 }
 
 const UserReviewList = ({ userId, article }: Props) => {
-  const searchParams = useSearchParams();
-  const currentPage = Number(searchParams.get("page")) || 1;
-  const [page, setPage] = useState<number>(currentPage);
+  const [page, setPage] = useState<number>(1);
 
   const { data, isLoading, refetch } = useSuspenseQuery({
     queryKey: ["user", "review"],
@@ -41,13 +38,13 @@ const UserReviewList = ({ userId, article }: Props) => {
     <>
       <Suspense>
         {reviewList?.length > 0 ? (
-          <ReviewList listType="review" reviewList={reviewList} currentUserId={userId} />
+          <>
+            <ReviewList listType="review" reviewList={reviewList} currentUserId={userId} isMypage={true} />
+            <Pagenation {...pageProps} />
+          </>
         ) : (
           <div className="w-full text-center text-[18px] font-semibold"> 작성된 리뷰가 없습니다 😅</div>
         )}
-      </Suspense>
-      <Suspense>
-        <Pagenation {...pageProps} />
       </Suspense>
     </>
   );
