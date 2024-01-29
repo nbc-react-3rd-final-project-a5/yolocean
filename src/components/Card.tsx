@@ -31,10 +31,12 @@ const Card = ({ product, overlay, categoryId }: Card) => {
         </div>
         <div className="flex justify-between items-center flex-wrap">
           <div className="flex gap-[8px] items-center mobile:relative">
-            <p className="text-[16px] ">{(product.price * (100 - product.percentage_off!)) / 100}원</p>
+            <p className="text-[16px] ">
+              {((product.price * (100 - product.percentage_off!)) / 100).toLocaleString()}원
+            </p>
             {(product.percentage_off as number) > 0 && (
               <span className="text-[13px] line-through text-tc-light mobile:absolute mobile:top-[-13px]">
-                {product.price}원
+                {product.price.toLocaleString()}원
               </span>
             )}
           </div>

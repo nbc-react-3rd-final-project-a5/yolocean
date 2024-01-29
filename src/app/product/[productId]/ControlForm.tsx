@@ -99,18 +99,20 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
         <div className="py-[20px] flex flex-col gap-[20px] font-medium text-[16px]">
           <div className="flex gap-[12px]">
             <p className="w-[89px]">제품가</p>
-            <p>{price}원</p>
+            <p>{price.toLocaleString()}원</p>
           </div>
           {percentage_off > 0 && (
             <div className="flex gap-[12px] ">
               <p className="w-[89px]">할인가</p>
-              <p>{Math.floor(price - (price - (price * percentage_off) / 100))}원</p>
+              <p>{Math.floor(price - (price - (price * percentage_off) / 100)).toLocaleString()}원</p>
             </div>
           )}
           <div className="flex gap-[12px] ">
             <p className="w-[89px]">최종가격</p>
-            {percentage_off > 0 && <p className="font-[700]">{Math.floor(price - (price * percentage_off) / 100)}원</p>}
-            {percentage_off === 0 && <p className="font-[700]">{price}원</p>}
+            {percentage_off > 0 && (
+              <p className="font-[700]">{Math.floor(price - (price * percentage_off) / 100).toLocaleString()}원</p>
+            )}
+            {percentage_off === 0 && <p className="font-[700]">{price.toLocaleString()}원</p>}
           </div>
         </div>
 
@@ -165,7 +167,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
               className="py-[8px] px-[20px] border-line border rounded-md w-[260px]  mobile:w-[190px] font-[500] text-[12px]"
               {...register("address", {
                 value: office.name,
-                required: "날짜를 선택해주세요"
+                required: "위치를 선택해 주세요"
               })}
             />
             <div className="flex absolute bottom-0 left-[105px] text-red-400 text-[12px] gap-1">

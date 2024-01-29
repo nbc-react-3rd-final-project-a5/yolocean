@@ -23,7 +23,7 @@ const Accordion = ({ title, body }: Props) => {
         <div
           className={`${isOpen ? "max-h-[500px] h-fit p-[20px]" : "max-h-[0px] overflow-hidden"} bg-bg transition-all `}
         >
-          {body}
+          A {body}
         </div>
       </div>
     </div>
