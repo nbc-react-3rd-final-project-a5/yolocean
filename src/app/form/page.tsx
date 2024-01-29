@@ -3,9 +3,23 @@ import ProductInfo from "./ProductInfo";
 import FormSwitch from "./FormSwitch";
 import { getUserQna, getUserReview } from "@/service/table";
 import { ExtendQna, ExtendReview, Qna } from "@/types/db";
+import { Metadata, ResolvingMetadata } from "next";
 
 interface Props {
   searchParams?: { [key: string]: string | undefined };
+}
+
+export async function generateMetadata({ searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+  const formtype = searchParams?.formtype;
+  const reviewId = searchParams?.reviewId;
+
+  const title = formtype === "review" || reviewId ? "리뷰작성" : "문의작성";
+  return {
+    title: `YOLOCEAN - ${title}`,
+    openGraph: {
+      images: ["/opengraph-image.png"]
+    }
+  };
 }
 
 // [========== 필요한 searchParams 값 ==========]
