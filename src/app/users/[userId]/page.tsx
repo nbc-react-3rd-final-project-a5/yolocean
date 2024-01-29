@@ -17,12 +17,11 @@ interface Props {
 export async function generateMetadata({ params, searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
   const userId = params.userId;
   const userData = await getUser({ userId });
-  const previousImages = (await parent).openGraph?.images || [];
 
   return {
     title: `YOLOCEAN - 반갑습니다! ${userData.username} 님!`,
     openGraph: {
-      images: ["/some-specific-page-image.jpg", ...previousImages]
+      images: ["/opengraph-image.png"]
     }
   };
 }
