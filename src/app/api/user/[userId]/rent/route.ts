@@ -37,6 +37,21 @@ export const GET = async (req: NextRequest, context: { params: { userId: string 
   return NextResponse.json({ rent, maxPage, nextPage, prevPage });
 };
 
+// export const POST = async (req: NextRequest, context: { params: { userId: string } }) => {
+//   const {
+//     params: { userId }
+//   } = context;
+
+//   const body = await req.json();
+
+//   const { data: rent, error } = await supabase.from("rent").insert(body);
+
+//   if (error) {
+//     return NextResponse.json({ error: error.message }, { status: 500 });
+//   }
+//   return NextResponse.json(rent);
+// };
+
 export const POST = async (req: NextRequest, context: { params: { userId: string } }) => {
   const {
     params: { userId }
@@ -44,7 +59,7 @@ export const POST = async (req: NextRequest, context: { params: { userId: string
 
   const body = await req.json();
 
-  const { data: rent, error } = await supabase.from("rent").insert(body);
+  const { data: rent, error } = await supabase.from("rentlog").insert(body);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

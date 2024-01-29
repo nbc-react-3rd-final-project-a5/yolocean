@@ -11,6 +11,7 @@ export type Store = Tables<"store">;
 export type UserInfo = Tables<"userinfo">;
 export type Region = Tables<"region">;
 export type RentInsert = TablesInsert<"rent">;
+export type RentLogInsert = TablesInsert<"rentlog">;
 export type FixedReview = Tables<"fixed_review">;
 export type Banner = Tables<"banner">;
 
