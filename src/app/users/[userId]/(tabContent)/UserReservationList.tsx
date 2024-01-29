@@ -1,46 +1,63 @@
 "use client";
 
-import React from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import RentItem from "./RentItem";
 import { getAllUserRent } from "@/service/table";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import UserRentPulse from "@/components/pulse/UserRentPulse";
+import { useSearchParams } from "next/navigation";
+import Pagenation from "@/components/Pagenation";
 
 interface Props {
   userId: string;
+  article: string;
 }
 
 // 예약내역 탭
-const UserReservationList = ({ userId }: Props) => {
-  const { data, isLoading } = useQuery({
-    queryKey: ["reservation", userId],
-    queryFn: async () => getAllUserRent({ userId })
+const UserReservationList = ({ userId, article }: Props) => {
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const [page, setPage] = useState<number>(currentPage);
+
+  const { data, isLoading, refetch } = useSuspenseQuery({
+    queryKey: ["user", "reservation"],
+    queryFn: async () => getAllUserRent({ userId, isReturn: false })
   });
 
-  if (isLoading)
-    return (
-      <ul>
-        <li className="first:border-t border-t border-b border-line py-5">
-          <UserRentPulse />
-        </li>
-      </ul>
-    );
+  const { rent: rentList, maxPage } = data;
+
+  useEffect(() => {
+    refetch();
+  }, [page, refetch]);
+
+  const pageProps = {
+    articleName: article,
+    setPage,
+    maxPage,
+    currentPage: page,
+    limit: 5
+  };
 
   return (
     <>
-      {data?.length > 0 ? (
-        <ul>
-          {data.map((n: any) => {
-            return (
-              <li key={`rentItem`} className="first:border-t border-t border-b border-line py-5">
-                <RentItem rentData={n} isReturn={false} />
-              </li>
-            );
-          })}
-        </ul>
-      ) : (
-        <div className="w-full text-center text-[18px] font-semibold"> 예약 내역이 없습니다 😅</div>
-      )}
+      <Suspense fallback={<UserRentPulse />}>
+        {rentList?.length > 0 ? (
+          <ul>
+            {rentList.map((n: any) => {
+              return (
+                <li key={n.id} className="first:border-t border-t border-b border-line py-5">
+                  <RentItem rentData={n} isReturn={false} />
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          <div className="w-full text-center text-[18px] font-semibold"> 예약 내역이 없습니다 😅</div>
+        )}
+      </Suspense>
+      <Suspense>
+        <Pagenation {...pageProps} />
+      </Suspense>
     </>
   );
 };
