@@ -9,7 +9,7 @@ export async function generateMetadata({ params }: { params: { searchWord: strin
   const searchWord = params?.searchWord;
 
   return {
-    title: `YOLOCEAN - ${decodeURIComponent(searchWord)} 검색결과`,
+    title: `YOLOCEAN | ${decodeURIComponent(searchWord)} 검색결과`,
     openGraph: {
       images: ["/opengraph-image.png"]
     }

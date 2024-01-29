@@ -12,7 +12,7 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
   const categoryId = params.categoryId;
   const categoryName = await getCategoryName({ categoryId });
   return {
-    title: `YOLOCEAN - 카테고리: ${categoryName}`,
+    title: `YOLOCEAN | 카테고리: ${categoryName}`,
     description: `${categoryName} 상품목록입니다.`,
     openGraph: {
       images: ["/opengraph-image.png"]

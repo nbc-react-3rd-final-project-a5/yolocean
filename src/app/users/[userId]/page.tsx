@@ -19,7 +19,7 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
   const userData = await getUser({ userId });
 
   return {
-    title: `YOLOCEAN - 반갑습니다! ${userData.username} 님!`,
+    title: `YOLOCEAN | 반갑습니다! ${userData.username} 님!`,
     openGraph: {
       images: ["/opengraph-image.png"]
     }

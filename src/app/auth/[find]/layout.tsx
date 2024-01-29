@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "YOLOCEAN - 아이디/비밀번호 찾기",
+  title: "YOLOCEAN | 아이디/비밀번호 찾기",
   openGraph: {
     images: ["/opengraph-image.png"]
   }

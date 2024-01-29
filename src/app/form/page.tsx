@@ -13,9 +13,10 @@ export async function generateMetadata({ searchParams }: Props, parent: Resolvin
   const formtype = searchParams?.formtype;
   const reviewId = searchParams?.reviewId;
 
-  const title = formtype === "review" || reviewId ? "리뷰작성" : "문의작성";
+  const metadataFormtype = formtype === "review" || reviewId ? "리뷰작성" : "문의작성";
   return {
-    title: `YOLOCEAN - ${title}`,
+    title: `YOLOCEAN | ${metadataFormtype}`,
+    description: `더 나은 YOLOCEAN을 위해 ${metadataFormtype}을 진행해주세요`,
     openGraph: {
       images: ["/opengraph-image.png"]
     }
