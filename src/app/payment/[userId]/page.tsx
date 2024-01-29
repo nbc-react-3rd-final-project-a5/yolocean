@@ -63,7 +63,7 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
       setValue(target, true);
     } else {
       setValue(`fullTerms`, false);
-      setValue(`target`, false);
+      setValue(target, false);
     }
   };
 
