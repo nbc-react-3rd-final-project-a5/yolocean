@@ -73,11 +73,9 @@ const Home = async () => {
                   <ImgPulse />
                 </div>
               }
+              key={fixedReview.id}
             >
-              <div
-                key={fixedReview.id}
-                className="relative mobile:max-w-[160px] mobile:h-[160px] tablet:max-w-[180px] tablet:h-[180px] max-w-[246px] w-full h-[246px] bg-bg "
-              >
+              <div className="relative mobile:max-w-[160px] mobile:h-[160px] tablet:max-w-[180px] tablet:h-[180px] max-w-[246px] w-full h-[246px] bg-bg ">
                 <Link href={`/product/${fixedReview.review.product_id}?article=후기`}>
                   {/* <img className="w-full h-full" src={fixedReview.review.url[0]} /> */}
                   <Image
