@@ -18,15 +18,15 @@ interface FormValue {
 const linkList = [
   {
     name: "홈",
-    url: "https://yolocean.vercel.app/"
+    url: "https://yolocean.store/"
   },
   {
     name: "로그인",
-    url: "https://yolocean.vercel.app/auth"
+    url: "https://yolocean.store/auth"
   },
   {
     name: "비밀번호 찾기",
-    url: "https://yolocean.vercel.app/auth/find"
+    url: "https://yolocean.store/auth/find"
   }
 ];
 
