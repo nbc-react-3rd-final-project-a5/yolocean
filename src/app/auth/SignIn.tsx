@@ -57,7 +57,7 @@ const SignIn = ({ mode, setMode }: Props) => {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<FormValue>({ mode: "onBlur" });
+  } = useForm<FormValue>({ mode: "onChange" });
 
   const onSubmit: SubmitHandler<FormValue> = (inputData) => {
     signInWithEmail(inputData.id, inputData.pw);
