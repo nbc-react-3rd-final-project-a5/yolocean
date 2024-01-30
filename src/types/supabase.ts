@@ -301,6 +301,7 @@ export interface Database {
           product_id: string | null;
           product_name: string;
           rent_date: string;
+          return: boolean;
           store_id: string | null;
           store_name: string;
           thumbnail: string;
@@ -315,6 +316,7 @@ export interface Database {
           product_id?: string | null;
           product_name: string;
           rent_date: string;
+          return?: boolean;
           store_id?: string | null;
           store_name: string;
           thumbnail: string;
@@ -329,6 +331,7 @@ export interface Database {
           product_id?: string | null;
           product_name?: string;
           rent_date?: string;
+          return?: boolean;
           store_id?: string | null;
           store_name?: string;
           thumbnail?: string;

@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import CartItem from "@/app/cart/CartItem";
-import { CartBox, RentInsert, RentLogInsert } from "@/types/db";
+import { CartBox, RentLogInsert } from "@/types/db";
 import { UserInfo } from "@/types/db";
 import { useQuery } from "@tanstack/react-query";
 import { createAllUserRent, deleteAllCart, getAllCart, getUser } from "@/service/table";

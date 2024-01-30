@@ -1,4 +1,4 @@
-import { RentInsert, RentLogInsert } from "@/types/db";
+import { RentLogInsert } from "@/types/db";
 import { useModalStore } from "@/store/modalStore";
 
 import React from "react";
