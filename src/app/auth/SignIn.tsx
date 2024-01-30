@@ -48,6 +48,7 @@ const SignIn = ({ mode, setMode }: Props) => {
     } else {
       setAuth(data.user.id);
       alertFire("성공적으로 로그인 되었습니다", "success");
+      sessionStorage.setItem("login", "true");
       router.push("/");
     }
   };
