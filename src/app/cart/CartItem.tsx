@@ -100,7 +100,7 @@ const CartItem = (cart: Props) => {
 
             <div>
               <NumberInput
-                clearErrors
+                clearErrors={clearErrors}
                 errors={errors}
                 register={register}
                 setValue={setValue}
