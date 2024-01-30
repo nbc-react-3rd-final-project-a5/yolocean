@@ -40,7 +40,8 @@ const CartItem = (cart: Props) => {
     setValue,
     getValues,
     watch,
-    formState: { errors }
+    formState: { errors },
+    clearErrors
   } = useForm({ mode: "onChange" });
   const watchCount = watch();
 
@@ -99,6 +100,7 @@ const CartItem = (cart: Props) => {
 
             <div>
               <NumberInput
+                clearErrors={clearErrors}
                 errors={errors}
                 register={register}
                 setValue={setValue}

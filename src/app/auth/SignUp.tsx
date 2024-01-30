@@ -12,11 +12,11 @@ import { Database } from "@/types/supabase";
 const linkList = [
   {
     name: "홈",
-    url: "https://yolocean.vercel.app/"
+    url: "https://yolocean.store/"
   },
   {
     name: "회원가입",
-    url: "https://yolocean.vercel.app/auth"
+    url: "https://yolocean.store/auth"
   }
 ];
 

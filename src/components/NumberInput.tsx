@@ -1,5 +1,12 @@
 import React from "react";
-import { UseFormRegister, FieldValues, UseFormSetValue, UseFormGetValues, FieldErrors } from "react-hook-form";
+import {
+  UseFormRegister,
+  FieldValues,
+  UseFormSetValue,
+  UseFormGetValues,
+  FieldErrors,
+  UseFormClearErrors
+} from "react-hook-form";
 import { TiMinus, TiPlus } from "react-icons/ti";
 import { MdErrorOutline } from "react-icons/md";
 
@@ -10,16 +17,20 @@ interface Props {
   getValues: UseFormGetValues<FieldValues>;
   errors: FieldErrors<FieldValues>;
   value?: number;
+  clearErrors: UseFormClearErrors<FieldValues>;
 }
 
-const NumberInput = ({ register, name, setValue, getValues, errors, value }: Props) => {
+const NumberInput = ({ register, name, setValue, getValues, errors, value, clearErrors }: Props) => {
   const error = errors[name]?.message;
 
   return (
     <>
       <div className="relative flex items-center text-[14px]">
         <button
-          onClick={() => setValue(name, Math.max(Number(getValues(name)) - 1, 1))}
+          onClick={() => {
+            clearErrors(name);
+            return setValue(name, Math.max(Number(getValues(name)) - 1, 1));
+          }}
           type="button"
           className="border border-line h-[30px] w-[30px] flex justify-center items-center"
         >
@@ -42,7 +53,10 @@ const NumberInput = ({ register, name, setValue, getValues, errors, value }: Pro
         />
         <button
           type="button"
-          onClick={() => setValue(name, Math.min(Number(getValues(name)) + 1, 99))}
+          onClick={() => {
+            clearErrors(name);
+            return setValue(name, Math.min(Number(getValues(name)) + 1, 99));
+          }}
           className="border border-line h-[30px] w-[30px] flex justify-center items-center"
         >
           <TiPlus size={14} />

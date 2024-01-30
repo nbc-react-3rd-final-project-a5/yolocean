@@ -40,7 +40,10 @@ const Home = async () => {
       return 0;
     })
     .slice(0, 8);
-
+  console.log(
+    "reviews",
+    reviews.map((review) => review.review)
+  );
   return (
     <div className="flex flex-col ">
       {/* <div className=" bg-slate-300 w-[1200px] h-[450px] mb-[200px]">케러셀</div> */}
