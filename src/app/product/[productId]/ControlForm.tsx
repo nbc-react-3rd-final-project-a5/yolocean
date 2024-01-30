@@ -47,6 +47,15 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
     clearErrors("address");
   }, [office.name, setValue, clearErrors]);
 
+  async function handleBtnClick() {
+    if (!user_id) {
+      const answer = await openConfirm("로그인이 필요한 서비스입니다.", "로그인 페이지로 이동하시겠습니까?");
+      if (answer) {
+        router.push("/auth");
+      } else return;
+    }
+  }
+
   async function handleFormSubmit(onValid: FieldValues, event: any) {
     const submitType = event.nativeEvent.submitter.name;
     const { rent_date, count } = onValid;
@@ -198,7 +207,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
               isFull
               size="md"
               className="max-w-[244px] h-[50px] mobile:h-[35px]"
-              onClick={() => {}}
+              onClick={handleBtnClick}
             >
               장바구니 담기
             </CustomButton>
@@ -207,7 +216,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
               isFull
               size="md"
               className="max-w-[244px] h-[50px] mobile:h-[35px]"
-              onClick={() => {}}
+              onClick={handleBtnClick}
             >
               구매하기
             </CustomButton>
