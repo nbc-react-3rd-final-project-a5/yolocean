@@ -31,11 +31,11 @@ type article = "예약내역" | "렌트완료" | "작성한 리뷰" | "Q&A";
 const linkList = [
   {
     name: "홈",
-    url: "https://yolocean.vercel.app/"
+    url: "https://yolocean.store/"
   },
   {
     name: "마이페이지",
-    url: "https://yolocean.vercel.app/"
+    url: "https://yolocean.store/"
   }
 ];
 

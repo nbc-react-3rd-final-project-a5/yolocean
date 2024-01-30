@@ -13,11 +13,11 @@ const CategoryHeader = ({ categoryName }: { categoryName: string }) => {
   const linkList = [
     {
       name: "홈",
-      url: "https://yolocean.vercel.app/"
+      url: "https://yolocean.store/"
     },
     {
       name: `${categoryName}`,
-      url: "https://yolocean.vercel.app/category"
+      url: "https://yolocean.store/category"
     }
   ];
   return (
