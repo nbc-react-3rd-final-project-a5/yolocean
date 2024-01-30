@@ -183,7 +183,14 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
             <label className="w-[89px] " htmlFor="count">
               수량
             </label>
-            <NumberInput setValue={setValue} getValues={getValues} register={register} errors={errors} name="count" />
+            <NumberInput
+              clearErrors={clearErrors}
+              setValue={setValue}
+              getValues={getValues}
+              register={register}
+              errors={errors}
+              name="count"
+            />
           </div>
           <div className="flex mt-[40px] mb-[50px] text-[16px] font-[600] gap-[5px] text-white">
             <CustomButton
