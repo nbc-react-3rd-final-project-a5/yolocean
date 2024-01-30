@@ -14,7 +14,7 @@ const PageControlBtnGroup = () => {
     <aside className="fixed bottom-[8rem] right-4 z-20">
       <ul className={`${EnumStyle.textSize} flex flex-col gap-4 `}>
         <li className={EnumStyle.liStyle}>
-          <Link href={""} className={EnumStyle.liInnerStyle} prefetch={true}>
+          <Link href={"#top"} className={EnumStyle.liInnerStyle} prefetch={true}>
             <IoIosArrowUp />
           </Link>
         </li>

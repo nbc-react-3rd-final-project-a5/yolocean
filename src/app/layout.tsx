@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <ReactQueryProvider>
       <html lang="ko" className={`${rem.variable} ${pretendard.variable}`}>
-        <body className={`${styles.font} text-tc-base`}>
+        <body id="top" className={`${styles.font} text-tc-base`}>
           <div id="modal" />
           <div id="back_drop" />
           <div id="confirm" />

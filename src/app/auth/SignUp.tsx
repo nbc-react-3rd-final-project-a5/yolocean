@@ -1,9 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import useLogedInStore from "@/store/logedStore";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import Section from "@/components/layout/Section";
-import { createCertification } from "@/lib/portone";
+import { createCertification, vaildateMobileCertification } from "@/lib/portone";
 import { usealertStore } from "@/store/alertStore";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Database } from "@/types/supabase";
@@ -31,6 +32,7 @@ interface FormValue {
   pwCheck: string;
   name: string;
   phone: string;
+  agree: boolean;
 }
 
 const SignUp = ({ mode, setMode }: Props) => {
@@ -68,14 +70,30 @@ const SignUp = ({ mode, setMode }: Props) => {
     watch,
     formState: { errors, isValid },
     setError,
-    clearErrors
-  } = useForm<FormValue>({ mode: "onBlur" });
+    clearErrors,
+    getValues,
+    setValue,
+    setFocus
+  } = useForm<FormValue>({ mode: "onChange" });
 
   //비밀번호 유효성 검사를 위해 pw 입력값 확인
   const passwordRef = useRef<string | null>(null);
   passwordRef.current = watch("pw");
 
-  const onSubmit: SubmitHandler<FormValue> = (inputData) => {
+  // 모바일에서 회원가입 진행시 리다이렉션 searchParams
+  const searchParams = useSearchParams();
+  const imp_uid = searchParams.get("imp_uid");
+  const success = searchParams.get("success");
+  const merchant_uid = searchParams.get("merchant_uid");
+
+  const onSubmit: SubmitHandler<FormValue> = async (inputData) => {
+    // searchParams가 있을 시 모바일로 간주하고 URL 조작여부가 있을 수도 있기에 검증하는 과정
+    if (imp_uid || success || merchant_uid) {
+      const snapshotPhoneNumber = watch("phone");
+      const vaildationUrl = await vaildateMobileCertification(window.location.href, snapshotPhoneNumber);
+      if (!vaildationUrl) alertFire("회원가입 실패", "error");
+    }
+
     signUpNewUser(inputData.id, inputData.pw, inputData.name, inputData.phone);
   };
 
@@ -84,6 +102,7 @@ const SignUp = ({ mode, setMode }: Props) => {
 
   // 본인인증 전화번호 확인 이벤트 핸들러
   const handleCertificateClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setFormSessionStorage();
     e.preventDefault();
     const snapshotPhoneNumber = watch("phone");
     const { isPass, msg } = await createCertification(snapshotPhoneNumber);
@@ -94,6 +113,29 @@ const SignUp = ({ mode, setMode }: Props) => {
     }
     setIsValidPhoneNumber(isPass);
   };
+
+  const setFormSessionStorage = () => {
+    const formData = getValues();
+    sessionStorage.setItem("yoloceanSignUp", JSON.stringify(formData));
+  };
+
+  useEffect(() => {
+    const sessionStorageFormData = sessionStorage.getItem("yoloceanSignUp");
+
+    if (imp_uid && success && merchant_uid && sessionStorageFormData) {
+      const formData: FormValue = JSON.parse(sessionStorageFormData);
+      const formKeys: (keyof FormValue)[] = ["id", "name", "phone", "pw", "pwCheck"];
+      formKeys.map((key) => setValue(key, formData[key]));
+
+      if (!JSON.parse(success)) {
+        setError("phone", { type: "custom", message: "본인인증에 실패하였습니다." });
+      }
+      setIsValidPhoneNumber(JSON.parse(success));
+      setFocus("agree");
+
+      return sessionStorage.removeItem("yoloceanSignUp");
+    }
+  }, [setValue, searchParams, imp_uid, merchant_uid, success, setError, setFocus]);
 
   return (
     <>
@@ -190,6 +232,7 @@ const SignUp = ({ mode, setMode }: Props) => {
                     id="phone"
                     type="phone"
                     placeholder="휴대폰번호 11자리"
+                    disabled={isValidPhoneNumber}
                     {...register("phone", {
                       required: "휴대폰번호를 입력하세요",
                       pattern: {
@@ -200,7 +243,7 @@ const SignUp = ({ mode, setMode }: Props) => {
                     className="block col-span-4 h-[50px] p-[15px]"
                   />
                   <button
-                    disabled={!/^(010[0-9]{8})$/.test(watch("phone"))}
+                    disabled={!/^(010[0-9]{8})$/.test(watch("phone")) || isValidPhoneNumber}
                     className="border-l h-[50px] text-tc-middle font-normal disabled:bg-line disabled:text-tc-light"
                     onClick={handleCertificateClick}
                   >
@@ -210,7 +253,15 @@ const SignUp = ({ mode, setMode }: Props) => {
               </div>
 
               <div className="py-[5px] flex items-center">
-                <input id="agree" type="checkbox" required className="w-5 h-5 mr-[10px]" />
+                <input
+                  id="agree"
+                  type="checkbox"
+                  required
+                  {...register("agree", {
+                    required: true
+                  })}
+                  className="w-5 h-5 mr-[10px]"
+                />
                 <label htmlFor="agree" className="text-tc-middle">
                   전체 동의 (필수)
                 </label>
