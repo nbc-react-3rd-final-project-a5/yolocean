@@ -214,7 +214,11 @@ const SignUp = ({ mode, setMode }: Props) => {
                   type="name"
                   placeholder="이름"
                   {...register("name", {
-                    required: "이름을 입력하세요"
+                    required: "이름을 입력하세요",
+                    maxLength: {
+                      value: 10,
+                      message: "10자리 이하로 입력하세요."
+                    }
                   })}
                   className="block w-full h-[50px] border p-[15px]"
                 />
