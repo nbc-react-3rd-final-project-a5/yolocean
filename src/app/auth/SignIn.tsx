@@ -2,7 +2,7 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import useLogedInStore from "@/store/logedStore";
+import { useAuthStore } from "@/store/authStore";
 import Section from "@/components/layout/Section";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import { SlArrowRight } from "react-icons/sl";
@@ -34,7 +34,7 @@ interface FormValue {
 const SignIn = ({ mode, setMode }: Props) => {
   const router = useRouter();
   const supabaseAuth = createClientComponentClient<Database>();
-  const { setLogedIn } = useLogedInStore();
+  const { setAuth } = useAuthStore();
   const { alertFire } = usealertStore();
 
   //이메일 로그인
@@ -46,7 +46,7 @@ const SignIn = ({ mode, setMode }: Props) => {
     if (error) {
       alertFire("아이디와 비밀번호를 확인해주세요", "error");
     } else {
-      setLogedIn(true);
+      setAuth(data.user.id);
       router.push("/");
     }
   };

@@ -4,15 +4,12 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "@/service/supabase";
 import { useRouter } from "next/navigation";
 import { AiOutlineUser } from "react-icons/ai";
-import useLogedInStore from "@/store/logedStore";
 import { useAuthStore } from "@/store/authStore";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Database } from "@/types/supabase";
 
 const AuthBtn = () => {
   //로그인 상태
-  const { logedIn, setLogedIn } = useLogedInStore();
-
   const { auth, setAuth } = useAuthStore();
   //유저 햄버거 열기
   const [menu, setMenu] = useState(false);
@@ -21,11 +18,10 @@ const AuthBtn = () => {
 
   const supabaseAuth = createClientComponentClient<Database>();
 
-  const logedInCheck = async (setLogedIn: (state: boolean) => void, setAuth: (auth: string) => void) => {
+  const logedInCheck = async (setAuth: (auth: string) => void) => {
     const { data, error } = await supabaseAuth.auth.getSession();
 
     if (data.session !== null) {
-      setLogedIn(true);
       setAuth(data.session.user.id);
     }
   };
@@ -33,12 +29,12 @@ const AuthBtn = () => {
   //로그아웃
   async function signOut() {
     const { error } = await supabaseAuth.auth.signOut();
-    setLogedIn(false);
+    setAuth("");
     router.push("/");
   }
 
   useEffect(() => {
-    logedInCheck(setLogedIn, setAuth);
+    logedInCheck(setAuth);
 
     if (!menu) return;
     const closeMenu = () => setMenu(false);
@@ -82,7 +78,7 @@ const AuthBtn = () => {
 
   return (
     <>
-      {logedIn ? (
+      {auth !== "" ? (
         <div onClick={() => setMenu(!menu)} className="">
           <AiOutlineUser
             size="22"
