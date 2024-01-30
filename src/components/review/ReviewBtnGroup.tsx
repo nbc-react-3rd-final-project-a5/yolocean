@@ -4,6 +4,7 @@ import { useCustomMutation } from "@/hook";
 import { deleteUserQna, deleteUserReview } from "@/service/table";
 import { openConfirm } from "@/store/confirmStore";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 interface Props {
@@ -19,6 +20,7 @@ enum EnumListType {
 }
 
 const ReviewBtnGroup = ({ userId, reviewId, listType, productId }: Props) => {
+  const router = useRouter();
   const { mutate: reviewMutate } = useCustomMutation({
     mutationFn: async () => deleteUserReview({ userId, reviewId }),
     queryKey: productId ? [listType, productId] : [listType]
@@ -37,8 +39,10 @@ const ReviewBtnGroup = ({ userId, reviewId, listType, productId }: Props) => {
     );
     if (isConfirm) {
       if (listType === "review") {
+        router.refresh();
         reviewMutate({});
       } else {
+        router.refresh();
         qnaMutate({});
       }
     }

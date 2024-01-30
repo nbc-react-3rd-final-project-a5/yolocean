@@ -25,9 +25,10 @@ interface Props {
   original_price: number;
   product_id: string;
   percentage_off: number;
+  view: number;
 }
 
-const ControlForm = ({ category_name, name, price, original_price, product_id, percentage_off }: Props) => {
+const ControlForm = ({ category_name, name, price, original_price, product_id, percentage_off, view }: Props) => {
   const {
     register,
     setValue,

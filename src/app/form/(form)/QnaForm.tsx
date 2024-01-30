@@ -67,6 +67,9 @@ const QnaForm = ({ qnaData, productId }: Props) => {
       };
 
       createQnaMutate(formData);
+      console.log(productId);
+      await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/revalidate/product/${productId}/qna`, { method: "GET" });
+      router.refresh();
       return productId ? router.push(`/product/${productId}`) : router.push(`/users/${userId}?article=qna`);
     } catch (error) {
       // 나중에 에러처리할 것
@@ -103,6 +106,7 @@ const QnaForm = ({ qnaData, productId }: Props) => {
       };
 
       updateQnaMutate(formData);
+      router.refresh();
       return qnaData?.product_id
         ? router.push(`/product/${qnaData.product_id}`)
         : router.push(`/users/${userId}?article=qna`);
