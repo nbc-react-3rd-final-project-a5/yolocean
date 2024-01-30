@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
-import useLogedInStore from "@/store/logedStore";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import Section from "@/components/layout/Section";
 import { createCertification, vaildateMobileCertification } from "@/lib/portone";

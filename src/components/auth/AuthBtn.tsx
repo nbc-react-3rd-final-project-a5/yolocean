@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-import { supabase } from "@/service/supabase";
+import { usealertStore } from "@/store/alertStore";
 import { useRouter } from "next/navigation";
 import { AiOutlineUser } from "react-icons/ai";
 import { useAuthStore } from "@/store/authStore";
@@ -18,24 +18,18 @@ const AuthBtn = () => {
 
   const supabaseAuth = createClientComponentClient<Database>();
 
-  const logedInCheck = async (setAuth: (auth: string) => void) => {
-    const { data, error } = await supabaseAuth.auth.getSession();
-
-    if (data.session !== null) {
-      setAuth(data.session.user.id);
-    }
-  };
+  //alert
+  const { alertFire } = usealertStore();
 
   //로그아웃
   async function signOut() {
     const { error } = await supabaseAuth.auth.signOut();
     setAuth("");
+    alertFire("성공적으로 로그아웃 되었습니다", "success");
     router.push("/");
   }
 
   useEffect(() => {
-    logedInCheck(setAuth);
-
     if (!menu) return;
     const closeMenu = () => setMenu(false);
 

@@ -47,6 +47,7 @@ const SignIn = ({ mode, setMode }: Props) => {
       alertFire("아이디와 비밀번호를 확인해주세요", "error");
     } else {
       setAuth(data.user.id);
+      alertFire("성공적으로 로그인 되었습니다", "success");
       router.push("/");
     }
   };

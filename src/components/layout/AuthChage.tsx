@@ -14,7 +14,6 @@ const AuthChage = () => {
       if (event === "INITIAL_SESSION") {
         session ? setAuth(session.user.id) : setAuth("");
       }
-      console.log(auth);
     });
 
     return () => {
