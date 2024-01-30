@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import CartItem from "@/app/cart/CartItem";
-import { CartBox, RentInsert } from "@/types/db";
+import { CartBox, RentLogInsert } from "@/types/db";
 import { UserInfo } from "@/types/db";
 import { useQuery } from "@tanstack/react-query";
 import { createAllUserRent, deleteAllCart, getAllCart, getUser } from "@/service/table";
@@ -89,15 +89,20 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
 
   const router = useRouter();
 
-  //rent db형식에 맞게
+  //rentlog db형식에 맞게
   const setRentData = (cart: CartBox[]) => {
-    const rentData: RentInsert[] = cart.map((cartItem) => {
-      let rentItem: RentInsert = {
-        product_id: cartItem.product_id || "",
-        store_id: cartItem.store_id || "",
-        user_id: cartItem.user_id || "",
-        count: cartItem.count || 0,
-        rent_date: cartItem.rent_date || ""
+    const rentData: RentLogInsert[] = cart.map((cartItem) => {
+      let rentItem: RentLogInsert = {
+        category_name: cartItem.product.category.category_name,
+        count: cartItem.count!!,
+        paid_price: cartItem.product.price * (1 - cartItem.product.percentage_off * 0.01),
+        product_id: cartItem.product_id,
+        product_name: cartItem.product.name,
+        rent_date: cartItem.rent_date,
+        store_id: cartItem.store_id,
+        store_name: cartItem.store.name,
+        thumbnail: cartItem.product.thumbnail,
+        user_id: cartItem.user_id
       };
       return rentItem;
     });

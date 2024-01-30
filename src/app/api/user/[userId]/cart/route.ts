@@ -1,4 +1,5 @@
 import { supabase } from "@/service/supabase";
+import dayjs from "dayjs";
 import { NextResponse, NextRequest } from "next/server";
 
 //유저의 장바구니 전체 가져오기
@@ -7,10 +8,13 @@ export const GET = async (req: NextRequest, context: { params: { userId: string 
     params: { userId: userId }
   } = context;
 
+  let date = dayjs();
+
   let { data: cart, error } = await supabase
     .from("cart")
     .select(`*, store(name), product(name, thumbnail, category(category_name), price, percentage_off)`)
     .eq("user_id", userId)
+    .gte("rent_date", date.format("YYYY-MM-DD"))
     .order("id", { ascending: false });
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
