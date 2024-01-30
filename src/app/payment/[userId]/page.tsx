@@ -89,21 +89,7 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
 
   const router = useRouter();
 
-  //rent db형식에 맞게
-  // const setRentData = (cart: CartBox[]) => {
-  //   const rentData: RentInsert[] = cart.map((cartItem) => {
-  //     let rentItem: RentInsert = {
-  //       product_id: cartItem.product_id || "",
-  //       store_id: cartItem.store_id || "",
-  //       user_id: cartItem.user_id || "",
-  //       count: cartItem.count || 0,
-  //       rent_date: cartItem.rent_date || ""
-  //     };
-  //     return rentItem;
-  //   });
-  //   return rentData;
-  // };
-  //price * (1 - percentage_off * 0.01)
+  //rentlog db형식에 맞게
   const setRentData = (cart: CartBox[]) => {
     const rentData: RentLogInsert[] = cart.map((cartItem) => {
       let rentItem: RentLogInsert = {
