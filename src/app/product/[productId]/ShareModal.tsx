@@ -23,6 +23,7 @@ const ShareModal = () => {
 
     Kakao.Share.sendDefault({
       objectType: "feed",
+      installTalk: true,
       content: {
         title: product.name,
         description: "욜루오션에서 더 많은 상품을 만나보세요!",
