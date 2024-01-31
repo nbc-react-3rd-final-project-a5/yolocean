@@ -1,21 +1,12 @@
-"use client";
-import Card from "@/components/Card";
 import CardLists from "@/components/CardLists";
 import Section from "@/components/layout/Section";
 import CardPulse from "@/components/pulse/CardPulse";
 import { getAllCategoryProduct } from "@/service/table";
-import { useOfficeStore } from "@/store/officeStore";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import React, { useEffect } from "react";
-import { useStore } from "zustand";
+import React, { Suspense } from "react";
 
-const CategorySection = ({ categoryName, categoryId }: { categoryName: string; categoryId: string }) => {
-  const { office, regionId } = useStore(useOfficeStore);
+const CategorySection = async ({ categoryName, categoryId }: { categoryName: string; categoryId: string }) => {
+  const products = await getAllCategoryProduct({ categoryId });
 
-  const { data, isLoading, refetch } = useQuery({
-    queryFn: async () => await getAllCategoryProduct({ categoryId }),
-    queryKey: ["products", categoryId]
-  });
   // 지점 과 일치하는지 까지 필터하는 코드
   // const { data, isLoading, refetch } = useQuery({
   //   queryFn: async () => {
@@ -49,14 +40,17 @@ const CategorySection = ({ categoryName, categoryId }: { categoryName: string; c
 
   return (
     <Section title={`${categoryName}`} isCenter={true}>
-      {isLoading && (
-        <div className="grid grid-cols-4  mobile:grid-cols-2 gap-y-5 tablet:grid-cols-3">
-          {Array.from({ length: 6 }).map((e, i) => (
-            <CardPulse key={i} />
-          ))}
-        </div>
-      )}
-      {!isLoading && data && <CardLists cardLists={data} />}
+      <Suspense
+        fallback={
+          <div className="grid grid-cols-4  mobile:grid-cols-2 gap-y-5 tablet:grid-cols-3">
+            {Array.from({ length: 6 }).map((e, i) => (
+              <CardPulse key={i} />
+            ))}
+          </div>
+        }
+      >
+        <CardLists cardLists={products} />
+      </Suspense>
     </Section>
   );
 };
