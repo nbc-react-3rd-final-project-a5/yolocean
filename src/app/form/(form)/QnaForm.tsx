@@ -8,8 +8,9 @@ import { createUserQna, updateUserQna } from "@/service/table";
 import { useAuthStore } from "@/store/authStore";
 import { ExtendQna, Qna } from "@/types/db";
 import useStorage from "@/utils/useStorage";
+import { debounce } from "lodash";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 interface Props {
@@ -50,11 +51,12 @@ const QnaForm = ({ qnaData, productId }: Props) => {
   });
 
   //   ========== Submit ============
-  const handleCreateFormSubmit = async (data: any) => {
+
+  const createQna = debounce(async (data) => {
     // Image
-    const storagePath = productId ? `${userId}/${productId}` : userId;
     const imageFileList = customImageList.map((n) => n.file) as File[];
     const imageFileIdList = customImageList.map((n) => n.id);
+    const storagePath = productId ? `${userId}/${productId}` : userId;
 
     try {
       const imageURLList = await uploadMultipleImages(imageFileList, "qna", imageFileIdList, storagePath);
@@ -71,12 +73,15 @@ const QnaForm = ({ qnaData, productId }: Props) => {
         ? router.push(`/product/${productId}?article=제품문의`)
         : router.push(`/users/${userId}?article=qna`);
     } catch (error) {
-      // 나중에 에러처리할 것
       alert(error);
     }
-  };
+  }, 500);
 
-  const handleUpdateFormSubmit = async (data: any) => {
+  const handleCreateFormSubmit = useCallback(async (data: any) => {
+    await createQna(data);
+  }, []);
+
+  const updateQna = debounce(async (data) => {
     const storagePath = productId ? `${userId}/${productId}` : userId;
     const preImageURLList = customImageList.filter((n) => n.file === null).map((n) => n.previewURL);
     const deletePreImageURLList =
@@ -87,7 +92,6 @@ const QnaForm = ({ qnaData, productId }: Props) => {
       });
     const newImageFileList = customImageList.filter((n) => n.file !== null).map((n) => n.file as File);
     const newImageFileIdList = customImageList.filter((n) => n.file !== null).map((n) => n.id);
-
     try {
       if (deletePreImageURLList) {
         await deleteMultipleImage("qna", deletePreImageURLList);
@@ -111,7 +115,11 @@ const QnaForm = ({ qnaData, productId }: Props) => {
       alert(error);
       return router.push(`/`);
     }
-  };
+  }, 500);
+
+  const handleUpdateFormSubmit = useCallback(async (data: any) => {
+    await updateQna(data);
+  }, []);
 
   return (
     <form onSubmit={qnaData ? handleSubmit(handleUpdateFormSubmit) : handleSubmit(handleCreateFormSubmit)}>
