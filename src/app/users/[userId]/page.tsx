@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import UserInfoSection from "./UserInfoSection";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import UserTab from "./UserTab";
@@ -8,6 +8,7 @@ import UserReservationList from "./(tabContent)/UserReservationList";
 import UserRentList from "./(tabContent)/UserRentList";
 import { Metadata, ResolvingMetadata } from "next";
 import { getUser } from "@/service/table";
+import UserRentPulse from "@/components/pulse/UserRentPulse";
 
 interface Props {
   params: { userId: string };
@@ -42,6 +43,7 @@ const linkList = [
 const MyPage = ({ params, searchParams }: Props) => {
   const { userId } = params;
   const article = searchParams?.article;
+  const currentPage = Number(searchParams?.page) || 1;
 
   const currentTap = (article: string | string[] | undefined) => {
     switch (article as article) {
@@ -52,7 +54,11 @@ const MyPage = ({ params, searchParams }: Props) => {
       case "Q&A":
         return <UserQnaList userId={userId} article={"Q&A"} />;
       default:
-        return <UserReservationList userId={userId} article={"예약내역"} />;
+        return (
+          <Suspense fallback={<UserRentPulse />}>
+            <UserReservationList userId={userId} article={"예약내역"} page={currentPage} />
+          </Suspense>
+        );
     }
   };
   return (
