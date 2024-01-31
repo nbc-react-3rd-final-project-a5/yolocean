@@ -276,10 +276,16 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
                       {user?.email}
                     </p>
 
-                    <p className=" text-[16px] font-medium mobile:text-[14px] mobile:col-span-2">휴대폰 번호</p>
-                    <p className="col-span-7 w-[100%] p-[15px]  border mobile:col-span-5 mobile:w-[100%] mobile:p-[10px] mobile:text-[13px]">
-                      {user?.phone}
-                    </p>
+                    {user.phone ? (
+                      <>
+                        <p className=" text-[16px] font-medium mobile:text-[14px] mobile:col-span-2">휴대폰 번호</p>
+                        <p className="col-span-7 w-[100%] p-[15px]  border mobile:col-span-5 mobile:w-[100%] mobile:p-[10px] mobile:text-[13px]">
+                          {user.phone}
+                        </p>
+                      </>
+                    ) : (
+                      <></>
+                    )}
 
                     <p className=" text-[16px] font-medium mobile:text-[14px] mobile:col-span-2">수령지점</p>
                     <p className="col-span-7 w-[100%] p-[15px]  border mobile:col-span-5 mobile:w-[100%] mobile:p-[10px] mobile:text-[13px]">

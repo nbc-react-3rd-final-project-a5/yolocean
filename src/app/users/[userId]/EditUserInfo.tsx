@@ -51,7 +51,7 @@ const EditUserInfo = ({ user, refetch }: { user: UserInfo | undefined; refetch: 
     return <ProfilePulse />;
   }
   return (
-    <div className="flex gap-[40px] justify-center items-center pt-[114px] flex-wrap">
+    <div className="flex gap-[40px] justify-center items-center pt-[78px] flex-wrap">
       <div className="relative">
         <Avatar size="lg" src={customImage ? customImage.previewURL : user?.avatar_url!} />
         <label className="absolute top-0 w-full h-full flex flex-col justify-center items-center text-white transition-opacity cursor-pointer rounded-full backdrop-blur-sm backdrop-brightness-50 opacity-0 hover:opacity-100">
@@ -64,19 +64,25 @@ const EditUserInfo = ({ user, refetch }: { user: UserInfo | undefined; refetch: 
         className="flex flex-col min-w-[274px] h-[170px] my-[10px] gap-[46px]"
         onSubmit={handleUpdateUserInfoSubmit}
       >
-        <div className="flex flex-col gap-[122px]">
-          <div className="flex gap-[12px]">
-            <label htmlFor="name" className="w-[89px] h-[16px]">
-              이름
-            </label>
-            <input
-              className="border border-black h-[24px] "
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
+        <div className="flex flex-col gap-[110px] mobile:gap-[30px]">
+          <div className="flex flex-col gap-1">
+            <div className="flex gap-[12px]">
+              <label htmlFor="name" className="w-[89px] h-[16px]">
+                이름
+              </label>
+              <input
+                className="border border-black h-[24px] "
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                type="text"
+                maxLength={10}
+              />
+            </div>
+            <p className="text-end font-light text-tc-light text-[12px]">{name.length}/10</p>
           </div>
-          <div className="flex gap-[5px]">
+
+          <div className="flex gap-[5px] justify-center">
             <button className="w-[125px] h-[30px] bg-point text-white rounded-[5px]" type="submit">
               수정완료
             </button>
