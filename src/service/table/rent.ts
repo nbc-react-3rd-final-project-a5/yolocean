@@ -8,7 +8,7 @@ const getAllUserRent = async ({ userId, isReturn, page = 1 }: Pick<ExtendAPI, "u
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/rent?isReturn=${isReturn}&page=${String(page)}`,
     {
-      cache: "no-store"
+      next: { tags: ["user", "userRent"] }
     }
   );
   const result = await response.json();

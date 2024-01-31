@@ -2,6 +2,7 @@ import React from "react";
 import RentItem from "./RentItem";
 import { getAllUserRent } from "@/service/table";
 import Pagination from "@/components/Pagination";
+import { revalidateTag } from "next/cache";
 
 interface Props {
   userId: string;
@@ -12,6 +13,7 @@ interface Props {
 
 // 예약내역 탭
 const UserRentList = async ({ userId, article, isReturn, page }: Props) => {
+  revalidateTag("userRent");
   const data = await getAllUserRent({ userId, isReturn, page });
   const { rent: rentList, maxPage, nextPage, prevPage } = data;
 
