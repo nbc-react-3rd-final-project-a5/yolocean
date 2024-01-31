@@ -1,6 +1,6 @@
 "use client";
 
-import Pagenation from "@/components/Pagenation";
+import Pagination from "@/components/Pagination";
 import ReviewList from "@/components/review/ReviewList";
 import { getAllUserReview } from "@/service/table";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -40,7 +40,7 @@ const UserReviewList = ({ userId, article }: Props) => {
         {reviewList?.length > 0 ? (
           <>
             <ReviewList listType="review" reviewList={reviewList} currentUserId={userId} isMypage={true} />
-            <Pagenation {...pageProps} />
+            <Pagination {...pageProps} />
           </>
         ) : (
           <div className="w-full text-center text-[18px] font-semibold"> 작성된 리뷰가 없습니다 😅</div>

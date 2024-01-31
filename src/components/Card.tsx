@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React, { ReactNode } from "react";
 import { ProductProperties } from "@/types/db";
+import { GrFormView } from "react-icons/gr";
 import Link from "next/link";
 interface Card {
   product: ProductProperties;
@@ -18,15 +19,20 @@ const Card = ({ product, overlay, categoryId }: Card) => {
         <div className="relative  mobile:max-w-[160px] mobile:h-[160px] tablet:max-w-[180px] tablet:h-[180px] max-w-[246px] w-full h-[246px] bg-bg">
           <Image
             alt={`${product.name}_image`}
-            sizes="(max-width: 1200px) 246px"
-            width={0}
-            height={0}
+            // sizes="(max-width: 1200px) 246px (min-width:1200px) 500px"
+            sizes="(max-width: 1200px) 246px, (max-width: 1024px) 160px, 500px"
             fill
             src={product.thumbnail}
           />
         </div>
         <div className="flex flex-col gap-[10px]">
-          <span className="text-[12px] text-tc-light">{product.category.category_name}</span>
+          <div className="flex justify-between">
+            <span className="text-[12px] text-tc-light">{product.category.category_name}</span>
+            <div className="text-[11px] flex items-center gap-[2px]">
+              <GrFormView siza={14} />
+              {product.view}
+            </div>
+          </div>
           <h1 className="text-[14px] font-[500] truncate ">{product.name}</h1>
         </div>
         <div className="flex justify-between items-center flex-wrap">
