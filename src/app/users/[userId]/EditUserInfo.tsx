@@ -1,6 +1,4 @@
 import Avatar from "@/components/Avatar";
-import Spinner from "@/components/Spinner";
-import ProfilePulse from "@/components/pulse/ProfilePulse";
 import { useCustomMutation, useImageInput } from "@/hook";
 import { updateUser } from "@/service/table";
 import useUserEditModeStore from "@/store/editUserStore";
@@ -8,7 +6,7 @@ import { UserInfo } from "@/types/db";
 import useStorage from "@/utils/useStorage";
 import { useParams } from "next/navigation";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { MdPhotoCameraBack } from "react-icons/md";
 
 const EditUserInfo = ({ user, refetch }: { user: UserInfo | undefined; refetch: any }) => {
@@ -17,7 +15,7 @@ const EditUserInfo = ({ user, refetch }: { user: UserInfo | undefined; refetch: 
   const { setIsEditMode } = useUserEditModeStore();
   const { uploadImage, deleteImage } = useStorage();
   const { customImage, handler } = useImageInput("single");
-
+  const { setImageURL } = useUserEditModeStore();
   const updateUserMutation = useCustomMutation({
     mutationFn: async (data: { content: { username: string; avatar_url?: string | null } }) =>
       await updateUser({ userId: userId, body: JSON.stringify(data.content) }),
@@ -32,10 +30,11 @@ const EditUserInfo = ({ user, refetch }: { user: UserInfo | undefined; refetch: 
     }
     if (customImage) {
       const url = await uploadImage(customImage?.file!, "user", customImage!.id, user!.id);
-
       updateUserMutation.mutate({
         content: { username: name, avatar_url: url }
       });
+      setImageURL(customImage.previewURL);
+
       setIsEditMode(false);
     } else {
       updateUserMutation.mutate({
@@ -45,11 +44,6 @@ const EditUserInfo = ({ user, refetch }: { user: UserInfo | undefined; refetch: 
     }
   };
 
-  useEffect(() => {}, [customImage]);
-
-  if (updateUserMutation.isPending) {
-    return <ProfilePulse />;
-  }
   return (
     <div className="flex gap-[40px] justify-center items-center pt-[78px] flex-wrap">
       <div className="relative">
