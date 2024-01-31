@@ -6,6 +6,7 @@ import Empty from "./Empty";
 import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import Pagenation from "@/components/Pagination";
+import Revalidate from "./Revalidate";
 
 interface Props {
   productId: string;
@@ -23,6 +24,7 @@ const Review = async ({ productId, page }: Props) => {
 
   return (
     <div>
+      <Revalidate />
       <>
         {maxPage === 0 && <Empty articleName="후기" />}
         <ReviewList currentUserId={user?.id} reviewList={review} listType="review" />

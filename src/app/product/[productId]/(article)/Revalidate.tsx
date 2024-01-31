@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
-const Effect = () => {
+const Revalidate = () => {
   const router = useRouter();
   useEffect(() => {
     router.refresh();
@@ -11,4 +11,4 @@ const Effect = () => {
   return null;
 };
 
-export default Effect;
+export default Revalidate;
