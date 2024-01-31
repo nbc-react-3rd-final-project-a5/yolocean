@@ -75,7 +75,7 @@ const QnaForm = ({ qnaData, productId }: Props) => {
     } catch (error) {
       alert(error);
     }
-  }, 500);
+  }, 300);
 
   const handleCreateFormSubmit = useCallback(async (data: any) => {
     await createQna(data);
@@ -115,7 +115,7 @@ const QnaForm = ({ qnaData, productId }: Props) => {
       alert(error);
       return router.push(`/`);
     }
-  }, 500);
+  }, 300);
 
   const handleUpdateFormSubmit = useCallback(async (data: any) => {
     await updateQna(data);

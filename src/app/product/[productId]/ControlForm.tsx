@@ -77,7 +77,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
         router.push(`/payment/${user_id}`);
       }
     }
-  }, 500);
+  }, 300);
 
   const handleFormSubmit = useCallback(
     async (onValid: FieldValues, event: any) => {
