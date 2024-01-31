@@ -115,7 +115,7 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
       };
 
       updateReviewMutate(formData);
-      return router.push(`/product/${productId}`);
+      return router.push(`/product/${productId}?article=후기`);
     } catch (error) {
       console.error(error);
     }
@@ -150,7 +150,7 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
           {reviewData ? "수정하기" : "등록하기"}
         </CustomButton>
 
-        <CustomButton type="button" size="lg" color="white" className="sm:w-full">
+        <CustomButton type="button" size="lg" color="white" className="sm:w-full" onClick={router.back}>
           취소
         </CustomButton>
       </div>

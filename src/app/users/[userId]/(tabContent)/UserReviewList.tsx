@@ -1,9 +1,7 @@
-import Pagenation from "@/components/Pagenation";
+import Pagination from "@/components/Pagination";
 import ReviewList from "@/components/review/ReviewList";
 import { getAllUserReview } from "@/service/table";
-import { useSuspenseQuery } from "@tanstack/react-query";
-
-import React, { Suspense, useEffect, useState } from "react";
+import React from "react";
 
 interface Props {
   userId: string;
@@ -15,13 +13,12 @@ const UserReviewList = async ({ userId, article, page }: Props) => {
   const data = await getAllUserReview({ userId, page });
   const { review: reviewList, maxPage } = data;
 
-  // const pageProps = {
-  //   articleName: article,
-  //   setPage,
-  //   maxPage,
-  //   currentPage: page,
-  //   limit: 5
-  // };
+  const pageProps = {
+    articleName: article,
+    maxPage,
+    currentPage: page,
+    limit: 5
+  };
 
   return (
     <>
@@ -30,7 +27,7 @@ const UserReviewList = async ({ userId, article, page }: Props) => {
       ) : (
         <div className="w-full text-center text-[18px] font-semibold"> 작성된 리뷰가 없습니다 😅</div>
       )}
-      {/* <Pagenation {...pageProps} /> */}
+      <Pagination {...pageProps} />
     </>
   );
 };

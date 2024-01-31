@@ -5,7 +5,7 @@ import ReviewList from "@/components/review/ReviewList";
 import { getAllUserQna } from "@/service/table";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import UserRentPulse from "@/components/pulse/UserRentPulse";
-import Pagenation from "@/components/Pagenation";
+import Pagination from "@/components/Pagination";
 import { useCustomMutation } from "@/hook";
 import { useSearchParams } from "next/navigation";
 
@@ -44,7 +44,8 @@ const UserQnaList = ({ userId, article }: Props) => {
         {qnaList?.length > 0 ? (
           <>
             <ReviewList listType="qna" reviewList={qnaList} currentUserId={userId} isMypage={true} />
-            <Pagenation {...pageProps} />
+
+            <Pagination {...pageProps} />
           </>
         ) : (
           <div className="w-full text-center text-[18px] font-semibold"> 작성된 문의가 없습니다 😅</div>

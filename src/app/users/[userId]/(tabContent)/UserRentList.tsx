@@ -1,7 +1,14 @@
 import React from "react";
 import RentItem from "./RentItem";
+<<<<<<< HEAD
 import { getAllUserRent } from "@/service/table";
 import Link from "next/link";
+=======
+import { useSuspenseQuery } from "@tanstack/react-query";
+import UserRentPulse from "@/components/pulse/UserRentPulse";
+import { useSearchParams } from "next/navigation";
+import Pagenation from "@/components/Pagination";
+>>>>>>> 578bd5b48770196fc8e8904bd0d886042d45de30
 
 interface Props {
   userId: string;
