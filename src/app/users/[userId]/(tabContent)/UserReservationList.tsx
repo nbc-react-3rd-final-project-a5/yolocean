@@ -6,7 +6,7 @@ import { getAllUserRent } from "@/service/table";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import UserRentPulse from "@/components/pulse/UserRentPulse";
 import { useSearchParams } from "next/navigation";
-import Pagenation from "@/components/Pagenation";
+import Pagenation from "@/components/Pagination";
 
 interface Props {
   userId: string;

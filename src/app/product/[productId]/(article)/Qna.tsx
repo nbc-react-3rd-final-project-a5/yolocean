@@ -6,7 +6,7 @@ import React from "react";
 import Empty from "./Empty";
 import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import NewPagination from "@/components/NewPagination";
+import Pagination from "@/components/Pagination";
 import Effect from "./Effect";
 
 interface Props {
@@ -35,7 +35,7 @@ const Qna = async ({ productId, page }: Props) => {
         <>
           {maxPage === 0 && <Empty articleName="문의" />}
           <ReviewList productId={productId} currentUserId={user?.id} reviewList={qna} listType="qna" />
-          <NewPagination articleName={"제품문의"} maxPage={maxPage} currentPage={page} limit={5} />
+          <Pagination articleName={"제품문의"} maxPage={maxPage} currentPage={page} limit={5} />
         </>
       )}
     </div>

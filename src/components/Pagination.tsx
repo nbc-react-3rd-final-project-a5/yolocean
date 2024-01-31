@@ -8,9 +8,10 @@ interface Props {
   currentPage: number;
   limit: number;
   articleName: string;
+  setPage?: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const NewPagination = ({ maxPage, currentPage, limit, articleName }: Props) => {
+const Pagination = ({ maxPage, currentPage, limit, articleName, setPage }: Props) => {
   let firstPageNumber = Math.floor((Number(currentPage) - 1) / limit) * limit + 1;
 
   const pathName = usePathname();
@@ -25,6 +26,9 @@ const NewPagination = ({ maxPage, currentPage, limit, articleName }: Props) => {
             href={{ href: pathName, query: { article: articleName, page: Math.max(currentPage - 1, 1) } }}
             onClick={() => {
               document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" });
+              if (setPage) {
+                setPage((currentPage) => Math.max(currentPage - 1, 1));
+              }
             }}
             className="text-black"
           >
@@ -41,6 +45,9 @@ const NewPagination = ({ maxPage, currentPage, limit, articleName }: Props) => {
               href={{ href: pathName, query: { article: articleName, page } }}
               onClick={() => {
                 document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" });
+                if (setPage) {
+                  setPage(page);
+                }
               }}
               key={page}
               className={`${
@@ -58,6 +65,9 @@ const NewPagination = ({ maxPage, currentPage, limit, articleName }: Props) => {
             href={{ href: pathName, query: { article: articleName, page: Math.min(currentPage + 1, maxPage) } }}
             onClick={() => {
               document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" });
+              if (setPage) {
+                setPage((currentPage) => Math.min(currentPage + 1, maxPage));
+              }
             }}
             className="text-black"
           >
@@ -69,4 +79,4 @@ const NewPagination = ({ maxPage, currentPage, limit, articleName }: Props) => {
   );
 };
 
-export default NewPagination;
+export default Pagination;
