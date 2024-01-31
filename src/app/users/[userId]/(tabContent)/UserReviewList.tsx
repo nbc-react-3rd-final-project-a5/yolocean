@@ -1,6 +1,7 @@
 import Pagination from "@/components/Pagination";
 import ReviewList from "@/components/review/ReviewList";
 import { getAllUserReview } from "@/service/table";
+import { revalidateTag } from "next/cache";
 import React from "react";
 
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
 }
 
 const UserReviewList = async ({ userId, article, page }: Props) => {
+  revalidateTag("userReview");
   const data = await getAllUserReview({ userId, page });
   const { review: reviewList, maxPage } = data;
 

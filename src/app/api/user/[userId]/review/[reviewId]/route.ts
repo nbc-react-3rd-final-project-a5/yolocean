@@ -11,7 +11,7 @@ export const GET = async (_: NextRequest, context: { params: { reviewId: string 
       "*, store!inner(name, region!inner(region)), userinfo!inner(username, avatar_url), product!inner(name, thumbnail)"
     )
     .eq("id", reviewId);
-  revalidateTag("review");
+
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
