@@ -6,13 +6,14 @@ import Empty from "./Empty";
 import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import Pagenation from "@/components/Pagination";
-import Revalidate from "./Revalidate";
+import { revalidateTag } from "next/cache";
 
 interface Props {
   productId: string;
   page: number;
 }
 const Review = async ({ productId, page }: Props) => {
+  revalidateTag("review");
   const cookieStore = cookies();
   const supabase = createServerComponentClient({
     cookies: () => cookieStore
@@ -24,7 +25,6 @@ const Review = async ({ productId, page }: Props) => {
 
   return (
     <div>
-      <Revalidate />
       <>
         {maxPage === 0 && <Empty articleName="후기" />}
         <ReviewList currentUserId={user?.id} reviewList={review} listType="review" />
