@@ -24,7 +24,7 @@ interface CallBackReturn {
 }
 
 // 테스트 결제
-const createPayment = ({ amount, buyer_tel }: { amount: number; buyer_tel: string }) => {
+const createPayment = ({ amount, buyer_tel, userId }: { amount: number; buyer_tel: string; userId: string }) => {
   return new Promise<CallBackReturn>((resolve) => {
     let IMP = window.IMP;
     IMP.init(`${process.env.NEXT_PUBLIC_PORTONE_CODE}`);
@@ -37,7 +37,8 @@ const createPayment = ({ amount, buyer_tel }: { amount: number; buyer_tel: strin
       merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
       name: "욜로오션 렌탈 서비스",
       currency: "KRW",
-      popup: true
+      popup: false,
+      m_redirect_url: `${process.env.NEXT_PUBLIC_DOMAIN_URL}/payment/${userId}`
     };
 
     IMP.request_pay(data, (res: any) => {
@@ -119,4 +120,37 @@ const vaildateMobileCertification = (targetUrl: string, phone_number: string) =>
   });
 };
 
-export { createPayment, createCertification, vaildateMobileCertification };
+// 모바일 화면에서 리다이렉션 했을 때 URL에 담긴 정보의 진위를 판별하는 함수
+const vaildateMobilePayment = (targetUrl: string, amount: number) => {
+  return new Promise<CallBackReturn>(async (resolve) => {
+    const { searchParams } = new URL(targetUrl);
+    const getValue = (param: string) => searchParams.get(param);
+
+    const success = getValue("imp_success");
+    const imp_uid = getValue("imp_uid");
+    const merchant_uid = getValue("merchant_uid");
+
+    // 1. 인증을 취소하거나 성공하지 못했을때
+    if (!success) {
+      const data = {
+        isPass: false,
+        msg: "결제가 취소되었습니다."
+      };
+      resolve(data);
+    }
+
+    // 2. 모든 값이 있을 때 access token을 받아 검증한다.
+    if (success && imp_uid && merchant_uid) {
+      const vaildation = await fetch("/api/certification/payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ imp_uid, merchant_uid, amount })
+      });
+
+      const result: CallBackReturn = await vaildation.json();
+      resolve(result);
+    }
+  });
+};
+
+export { createPayment, createCertification, vaildateMobileCertification, vaildateMobilePayment };

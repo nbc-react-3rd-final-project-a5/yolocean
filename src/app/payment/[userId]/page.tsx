@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CartItem from "@/app/cart/CartItem";
 import { CartBox, RentLogInsert } from "@/types/db";
 import { UserInfo } from "@/types/db";
@@ -9,11 +9,11 @@ import { useCustomMutation } from "@/hook";
 import Section from "@/components/layout/Section";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import { useForm } from "react-hook-form";
-import { createPayment } from "@/lib/portone";
+import { createPayment, vaildateMobilePayment } from "@/lib/portone";
 import { usealertStore } from "@/store/alertStore";
 import { useModalStore } from "@/store/modalStore";
 import { openConfirm } from "@/store/confirmStore";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import SuccessModal from "./SuccessModal";
 import CartPulse from "@/components/pulse/CartPulse";
 import CustomButton from "@/components/CustomButton";
@@ -34,6 +34,8 @@ const linkList = [
 ];
 
 const PaymentPage = ({ params }: { params: { userId: string } }) => {
+  const searchParams = useSearchParams();
+  const isCheckedSeachParams = useRef(false);
   const userId = params.userId;
   const { data: cart, isLoading } = useQuery({
     queryKey: ["cart"],
@@ -128,7 +130,11 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
   const handlePaymentClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     // if (!user?.phone) return alertFire("회원 전화번호 입력 에러", "error");
-    const { isPass, msg } = await createPayment({ amount: discountedPrice, buyer_tel: user?.phone || "01012341234" });
+    const { isPass, msg } = await createPayment({
+      amount: discountedPrice,
+      buyer_tel: user?.phone || "01012341234",
+      userId
+    });
 
     if (isPass) {
       // 결제 성공 후 진행할 로직
@@ -146,6 +152,27 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
     const result: boolean = await openConfirm("결제 취소", "결제를 취소하시겠습니까?");
     result && router.push(`/cart/${userId}`);
   };
+
+  useEffect(() => {
+    const currentUrl = window.location.href;
+    const imp_uid = searchParams.get("imp_uid");
+    const success = searchParams.get("imp_success");
+    const merchant_uid = searchParams.get("merchant_uid");
+
+    const vaildatePayment = async () => {
+      const { isPass, msg } = await vaildateMobilePayment(currentUrl, discountedPrice);
+      if (isPass) {
+        return await insertRentData();
+      } else {
+        return alertFire(msg, "error");
+      }
+    };
+
+    if ((imp_uid || success || merchant_uid) && !isCheckedSeachParams.current && !isLoading && discountedPrice !== 0) {
+      isCheckedSeachParams.current = true;
+      vaildatePayment();
+    }
+  }, [cart, isLoading, discountedPrice]);
 
   return (
     <>
