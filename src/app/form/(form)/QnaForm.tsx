@@ -141,7 +141,7 @@ const QnaForm = ({ qnaData, productId }: Props) => {
           {qnaData ? "수정하기" : "등록하기"}
         </CustomButton>
 
-        <CustomButton type="button" size="lg" color="white" className="sm:w-full">
+        <CustomButton type="button" size="lg" color="white" className="sm:w-full" onClick={router.back}>
           취소
         </CustomButton>
       </div>
