@@ -1,12 +1,13 @@
 "use client";
 import NumberInput from "@/components/NumberInput";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { FieldValues, useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import { ko } from "date-fns/esm/locale";
 import "react-datepicker/dist/react-datepicker.css";
 import { useOfficeStore } from "@/store/officeStore";
 import { useModalStore } from "@/store/modalStore";
+import { debounce } from "lodash";
 
 import { MdErrorOutline } from "react-icons/md";
 import { openConfirm } from "@/store/confirmStore";
@@ -56,19 +57,8 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
       } else return;
     }
   }
-
-  async function handleFormSubmit(onValid: FieldValues, event: any) {
-    const submitType = event.nativeEvent.submitter.name;
-    const { rent_date, count } = onValid;
-    const store_id = office.id;
-    const body = JSON.stringify({ product_id, user_id, rent_date, count, store_id });
-    const cart = await getCart({ productId: product_id, userId: user_id });
-
-    addCart(body, submitType, cart[0]?.id);
-  }
-
-  async function addCart(body: string, submitType: string, cartId: string) {
-    // 완료될때까지 기다리는 로직 필요
+  const addCart = debounce(async (body: string, submitType: string, cartId: string) => {
+    console.log("후..");
     if (cartId) {
       await updateCart({ userId: user_id, body, cartId });
     } else {
@@ -88,7 +78,21 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
         router.push(`/payment/${user_id}`);
       }
     }
-  }
+  }, 500);
+
+  const handleFormSubmit = useCallback(
+    async (onValid: FieldValues, event: any) => {
+      const submitType = event.nativeEvent.submitter.name;
+
+      const { rent_date, count } = onValid;
+      const store_id = office.id;
+      const body = JSON.stringify({ product_id, user_id, rent_date, count, store_id });
+      const cart = await getCart({ productId: product_id, userId: user_id });
+
+      addCart(body, submitType, cart[0].id);
+    },
+    [office, product_id, user_id]
+  );
 
   return (
     <>
