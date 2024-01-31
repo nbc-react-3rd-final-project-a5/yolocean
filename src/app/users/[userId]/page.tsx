@@ -53,9 +53,17 @@ const MyPage = ({ params, searchParams }: Props) => {
           </Suspense>
         );
       case "작성한 리뷰":
-        return <UserReviewList userId={userId} article={"작성한 리뷰"} page={currentPage} />;
+        return (
+          <Suspense fallback={<UserRentPulse />}>
+            <UserReviewList userId={userId} article={"작성한 리뷰"} page={currentPage} />
+          </Suspense>
+        );
       case "Q&A":
-        return <UserQnaList userId={userId} article={"Q&A"} />;
+        return (
+          <Suspense fallback={<UserRentPulse />}>
+            <UserQnaList userId={userId} article={"Q&A"} page={currentPage} />
+          </Suspense>
+        );
       default:
         return (
           <Suspense fallback={<UserRentPulse />}>
