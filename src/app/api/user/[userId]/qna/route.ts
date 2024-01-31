@@ -2,9 +2,7 @@ import { supabase } from "@/service/supabase";
 import { NextResponse, NextRequest } from "next/server";
 
 export const GET = async (req: NextRequest, context: { params: { userId: string } }) => {
-  const {
-    params: { userId }
-  } = context;
+  const { userId } = context.params;
 
   const searchParams = req.nextUrl.searchParams;
 
@@ -15,13 +13,13 @@ export const GET = async (req: NextRequest, context: { params: { userId: string 
   const min = (page - 1) * limit;
   const max = page * limit - 1;
 
-  let { count } = await supabase.from("qna").select("", { count: "exact", head: true }).eq("user_id", userId);
+  const { count } = await supabase.from("qna").select("", { count: "exact", head: true }).eq("user_id", userId);
 
   const maxPage = Math.ceil(Number(count) / limit);
   const nextPage = page === maxPage ? null : page + 1;
   const prevPage = page === 1 ? null : page - 1;
 
-  let { data: qna, error } = await supabase
+  const { data: qna, error } = await supabase
     .from("qna")
     .select("*,userinfo!inner(username,avatar_url), product(name, thumbnail)")
     .eq("user_id", userId)

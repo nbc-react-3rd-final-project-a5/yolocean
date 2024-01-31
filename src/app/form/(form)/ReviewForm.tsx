@@ -1,7 +1,7 @@
 "use client";
 
 import { ExtendReview, Review } from "@/types/db";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import FormFieldSet from "@/components/form/FormFieldSet";
 import { useForm } from "react-hook-form";
 import useStorage from "@/utils/useStorage";
@@ -11,6 +11,7 @@ import { useAuthStore } from "@/store/authStore";
 import { createUserReview, updateUserReview } from "@/service/table";
 import { useRouter } from "next/navigation";
 import CustomButton from "@/components/CustomButton";
+import { debounce } from "lodash";
 
 interface Props {
   reviewData: ExtendReview;
@@ -60,8 +61,7 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
   });
 
   // ========== Submit ==========
-
-  const handleFormSubmit = async (data: UploadForm) => {
+  const createReview = debounce(async (data) => {
     const storagePath = productId ? `${userId}/${productId}` : userId;
     const imageFileList = customImageList.map((n) => n.file) as File[];
     const imageFileIdList = customImageList.map((n) => n.id);
@@ -78,13 +78,18 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
       };
 
       createReviewMutate(formData);
+
       return router.push(`/product/${productId}?article=후기`);
     } catch (error) {
       alert(error);
     }
-  };
+  }, 500);
 
-  const handleUpdateFormSubmit = async (data: UploadForm) => {
+  const handleFormSubmit = useCallback(async (data: UploadForm) => {
+    await createReview(data);
+  }, []);
+
+  const updateReview = debounce(async (data) => {
     const storagePath = productId ? `${userId}/${productId}` : userId;
     const preImageURLList = customImageList.filter((n) => n.file === null).map((n) => n.previewURL);
     const deletePreImageURLList =
@@ -118,7 +123,11 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, 500);
+
+  const handleUpdateFormSubmit = useCallback(async (data: UploadForm) => {
+    await updateReview(data);
+  }, []);
 
   return (
     <form onSubmit={reviewData ? handleSubmit(handleUpdateFormSubmit) : handleSubmit(handleFormSubmit)}>

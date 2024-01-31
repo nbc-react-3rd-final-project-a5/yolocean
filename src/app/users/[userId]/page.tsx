@@ -1,13 +1,13 @@
-import React from "react";
+import React, { Suspense } from "react";
 import UserInfoSection from "./UserInfoSection";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import UserTab from "./UserTab";
 import UserReviewList from "./(tabContent)/UserReviewList";
 import UserQnaList from "./(tabContent)/UserQnaList";
-import UserReservationList from "./(tabContent)/UserReservationList";
 import UserRentList from "./(tabContent)/UserRentList";
 import { Metadata, ResolvingMetadata } from "next";
 import { getUser } from "@/service/table";
+import UserRentPulse from "@/components/pulse/UserRentPulse";
 
 interface Props {
   params: { userId: string };
@@ -42,17 +42,34 @@ const linkList = [
 const MyPage = ({ params, searchParams }: Props) => {
   const { userId } = params;
   const article = searchParams?.article;
+  const currentPage = Number(searchParams?.page) || 1;
 
   const currentTap = (article: string | string[] | undefined) => {
     switch (article as article) {
       case "렌트완료":
-        return <UserRentList userId={userId} article={"렌트완료"} />;
+        return (
+          <Suspense fallback={<UserRentPulse />}>
+            <UserRentList userId={userId} article={"렌트완료"} isReturn={true} page={currentPage} />
+          </Suspense>
+        );
       case "작성한 리뷰":
-        return <UserReviewList userId={userId} article={"작성한 리뷰"} />;
+        return (
+          <Suspense fallback={<UserRentPulse />}>
+            <UserReviewList userId={userId} article={"작성한 리뷰"} page={currentPage} />
+          </Suspense>
+        );
       case "Q&A":
-        return <UserQnaList userId={userId} article={"Q&A"} />;
+        return (
+          <Suspense fallback={<UserRentPulse />}>
+            <UserQnaList userId={userId} article={"Q&A"} page={currentPage} />
+          </Suspense>
+        );
       default:
-        return <UserReservationList userId={userId} article={"예약내역"} />;
+        return (
+          <Suspense fallback={<UserRentPulse />}>
+            <UserRentList userId={userId} article={"예약내역"} isReturn={false} page={currentPage} />
+          </Suspense>
+        );
     }
   };
   return (
