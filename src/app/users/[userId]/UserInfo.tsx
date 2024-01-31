@@ -5,13 +5,13 @@ import { UserInfo } from "@/types/db";
 import React from "react";
 
 const UserInfo = ({ user }: { user: UserInfo }) => {
-  const { setIsEditMode } = useUserEditModeStore();
+  const { imageURL, setIsEditMode } = useUserEditModeStore();
   const certificatePhoneNumber = (phoneNumber: string) => {};
 
   return (
     <div className="flex gap-[40px] justify-center items-center pt-[78px] flex-wrap ">
       <div>
-        <Avatar size="lg" src={user.avatar_url as string} />
+        <Avatar size="lg" src={imageURL ? imageURL : (user.avatar_url as string)} />
       </div>
       <div className="flex flex-col min-w-[274px] h-[170px] my-[10px]   gap-[46px]">
         <div className="flex flex-col gap-[20px] text-[18px] font-medium">
