@@ -25,9 +25,10 @@ interface Props {
   original_price: number;
   product_id: string;
   percentage_off: number;
+  view: number;
 }
 
-const ControlForm = ({ category_name, name, price, original_price, product_id, percentage_off }: Props) => {
+const ControlForm = ({ category_name, name, price, original_price, product_id, percentage_off, view }: Props) => {
   const {
     register,
     setValue,
@@ -46,6 +47,15 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
     setValue("address", office.name);
     clearErrors("address");
   }, [office.name, setValue, clearErrors]);
+
+  async function handleBtnClick() {
+    if (!user_id) {
+      const answer = await openConfirm("로그인이 필요한 서비스입니다.", "로그인 페이지로 이동하시겠습니까?");
+      if (answer) {
+        router.push("/auth");
+      } else return;
+    }
+  }
 
   async function handleFormSubmit(onValid: FieldValues, event: any) {
     const submitType = event.nativeEvent.submitter.name;
@@ -198,7 +208,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
               isFull
               size="md"
               className="max-w-[244px] h-[50px] mobile:h-[35px]"
-              onClick={() => {}}
+              onClick={handleBtnClick}
             >
               장바구니 담기
             </CustomButton>
@@ -207,7 +217,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
               isFull
               size="md"
               className="max-w-[244px] h-[50px] mobile:h-[35px]"
-              onClick={() => {}}
+              onClick={handleBtnClick}
             >
               구매하기
             </CustomButton>

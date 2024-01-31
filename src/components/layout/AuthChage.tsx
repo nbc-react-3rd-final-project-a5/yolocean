@@ -35,7 +35,7 @@ const AuthChage = () => {
     return () => {
       test;
     };
-  }, [setAuth]);
+  }, [setAuth, supabaseAuth.auth]);
 
   return <></>;
 };

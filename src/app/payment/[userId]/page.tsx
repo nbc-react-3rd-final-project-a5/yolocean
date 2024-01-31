@@ -17,7 +17,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import SuccessModal from "./SuccessModal";
 import CartPulse from "@/components/pulse/CartPulse";
 import CustomButton from "@/components/CustomButton";
-
+import termData from "@/data/termData.json";
+import Term from "./Term";
 const linkList = [
   {
     name: "홈",
@@ -37,6 +38,9 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
   const searchParams = useSearchParams();
   const isCheckedSeachParams = useRef(false);
   const userId = params.userId;
+  const { info, rental } = termData;
+  const [infoTermOpen, setInfoTermOpen] = useState(false);
+  const [rentalTermOpen, setRentalTermOpen] = useState(false);
   const { data: cart, isLoading } = useQuery({
     queryKey: ["cart"],
     queryFn: async () => await getAllCart({ userId })
@@ -228,10 +232,14 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
                       />
                       <label htmlFor="protection">개인 정보 보호를 위한 이용자 동의 (필수)</label>
                     </div>
-                    <p className="text-[14px] font-medium text-tc-light text underline cursor-pointer mobile:text-[10px] mobile:py-1.5">
+                    <p
+                      className="text-[14px] font-medium text-tc-light text underline cursor-pointer mobile:text-[10px] mobile:py-1.5"
+                      onClick={() => setInfoTermOpen((prev) => !prev)}
+                    >
                       내역보기
                     </p>
                   </div>
+                  {infoTermOpen ? Term(info) : <></>}
                   <div className="p-7 border-b text-tc-middle flex justify-between mobile:p-4">
                     <div>
                       <input
@@ -244,10 +252,14 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
                       />
                       <label htmlFor="useTerms">렌트 상품 이용약관 동의 (필수)</label>
                     </div>
-                    <p className="text-[14px] font-medium text-tc-light text underline cursor-pointer mobile:text-[10px] mobile:py-1.5">
+                    <p
+                      className="text-[14px] font-medium text-tc-light text underline cursor-pointer mobile:text-[10px] mobile:py-1.5"
+                      onClick={() => setRentalTermOpen((prev) => !prev)}
+                    >
                       내역보기
                     </p>
                   </div>
+                  {rentalTermOpen ? Term(rental) : <></>}
                 </div>
                 <div className="mt-[60px] text-tc-middle">
                   <div className="border-black border-b mt-[60px] ">

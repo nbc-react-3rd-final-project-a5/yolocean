@@ -64,6 +64,7 @@ const ProductDetailPage = async ({ params: { productId }, searchParams }: Props)
           />
         </div>
         <Controller
+          view={view}
           percentage_off={percentage_off}
           product_id={id}
           price={price}
@@ -72,7 +73,13 @@ const ProductDetailPage = async ({ params: { productId }, searchParams }: Props)
           name={name}
         />
       </div>
-      <Info productId={id} info_img={info_img} info={info} searchParams={searchParams?.article || "상품설명"} />
+      <Info
+        productId={id}
+        info_img={info_img}
+        info={info}
+        article={searchParams?.article || "상품설명"}
+        searchParams={searchParams}
+      />
     </section>
   );
 };
