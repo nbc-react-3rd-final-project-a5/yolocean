@@ -44,7 +44,7 @@ export async function middleware(req: NextRequest) {
       url.searchParams.set("userId", tokenUid);
       return NextResponse.redirect(url);
     }
-    return NextResponse.redirect(new URL("/"));
+    return NextResponse.redirect(new URL("/", req.url));
   }
   if (req.nextUrl.pathname.startsWith("/cart")) {
     if (!tokenUid || (tokenUid && !req.url.includes(tokenUid))) {

@@ -1,7 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CartItem from "@/app/cart/CartItem";
-import { CartBox, RentInsert } from "@/types/db";
+import { CartBox, RentLogInsert } from "@/types/db";
 import { UserInfo } from "@/types/db";
 import { useQuery } from "@tanstack/react-query";
 import { createAllUserRent, deleteAllCart, getAllCart, getUser } from "@/service/table";
@@ -9,15 +9,16 @@ import { useCustomMutation } from "@/hook";
 import Section from "@/components/layout/Section";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import { useForm } from "react-hook-form";
-import { createPayment } from "@/lib/portone";
+import { createPayment, vaildateMobilePayment } from "@/lib/portone";
 import { usealertStore } from "@/store/alertStore";
 import { useModalStore } from "@/store/modalStore";
 import { openConfirm } from "@/store/confirmStore";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import SuccessModal from "./SuccessModal";
 import CartPulse from "@/components/pulse/CartPulse";
 import CustomButton from "@/components/CustomButton";
-
+import termData from "@/data/termData.json";
+import Term from "./Term";
 const linkList = [
   {
     name: "홈",
@@ -34,7 +35,12 @@ const linkList = [
 ];
 
 const PaymentPage = ({ params }: { params: { userId: string } }) => {
+  const searchParams = useSearchParams();
+  const isCheckedSeachParams = useRef(false);
   const userId = params.userId;
+  const { info, rental } = termData;
+  const [infoTermOpen, setInfoTermOpen] = useState(false);
+  const [rentalTermOpen, setRentalTermOpen] = useState(false);
   const { data: cart, isLoading } = useQuery({
     queryKey: ["cart"],
     queryFn: async () => await getAllCart({ userId })
@@ -89,15 +95,20 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
 
   const router = useRouter();
 
-  //rent db형식에 맞게
+  //rentlog db형식에 맞게
   const setRentData = (cart: CartBox[]) => {
-    const rentData: RentInsert[] = cart.map((cartItem) => {
-      let rentItem: RentInsert = {
-        product_id: cartItem.product_id || "",
-        store_id: cartItem.store_id || "",
-        user_id: cartItem.user_id || "",
-        count: cartItem.count || 0,
-        rent_date: cartItem.rent_date || ""
+    const rentData: RentLogInsert[] = cart.map((cartItem) => {
+      let rentItem: RentLogInsert = {
+        category_name: cartItem.product.category.category_name,
+        count: cartItem.count!!,
+        paid_price: cartItem.product.price * (1 - cartItem.product.percentage_off * 0.01),
+        product_id: cartItem.product_id,
+        product_name: cartItem.product.name,
+        rent_date: cartItem.rent_date,
+        store_id: cartItem.store_id,
+        store_name: cartItem.store.name,
+        thumbnail: cartItem.product.thumbnail,
+        user_id: cartItem.user_id
       };
       return rentItem;
     });
@@ -122,8 +133,12 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
   // 결제하기 버튼 핸들러
   const handlePaymentClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    if (!user?.phone) return alertFire("회원 전화번호 입력 에러", "error");
-    const { isPass, msg } = await createPayment({ amount: discountedPrice, buyer_tel: user?.phone || "01012341234" });
+    // if (!user?.phone) return alertFire("회원 전화번호 입력 에러", "error");
+    const { isPass, msg } = await createPayment({
+      amount: discountedPrice,
+      buyer_tel: user?.phone || "01012341234",
+      userId
+    });
 
     if (isPass) {
       // 결제 성공 후 진행할 로직
@@ -141,6 +156,27 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
     const result: boolean = await openConfirm("결제 취소", "결제를 취소하시겠습니까?");
     result && router.push(`/cart/${userId}`);
   };
+
+  useEffect(() => {
+    const currentUrl = window.location.href;
+    const imp_uid = searchParams.get("imp_uid");
+    const success = searchParams.get("imp_success");
+    const merchant_uid = searchParams.get("merchant_uid");
+
+    const vaildatePayment = async () => {
+      const { isPass, msg } = await vaildateMobilePayment(currentUrl, discountedPrice);
+      if (isPass) {
+        return await insertRentData();
+      } else {
+        return alertFire(msg, "error");
+      }
+    };
+
+    if ((imp_uid || success || merchant_uid) && !isCheckedSeachParams.current && !isLoading && discountedPrice !== 0) {
+      isCheckedSeachParams.current = true;
+      vaildatePayment();
+    }
+  }, [cart, isLoading, discountedPrice]);
 
   return (
     <>
@@ -196,10 +232,14 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
                       />
                       <label htmlFor="protection">개인 정보 보호를 위한 이용자 동의 (필수)</label>
                     </div>
-                    <p className="text-[14px] font-medium text-tc-light text underline cursor-pointer mobile:text-[10px] mobile:py-1.5">
+                    <p
+                      className="text-[14px] font-medium text-tc-light text underline cursor-pointer mobile:text-[10px] mobile:py-1.5"
+                      onClick={() => setInfoTermOpen((prev) => !prev)}
+                    >
                       내역보기
                     </p>
                   </div>
+                  {infoTermOpen ? Term(info) : <></>}
                   <div className="p-7 border-b text-tc-middle flex justify-between mobile:p-4">
                     <div>
                       <input
@@ -212,10 +252,14 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
                       />
                       <label htmlFor="useTerms">렌트 상품 이용약관 동의 (필수)</label>
                     </div>
-                    <p className="text-[14px] font-medium text-tc-light text underline cursor-pointer mobile:text-[10px] mobile:py-1.5">
+                    <p
+                      className="text-[14px] font-medium text-tc-light text underline cursor-pointer mobile:text-[10px] mobile:py-1.5"
+                      onClick={() => setRentalTermOpen((prev) => !prev)}
+                    >
                       내역보기
                     </p>
                   </div>
+                  {rentalTermOpen ? Term(rental) : <></>}
                 </div>
                 <div className="mt-[60px] text-tc-middle">
                   <div className="border-black border-b mt-[60px] ">
