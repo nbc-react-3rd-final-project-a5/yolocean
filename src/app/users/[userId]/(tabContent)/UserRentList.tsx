@@ -1,35 +1,24 @@
-"use client";
-
-import { getAllUserRent } from "@/service/table";
-import React, { Suspense, useEffect, useState } from "react";
+import React from "react";
 import RentItem from "./RentItem";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import UserRentPulse from "@/components/pulse/UserRentPulse";
-import { useSearchParams } from "next/navigation";
-import Pagenation from "@/components/Pagination";
+import { getAllUserRent } from "@/service/table";
+import Pagination from "@/components/Pagination";
+import { revalidateTag } from "next/cache";
 
 interface Props {
   userId: string;
   article: string;
+  page: number;
+  isReturn: boolean;
 }
-// 렌트 완료 탭
-const UserRentList = ({ userId, article }: Props) => {
-  const [page, setPage] = useState<number>(1);
 
-  const { data, isLoading, refetch } = useSuspenseQuery({
-    queryKey: ["user", "rent"],
-    queryFn: async () => getAllUserRent({ userId, isReturn: true })
-  });
-
-  const { rent: rentList, maxPage } = data;
-
-  useEffect(() => {
-    refetch();
-  }, [page, refetch]);
+// 예약내역 탭
+const UserRentList = async ({ userId, article, isReturn, page }: Props) => {
+  revalidateTag("userRent");
+  const data = await getAllUserRent({ userId, isReturn, page });
+  const { rent: rentList, maxPage, nextPage, prevPage } = data;
 
   const pageProps = {
     articleName: article,
-    setPage,
     maxPage,
     currentPage: page,
     limit: 5
@@ -37,24 +26,19 @@ const UserRentList = ({ userId, article }: Props) => {
 
   return (
     <>
-      <Suspense fallback={<UserRentPulse />}>
-        {rentList?.length > 0 ? (
-          <>
-            <ul>
-              {rentList.map((n: any) => {
-                return (
-                  <li key={n.id} className="first:border-t border-t border-b border-line py-5">
-                    <RentItem rentData={n} isReturn={true} />
-                  </li>
-                );
-              })}
-            </ul>
-            <Pagenation {...pageProps} />
-          </>
-        ) : (
-          <div className="w-full text-center text-[18px] font-semibold"> 렌트 완료된 내역이 없습니다 😅</div>
-        )}
-      </Suspense>
+      {rentList.length === 0 ? (
+        <div className="w-full text-center text-[18px] font-semibold"> 해당 내역이 없습니다 😅</div>
+      ) : (
+        rentList.map((n: any) => {
+          return (
+            <div key={n.id} className="first:border-t border-t border-b border-line py-5">
+              <RentItem rentData={n} isReturn={isReturn} />
+            </div>
+          );
+        })
+      )}
+
+      <Pagination {...pageProps} />
     </>
   );
 };

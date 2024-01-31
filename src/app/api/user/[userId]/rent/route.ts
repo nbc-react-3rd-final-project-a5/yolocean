@@ -7,15 +7,17 @@ export const GET = async (req: NextRequest, context: { params: { userId: string 
   } = context;
 
   const searchParams = req.nextUrl.searchParams;
-  const isReturn = JSON.parse(searchParams.get("isReturn")!);
-  const PAGE = searchParams.get("page") || 1;
-  const page = Number(PAGE);
-
+  const isReturn = searchParams.get("isReturn")!;
+  const page = Number(searchParams.get("page") || 1);
   const limit = 5;
   const min = (page - 1) * limit;
   const max = page * limit - 1;
 
-  let { count } = await supabase.from("rentlog").select("", { count: "exact", head: true }).eq("user_id", userId);
+  const { count } = await supabase
+    .from("rentlog")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .eq("return", isReturn);
 
   const maxPage = Math.ceil(Number(count) / limit);
   const nextPage = page === maxPage ? null : page + 1;

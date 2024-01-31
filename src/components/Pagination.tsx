@@ -26,6 +26,7 @@ const Pagination = ({ maxPage, currentPage, limit, articleName, setPage }: Props
             href={{ href: pathName, query: { article: articleName, page: Math.max(currentPage - 1, 1) } }}
             onClick={() => {
               document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" });
+              console.log(document?.getElementById("tab"));
               if (setPage) {
                 setPage((currentPage) => Math.max(currentPage - 1, 1));
               }
