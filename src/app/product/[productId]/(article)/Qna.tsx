@@ -7,13 +7,14 @@ import Empty from "./Empty";
 import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import Pagination from "@/components/Pagination";
-import Revalidate from "./Revalidate";
+import { revalidateTag } from "next/cache";
 
 interface Props {
   productId: string;
   page: number;
 }
 const Qna = async ({ productId, page }: Props) => {
+  revalidateTag("qna");
   const cookieStore = cookies();
   const supabase = createServerComponentClient({
     cookies: () => cookieStore
@@ -25,7 +26,6 @@ const Qna = async ({ productId, page }: Props) => {
 
   return (
     <div>
-      <Revalidate />
       {user?.id && (
         <div className="flex justify-end items-center  mb-[25px]">
           <Link href={`/form?productId=${productId}`}>

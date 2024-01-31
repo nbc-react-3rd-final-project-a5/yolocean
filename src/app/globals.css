@@ -16,3 +16,12 @@ input::-webkit-inner-spin-button {
 html {
   scroll-behavior: smooth !important;
 }
+
+img,
+a {
+  user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+}
