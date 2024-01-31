@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter, useSearchParams } from "next/navigation";
-import useLogedInStore from "@/store/logedStore";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import Section from "@/components/layout/Section";
 import { createCertification, vaildateMobileCertification } from "@/lib/portone";
 import { usealertStore } from "@/store/alertStore";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Database } from "@/types/supabase";
+import { useAuthStore } from "@/store/authStore";
 
 const linkList = [
   {
@@ -38,11 +38,10 @@ const SignUp = ({ mode, setMode }: Props) => {
   const router = useRouter();
   const supabaseAuth = createClientComponentClient<Database>();
 
-  const { setLogedIn } = useLogedInStore();
   const { alertFire } = usealertStore();
+  const { setAuth } = useAuthStore();
 
   //회원가입 함수
-
   async function signUpNewUser(id: string, pw: string, name: string, phone: string) {
     const { data, error } = await supabaseAuth.auth.signUp({
       email: id,
@@ -59,7 +58,7 @@ const SignUp = ({ mode, setMode }: Props) => {
     if (error) {
       alertFire("회원가입 실패", "error");
     } else {
-      setLogedIn(true);
+      setAuth(data.user?.id ?? "");
       router.push("/");
     }
   }
@@ -215,7 +214,11 @@ const SignUp = ({ mode, setMode }: Props) => {
                   type="name"
                   placeholder="이름"
                   {...register("name", {
-                    required: "이름을 입력하세요"
+                    required: "이름을 입력하세요",
+                    maxLength: {
+                      value: 10,
+                      message: "10자리 이하로 입력하세요."
+                    }
                   })}
                   className="block w-full h-[50px] border p-[15px]"
                 />
