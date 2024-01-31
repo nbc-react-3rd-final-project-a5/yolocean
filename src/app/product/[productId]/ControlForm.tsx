@@ -58,7 +58,6 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
     }
   }
   const addCart = debounce(async (body: string, submitType: string, cartId: string) => {
-    console.log("후..");
     if (cartId) {
       await updateCart({ userId: user_id, body, cartId });
     } else {
