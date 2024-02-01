@@ -70,7 +70,16 @@ const createFixedReview = async ({ reviewId, body }: Pick<API, "reviewId" | "bod
     body
   });
   const data = await res.json();
-  console.log(data);
+  return data;
+};
+
+//리뷰 블라인드
+const updateBlindReview = async ({ reviewId, body }: Pick<API, "reviewId" | "body">) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/admin/review/${reviewId}`, {
+    method: "PATCH",
+    body
+  });
+  const data = await res.json();
   return data;
 };
 
@@ -92,5 +101,6 @@ export {
   getFixedReview,
   getAllReview,
   deleteFixedReview,
-  createFixedReview
+  createFixedReview,
+  updateBlindReview
 };

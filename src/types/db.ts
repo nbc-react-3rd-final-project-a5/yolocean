@@ -99,4 +99,5 @@ export interface AdminReview {
   fixed_review: {
     id: string;
   };
+  blind: boolean;
 }

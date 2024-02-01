@@ -30,3 +30,19 @@ export const POST = async (req: NextRequest, context: { params: { reviewId: stri
   }
   return NextResponse.json(review_id);
 };
+
+//리뷰 블라인드
+export const PATCH = async (req: NextRequest, context: { params: { reviewId: string } }) => {
+  const {
+    params: { reviewId }
+  } = context;
+
+  const body = await req.json();
+
+  const { data: review, error } = await supabase.from("review").update({ blind: body }).eq("id", reviewId).select();
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+  return NextResponse.json(review);
+};

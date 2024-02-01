@@ -3,7 +3,7 @@ import { AdminReview } from "@/types/db";
 import Image from "next/image";
 import dayjs from "dayjs";
 import CustomButton from "@/components/CustomButton";
-import { createFixedReview, deleteFixedReview } from "@/service/table";
+import { createFixedReview, deleteFixedReview, updateBlindReview } from "@/service/table";
 import { useCustomMutation } from "@/hook";
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const ReviewItem = ({ review }: Props) => {
-  const { product, userinfo, store, title, content, url: ReviewImgList, fixed_review } = review;
+  const { product, userinfo, store, title, content, url: ReviewImgList, fixed_review, blind } = review;
   const date = dayjs(review.created_at);
   const fixed = fixed_review?.id ?? false;
   // console.log(fixed);
@@ -22,6 +22,10 @@ const ReviewItem = ({ review }: Props) => {
   });
   const { mutate: createFixedMutate } = useCustomMutation({
     mutationFn: async () => createFixedReview({ reviewId: review.id, body: JSON.stringify({ id: review.id }) }),
+    queryKey: ["review"]
+  });
+  const { mutate: updateBlindMutate } = useCustomMutation({
+    mutationFn: async (blind: boolean) => updateBlindReview({ reviewId: review.id, body: JSON.stringify(blind) }),
     queryKey: ["review"]
   });
 
@@ -64,7 +68,15 @@ const ReviewItem = ({ review }: Props) => {
               리뷰 고정하기
             </CustomButton>
           )}
-          <CustomButton size="sm">리뷰 블라인드</CustomButton>
+          {!blind ? (
+            <CustomButton size="sm" onClick={() => updateBlindMutate(true)}>
+              리뷰 블라인드
+            </CustomButton>
+          ) : (
+            <CustomButton size="sm" className="bg-tc-light border-tc-light" onClick={() => updateBlindMutate(false)}>
+              블라인드 해제
+            </CustomButton>
+          )}
         </div>
       </div>
     </>
