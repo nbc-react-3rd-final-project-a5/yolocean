@@ -142,7 +142,9 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
 
   useEffect(() => {
     if (updateReviewisSuccess || createReviewisSuccess) {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1500);
     }
     if (createReviewisSuccess) {
       router.push(`/product/${productId}`);

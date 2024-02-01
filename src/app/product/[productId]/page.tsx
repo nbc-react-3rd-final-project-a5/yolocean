@@ -6,7 +6,6 @@ import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import { getProduct } from "@/service/table";
 import View from "./View";
 import { Metadata, ResolvingMetadata } from "next";
-import { revalidateTag } from "next/cache";
 
 interface Props {
   params: { productId: string };
@@ -15,8 +14,6 @@ interface Props {
 
 export async function generateMetadata({ params, searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
   const productId = params.productId;
-  revalidateTag("qna");
-  revalidateTag("review");
 
   const product = await getProduct({ productId });
 

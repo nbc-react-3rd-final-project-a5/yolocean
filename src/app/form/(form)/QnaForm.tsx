@@ -135,7 +135,9 @@ const QnaForm = ({ qnaData, productId }: Props) => {
 
   useEffect(() => {
     if (updateQnaisSuccess || createQnaisSuccess) {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1500);
     }
     if (createQnaisSuccess) {
       productId ? router.push(`/product/${productId}`) : router.push(`/users/${userId}?article=qna`);
