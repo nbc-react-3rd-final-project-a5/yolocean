@@ -83,7 +83,7 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
     } catch (error) {
       alert(error);
     }
-  }, 500);
+  }, 300);
 
   const handleFormSubmit = useCallback(async (data: UploadForm) => {
     await createReview(data);
@@ -123,7 +123,7 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
     } catch (error) {
       console.error(error);
     }
-  }, 500);
+  }, 300);
 
   const handleUpdateFormSubmit = useCallback(async (data: UploadForm) => {
     await updateReview(data);
