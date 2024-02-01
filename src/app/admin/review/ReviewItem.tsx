@@ -56,7 +56,7 @@ const ReviewItem = ({ review }: Props) => {
 
         <div className="flex justify-end gap-[5px]">
           {fixed ? (
-            <CustomButton size="sm" onClick={() => deleteFixedMutate({})}>
+            <CustomButton size="sm" className="bg-tc-light border-tc-light" onClick={() => deleteFixedMutate({})}>
               고정 해제하기
             </CustomButton>
           ) : (
