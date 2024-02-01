@@ -3,7 +3,7 @@ import React from "react";
 import Controller from "./ControlForm";
 import Info from "./Info";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
-import { getProduct, updateProduct } from "@/service/table";
+import { getProduct } from "@/service/table";
 import View from "./View";
 import { Metadata, ResolvingMetadata } from "next";
 
@@ -59,7 +59,9 @@ const ProductDetailPage = async ({ params: { productId }, searchParams }: Props)
             alt={`${name}_image`}
             style={{ objectFit: "fill" }}
             fill
-            sizes="(max-width: 1200px) 500px, 335px"
+            width={0}
+            height={0}
+            sizes="(max-width: 1200px) 335px, 500px"
             src={thumbnail}
           />
         </div>

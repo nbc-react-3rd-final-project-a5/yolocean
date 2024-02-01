@@ -1,7 +1,6 @@
 import ReviewList from "@/components/review/ReviewList";
 import { getAllProductQna } from "@/service/table";
 import Link from "next/link";
-
 import React from "react";
 import Empty from "./Empty";
 import { cookies } from "next/headers";
