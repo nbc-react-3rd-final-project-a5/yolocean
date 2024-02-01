@@ -7,7 +7,7 @@ export const GET = async (req: NextRequest) => {
     .select(
       "*, product(name, thumbnail, category_id, category(category_name)), store(name), userinfo(username), fixed_review(id)"
     )
-    .order("id");
+    .order("created_at");
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
