@@ -41,6 +41,8 @@ export const useImageInput = (limitCount: number = 1) => {
 
   /**
    * 선택한 이미지를 state 에 추가하는 함수
+   * limitCount 가 1일 경우 state를 새로운 이미지로 변경
+   * limitCount 가 1이 아닐 경우 state를 새로운 이미지로 변경 X
    * @param e onChange 이벤트
    */
   const handleAddImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,24 +50,39 @@ export const useImageInput = (limitCount: number = 1) => {
     let stateLenght = customImageList.length;
     if (!currentFiles) return;
 
-    for (let i = 0; i < currentFiles.length; i++) {
-      const validateFileSizeResult = validateFileSize(currentFiles[i], 10);
-      const validateFileTypeResult = validateFileType(currentFiles[i]);
-      const validateCountResult = validateCount(stateLenght, limitCount);
-
+    if (limitCount === 1) {
+      const validateFileSizeResult = validateFileSize(currentFiles[0], 10);
+      const validateFileTypeResult = validateFileType(currentFiles[0]);
       if (!validateFileSizeResult.isPass) {
         alertFire(validateFileSizeResult.msg, "error");
-        break;
       } else if (!validateFileTypeResult.isPass) {
         alertFire(validateFileTypeResult.msg, "error");
-        break;
-      } else if (!validateCountResult.isPass) {
-        alertFire(validateCountResult.msg, "error");
-        break;
       } else {
-        const newImageFile = createCustomImage(currentFiles[i]);
-        stateLenght++;
-        setCustomImageList((prev) => [...prev, newImageFile]);
+        const newImageFile = createCustomImage(currentFiles[0]);
+        setCustomImageList([newImageFile]);
+      }
+    }
+
+    if (limitCount > 1) {
+      for (let i = 0; i < currentFiles.length; i++) {
+        const validateFileSizeResult = validateFileSize(currentFiles[i], 10);
+        const validateFileTypeResult = validateFileType(currentFiles[i]);
+        const validateCountResult = validateCount(stateLenght, limitCount);
+
+        if (!validateFileSizeResult.isPass) {
+          alertFire(validateFileSizeResult.msg, "error");
+          break;
+        } else if (!validateFileTypeResult.isPass) {
+          alertFire(validateFileTypeResult.msg, "error");
+          break;
+        } else if (!validateCountResult.isPass) {
+          alertFire(validateCountResult.msg, "error");
+          break;
+        } else {
+          const newImageFile = createCustomImage(currentFiles[i]);
+          stateLenght++;
+          setCustomImageList((prev) => [...prev, newImageFile]);
+        }
       }
     }
     e.target.value = "";
