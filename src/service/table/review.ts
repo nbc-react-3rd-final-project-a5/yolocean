@@ -55,6 +55,33 @@ const getFixedReview = async (): Promise<ExtendFixedReview[]> => {
   const data = await res.json();
   return data;
 };
+
+//고정 리뷰 해제
+const deleteFixedReview = async ({ reviewId }: Pick<API, "reviewId">) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/admin/review/${reviewId}`, { method: "DELETE" });
+  const data = await res.json();
+  return res;
+};
+
+//리뷰 고정
+const createFixedReview = async ({ reviewId, body }: Pick<API, "reviewId" | "body">) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/admin/review/${reviewId}`, {
+    method: "POST",
+    body
+  });
+  const data = await res.json();
+  console.log(data);
+  return data;
+};
+
+//리뷰 전체 가져오기
+const getAllReview = async () => {
+  //일단 페이지네이션 노생각
+  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/admin/review`, { method: "GET" });
+  const allReview = await res.json();
+  return allReview;
+};
+
 export {
   getAllProductReview,
   getAllUserReview,
@@ -62,5 +89,8 @@ export {
   getUserReview,
   updateUserReview,
   deleteUserReview,
-  getFixedReview
+  getFixedReview,
+  getAllReview,
+  deleteFixedReview,
+  createFixedReview
 };
