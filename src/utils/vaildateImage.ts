@@ -36,5 +36,4 @@ const validateCount = (stateCount: number, limitCount: number): ValidateReturn =
   return isValid ? createReturn(true, "valid") : createReturn(false, "inValidCount");
 };
 
-export type { ValidateReturn };
 export { validateFileSize, validateFileType, validateCount };
