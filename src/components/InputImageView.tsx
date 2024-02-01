@@ -16,7 +16,7 @@ const InputImageView = ({ customImageList, handleDeleteImageClick }: Props) => {
             <Image
               src={n.previewURL}
               alt=""
-              className="w-auto h-[118px] mx-auto border-[1px] border-line rounded-[5px]"
+              className="w-auto h-[118px] mx-auto border border-line rounded-[5px]"
               width={118}
               height={118}
               onClick={(e) => handleDeleteImageClick(e, n)}

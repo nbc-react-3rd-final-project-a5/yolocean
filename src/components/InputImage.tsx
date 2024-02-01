@@ -8,9 +8,9 @@ interface Props {
   customImageList: CustomImage[];
   isEnter: boolean;
   handler: {
-    handleAddImageChange: (e: React.ChangeEvent<HTMLInputElement>) => null;
+    handleAddImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleAddImageDrop: (e: React.DragEvent<HTMLLabelElement>) => void;
     handleDeleteImageClick: (e: React.MouseEvent<HTMLImageElement, MouseEvent>, customImage: CustomImage) => void;
-    handleDrop: (e: React.DragEvent<HTMLLabelElement>) => void;
     handleDragOver: (e: React.DragEvent<HTMLLabelElement>) => void;
     handleDragEnter: (e: React.DragEvent<HTMLLabelElement>) => void;
     handleDragLeave: (e: React.DragEvent<HTMLLabelElement>) => void;
@@ -18,17 +18,17 @@ interface Props {
 }
 
 const InputImage = ({ customImageList, isEnter, handler }: Props) => {
-  const activeColor = isEnter && "border-red-500";
+  const activeColor = isEnter && "border-point";
   return (
     <label
       htmlFor="input__image"
-      className={`block w-full border-[1px] border-[#E5E5E5] ${activeColor} p-[15px] hover:cursor-pointer`}
-      onDrop={handler.handleDrop}
+      className={`block w-full border border-line ${activeColor} transition-colors p-[15px]   hover:cursor-pointer`}
+      onDrop={handler.handleAddImageDrop}
       onDragOver={handler.handleDragOver}
       onDragEnter={handler.handleDragEnter}
       onDragLeave={handler.handleDragLeave}
     >
-      <div className="tracking-[-0.48px] leading-6 text-[#595959]">
+      <div className="tracking-[-0.48px] leading-6 text-tc-middle">
         <p>
           <b>드래그 앤 드롭</b> 또는 <b>클릭</b>하여 업로드해주세요.
           <br />
@@ -38,7 +38,7 @@ const InputImage = ({ customImageList, isEnter, handler }: Props) => {
         </p>
       </div>
 
-      <hr className={`my-[15px] ${activeColor}`} />
+      <hr className={`my-[15px] ${activeColor} transition-colors `} />
 
       <InputImageView customImageList={customImageList} handleDeleteImageClick={handler.handleDeleteImageClick} />
 
