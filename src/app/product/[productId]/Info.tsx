@@ -2,6 +2,10 @@ import Tab from "@/components/Tab";
 import React, { Suspense } from "react";
 import Description from "./(article)/Description";
 import dynamic from "next/dynamic";
+import Infomation from "./(article)/Infomation";
+import ReviewPulse from "@/components/pulse/ReviewPulse";
+import Review from "./(article)/Review";
+import Qna from "./(article)/Qna";
 
 interface Props {
   info_img: string;
@@ -13,10 +17,10 @@ interface Props {
 
 const ProductTab = ["상품설명", "상세정보", "후기", "제품문의"];
 
-const Infomation = dynamic(() => import("./(article)/Infomation"));
-const Qna = dynamic(() => import("./(article)/Qna"));
-const Review = dynamic(() => import("./(article)/Review"));
-const ReviewPulse = dynamic(() => import("@/components/pulse/ReviewPulse"));
+// const Infomation = dynamic(() => import("./(article)/Infomation"));
+// const Qna = dynamic(() => import("./(article)/Qna"));
+// const Review = dynamic(() => import("./(article)/Review"));
+// const ReviewPulse = dynamic(() => import("@/components/pulse/ReviewPulse"));
 
 const Info = ({ info_img, info, productId, searchParams, article }: Props) => {
   return (
