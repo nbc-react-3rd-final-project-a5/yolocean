@@ -3,6 +3,7 @@ import { ExtendFixedReview } from "@/types/db";
 
 const getAllProductReview = async ({ productId, page = 1 }: Pick<API, "productId" | "page">) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/product/${productId}/review?page=${page}`, {
+    cache: "no-store",
     next: { tags: ["review"] }
   });
   const data = await res.json();

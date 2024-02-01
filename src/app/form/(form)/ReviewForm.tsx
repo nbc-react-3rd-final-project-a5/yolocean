@@ -72,7 +72,7 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
       setTimeout(() => {
         setLoading(false);
         return router.push(`/product/${productId}?article=후기`);
-      }, 5000);
+      }, 1500);
     } catch (error) {
       alert(error);
     }
@@ -119,7 +119,7 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
       setTimeout(() => {
         setLoading(false);
         return router.push(`/product/${productId}?article=후기`);
-      }, 3000);
+      }, 1500);
     } catch (error) {
       console.error(error);
     }

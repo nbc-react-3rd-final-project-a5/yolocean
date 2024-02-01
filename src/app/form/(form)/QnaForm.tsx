@@ -67,7 +67,7 @@ const QnaForm = ({ qnaData, productId }: Props) => {
         return productId
           ? router.push(`/product/${productId}?article=제품문의`)
           : router.push(`/users/${userId}?article=qna`);
-      }, 3000);
+      }, 1500);
     } catch (error) {
       alert(error);
     }
@@ -113,7 +113,7 @@ const QnaForm = ({ qnaData, productId }: Props) => {
         return qnaData?.product_id
           ? router.push(`/product/${qnaData.product_id}?article=제품문의`)
           : router.push(`/users/${userId}?article=qna`);
-      }, 3000);
+      }, 1500);
     } catch (error) {
       alert(error);
       return router.push(`/`);

@@ -4,6 +4,7 @@ import { revalidateTag } from "next/cache";
 // [GET] 상품에 해당하는 모든 문의
 const getAllProductQna = async ({ productId, page = 1 }: Pick<API, "productId" | "page">) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/product/${productId}/qna?page=${page}`, {
+    cache: "no-store",
     next: { tags: ["qna"] }
   });
   const result = await res.json();
