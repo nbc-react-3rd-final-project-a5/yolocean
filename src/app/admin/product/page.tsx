@@ -1,5 +1,6 @@
 "use client";
 
+import Spinner from "@/components/Spinner";
 import { createProduct, getAllCategory } from "@/service/table";
 import { CategoryTable, Product } from "@/types/db";
 import useStorage from "@/utils/useStorage";
@@ -92,10 +93,10 @@ const ProductForm = () => {
   };
 
   if (isCategoryLoading) {
-    return <div>로딩중...</div>;
+    return <Spinner />;
   }
   return (
-    <div className="mx-auto container max-w-[1200px] w-[90%] my-5 flex flex-col justify-center gap-1">
+    <div className="mx-auto container flex flex-col items-center gap-1">
       <p className="text-2xl font-bold">상품등록 페이지</p>
       <form className="w-[300px] flex flex-col justify-center gap-1" onSubmit={handleSubmit(handleProductFormSubmit)}>
         <label htmlFor="name">상품명 *</label>
