@@ -4,6 +4,7 @@ import FormSwitch from "./FormSwitch";
 import { getUserQna, getUserReview } from "@/service/table";
 import { ExtendQna, ExtendReview, Qna } from "@/types/db";
 import { Metadata, ResolvingMetadata } from "next";
+import { revalidateTag } from "next/cache";
 
 interface Props {
   searchParams?: { [key: string]: string | undefined };
@@ -39,6 +40,7 @@ export async function generateMetadata({ searchParams }: Props, parent: Resolvin
 // qnaId
 
 const FormPage = async ({ searchParams }: Props) => {
+  revalidateTag("form");
   // TODO : 구현해야하는 기능
   // 1) 페이지에 접속한 사람의 userId 값을 얻고
   // 2) reviewId 나 qnaId 가 있을 경우 접속한 사람의 userId와 같은지 확인하는 작업
