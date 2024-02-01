@@ -40,7 +40,7 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
   // ========== Image Upload ==========
   const preReviewImageUrl = reviewData?.url;
   const { uploadMultipleImages, deleteMultipleImage } = useStorage();
-  const { customImageList, isEnter, handler, addPreImage } = useImageInput("multiple");
+  const { customImageList, isEnter, handler, addPreImage } = useImageInput(4);
   // 이미지가 있을 경우 이미지 불러오기 기능
   useEffect(() => {
     if (preReviewImageUrl) {
