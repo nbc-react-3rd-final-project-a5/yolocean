@@ -59,7 +59,9 @@ const ProductDetailPage = async ({ params: { productId }, searchParams }: Props)
             alt={`${name}_image`}
             style={{ objectFit: "fill" }}
             fill
-            sizes="(max-width: 1200px) 500px, 335px"
+            width={0}
+            height={0}
+            sizes="(max-width: 1200px) 335px, 500px"
             src={thumbnail}
           />
         </div>

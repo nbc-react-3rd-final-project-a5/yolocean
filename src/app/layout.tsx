@@ -11,7 +11,7 @@ import AuthChage from "@/components/layout/AuthChage";
 import PageControlBtnGroup from "@/components/layout/PageControlBtnGroup";
 import dynamic from "next/dynamic";
 
-const KakaoScript = dynamic(() => import("@/lib/KakaoScript"));
+const KakaoShare = dynamic(() => import("@/lib/KakaoShare"));
 const CreateModal = dynamic(() => import("@/components/portal/CreateModal"));
 const CreateAlert = dynamic(() => import("@/components/portal/CreateAlert"));
 const CreateConfirm = dynamic(() => import("@/components/portal/CreateConfirm"));
@@ -47,7 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Script src="https://cdn.iamport.kr/v1/iamport.js" />
           <Script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></Script>
           <Script src="https://developers.kakao.com/sdk/js/kakao.js"></Script>
-          <KakaoScript />
+          <KakaoShare />
         </body>
       </html>
     </ReactQueryProvider>
