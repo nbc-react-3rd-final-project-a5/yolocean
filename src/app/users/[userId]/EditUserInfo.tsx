@@ -14,7 +14,7 @@ const EditUserInfo = ({ user, refetch }: { user: UserInfo | undefined; refetch: 
   const { userId } = useParams() as { userId: string };
   const { setIsEditMode } = useUserEditModeStore();
   const { uploadImage, deleteImage } = useStorage();
-  const { customImage, handler } = useImageInput("single");
+  const { customImageList, handler } = useImageInput(1);
   const { setImageURL } = useUserEditModeStore();
   const updateUserMutation = useCustomMutation({
     mutationFn: async (data: { content: { username: string; avatar_url?: string | null } }) =>
@@ -28,12 +28,12 @@ const EditUserInfo = ({ user, refetch }: { user: UserInfo | undefined; refetch: 
     if (user && user!.avatar_url) {
       await deleteImage("user", user.avatar_url);
     }
-    if (customImage) {
-      const url = await uploadImage(customImage?.file!, "user", customImage!.id, user!.id);
+    if (customImageList?.[0]) {
+      const url = await uploadImage(customImageList?.[0].file!, "user", customImageList?.[0].id, user!.id);
       updateUserMutation.mutate({
         content: { username: name, avatar_url: url }
       });
-      setImageURL(customImage.previewURL);
+      setImageURL(customImageList?.[0].previewURL);
 
       setIsEditMode(false);
     } else {
@@ -47,9 +47,9 @@ const EditUserInfo = ({ user, refetch }: { user: UserInfo | undefined; refetch: 
   return (
     <div className="flex gap-[40px] justify-center items-center pt-[78px] flex-wrap">
       <div className="relative">
-        <Avatar size="lg" src={customImage ? customImage.previewURL : user?.avatar_url!} />
+        <Avatar size="lg" src={customImageList?.[0] ? customImageList?.[0].previewURL : user?.avatar_url!} />
         <label className="absolute top-0 w-full h-full flex flex-col justify-center items-center text-white transition-opacity cursor-pointer rounded-full backdrop-blur-sm backdrop-brightness-50 opacity-0 hover:opacity-100">
-          <input type="file" className="hidden" onChange={handler.handleAddImageChange} />
+          <input type="file" className="hidden" onChange={handler.handleAddImageChange} accept="image/*" />
           <MdPhotoCameraBack className="text-[4rem] mx-auto" />
           <p className="font-bold">이미지 변경</p>
         </label>
