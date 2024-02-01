@@ -51,18 +51,6 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
     }
   }, []);
 
-  // ========== Mutation ==========
-  const { mutate: createReviewMutate, isSuccess: createReviewisSuccess } = useCustomMutation({
-    queryKey: ["review ", productId],
-    mutationFn: async (formData) => await createUserReview({ userId, body: JSON.stringify(formData) })
-  });
-
-  const { mutate: updateReviewMutate, isSuccess: updateReviewisSuccess } = useCustomMutation({
-    queryKey: ["review ", productId],
-    mutationFn: async (formData) =>
-      await updateUserReview({ userId, reviewId: reviewData.id, body: JSON.stringify(formData) })
-  });
-
   // ========== Submit ==========
   const createReview = debounce(async (data) => {
     const storagePath = productId ? `${userId}/${productId}` : userId;
@@ -80,9 +68,11 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
         url: imageURLList
       };
 
-      createReviewMutate(formData);
-
-      // return router.push(`/product/${productId}?article=후기`);
+      await createUserReview({ userId, body: JSON.stringify(formData) });
+      setTimeout(() => {
+        setLoading(false);
+        return router.push(`/product/${productId}?article=후기`);
+      }, 5000);
     } catch (error) {
       alert(error);
     }
@@ -125,8 +115,11 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
         url: newImageURLList ? [...preImageURLList, ...newImageURLList] : preImageURLList
       };
 
-      updateReviewMutate(formData);
-      // return router.push(`/product/${productId}?article=후기`);
+      await updateUserReview({ userId, reviewId: reviewData.id, body: JSON.stringify(formData) });
+      setTimeout(() => {
+        setLoading(false);
+        return router.push(`/product/${productId}?article=후기`);
+      }, 3000);
     } catch (error) {
       console.error(error);
     }
@@ -139,20 +132,6 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
     },
     [updateReview]
   );
-
-  useEffect(() => {
-    if (updateReviewisSuccess || createReviewisSuccess) {
-      setTimeout(() => {
-        setLoading(false);
-      }, 1500);
-    }
-    if (createReviewisSuccess) {
-      router.push(`/product/${productId}`);
-    }
-    if (updateReviewisSuccess) {
-      router.push(`/product/${productId}`);
-    }
-  }, [createReviewisSuccess, updateReviewisSuccess]);
 
   return (
     <form onSubmit={reviewData ? handleSubmit(handleUpdateFormSubmit) : handleSubmit(handleFormSubmit)}>

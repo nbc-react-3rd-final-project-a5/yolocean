@@ -43,17 +43,6 @@ const QnaForm = ({ qnaData, productId }: Props) => {
     }
   }, []);
 
-  //   ========== Mutation ============
-  const { mutate: createQnaMutate, isSuccess: createQnaisSuccess } = useCustomMutation({
-    queryKey: productId ? ["review ", productId] : ["review ", userId],
-    mutationFn: async (formData) => await createUserQna({ userId, body: JSON.stringify(formData) })
-  });
-
-  const { mutate: updateQnaMutate, isSuccess: updateQnaisSuccess } = useCustomMutation({
-    queryKey: ["review ", productId] && ["review ", userId],
-    mutationFn: async (formData) => await updateUserQna({ userId, qnaId: qnaData.id, body: JSON.stringify(formData) })
-  });
-
   //   ========== Submit ============
 
   const createQna = debounce(async (data) => {
@@ -72,10 +61,13 @@ const QnaForm = ({ qnaData, productId }: Props) => {
         url: imageURLList
       };
 
-      createQnaMutate(formData);
-      return productId;
-      // ? router.push(`/product/${productId}?article=제품문의`)
-      // : router.push(`/users/${userId}?article=qna`);
+      await createUserQna({ userId, body: JSON.stringify(formData) });
+      setTimeout(() => {
+        setLoading(false);
+        return productId
+          ? router.push(`/product/${productId}?article=제품문의`)
+          : router.push(`/users/${userId}?article=qna`);
+      }, 3000);
     } catch (error) {
       alert(error);
     }
@@ -115,10 +107,13 @@ const QnaForm = ({ qnaData, productId }: Props) => {
         url: newImageURLList ? [...preImageURLList, ...newImageURLList] : preImageURLList
       };
 
-      updateQnaMutate(formData);
-      // return qnaData?.product_id
-      //   ? router.push(`/product/${qnaData.product_id}?article=제품문의`)
-      //   : router.push(`/users/${userId}?article=qna`);
+      await updateUserQna({ userId, qnaId: qnaData.id, body: JSON.stringify(formData) });
+      setTimeout(() => {
+        setLoading(false);
+        return qnaData?.product_id
+          ? router.push(`/product/${qnaData.product_id}?article=제품문의`)
+          : router.push(`/users/${userId}?article=qna`);
+      }, 3000);
     } catch (error) {
       alert(error);
       return router.push(`/`);
@@ -132,20 +127,6 @@ const QnaForm = ({ qnaData, productId }: Props) => {
     },
     [updateQna]
   );
-
-  useEffect(() => {
-    if (updateQnaisSuccess || createQnaisSuccess) {
-      setTimeout(() => {
-        setLoading(false);
-      }, 1500);
-    }
-    if (createQnaisSuccess) {
-      productId ? router.push(`/product/${productId}`) : router.push(`/users/${userId}?article=qna`);
-    }
-    if (updateQnaisSuccess) {
-      qnaData?.product_id ? router.push(`/product/${qnaData.product_id}`) : router.push(`/users/${userId}?article=qna`);
-    }
-  }, [createQnaisSuccess, updateQnaisSuccess]);
 
   return (
     <form onSubmit={qnaData ? handleSubmit(handleUpdateFormSubmit) : handleSubmit(handleCreateFormSubmit)}>
