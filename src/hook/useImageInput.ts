@@ -36,7 +36,7 @@ export const useImageInput = (limitCount: number = 1) => {
         id: imageId
       };
     });
-    setCustomImageList((pre) => [...pre, ...storageImageList]);
+    return setCustomImageList(storageImageList);
   };
 
   /**
