@@ -21,7 +21,7 @@ enum EnumFontSize {
 
 const Spinner = ({ size = "md", isShowText = false }: Props) => {
   return (
-    <div className="flex flex-col gap-8 m-8 items-center">
+    <div className="flex flex-col gap-8 m-8 items-center fixed inset-0 z-50 justify-center bg-transparent">
       <div className={`${styles.spinner_wrap} transform ${EnumSpinnerSize[size]}`}>
         <div className={`${styles.spinner} `}>
           <div></div>
