@@ -9,8 +9,7 @@ import "swiper/css/pagination";
 
 import "../app/swiper.css";
 // import required modules
-import { FreeMode, Pagination } from "swiper/modules";
-import { Scrollbar } from "swiper/modules";
+import { Pagination } from "swiper/modules";
 
 import { ProductProperties } from "@/types/db";
 import Card from "./Card";

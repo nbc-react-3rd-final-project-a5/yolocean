@@ -3,7 +3,7 @@ import React from "react";
 import Controller from "./ControlForm";
 import Info from "./Info";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
-import { getProduct, updateProduct } from "@/service/table";
+import { getProduct } from "@/service/table";
 import View from "./View";
 import { Metadata, ResolvingMetadata } from "next";
 

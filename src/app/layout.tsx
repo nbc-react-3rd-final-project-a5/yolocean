@@ -6,13 +6,15 @@ import Script from "next/script";
 import { rem, pretendard } from "@/app/styles/fonts/fonts";
 import styles from "@/app/styles/fonts/fonts.module.css";
 import Header from "@/components/layout/Header";
-import CreateModal from "@/components/portal/CreateModal";
-import CreateAlert from "@/components/portal/CreateAlert";
 import Footer from "@/components/layout/Footer";
-import CreateConfirm from "@/components/portal/CreateConfirm";
 import AuthChage from "@/components/layout/AuthChage";
 import PageControlBtnGroup from "@/components/layout/PageControlBtnGroup";
-import KakaoScript from "@/lib/KakaoScript";
+import dynamic from "next/dynamic";
+
+const KakaoScript = dynamic(() => import("@/lib/KakaoScript"));
+const CreateModal = dynamic(() => import("@/components/portal/CreateModal"));
+const CreateAlert = dynamic(() => import("@/components/portal/CreateAlert"));
+const CreateConfirm = dynamic(() => import("@/components/portal/CreateConfirm"));
 
 export const metadata: Metadata = {
   title: "YOLOCEAN",
