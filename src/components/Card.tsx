@@ -21,6 +21,8 @@ const Card = ({ product, overlay, categoryId }: Card) => {
             alt={`${product.name}_image`}
             // sizes="(max-width: 1200px) 246px (min-width:1200px) 500px"
             sizes="(max-width: 1200px) 246px, (max-width: 1024px) 160px, 500px"
+            placeholder="blur"
+            blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBAB  bWyZJf74GZgAAAABJRU5ErkJggg=="
             fill
             src={product.thumbnail}
           />

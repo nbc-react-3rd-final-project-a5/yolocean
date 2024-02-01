@@ -18,6 +18,8 @@ import ShareModal from "./ShareModal";
 import { createCart, getCart, updateCart } from "@/service/table";
 import SelectOffice from "@/app/category/[categoryId]/SelectOffice";
 import CustomButton from "@/components/CustomButton";
+import { useCustomMutation } from "@/hook";
+import Spinner from "@/components/Spinner";
 
 interface Props {
   category_name: string;
@@ -44,6 +46,16 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
   const router = useRouter();
   const { auth: user_id } = useAuthStore();
 
+  const updateCartMutation = useCustomMutation({
+    mutationFn: async ({ body, cartId }: { body: string; cartId: string }) =>
+      updateCart({ userId: user_id, body, cartId }),
+    queryKey: [user_id, product_id, "cart"]
+  });
+  const createCartMutation = useCustomMutation({
+    mutationFn: async ({ body }: { body: string }) => createCart({ userId: user_id, body }),
+    queryKey: [user_id, product_id, "cart"]
+  });
+
   useEffect(() => {
     setValue("address", office.name);
     clearErrors("address");
@@ -59,9 +71,9 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
   }
   const addCart = debounce(async (body: string, submitType: string, cartId: string) => {
     if (cartId) {
-      await updateCart({ userId: user_id, body, cartId });
+      updateCartMutation.mutate({ userId: user_id, body, cartId });
     } else {
-      await createCart({ body, userId: user_id });
+      createCartMutation.mutate({ body, userId: user_id });
     }
 
     if (submitType === "cart") {

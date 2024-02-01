@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
 import { createPortal } from "react-dom";
-import { IoMdCloseCircle } from "react-icons/io";
 import { confirmStore, closeConfirm } from "@/store/confirmStore";
 
 const CreateConfirm: React.FC = () => {
