@@ -48,6 +48,7 @@ const InputImage = ({ customImageList, isEnter, handler }: Props) => {
         id="input__image"
         onChange={handler.handleAddImageChange}
         multiple
+        accept="image/*"
         className="hidden"
       />
     </label>
