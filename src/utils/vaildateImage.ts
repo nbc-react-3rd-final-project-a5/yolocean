@@ -33,8 +33,6 @@ const validateFileType = (imageFile: File): ValidateReturn => {
 
 const validateCount = (stateCount: number, limitCount: number): ValidateReturn => {
   const isValid = stateCount < limitCount;
-  console.log("stateCount", stateCount);
-  console.log("maxCount", limitCount);
   return isValid ? createReturn(true, "valid") : createReturn(false, "inValidCount");
 };
 
