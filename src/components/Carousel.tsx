@@ -1,8 +1,7 @@
 "use client";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
-import React, { useState } from "react";
-import { FaRegFileImage } from "react-icons/fa";
+import React from "react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -43,10 +42,12 @@ const Carousel = () => {
                 <Image
                   fill
                   priority
+                  blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBAB  bWyZJf74GZgAAAABJRU5ErkJggg=="
+                  placeholder="blur"
                   alt="img"
-                  sizes="(max-width: 1200px) 1200px"
                   width={0}
                   height={0}
+                  sizes="(max-width: 1200px) 600px, (max-width: 1024px) 500px, 800px"
                   className="w-[1200px] h-auto "
                   src={item.img}
                 />
