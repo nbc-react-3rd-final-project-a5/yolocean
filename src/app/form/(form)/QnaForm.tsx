@@ -10,8 +10,11 @@ import { ExtendQna, Qna } from "@/types/db";
 import useStorage from "@/utils/useStorage";
 import { debounce } from "lodash";
 import { useRouter } from "next/navigation";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import dynamic from "next/dynamic";
+
+const Spinner = dynamic(() => import("@/components/Spinner"));
 
 interface Props {
   qnaData: ExtendQna;
@@ -22,6 +25,7 @@ const QnaForm = ({ qnaData, productId }: Props) => {
   const preReviewImageUrl = qnaData?.url;
   const { auth: userId } = useAuthStore();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -40,12 +44,12 @@ const QnaForm = ({ qnaData, productId }: Props) => {
   }, []);
 
   //   ========== Mutation ============
-  const { mutate: createQnaMutate } = useCustomMutation({
+  const { mutate: createQnaMutate, isSuccess: createQnaisSuccess } = useCustomMutation({
     queryKey: productId ? ["review ", productId] : ["review ", userId],
     mutationFn: async (formData) => await createUserQna({ userId, body: JSON.stringify(formData) })
   });
 
-  const { mutate: updateQnaMutate } = useCustomMutation({
+  const { mutate: updateQnaMutate, isSuccess: updateQnaisSuccess } = useCustomMutation({
     queryKey: ["review ", productId] && ["review ", userId],
     mutationFn: async (formData) => await updateUserQna({ userId, qnaId: qnaData.id, body: JSON.stringify(formData) })
   });
@@ -69,17 +73,21 @@ const QnaForm = ({ qnaData, productId }: Props) => {
       };
 
       createQnaMutate(formData);
-      return productId
-        ? router.push(`/product/${productId}?article=제품문의`)
-        : router.push(`/users/${userId}?article=qna`);
+      return productId;
+      // ? router.push(`/product/${productId}?article=제품문의`)
+      // : router.push(`/users/${userId}?article=qna`);
     } catch (error) {
       alert(error);
     }
   }, 300);
 
-  const handleCreateFormSubmit = useCallback(async (data: any) => {
-    await createQna(data);
-  }, []);
+  const handleCreateFormSubmit = useCallback(
+    async (data: any) => {
+      setLoading(true);
+      await createQna(data);
+    },
+    [createQna]
+  );
 
   const updateQna = debounce(async (data) => {
     const storagePath = productId ? `${userId}/${productId}` : userId;
@@ -108,21 +116,38 @@ const QnaForm = ({ qnaData, productId }: Props) => {
       };
 
       updateQnaMutate(formData);
-      return qnaData?.product_id
-        ? router.push(`/product/${qnaData.product_id}?article=제품문의`)
-        : router.push(`/users/${userId}?article=qna`);
+      // return qnaData?.product_id
+      //   ? router.push(`/product/${qnaData.product_id}?article=제품문의`)
+      //   : router.push(`/users/${userId}?article=qna`);
     } catch (error) {
       alert(error);
       return router.push(`/`);
     }
   }, 300);
 
-  const handleUpdateFormSubmit = useCallback(async (data: any) => {
-    await updateQna(data);
-  }, []);
+  const handleUpdateFormSubmit = useCallback(
+    async (data: any) => {
+      setLoading(true);
+      await updateQna(data);
+    },
+    [updateQna]
+  );
+
+  useEffect(() => {
+    if (updateQnaisSuccess || createQnaisSuccess) {
+      setLoading(false);
+    }
+    if (createQnaisSuccess) {
+      productId ? router.push(`/product/${productId}`) : router.push(`/users/${userId}?article=qna`);
+    }
+    if (updateQnaisSuccess) {
+      qnaData?.product_id ? router.push(`/product/${qnaData.product_id}`) : router.push(`/users/${userId}?article=qna`);
+    }
+  }, [createQnaisSuccess, updateQnaisSuccess]);
 
   return (
     <form onSubmit={qnaData ? handleSubmit(handleUpdateFormSubmit) : handleSubmit(handleCreateFormSubmit)}>
+      {loading && <Spinner size="lg" />}
       <FormFieldSet title={`문의 제목`}>
         <input
           type="text"

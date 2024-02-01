@@ -1,19 +1,16 @@
 import ReviewList from "@/components/review/ReviewList";
 import { getAllProductReview } from "@/service/table";
-
 import React from "react";
 import Empty from "./Empty";
 import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import Pagenation from "@/components/Pagination";
-import { revalidateTag } from "next/cache";
 
 interface Props {
   productId: string;
   page: number;
 }
 const Review = async ({ productId, page }: Props) => {
-  revalidateTag("review");
   const cookieStore = cookies();
   const supabase = createServerComponentClient({
     cookies: () => cookieStore

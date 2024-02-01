@@ -1,7 +1,7 @@
 "use client";
 
 import { ExtendReview, Review } from "@/types/db";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import FormFieldSet from "@/components/form/FormFieldSet";
 import { useForm } from "react-hook-form";
 import useStorage from "@/utils/useStorage";
@@ -12,6 +12,8 @@ import { createUserReview, updateUserReview } from "@/service/table";
 import { useRouter } from "next/navigation";
 import CustomButton from "@/components/CustomButton";
 import { debounce } from "lodash";
+import dynamic from "next/dynamic";
+const Spinner = dynamic(() => import("@/components/Spinner"));
 
 interface Props {
   reviewData: ExtendReview;
@@ -28,6 +30,7 @@ interface UploadForm {
 const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
   const router = useRouter();
   const { auth: userId } = useAuthStore();
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -49,12 +52,12 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
   }, []);
 
   // ========== Mutation ==========
-  const { mutate: createReviewMutate } = useCustomMutation({
+  const { mutate: createReviewMutate, isSuccess: createReviewisSuccess } = useCustomMutation({
     queryKey: ["review ", productId],
     mutationFn: async (formData) => await createUserReview({ userId, body: JSON.stringify(formData) })
   });
 
-  const { mutate: updateReviewMutate } = useCustomMutation({
+  const { mutate: updateReviewMutate, isSuccess: updateReviewisSuccess } = useCustomMutation({
     queryKey: ["review ", productId],
     mutationFn: async (formData) =>
       await updateUserReview({ userId, reviewId: reviewData.id, body: JSON.stringify(formData) })
@@ -79,15 +82,19 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
 
       createReviewMutate(formData);
 
-      return router.push(`/product/${productId}?article=후기`);
+      // return router.push(`/product/${productId}?article=후기`);
     } catch (error) {
       alert(error);
     }
   }, 300);
 
-  const handleFormSubmit = useCallback(async (data: UploadForm) => {
-    await createReview(data);
-  }, []);
+  const handleFormSubmit = useCallback(
+    async (data: UploadForm) => {
+      setLoading(true);
+      await createReview(data);
+    },
+    [createReview]
+  );
 
   const updateReview = debounce(async (data) => {
     const storagePath = productId ? `${userId}/${productId}` : userId;
@@ -119,18 +126,35 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
       };
 
       updateReviewMutate(formData);
-      return router.push(`/product/${productId}?article=후기`);
+      // return router.push(`/product/${productId}?article=후기`);
     } catch (error) {
       console.error(error);
     }
   }, 300);
 
-  const handleUpdateFormSubmit = useCallback(async (data: UploadForm) => {
-    await updateReview(data);
-  }, []);
+  const handleUpdateFormSubmit = useCallback(
+    async (data: UploadForm) => {
+      setLoading(true);
+      await updateReview(data);
+    },
+    [updateReview]
+  );
+
+  useEffect(() => {
+    if (updateReviewisSuccess || createReviewisSuccess) {
+      setLoading(false);
+    }
+    if (createReviewisSuccess) {
+      router.push(`/product/${productId}`);
+    }
+    if (updateReviewisSuccess) {
+      router.push(`/product/${productId}`);
+    }
+  }, [createReviewisSuccess, updateReviewisSuccess]);
 
   return (
     <form onSubmit={reviewData ? handleSubmit(handleUpdateFormSubmit) : handleSubmit(handleFormSubmit)}>
+      {loading && <Spinner />}
       <FormFieldSet title={"리뷰 제목"}>
         <input
           type="text"

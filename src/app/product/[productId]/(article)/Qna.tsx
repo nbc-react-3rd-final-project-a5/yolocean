@@ -6,14 +6,12 @@ import Empty from "./Empty";
 import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import Pagination from "@/components/Pagination";
-import { revalidateTag } from "next/cache";
 
 interface Props {
   productId: string;
   page: number;
 }
 const Qna = async ({ productId, page }: Props) => {
-  revalidateTag("qna");
   const cookieStore = cookies();
   const supabase = createServerComponentClient({
     cookies: () => cookieStore
