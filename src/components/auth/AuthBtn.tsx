@@ -90,7 +90,7 @@ const AuthBtn = () => {
           </div>
         </div>
       ) : (
-        <Link href={"/auth"}>
+        <Link href={"/auth"} aria-label="로그인 페이지로 이동">
           <AiOutlineUser size="22" className="cursor-pointer mt-[5px] mobile:mt-0" color="#3074F0" />
         </Link>
       )}
