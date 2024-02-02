@@ -1,7 +1,7 @@
 {
   "product": {
     "title": "상품 관리",
-    "link": "/admin/product"
+    "link": "/admin/product?article=상품&page=1"
   },
   "store": {
     "title": "지점 관리",
