@@ -8,6 +8,13 @@ const getAllProductQna = async ({ productId, page = 1 }: Pick<API, "productId" |
   const result = await res.json();
   return result;
 };
+const getAllQna = async ({ category, answer, page }: { category?: string; answer?: string; page: number }) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/admin/qna?page=${page}&answer=${answer}&category=${category}`
+  );
+  const result = await res.json();
+  return result;
+};
 
 // [CREATE] 유저가 문의 생성
 const createUserQna = async ({ userId, body }: Pick<API, "userId" | "body">) => {
@@ -56,4 +63,4 @@ const deleteUserQna = async ({ userId, qnaId }: Pick<API, "userId" | "qnaId">) =
   return result;
 };
 
-export { getAllProductQna, createUserQna, getUserQna, getAllUserQna, updateUserQna, deleteUserQna };
+export { getAllProductQna, createUserQna, getUserQna, getAllUserQna, updateUserQna, deleteUserQna, getAllQna };
