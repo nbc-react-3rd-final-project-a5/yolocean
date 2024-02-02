@@ -3,7 +3,7 @@ import { ExtendFixedReview } from "@/types/db";
 
 const getAllProductReview = async ({ productId, page = 1 }: Pick<API, "productId" | "page">) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/product/${productId}/review?page=${page}`, {
-    next: { tags: ["review"] }
+    next: { tags: [productId, "review"] }
   });
   const data = await res.json();
 
@@ -12,7 +12,7 @@ const getAllProductReview = async ({ productId, page = 1 }: Pick<API, "productId
 
 const getAllUserReview = async ({ userId, page = 1 }: Pick<API, "userId" | "page">) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/review?page=${page}`, {
-    next: { tags: ["user", "userReview"] }
+    next: { tags: ["user", "review"] }
   });
   const data = await res.json();
   return data;
@@ -28,7 +28,9 @@ const createUserReview = async ({ userId, body }: Pick<API, "userId" | "body">) 
 };
 
 const getUserReview = async ({ userId, reviewId }: Pick<API, "userId" | "reviewId">) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/review/${reviewId}`, {});
+  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/review/${reviewId}`, {
+    cache: "no-store"
+  });
   const data = await res.json();
   return data;
 };
