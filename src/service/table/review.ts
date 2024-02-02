@@ -86,9 +86,9 @@ const updateBlindReview = async ({ reviewId, body }: Pick<API, "reviewId" | "bod
 };
 
 //리뷰 전체 가져오기
-const getAllReview = async () => {
+const getAllReview = async ({ page = 1 }: Pick<API, "page">) => {
   //일단 페이지네이션 노생각
-  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/admin/review`, { method: "GET" });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/admin/review?page=${page}`, { method: "GET" });
   const allReview = await res.json();
   return allReview;
 };

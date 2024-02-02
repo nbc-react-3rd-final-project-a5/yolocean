@@ -1,10 +1,14 @@
 import React from "react";
-import ReviewList from "./ReviewList";
+import AdminReview from "./AdminReview";
 
-const AdminReviewPage = () => {
+interface Props {
+  searchParams: { [key: string]: any } | undefined;
+}
+
+const AdminReviewPage = ({ searchParams }: Props) => {
   return (
     <>
-      <ReviewList />
+      <AdminReview searchParams={searchParams} />
     </>
   );
 };

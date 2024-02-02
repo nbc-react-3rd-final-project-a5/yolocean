@@ -5,14 +5,21 @@ import ReviewItem from "./ReviewItem";
 import React, { useState } from "react";
 import { AdminReview, CategoryTable } from "@/types/db";
 
-const ReviewList = () => {
+interface Props {
+  searchParams: { [key: string]: any } | undefined;
+  reviewList: AdminReview[] | undefined;
+}
+
+const ReviewList = ({ searchParams, reviewList }: Props) => {
   const [order, setOrder] = useState("descending");
   const [cate, setCate] = useState("no_category");
 
-  const { data: reviewList, isLoading: isReviewLoading } = useQuery({
-    queryKey: ["review"],
-    queryFn: async () => await getAllReview()
-  });
+  // const { data: reviewList, isLoading: isReviewLoading } = useQuery({
+  //   queryKey: ["review"],
+  //   queryFn: async () => await getAllReview()
+  // });
+
+  // const { review: reviewList, maxPage, nextPage, prevPage } = await getAllReview({ page: searchParams?.["page"] || 1 });
 
   const { data: categoryList, isLoading: isCategoryLoading } = useQuery({
     queryKey: ["category"],
@@ -22,7 +29,7 @@ const ReviewList = () => {
   return (
     <>
       <div className="max-w-[800px] mx-auto space-y-[20px]">
-        <div>
+        <div id="tab">
           <select name="date_sort" id="date_sort" onChange={(e) => setOrder(e.target.value)}>
             <option value="descending">최신 순</option>
             <option value="ascending">오래된 순</option>
@@ -37,8 +44,14 @@ const ReviewList = () => {
               ))}
           </select>
         </div>
-        {!isReviewLoading &&
-          reviewList.map((review: AdminReview) => <ReviewItem review={review} cate={cate} key={review.id} />)}
+        <ul>
+          {reviewList !== undefined &&
+            reviewList.map((review: AdminReview) => (
+              <li className="mb-[5px]" key={review.id}>
+                <ReviewItem review={review} cate={cate} />
+              </li>
+            ))}
+        </ul>
       </div>
     </>
   );
