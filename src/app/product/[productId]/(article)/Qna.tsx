@@ -8,6 +8,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import Pagination from "@/components/Pagination";
 import { revalidateTag } from "next/cache";
 import ReviewPulse from "@/components/pulse/ReviewPulse";
+import CustomLink from "@/components/CustomLink";
 
 interface Props {
   productId: string;
@@ -28,9 +29,12 @@ const Qna = async ({ productId, page }: Props) => {
     <div>
       {user?.id && (
         <div className="flex justify-end items-center  mb-[25px]">
-          <Link href={`/form?productId=${productId}`}>
+          <CustomLink size="sm" href={`/form?productId=${productId}`}>
+            문의 작성
+          </CustomLink>
+          {/* <Link href={`/form?productId=${productId}`} aria-label="">
             <button className="bg-point text-white text-[14px] rounded-lg  px-[18px] py-[10px]">{`문의 작성`}</button>
-          </Link>
+          </Link> */}
         </div>
       )}
       {qna && (
