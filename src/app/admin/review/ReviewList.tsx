@@ -11,40 +11,20 @@ interface Props {
 }
 
 const ReviewList = ({ searchParams, reviewList }: Props) => {
-  const [order, setOrder] = useState("descending");
-  const [cate, setCate] = useState("no_category");
-
-  const { data: categoryList, isLoading: isCategoryLoading } = useQuery({
-    queryKey: ["category"],
-    queryFn: async () => getAllCategory()
-  });
-
   return (
     <>
       <div id="tab" className="mt-[30px] mx-auto space-y-[20px]">
-        <div className="flex justify-end">
-          <select name="date_sort" id="date_sort" onChange={(e) => setOrder(e.target.value)}>
-            <option value="descending">최신 순</option>
-            <option value="ascending">오래된 순</option>
-          </select>
-          <select name="category" id="category" onChange={(e) => setCate(e.target.value)}>
-            <option value="no_category">카테고리 선택</option>
-            {!isCategoryLoading &&
-              categoryList.map((category: CategoryTable) => (
-                <option value={category.id} key={category.id}>
-                  {category.category_name}
-                </option>
-              ))}
-          </select>
-        </div>
-        <ul>
-          {reviewList !== undefined &&
-            reviewList.map((review: AdminReview) => (
+        {reviewList !== undefined && reviewList.length > 0 ? (
+          <ul>
+            {reviewList.map((review: AdminReview) => (
               <li className="mb-[5px]" key={review.id}>
-                <ReviewItem review={review} cate={cate} />
+                <ReviewItem review={review} />
               </li>
             ))}
-        </ul>
+          </ul>
+        ) : (
+          <div>no review</div>
+        )}
       </div>
     </>
   );

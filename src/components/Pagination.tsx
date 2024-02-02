@@ -9,6 +9,7 @@ interface Props {
   limit: number;
   articleName: string;
   setPage?: React.Dispatch<React.SetStateAction<number>>;
+  categoryId?: string;
 }
 
 const Pagination = ({ maxPage, currentPage, limit, articleName, setPage }: Props) => {
