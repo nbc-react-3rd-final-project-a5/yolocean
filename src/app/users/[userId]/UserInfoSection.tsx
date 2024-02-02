@@ -9,7 +9,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getUser } from "@/service/table";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
-import Spinner from "@/components/Spinner";
 import ProfilePulse from "@/components/pulse/ProfilePulse";
 
 const UserInfoSection = () => {
