@@ -8,7 +8,7 @@ const NavigationBar = () => {
   const { product, store, promotion, review, qna, rent } = tabData;
 
   return (
-    <aside className="float-left h-screen w-[250px] border-r-2 rounded-md border-point">
+    <aside className="float-left w-[250px] border-r-2 rounded-md border-point">
       <div className="w-full h-[100px] text-[20px] flex items-center justify-center border-b border-line text-white bg-point">
         <Link href={"/admin"}>YOLOCEAN Admin</Link>
       </div>
