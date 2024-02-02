@@ -14,7 +14,7 @@ const HeaderCart = () => {
   return (
     <>
       {auth !== "" ? (
-        <Link href={`/cart/${auth}`}>
+        <Link href={`/cart/${auth}`} aria-label="장바구니로 이동">
           <AiOutlineShopping size="22" className="mt-[5px]" color="#3074F0" />
         </Link>
       ) : (

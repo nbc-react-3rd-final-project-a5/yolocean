@@ -6,15 +6,15 @@ import Link from "next/link";
 interface Card {
   product: ProductProperties;
   categoryId: string;
-  overlay?: ReactNode;
 }
 
-const Card = ({ product, overlay, categoryId }: Card) => {
+const Card = ({ product, categoryId }: Card) => {
   return (
     <div className="relative  w-full mobile:max-w-[160px] tablet:max-w-[180px]  group ">
       <Link
         className="flex flex-col max-w-[246px] mobile:max-w-[160px] w-full max-h-[340px]  gap-[20px]"
         href={`/product/${product.id}`}
+        aria-label={`${product.name} 페이지로 이동`}
       >
         <div className="relative  mobile:max-w-[160px] mobile:h-[160px] tablet:max-w-[180px] tablet:h-[180px] max-w-[246px] w-full h-[246px] bg-bg">
           <Image
@@ -54,17 +54,6 @@ const Card = ({ product, overlay, categoryId }: Card) => {
           )}
         </div>
       </Link>
-      {overlay && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 group-hover:before:bg-black group-hover:before:opacity-60 before:content-[''] before:absolute before:inset-0">
-          <Link
-            href={`/product/${product.id}`}
-            className="bg-white w-[80%] py-4 rounded-lg relative group-hover:block hidden"
-          >
-            페이지 이동
-          </Link>
-          <div className="bg-white w-[80%] py-4 rounded-lg relative group-hover:block hidden">{overlay}</div>
-        </div>
-      )}
     </div>
   );
 };

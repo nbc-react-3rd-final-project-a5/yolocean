@@ -10,7 +10,7 @@ const Footer = () => {
         <ul className="max-w-[1200px] mx-auto w-[90%] flex  gap-[20px] text-[14px] ">
           {linkList.map((n) => (
             <li className="hover:underline" key={`footer__nav-${n.title}`}>
-              <Link href={n.disable ? "#" : n.link} prefetch={false}>
+              <Link href={n.disable ? "#" : n.link} prefetch={false} aria-label={`${n.title}로 이동`}>
                 {n.title}
               </Link>
             </li>
@@ -29,7 +29,11 @@ const Footer = () => {
                       <span className="mr-[10px] text-tc-middle">{info.title}</span>
                       {info.content}
                       {info.link && (
-                        <Link className="ml-[10px] underline" href={info.link.link}>
+                        <Link
+                          className="ml-[10px] underline"
+                          href={info.link.link}
+                          aria-label={`${info.link.title}로 이동`}
+                        >
                           {info.link.title}
                         </Link>
                       )}

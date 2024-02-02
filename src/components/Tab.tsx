@@ -44,6 +44,7 @@ const Tab = ({ activeTab, handleTabClick, tabs, isVariable = false, className }:
                   activeTab === tab ? "bg-point  text-white" : "bg-bg text-tc-base"
                 }`}
                 onClick={() => document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" })}
+                aria-label={`해당 ${tab}으로 이동`}
               >
                 {tab}
               </Link>

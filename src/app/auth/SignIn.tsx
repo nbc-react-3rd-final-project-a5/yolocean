@@ -132,7 +132,7 @@ const SignIn = ({ mode, setMode }: Props) => {
               </div>
 
               <div className="text-point my-[20px] text-right">
-                <Link href={"/auth/find"}>
+                <Link href={"/auth/find"} aria-label="아이디 또는 비밀번호 찾기 페이지로 이동">
                   {"아이디 / 비밀번호 찾기"}
                   <SlArrowRight className="inline-block mb-1 ml-[10px]" size={10} />
                 </Link>
@@ -145,11 +145,17 @@ const SignIn = ({ mode, setMode }: Props) => {
 
                 <div className="grid grid-cols-2 gap-[10px] place-items-center">
                   <button type="button" onClick={signInWithKakao}>
-                    <Image width={44} height={10} alt="kakaoIcon" src="/images/kakao_login.png" className="h-10 w-44" />
+                    <Image
+                      width={176}
+                      height={40}
+                      alt="kakaoIcon"
+                      src="/images/kakao_login.png"
+                      className="h-10 w-44"
+                    />
                   </button>
 
                   <button type="button" onClick={signInWithGoogle}>
-                    <Image width={44} height={10} alt="googleIcon" src="/images/google_login.png" />
+                    <Image width={176} height={40} alt="googleIcon" src="/images/google_login.png" />
                   </button>
                 </div>
               </div>

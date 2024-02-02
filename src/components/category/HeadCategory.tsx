@@ -13,7 +13,7 @@ interface Props {
 
 const CategoryName = ({ category: { id, category_name } }: Props) => {
   return (
-    <Link href={`/category/${id}`}>
+    <Link href={`/category/${id}`} aria-label={`해당 ${category_name}으로 이동`}>
       <li className="p-2 hover:underline decoration-wavy decoration-point">{category_name}</li>
     </Link>
   );
