@@ -32,6 +32,7 @@ const Pagination = ({ maxPage, currentPage, limit, articleName, setPage }: Props
               }
             }}
             className="text-black"
+            aria-label="이전 페이지로 이동"
           >
             <li>
               <MdKeyboardArrowLeft />
@@ -54,6 +55,7 @@ const Pagination = ({ maxPage, currentPage, limit, articleName, setPage }: Props
               className={`${
                 Number(currentPage) === Number(page) && "rounded-full bg-point text-white"
               } w-[24px] h-[24px] p-[5px] flex items-center justify-center`}
+              aria-label={`${page} 페이지로 이동`}
             >
               <li>{page}</li>
             </Link>
@@ -71,6 +73,7 @@ const Pagination = ({ maxPage, currentPage, limit, articleName, setPage }: Props
               }
             }}
             className="text-black"
+            aria-label="다음 페이지로 이동"
           >
             <MdKeyboardArrowRight />
           </Link>

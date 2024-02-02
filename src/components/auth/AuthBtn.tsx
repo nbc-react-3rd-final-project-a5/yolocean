@@ -56,10 +56,14 @@ const AuthBtn = () => {
         >
           <ul className="cursor-pointer text-sm">
             <li className="hidden mobile:p-2 mobile:block">
-              <Link href={`/cart/${auth}`}>장바구니</Link>
+              <Link href={`/cart/${auth}`} aria-label="장바구니로 이동">
+                장바구니
+              </Link>
             </li>
             <li className="p-2 hover:underline decoration-wavy decoration-point">
-              <Link href={`/users/${auth}`}>마이 페이지</Link>
+              <Link href={`/users/${auth}`} aria-label="마이페이지로 이동">
+                마이 페이지
+              </Link>
             </li>
             <li onClick={signOut} className="p-2 hover:underline decoration-wavy decoration-point">
               로그아웃

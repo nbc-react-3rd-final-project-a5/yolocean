@@ -37,7 +37,13 @@ const PageBreadCrumb = ({ linkList, marginBottom = "pb-[46px]" }: Props) => {
           return (
             <Fragment key={n.url}>
               <li className={`${isLastLink && "text-[#262626]"} hover:underline`}>
-                {isLastLink ? <p className="cursor-default">{n.name}</p> : <Link href={n.url}>{n.name}</Link>}
+                {isLastLink ? (
+                  <p className="cursor-default">{n.name}</p>
+                ) : (
+                  <Link href={n.url} aria-label={`${n.name}으로 이동`}>
+                    {n.name}
+                  </Link>
+                )}
               </li>
               {!isLastLink && <BsChevronCompactRight key={i} />}
             </Fragment>

@@ -52,6 +52,7 @@ const ReviewBtnGroup = ({ userId, reviewId, listType, productId }: Props) => {
       <Link
         href={editLink}
         className="py-[10px] px-[32px] text-[14px] font-semibold rounded-[5px] bg-tc-middle text-white"
+        aria-label="해당 리뷰 수정 페이지로 이동"
       >
         수정
       </Link>
