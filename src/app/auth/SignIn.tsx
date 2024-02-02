@@ -145,11 +145,17 @@ const SignIn = ({ mode, setMode }: Props) => {
 
                 <div className="grid grid-cols-2 gap-[10px] place-items-center">
                   <button type="button" onClick={signInWithKakao}>
-                    <Image width={44} height={10} alt="kakaoIcon" src="/images/kakao_login.png" className="h-10 w-44" />
+                    <Image
+                      width={176}
+                      height={40}
+                      alt="kakaoIcon"
+                      src="/images/kakao_login.png"
+                      className="h-10 w-44"
+                    />
                   </button>
 
                   <button type="button" onClick={signInWithGoogle}>
-                    <Image width={44} height={10} alt="googleIcon" src="/images/google_login.png" />
+                    <Image width={176} height={40} alt="googleIcon" src="/images/google_login.png" />
                   </button>
                 </div>
               </div>
