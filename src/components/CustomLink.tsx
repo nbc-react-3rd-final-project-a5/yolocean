@@ -83,6 +83,7 @@ const CustomLink = ({
       prefetch={prefetch}
       onClick={onClick}
       className={`${defaultStyle} ${customStyle}  ${isFull && "w-full"} ${disabled && disabledStyle} ${className}`}
+      aria-label={`${children} 이동`}
     >
       {children}
     </Link>
