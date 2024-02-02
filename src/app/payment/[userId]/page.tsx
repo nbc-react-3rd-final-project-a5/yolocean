@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import CartItem from "@/app/cart/CartItem";
 import { CartBox, RentLogInsert } from "@/types/db";
-import { UserInfo } from "@/types/db";
 import { useQuery } from "@tanstack/react-query";
 import { createAllUserRent, deleteAllCart, getAllCart, getUser } from "@/service/table";
 import { useCustomMutation } from "@/hook";
@@ -14,11 +13,14 @@ import { usealertStore } from "@/store/alertStore";
 import { useModalStore } from "@/store/modalStore";
 import { openConfirm } from "@/store/confirmStore";
 import { useRouter, useSearchParams } from "next/navigation";
-import SuccessModal from "./SuccessModal";
 import CartPulse from "@/components/pulse/CartPulse";
 import CustomButton from "@/components/CustomButton";
 import termData from "@/data/termData.json";
 import Term from "./Term";
+import dynamic from "next/dynamic";
+
+const SuccessModal = dynamic(() => import("./SuccessModal"));
+
 const linkList = [
   {
     name: "홈",
