@@ -10,11 +10,10 @@ import MobileSearch from "./mobile/MobileSearch";
 const Header = () => {
   return (
     <>
-      {" "}
       <header className="py-2 border-b-[1px] border-b-line mb-[20px] mobile:hidden">
         <div className=" m-auto flex flex-col max-w-[1200px] min-h-[128px] w-[90%] space-y-4">
           <div className="py-4">
-            <Link href={"/"} className="text-point text-[28px] font-black">
+            <Link href={"/"} className="text-point text-[28px] font-black" aria-label="메인 페이지로 이동">
               YOLOCEAN
             </Link>
           </div>
