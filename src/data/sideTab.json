@@ -9,7 +9,7 @@
   },
   "review": {
     "title": "리뷰 관리",
-    "link": "/admin/product"
+    "link": "/admin/review"
   },
   "qna": {
     "title": "QnA 관리",

@@ -21,8 +21,8 @@ const ReviewList = ({ searchParams, reviewList }: Props) => {
 
   return (
     <>
-      <div id="tab" className="max-w-[800px] mx-auto space-y-[20px]">
-        <div>
+      <div id="tab" className="mt-[30px] mx-auto space-y-[20px]">
+        <div className="flex justify-end">
           <select name="date_sort" id="date_sort" onChange={(e) => setOrder(e.target.value)}>
             <option value="descending">최신 순</option>
             <option value="ascending">오래된 순</option>

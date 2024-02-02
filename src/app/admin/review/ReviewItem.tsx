@@ -32,7 +32,7 @@ const ReviewItem = ({ review, cate }: Props) => {
   return (
     <>
       {cate === "no_category" || cate === product.category_id ? (
-        <div className="border rounded-[5px] p-[20px] space-y-[10px]">
+        <div className="border rounded-[5px] p-[20px] space-y-[10px] min-w-[800px]">
           <div className="mb-[15px]">
             <div className="flex justify-between mb-[10px] pb-[10px] border-b">
               <div className="flex flex-row space-x-[10px]">
