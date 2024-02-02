@@ -5,7 +5,6 @@ import AuthBtn from "../auth/AuthBtn";
 import HeadCategory from "../category/HeadCategory";
 import HeaderSearch from "./HeaderSearch";
 import MobileHeader from "./mobile/MobileHeader";
-import MobileSearch from "./mobile/MobileSearch";
 
 const Header = () => {
   return (

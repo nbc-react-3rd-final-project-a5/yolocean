@@ -1,9 +1,8 @@
 "use client";
-
 import CustomButton from "@/components/CustomButton";
 import InputImage from "@/components/InputImage";
 import FormFieldSet from "@/components/form/FormFieldSet";
-import { useCustomMutation, useImageInput } from "@/hook";
+import { useImageInput } from "@/hook";
 import { createUserQna, updateUserQna } from "@/service/table";
 import { useAuthStore } from "@/store/authStore";
 import { ExtendQna, Qna } from "@/types/db";

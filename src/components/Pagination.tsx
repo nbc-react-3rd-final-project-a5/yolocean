@@ -23,12 +23,11 @@ const Pagination = ({ maxPage, currentPage, limit, articleName, setPage }: Props
         {currentPage > 1 && (
           <Link
             scroll={false}
-            href={{ href: pathName, query: { article: articleName, page: Math.max(currentPage - 1, 1) } }}
+            href={{ href: pathName, query: { article: articleName, page: Number(currentPage) - 1 } }}
             onClick={() => {
               document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" });
-              console.log(document?.getElementById("tab"));
               if (setPage) {
-                setPage((currentPage) => Math.max(currentPage - 1, 1));
+                setPage((currentPage) => Number(currentPage) - 1);
               }
             }}
             className="text-black"
@@ -65,11 +64,11 @@ const Pagination = ({ maxPage, currentPage, limit, articleName, setPage }: Props
         {currentPage < maxPage && (
           <Link
             scroll={false}
-            href={{ href: pathName, query: { article: articleName, page: Math.min(currentPage + 1, maxPage) } }}
+            href={{ href: pathName, query: { article: articleName, page: Number(currentPage) + 1 } }}
             onClick={() => {
               document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" });
               if (setPage) {
-                setPage((currentPage) => Math.min(currentPage + 1, maxPage));
+                setPage((currentPage) => Number(currentPage) + 1);
               }
             }}
             className="text-black"

@@ -7,6 +7,7 @@ import { Postcode } from "./PostCode";
 import { getLatLng } from "./useMap";
 import { useQuery } from "@tanstack/react-query";
 import { createStore, getAllRegion } from "@/service/table";
+import Spinner from "@/components/Spinner";
 
 type StoreForm = Omit<Store, "id">;
 type LatLng = {
@@ -60,10 +61,10 @@ const StoreForm = () => {
     }
   };
   if (isLoading) {
-    return <div>로딩중...</div>;
+    return <Spinner />;
   }
   return (
-    <div className="m-auto container max-w-[1200px] w-[90%] flex flex-col justify-center align-center gap-1">
+    <div className="mx-auto container flex flex-col items-center gap-1">
       <p className="text-2xl font-bold">지점등록 페이지</p>
       <form className="w-[300px] flex flex-col justify-center gap-1" onSubmit={handleSubmit(handleStoreFormSubmit)}>
         <label htmlFor="name">지점명 *</label>
@@ -78,11 +79,14 @@ const StoreForm = () => {
         {errors?.name ? <p className=" text-red-500">{errors.name.message}</p> : null}
 
         <select
+          className="my-1 border border-black"
           {...register("region_id", {
             required: "행정지역을 선택해주세요."
           })}
         >
           <option>행정지역 선택 *</option>
+          {errors?.region_id ? <p className=" text-red-500">{errors.region_id.message}</p> : null}
+
           {regions!.map((data) => {
             return (
               <option key={data.id} value={data.id}>
@@ -91,7 +95,6 @@ const StoreForm = () => {
             );
           })}
         </select>
-        {errors?.region_id ? <p className=" text-red-500">{errors.region_id.message}</p> : null}
 
         <Postcode setAddress={setAddress} />
         <input
