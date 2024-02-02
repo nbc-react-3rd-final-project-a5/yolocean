@@ -12,7 +12,7 @@ const Banner = ({ banner }: { banner: Banner | undefined }) => {
         </div>
       ) : (
         <div className="bg-slate-300 h-[280px] mb-[200px] mobile:mb-[50px] animate-purse relative">
-          <Link href={`${banner.banner_link}`}>
+          <Link href={`${banner.banner_link}`} aria-label="배너가 광고하는 페이지로 이동">
             <Image
               fill
               alt="banner"
