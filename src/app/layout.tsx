@@ -42,11 +42,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <CreateConfirm />
           <Script
             src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services,clusterer&autoload=false`}
-            strategy="beforeInteractive"
+            strategy="lazyOnload"
           />
-          <Script src="https://cdn.iamport.kr/v1/iamport.js" />
-          <Script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></Script>
-          <Script src="https://developers.kakao.com/sdk/js/kakao.js"></Script>
+          <Script strategy="lazyOnload" src="https://cdn.iamport.kr/v1/iamport.js" />
+          <Script strategy="lazyOnload" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" />
+          <Script strategy="lazyOnload" src="https://developers.kakao.com/sdk/js/kakao.js" />
           <KakaoShare />
         </body>
       </html>
