@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import React from "react";
 
-const page = () => {
+const AdminProductPage = () => {
   const { data: products, isLoading } = useQuery<ProductProperties[]>({
     queryKey: ["products"],
     queryFn: getAllProduct
@@ -30,4 +30,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default AdminProductPage;

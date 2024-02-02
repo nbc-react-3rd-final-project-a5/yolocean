@@ -1,8 +1,8 @@
 import Section from "@/components/layout/Section";
 import React from "react";
 
-const page = () => {
+const AdminPage = () => {
   return <div>관리자 페이지 입니다.</div>;
 };
 
-export default page;
+export default AdminPage;
