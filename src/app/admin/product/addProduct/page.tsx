@@ -1,10 +1,12 @@
 "use client";
 
 import Spinner from "@/components/Spinner";
+import { useCustomMutation } from "@/hook";
 import { createProduct, getAllCategory } from "@/service/table";
 import { CategoryTable, Product } from "@/types/db";
 import useStorage from "@/utils/useStorage";
 import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
@@ -15,7 +17,7 @@ const ProductForm = () => {
   const [thumbnailImage, setThumbnailImage] = useState<File>();
   const [detailInfoImage, setDetailInfoImage] = useState<File>();
   const [rangeValue, setRangeValue] = useState<string>("할인없음");
-
+  const router = useRouter();
   const { uploadImage } = useStorage();
   const { data: category, isLoading: isCategoryLoading } = useQuery<CategoryTable[]>({
     queryKey: ["category"],
@@ -76,6 +78,11 @@ const ProductForm = () => {
     formFieldsArray.push(`${data.name}&${data.value}`);
   });
 
+  const { mutate: createProductMutation } = useCustomMutation({
+    mutationFn: async (data) => await createProduct(data),
+    queryKey: ["products"]
+  });
+
   const handleProductFormSubmit = async (data: Product) => {
     const id = uuidv4();
     const thumbnailUrl = await uploadImage(thumbnailImage!, "product", "thumbnail", id);
@@ -84,8 +91,9 @@ const ProductForm = () => {
     data.thumbnail = thumbnailUrl;
     data.info_img = infoImgUrl;
     if (data.info && data.name && data.category_id && data.price && data.thumbnail && data.id && data.original_price) {
-      createProduct({ body: JSON.stringify(data) });
+      createProductMutation({ body: JSON.stringify(data) });
       alert("상품이 등록 되었습니다!");
+      router.push("/admin/product?article=상품&page=1");
     } else {
       alert("필수 항목을 모두 입력해주세요!");
       return;

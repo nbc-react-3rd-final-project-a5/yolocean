@@ -363,6 +363,7 @@ export interface Database {
       };
       review: {
         Row: {
+          blind: boolean;
           content: string;
           created_at: string;
           id: string;
@@ -373,6 +374,7 @@ export interface Database {
           user_id: string;
         };
         Insert: {
+          blind?: boolean;
           content: string;
           created_at?: string;
           id?: string;
@@ -383,6 +385,7 @@ export interface Database {
           user_id: string;
         };
         Update: {
+          blind?: boolean;
           content?: string;
           created_at?: string;
           id?: string;
