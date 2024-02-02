@@ -45,11 +45,11 @@ const ReviewItem = ({ review, cate }: Props) => {
 
             <div className="flex flex-row justify-between mb-[15px]">
               <p>{userinfo.username}</p>
-              <p>{date.format("YYYY-MM-DD")}</p>
+              <p>작성일: {date.format("YYYY-MM-DD")}</p>
             </div>
 
-            <div className="space-y-[10px]">
-              <p className="font-medium text-[18px]">{title}</p>
+            <div className="space-y-[10px] p-[5px]">
+              <p className="font-semibold text-[18px]">{title}</p>
               <p>{content}</p>
               <div className="flex flex-row">
                 {ReviewImgList &&

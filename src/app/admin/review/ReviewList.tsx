@@ -6,6 +6,9 @@ import React, { useState } from "react";
 import { AdminReview, CategoryTable } from "@/types/db";
 
 const ReviewList = () => {
+  const [order, setOrder] = useState("descending");
+  const [cate, setCate] = useState("no_category");
+
   const { data: reviewList, isLoading: isReviewLoading } = useQuery({
     queryKey: ["review"],
     queryFn: async () => await getAllReview()
@@ -16,16 +19,13 @@ const ReviewList = () => {
     queryFn: async () => getAllCategory()
   });
 
-  // const [order, setOrder] = useState("");
-  const [cate, setCate] = useState("no_category");
-  //   console.log(reviewList);
   return (
     <>
       <div className="max-w-[800px] mx-auto space-y-[20px]">
         <div>
-          <select name="date_sort" id="date_sort">
-            <option value="ascending">오래된 순</option>
+          <select name="date_sort" id="date_sort" onChange={(e) => setOrder(e.target.value)}>
             <option value="descending">최신 순</option>
+            <option value="ascending">오래된 순</option>
           </select>
           <select name="category" id="category" onChange={(e) => setCate(e.target.value)}>
             <option value="no_category">카테고리 선택</option>
