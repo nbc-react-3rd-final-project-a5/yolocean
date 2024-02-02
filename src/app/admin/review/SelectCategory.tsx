@@ -8,9 +8,10 @@ import { usePathname } from "next/navigation";
 interface Props {
   currentPage: number;
   category: string;
+  order: string;
 }
 
-const SelectCategory = ({ currentPage, category: categoryId }: Props) => {
+const SelectCategory = ({ currentPage, category: categoryId, order }: Props) => {
   const pathName = usePathname();
 
   //카테고리 읽어오기
@@ -59,7 +60,7 @@ const SelectCategory = ({ currentPage, category: categoryId }: Props) => {
                 <Link
                   href={{
                     href: pathName,
-                    query: { article: "review", page: 1, category: category.id }
+                    query: { article: "review", page: 1, category: category.id, order: order }
                   }}
                   prefetch={false}
                 >
@@ -71,7 +72,7 @@ const SelectCategory = ({ currentPage, category: categoryId }: Props) => {
               <Link
                 href={{
                   href: pathName,
-                  query: { article: "review", page: 1, category: "" }
+                  query: { article: "review", page: 1, category: "", order: order }
                 }}
                 prefetch={false}
               >

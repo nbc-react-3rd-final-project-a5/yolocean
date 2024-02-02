@@ -5,9 +5,10 @@ import { usePathname } from "next/navigation";
 interface Props {
   currentPage: number;
   category: string;
+  order: string;
 }
 
-const SelectCategory = ({ currentPage, category: categoryId }: Props) => {
+const SelectCategory = ({ currentPage, category: categoryId, order }: Props) => {
   const pathName = usePathname();
 
   //메뉴 열기
