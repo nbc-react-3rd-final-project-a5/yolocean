@@ -9,13 +9,18 @@ interface Props {
   limit: number;
   articleName: string;
   setPage?: React.Dispatch<React.SetStateAction<number>>;
+  categoryId?: string;
+  order?: string;
 }
 
-const Pagination = ({ maxPage, currentPage, limit, articleName, setPage }: Props) => {
+const Pagination = ({ maxPage, currentPage, limit, articleName, setPage, categoryId, order }: Props) => {
   let firstPageNumber = Math.floor((Number(currentPage) - 1) / limit) * limit + 1;
 
   const pathName = usePathname();
   const pageArray = Array.from({ length: Math.min(limit, maxPage) }, (v, i) => firstPageNumber + i);
+
+  const optionalQueries =
+    categoryId || order ? { article: articleName, category: categoryId, order: order } : { article: articleName };
 
   return (
     <nav className=" py-[25px]">
@@ -23,7 +28,7 @@ const Pagination = ({ maxPage, currentPage, limit, articleName, setPage }: Props
         {currentPage > 1 && (
           <Link
             scroll={false}
-            href={{ href: pathName, query: { article: articleName, page: Number(currentPage) - 1 } }}
+            href={{ href: pathName, query: { ...optionalQueries, page: Number(currentPage) - 1 } }}
             onClick={() => {
               document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" });
               if (setPage) {
@@ -43,7 +48,7 @@ const Pagination = ({ maxPage, currentPage, limit, articleName, setPage }: Props
           return (
             <Link
               scroll={false}
-              href={{ href: pathName, query: { article: articleName, page } }}
+              href={{ href: pathName, query: { ...optionalQueries, page } }}
               onClick={() => {
                 document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" });
                 if (setPage) {
@@ -64,7 +69,7 @@ const Pagination = ({ maxPage, currentPage, limit, articleName, setPage }: Props
         {currentPage < maxPage && (
           <Link
             scroll={false}
-            href={{ href: pathName, query: { article: articleName, page: Number(currentPage) + 1 } }}
+            href={{ href: pathName, query: { ...optionalQueries, page: Number(currentPage) + 1 } }}
             onClick={() => {
               document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" });
               if (setPage) {

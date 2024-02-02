@@ -74,3 +74,30 @@ export interface ExtendQna extends Qna {
   userinfo: { username: string; avatar_url: string };
   url: string[] | null;
 }
+
+export interface AdminReview {
+  id: string;
+  title: string;
+  content: string;
+  url: string[];
+  created_at: string;
+  product_id: string;
+  product: {
+    name: string;
+    thumbnail: string;
+    category_id: string;
+    category: {
+      category_name: string;
+    };
+  };
+  store_id: string;
+  store: { name: string };
+  user_id: string;
+  userinfo: {
+    username: string;
+  };
+  fixed_review: {
+    id: string;
+  };
+  blind: boolean;
+}

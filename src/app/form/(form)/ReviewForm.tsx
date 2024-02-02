@@ -59,7 +59,7 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
 
     try {
       const imageURLList = await uploadMultipleImages(imageFileList, "review", imageFileIdList, storagePath);
-      const formData: Omit<Review, "id" | "created_at"> = {
+      const formData: Omit<Review, "id" | "created_at" | "blind"> = {
         user_id: userId,
         title: data.title,
         product_id: productId,
