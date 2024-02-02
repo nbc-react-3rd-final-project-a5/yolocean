@@ -8,4 +8,5 @@ export interface API {
   regionId: string;
   page: number;
   body: string;
+  order: boolean;
 }

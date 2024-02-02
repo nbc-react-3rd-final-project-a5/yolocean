@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getAllCategory } from "@/service/table";
 import { useQuery } from "@tanstack/react-query";
 import { CategoryTable } from "@/types/db";
@@ -7,9 +7,12 @@ import { usePathname } from "next/navigation";
 
 interface Props {
   currentPage: number;
+  category: string;
 }
 
-const SelectCategory = ({ currentPage }: Props) => {
+const SelectCategory = ({ currentPage, category: categoryId }: Props) => {
+  const pathName = usePathname();
+
   //카테고리 읽어오기
   const { data: categoryList, isLoading: isCategoryLoading } = useQuery({
     queryKey: ["category"],
@@ -18,17 +21,28 @@ const SelectCategory = ({ currentPage }: Props) => {
   //카테고리 메뉴 열기
   const [openCate, setOpenCate] = useState(false);
 
-  const pathName = usePathname();
+  useEffect(() => {
+    if (!openCate) return;
+    const closeCate = () => setOpenCate(false);
+    const closeCateTimer = setTimeout(() => {
+      window.addEventListener("click", closeCate);
+    }, 200);
+
+    return () => {
+      clearTimeout(closeCateTimer);
+      window.removeEventListener("click", closeCate);
+    };
+  }, [openCate]);
 
   return (
     <div>
       <button
-        id="categoryDropDown"
+        id="selectCategory"
         data-dropdown-toggle="dropdown"
         onClick={() => setOpenCate(!openCate)}
         className="flex flex-row space-x-[10px]"
       >
-        <p className="text-[14px] text-point font-medium leading-loose mobile:hidden">카테고리</p>
+        <p className="text-[14px] text-point font-medium leading-loose mobile:hidden">{"카테고리 선택하기"}</p>
       </button>
       <div
         id="dropdown"
@@ -45,7 +59,7 @@ const SelectCategory = ({ currentPage }: Props) => {
                 <Link
                   href={{
                     href: pathName,
-                    query: { article: category.id, page: 1 }
+                    query: { article: "review", page: 1, category: category.id }
                   }}
                   prefetch={false}
                 >
@@ -57,7 +71,7 @@ const SelectCategory = ({ currentPage }: Props) => {
               <Link
                 href={{
                   href: pathName,
-                  query: { article: "all", page: 1 }
+                  query: { article: "review", page: 1, category: "" }
                 }}
                 prefetch={false}
               >

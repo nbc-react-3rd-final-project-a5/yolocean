@@ -3,8 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
   const searchParams = req.nextUrl.searchParams;
+
   const category = searchParams.get("category") || "all";
   const PAGE = searchParams.get("page") || 1;
+  const order = searchParams.get("order") || "true";
+
   const page = Number(PAGE);
 
   const limit = 10;
@@ -25,7 +28,7 @@ export const GET = async (req: NextRequest) => {
       )
       .limit(limit)
       .range(min, max)
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: JSON.parse(order) });
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
@@ -49,7 +52,7 @@ export const GET = async (req: NextRequest) => {
       .eq("product.category_id", category)
       .limit(limit)
       .range(min, max)
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: JSON.parse(order) });
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
