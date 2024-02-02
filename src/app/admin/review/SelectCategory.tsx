@@ -63,6 +63,17 @@ const SelectCategory = ({ currentPage, category: categoryId, order }: Props) => 
       >
         {!isCategoryLoading && (
           <ul className="pb-1 text-sm  text-gray-700">
+            <li className="py-[8px] text-center hover:underline decoration-wavy decoration-point">
+              <Link
+                href={{
+                  href: pathName,
+                  query: { article: "review", page: 1, category: "", order: order }
+                }}
+                prefetch={false}
+              >
+                전체보기
+              </Link>
+            </li>
             {categoryList!.map((category: CategoryTable) => (
               <li key={category.id} className="py-[8px] text-center hover:underline decoration-wavy decoration-point">
                 <Link
@@ -76,17 +87,6 @@ const SelectCategory = ({ currentPage, category: categoryId, order }: Props) => 
                 </Link>
               </li>
             ))}
-            <li className="py-[8px] text-center hover:underline decoration-wavy decoration-point">
-              <Link
-                href={{
-                  href: pathName,
-                  query: { article: "review", page: 1, category: "", order: order }
-                }}
-                prefetch={false}
-              >
-                전체보기
-              </Link>
-            </li>
           </ul>
         )}
       </div>
