@@ -1,5 +1,5 @@
 "use client";
-import { getAllCategory, getAllReview } from "@/service/table";
+import { getAllCategory } from "@/service/table";
 import { useQuery } from "@tanstack/react-query";
 import ReviewItem from "./ReviewItem";
 import React, { useState } from "react";
@@ -14,13 +14,6 @@ const ReviewList = ({ searchParams, reviewList }: Props) => {
   const [order, setOrder] = useState("descending");
   const [cate, setCate] = useState("no_category");
 
-  // const { data: reviewList, isLoading: isReviewLoading } = useQuery({
-  //   queryKey: ["review"],
-  //   queryFn: async () => await getAllReview()
-  // });
-
-  // const { review: reviewList, maxPage, nextPage, prevPage } = await getAllReview({ page: searchParams?.["page"] || 1 });
-
   const { data: categoryList, isLoading: isCategoryLoading } = useQuery({
     queryKey: ["category"],
     queryFn: async () => getAllCategory()
@@ -28,8 +21,8 @@ const ReviewList = ({ searchParams, reviewList }: Props) => {
 
   return (
     <>
-      <div className="max-w-[800px] mx-auto space-y-[20px]">
-        <div id="tab">
+      <div id="tab" className="max-w-[800px] mx-auto space-y-[20px]">
+        <div>
           <select name="date_sort" id="date_sort" onChange={(e) => setOrder(e.target.value)}>
             <option value="descending">최신 순</option>
             <option value="ascending">오래된 순</option>
