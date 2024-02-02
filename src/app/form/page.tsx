@@ -2,7 +2,7 @@ import React from "react";
 import ProductInfo from "./ProductInfo";
 import FormSwitch from "./FormSwitch";
 import { getUserQna, getUserReview } from "@/service/table";
-import { ExtendQna, ExtendReview, Qna } from "@/types/db";
+import { ExtendQna, ExtendReview } from "@/types/db";
 import { Metadata, ResolvingMetadata } from "next";
 import { revalidateTag } from "next/cache";
 

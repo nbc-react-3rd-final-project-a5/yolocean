@@ -5,7 +5,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import FormFieldSet from "@/components/form/FormFieldSet";
 import { useForm } from "react-hook-form";
 import useStorage from "@/utils/useStorage";
-import { useCustomMutation, useImageInput } from "@/hook";
+import { useImageInput } from "@/hook";
 import InputImage from "@/components/InputImage";
 import { useAuthStore } from "@/store/authStore";
 import { createUserReview, updateUserReview } from "@/service/table";
