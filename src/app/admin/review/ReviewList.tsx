@@ -13,7 +13,7 @@ interface Props {
 const ReviewList = ({ searchParams, reviewList }: Props) => {
   return (
     <>
-      <div id="tab" className="mt-[30px] mx-auto space-y-[20px]">
+      <div id="tab" className="mt-[10px] mx-auto space-y-[20px]">
         {reviewList !== undefined && reviewList.length > 0 ? (
           <ul>
             {reviewList.map((review: AdminReview) => (

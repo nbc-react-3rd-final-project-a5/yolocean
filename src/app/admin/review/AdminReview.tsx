@@ -30,8 +30,10 @@ const AdminReview = ({ searchParams }: Props) => {
         </div>
       ) : (
         <>
-          <SelectOrder currentPage={page} category={category} order={order} />
-          <SelectCategory currentPage={page} category={category} order={order} />
+          <div className="flex mt-[30px] space-x-[20px] ml-[70%]">
+            <SelectOrder currentPage={page} category={category} order={order} />
+            <SelectCategory currentPage={page} category={category} order={order} />
+          </div>
           <ReviewList searchParams={searchParams} reviewList={reviewList.reviews} />
           <Pagination
             maxPage={reviewList.maxPage}

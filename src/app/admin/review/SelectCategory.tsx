@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { CategoryTable } from "@/types/db";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { FaChevronDown } from "react-icons/fa6";
 
 interface Props {
   currentPage: number;
@@ -19,6 +20,16 @@ const SelectCategory = ({ currentPage, category: categoryId, order }: Props) => 
     queryKey: ["category"],
     queryFn: async () => getAllCategory()
   });
+
+  const getCategoryName = () => {
+    for (const cateItem of categoryList) {
+      if (cateItem.id === categoryId) {
+        return cateItem.category_name;
+      }
+    }
+    return "전체";
+  };
+
   //카테고리 메뉴 열기
   const [openCate, setOpenCate] = useState(false);
 
@@ -36,27 +47,24 @@ const SelectCategory = ({ currentPage, category: categoryId, order }: Props) => 
   }, [openCate]);
 
   return (
-    <div>
+    <div className="flex">
       <button
         id="selectCategory"
         data-dropdown-toggle="dropdown"
         onClick={() => setOpenCate(!openCate)}
         className="flex flex-row space-x-[10px]"
       >
-        <p className="text-[14px] text-point font-medium leading-loose mobile:hidden">{"카테고리 선택하기"}</p>
+        <FaChevronDown className="text-[12px] text-point font-medium mt-[7px]" />
+        {!isCategoryLoading && <p className="text-[14px] text-point font-medium leading-loose">{getCategoryName()}</p>}
       </button>
       <div
         id="dropdown"
-        className={
-          openCate
-            ? "space-y-2 z-10 absolute p-2 bg-white rounded-sm shadow w-44  mobile:w-full mobile:left-0 mobile:text-center mobile:mt-7"
-            : "hidden"
-        }
+        className={openCate ? "space-y-2 z-10 absolute p-2 bg-white rounded-sm shadow w-36 mt-[25px]" : "hidden"}
       >
         {!isCategoryLoading && (
-          <ul className="pb-2 text-sm  text-gray-700">
+          <ul className="pb-1 text-sm  text-gray-700">
             {categoryList!.map((category: CategoryTable) => (
-              <li key={category.id}>
+              <li key={category.id} className="py-[8px] text-center hover:underline decoration-wavy decoration-point">
                 <Link
                   href={{
                     href: pathName,
@@ -68,7 +76,7 @@ const SelectCategory = ({ currentPage, category: categoryId, order }: Props) => 
                 </Link>
               </li>
             ))}
-            <li>
+            <li className="py-[8px] text-center hover:underline decoration-wavy decoration-point">
               <Link
                 href={{
                   href: pathName,
