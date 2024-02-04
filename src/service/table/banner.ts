@@ -10,7 +10,10 @@ export const getBanner = async (bannerName: string) => {
   }
 };
 
-export const updateBanner = async (bannerName: string, bannerData: Banner) => {
+export const updateBanner = async (
+  bannerName: string,
+  bannerData: Pick<Banner, "banner_link" | "banner_name" | "banner_url">
+) => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/storage/banner/${bannerName}`, {
       method: "POST",

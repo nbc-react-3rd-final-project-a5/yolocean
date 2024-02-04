@@ -6,9 +6,8 @@ import { usealertStore } from "@/store/alertStore";
 import { Banner } from "@/types/db";
 import useStorage from "@/utils/useStorage";
 import Link from "next/link";
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { v4 as uuidv4 } from "uuid";
 
 interface Props {
   selectBanner?: Banner;
@@ -51,27 +50,21 @@ const BannerForm = ({ selectBanner, isCreateMode }: Props) => {
 
   useEffect(() => {
     if (isCreateMode) {
-      setValue("id", "");
       setValue("banner_link", "");
       setValue("banner_name", "");
+      if (customImageList[0]) {
+        setValue("id", customImageList[0].id);
+      } else {
+        setValue("id", "");
+      }
     }
-  }, [isCreateMode]);
-
-  useEffect(() => {
-    if (customImageList[0]) {
-      setValue("id", customImageList[0].id);
-    } else {
-      setValue("id", "");
-    }
-  }, [customImageList[0]]);
+  }, [isCreateMode, customImageList[0]]);
 
   const handleCreateSubmit = async (data: Omit<Banner, "url">) => {
-    const storagePath = `promotion/banner`;
-
     try {
       if (customImageList[0].file) {
         data.id = customImageList[0].id;
-        data.banner_url = await uploadImage(customImageList[0].file, "promotion", data.id, storagePath);
+        data.banner_url = await uploadImage(customImageList[0].file, "promotion", data.id, "banner");
       }
 
       createMutation(data);
@@ -81,9 +74,25 @@ const BannerForm = ({ selectBanner, isCreateMode }: Props) => {
     }
   };
 
+  const handleUpdateSubmit = async (data: Omit<Banner, "url">) => {
+    try {
+      if (customImageList[0].file) {
+        data.banner_url = await uploadImage(customImageList[0].file, "promotion", data.id, "banner");
+      }
+      console.log(data);
+      updateMutation(data);
+      return alertFire("배너 업로드 성공", "success");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
-      <form className="flex flex-col gap-4" onSubmit={handleSubmit(handleCreateSubmit)}>
+      <form
+        className="flex flex-col gap-4"
+        onSubmit={isCreateMode ? handleSubmit(handleCreateSubmit) : handleSubmit(handleUpdateSubmit)}
+      >
         <div>
           <label htmlFor="banner-id" className="block mb-2 font-semibold">
             배너 ID

@@ -3,8 +3,7 @@
 import CustomButton from "@/components/CustomButton";
 import Article from "@/components/layout/Article";
 import Section from "@/components/layout/Section";
-import { useCustomMutation } from "@/hook";
-import { getAllBanner, createBanner, deleteBanner } from "@/service/table/banner";
+import { getAllBanner } from "@/service/table/banner";
 import { Banner } from "@/types/db";
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
@@ -12,7 +11,7 @@ import BannerForm from "./(Banner)/BannerForm";
 import BannerInfoTable from "./(Banner)/BannerInfoTable";
 
 const ManageBanner = () => {
-  const { data: bannerList, isLoading } = useQuery({
+  const { data: bannerList } = useQuery({
     queryKey: ["ManageBanner"],
     queryFn: getAllBanner
   });
@@ -29,7 +28,7 @@ const ManageBanner = () => {
       </div>
 
       {isCreateMode ? (
-        <Article title={"배너 리스트"}>
+        <Article title={"배너 생성하기"}>
           <BannerForm isCreateMode={isCreateMode} />
         </Article>
       ) : (

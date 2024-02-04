@@ -26,7 +26,7 @@ export const POST = async (req: NextRequest, context: { params: { bannerName: st
   } = context;
 
   const newBannerData = await req.json();
-  const { error } = await supabase.from("banner").update(newBannerData).eq("bannerName", bannerName);
+  const { error } = await supabase.from("banner").update(newBannerData).eq("banner_name", bannerName);
 
   if (error) {
     console.error(error);
