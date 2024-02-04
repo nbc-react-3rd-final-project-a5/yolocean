@@ -1,9 +1,9 @@
 "use client";
 import CustomButton from "@/components/CustomButton";
-import { getAllCarousel } from "@/service/table";
+import { getAllCategory } from "@/service/table";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 
 const Filter = ({ category }: Props) => {
   const { data: categoryList, isLoading } = useQuery({
-    queryFn: async () => await getAllCarousel(),
+    queryFn: async () => await getAllCategory(),
     queryKey: ["category"]
   });
   const router = useRouter();
@@ -34,7 +34,7 @@ const Filter = ({ category }: Props) => {
 
   return (
     <form onSubmit={handleSubmit(handlenSubmitFilter)} className="flex justify-end items-center  gap-[20px]">
-      {!isLoading && (
+      {!isLoading && categoryList && (
         <select
           {...register("category", { required: true })}
           className=" py-[3.5px] rounded-md px-[10px] border"
