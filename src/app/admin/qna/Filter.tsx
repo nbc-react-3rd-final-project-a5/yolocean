@@ -29,7 +29,6 @@ const Filter = ({ category }: Props) => {
 
   async function handlenSubmitFilter(value: any) {
     const { answer, category } = value;
-    console.log(answer);
     router.push(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/${pathname}?answer=${answer}&category=${category}`);
   }
 
@@ -38,8 +37,8 @@ const Filter = ({ category }: Props) => {
       {!isLoading && (
         <select
           {...register("category", { required: true })}
-          className="bg-point text-white py-[3.5px] rounded-md px-[10px]"
-          defaultValue={categoryList.find((item: any) => item.category_name === category)?.id || "All"}
+          className=" py-[3.5px] rounded-md px-[10px] border"
+          defaultValue={categoryList.find((item: any) => item.id === category)?.id || "All"}
           name="category"
         >
           <option value={"All"}>All</option>
@@ -51,7 +50,7 @@ const Filter = ({ category }: Props) => {
         </select>
       )}
       <select
-        className="bg-point text-white py-[3.5px] rounded-md px-[10px]"
+        className="  py-[3.5px] rounded-md px-[10px] border"
         defaultValue={"답변완료"}
         {...register("answer", { required: true })}
       >

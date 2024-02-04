@@ -5,6 +5,7 @@ import { useCustomMutation } from "@/hook";
 import { deleteUserQna, updateUserQna } from "@/service/table";
 import { openConfirm } from "@/store/confirmStore";
 import { convertTime } from "@/utils/convertTime";
+import { UseMutateFunction, useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -14,34 +15,28 @@ interface Props {
   answer: string;
   data: any;
   category: string;
+  createAnswer: UseMutateFunction<unknown, Error, any, unknown>;
+  deleteQna: UseMutateFunction<unknown, Error, any, unknown>;
 }
 
-const QnaCard = ({ data, page, answer, category }: Props) => {
+const QnaCard = ({ data, page, answer, category, createAnswer, deleteQna }: Props) => {
   const user = data.userinfo;
   const product = data.product;
   const { shortDateFormat } = convertTime(data.created_at);
   const { register, handleSubmit } = useForm({ mode: "onChange" });
   const [editMode, setEditMode] = useState(false);
-  const { mutate: createAnswer } = useCustomMutation({
-    mutationFn: async (body) => await updateUserQna({ body, qnaId: data.id, userId: user.id }),
-    queryKey: ["adminQna", String(page), String(answer), category]
-  });
-
-  const { mutate: deleteQna, isSuccess } = useCustomMutation({
-    mutationFn: async () => await deleteUserQna({ qnaId: data.id, userId: user.id }),
-    queryKey: ["adminQna", String(page), String(answer), category]
-  });
 
   function onAnswerSubmit(value: any) {
     const body = JSON.stringify({ ...value });
-    createAnswer(body);
+    createAnswer({ body, qnaId: data.id, userId: user.id });
     setEditMode(false);
   }
 
   async function onClickDeleteQna() {
     const agreed = await openConfirm("해당문의를 삭제하시겠습니까?", "대답");
     if (agreed) {
-      return deleteQna({});
+      deleteQna({ qnaId: data.id, userId: user.id });
+      return;
     }
     return;
   }
@@ -93,7 +88,7 @@ const QnaCard = ({ data, page, answer, category }: Props) => {
           <div className="flex justify-end gap-[20px]">
             <CustomButton type="submit">답변하기</CustomButton>
             <CustomButton
-              type="submit"
+              type="button"
               className="bg-red-500"
               onClick={async () => {
                 await onClickDeleteQna();

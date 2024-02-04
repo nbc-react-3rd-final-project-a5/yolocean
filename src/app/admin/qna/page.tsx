@@ -1,10 +1,12 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import QnaCard from "./QnaCard";
 import { useQuery } from "@tanstack/react-query";
 import Pagination from "@/components/Pagination";
 import Filter from "./Filter";
-import { getAllQna } from "@/service/table";
+import { deleteUserQna, getAdminProductQna, getAllQna, updateUserQna } from "@/service/table";
+import { useCustomMutation } from "@/hook";
+import Spinner from "@/components/Spinner";
 
 interface Props {
   searchParams: { [key: string]: any } | undefined;
@@ -14,20 +16,55 @@ const Qna = ({ searchParams }: Props) => {
   const page = Number(searchParams?.page) || 1;
   const answer = searchParams?.answer || "미답변";
   const category = searchParams?.category || "All";
+  const [loading, setLoading] = useState(false);
 
   const { data, isLoading } = useQuery({
-    queryFn: async () => await getAllQna({ page, answer, category }),
-    queryKey: ["adminQna", String(page), String(answer)]
+    queryFn:
+      category === "All"
+        ? async () => await getAllQna({ page, answer, category })
+        : async () => await getAdminProductQna({ page, answer, categoryId: category }),
+    queryKey: ["adminQna", String(page), String(answer), category]
   });
 
-  console.log(data);
+  const { mutate: createAnswer } = useCustomMutation({
+    mutationFn: async ({ body, qnaId, userId }: { qnaId: string; userId: string; body: string }) =>
+      await updateUserQna({ body, qnaId, userId }),
+    queryKey: ["adminQna", String(page), String(answer), category]
+  });
+
+  const {
+    mutate: deleteQna,
+    isSuccess,
+    isPending
+  } = useCustomMutation({
+    mutationFn: async ({ qnaId, userId }: { qnaId: string; userId: string }) => await deleteUserQna({ qnaId, userId }),
+    queryKey: ["adminQna", String(page), String(answer), category]
+  });
+
+  console.log(isPending);
+
+  useEffect(() => {
+    if (isPending) return setLoading(true);
+
+    return setLoading(false);
+  }, [isPending]);
+
   return (
     <div>
+      {loading && <Spinner />}
       <Filter category={category} />
       {!isLoading &&
         data &&
         data.qna.map((item: any) => (
-          <QnaCard page={page} answer={answer} category={category} key={item.id} data={item} />
+          <QnaCard
+            page={page}
+            answer={answer}
+            category={category}
+            key={item.id}
+            data={item}
+            createAnswer={createAnswer}
+            deleteQna={deleteQna}
+          />
         ))}
       <Pagination
         articleName=""

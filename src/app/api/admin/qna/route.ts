@@ -4,7 +4,6 @@ import { NextResponse, NextRequest } from "next/server";
 export const GET = async (req: NextRequest, context: { params: { productId: string } }) => {
   const searchParams = req.nextUrl.searchParams;
 
-  console.log(searchParams);
   const ANSWER = searchParams.get("answer");
   const CATEGORY = searchParams.get("category");
   const PAGE = searchParams.get("page") || 1;
