@@ -7,7 +7,6 @@ interface Props {
 }
 
 const RentList = ({ rentList }: Props) => {
-  //   console.log(rentList);
   return (
     <>
       <div id="tab" className="mt-[10px] mx-auto space-y-[20px] min-w-[800px]">

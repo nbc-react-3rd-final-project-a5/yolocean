@@ -22,8 +22,6 @@ const AdminRent = ({ searchParams }: Props) => {
     queryKey: ["rent", page, store, order]
   });
 
-  console.log(store);
-
   return (
     <>
       {isRentLoading ? (
