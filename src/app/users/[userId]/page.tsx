@@ -7,9 +7,9 @@ import { getUser } from "@/service/table";
 import UserRentPulse from "@/components/pulse/UserRentPulse";
 import dynamic from "next/dynamic";
 
-const UserReviewList = dynamic(() => import("./(tabContent)/UserReviewList"), { ssr: false });
-const UserQnaList = dynamic(() => import("./(tabContent)/UserQnaList"), { ssr: false });
-const UserRentList = dynamic(() => import("./(tabContent)/UserRentList"), { ssr: false });
+const UserReviewList = dynamic(() => import("./(tabContent)/UserReviewList"));
+const UserQnaList = dynamic(() => import("./(tabContent)/UserQnaList"));
+const UserRentList = dynamic(() => import("./(tabContent)/UserRentList"));
 
 interface Props {
   params: { userId: string };
