@@ -15,7 +15,7 @@ const Carousel = () => {
   const { data, isLoading } = useQuery({
     queryFn: async () => await getAllCarousel(),
     queryKey: ["carousel"],
-    staleTime: Infinity
+    staleTime: 1000 * 60 * 10
   });
 
   return (
@@ -40,7 +40,6 @@ const Carousel = () => {
             <SwiperSlide key={item.id}>
               <Link href={item.url}>
                 <Image
-                  fill
                   priority
                   blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBAB  bWyZJf74GZgAAAABJRU5ErkJggg=="
                   placeholder="blur"

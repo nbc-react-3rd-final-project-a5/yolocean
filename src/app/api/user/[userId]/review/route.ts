@@ -26,6 +26,7 @@ export const GET = async (req: NextRequest, context: { params: { userId: string 
       "*, store!inner(name, region!inner(region)), userinfo!inner(username, avatar_url), product!inner(name, thumbnail)"
     )
     .eq("user_id", userId)
+    .order("created_at", { ascending: false })
     .limit(limit)
     .range(min, max);
 
