@@ -19,21 +19,13 @@ const Filter = ({ category }: Props) => {
   const { register, handleSubmit } = useForm({ mode: "onBlur" });
   const pathname = usePathname();
 
-  useEffect(() => {
-    console.log("응애 태어남");
-
-    return () => {
-      console.log("으앙 주금");
-    };
-  }, []);
-
   async function handlenSubmitFilter(value: any) {
     const { answer, category } = value;
     router.push(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/${pathname}?answer=${answer}&category=${category}`);
   }
 
   return (
-    <form onSubmit={handleSubmit(handlenSubmitFilter)} className="flex justify-end items-center  gap-[20px]">
+    <form id="tab" onSubmit={handleSubmit(handlenSubmitFilter)} className="flex justify-end items-center  gap-[20px]">
       {!isLoading && categoryList && (
         <select
           {...register("category", { required: true })}

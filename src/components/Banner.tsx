@@ -7,11 +7,11 @@ const Banner = ({ banner }: { banner: Banner | undefined }) => {
   return (
     <>
       {banner === undefined ? (
-        <div className="bg-slate-300 h-[280px] mb-[200px] mobile:mb-[50px] animate-purse relative">
+        <div className="bg-slate-300 h-[280px] mb-[200px] mobile:mb-[50px] mobile:h-[150px] animate-purse relative">
           <p>이미지 불러오기 실패</p>
         </div>
       ) : (
-        <div className="bg-slate-300 h-[280px] mb-[200px] mobile:mb-[50px] animate-purse relative">
+        <div className="bg-slate-300 h-[280px] mb-[200px] mobile:mb-[50px] mobile:h-[150px] animate-purse relative">
           <Link href={`${banner.banner_link}`} aria-label="배너가 광고하는 페이지로 이동">
             <Image
               fill

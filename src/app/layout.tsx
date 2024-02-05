@@ -11,10 +11,10 @@ import AuthChage from "@/components/layout/AuthChage";
 import PageControlBtnGroup from "@/components/layout/PageControlBtnGroup";
 import dynamic from "next/dynamic";
 
-const KakaoShare = dynamic(() => import("@/lib/KakaoShare"));
-const CreateModal = dynamic(() => import("@/components/portal/CreateModal"));
-const CreateAlert = dynamic(() => import("@/components/portal/CreateAlert"));
-const CreateConfirm = dynamic(() => import("@/components/portal/CreateConfirm"));
+const KakaoShare = dynamic(() => import("@/lib/KakaoShare"), { ssr: false });
+const CreateModal = dynamic(() => import("@/components/portal/CreateModal"), { ssr: false });
+const CreateAlert = dynamic(() => import("@/components/portal/CreateAlert"), { ssr: false });
+const CreateConfirm = dynamic(() => import("@/components/portal/CreateConfirm"), { ssr: false });
 
 export const metadata: Metadata = {
   title: "YOLOCEAN",

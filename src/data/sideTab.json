@@ -21,6 +21,6 @@
   },
   "rent": {
     "title": "렌트 관리",
-    "link": "/admin/product"
+    "link": "/admin/rent"
   }
 }

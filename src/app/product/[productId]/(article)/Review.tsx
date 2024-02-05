@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import Pagenation from "@/components/Pagination";
 import ReviewPulse from "@/components/pulse/ReviewPulse";
+import Revalidate from "./Revalidate";
 
 interface Props {
   productId: string;
@@ -17,16 +18,13 @@ const Review = async ({ productId, page }: Props) => {
     cookies: () => cookieStore
   });
 
-  const revalidateReview = await fetch(
-    `${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/revalidate/product/${productId}/review`
-  );
-
   const { user } = (await supabase.auth.getUser()).data;
 
   const { review, maxPage, nextPage, prevPage } = await getAllProductReview({ page, productId });
 
   return (
     <div>
+      <Revalidate />
       <Suspense
         fallback={Array.from({ length: 6 }).map((e, i) => (
           <ReviewPulse key={i} />

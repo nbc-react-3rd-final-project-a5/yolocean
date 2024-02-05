@@ -60,8 +60,6 @@ export async function GET(req: NextRequest, context: { params: { categoryId: str
     .range(min, max);
 
   if (error) {
-    console.log("에러 answer=미답변", error);
-
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
   return NextResponse.json({ qna, maxPage, nextPage, prevPage });

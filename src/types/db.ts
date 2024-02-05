@@ -102,3 +102,28 @@ export interface AdminReview {
   };
   blind: boolean;
 }
+
+export interface AdminRent {
+  id: string;
+  product_id: string;
+  store_id: string;
+  user_id: string;
+  product_name: string;
+  thumbnail: string;
+  category_name: string;
+  store_name: string;
+  count: number;
+  paid_price: number;
+  rent_date: string;
+  created_at: string;
+  return: boolean;
+  store: {
+    id: string;
+  };
+  userinfo: {
+    id: string;
+    email: string;
+    phone: string;
+    username: string;
+  };
+}

@@ -32,7 +32,6 @@ export async function PATCH(req: NextRequest, context: { params: { reviewId: str
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  console.log("revalidate 실행됐음");
   return NextResponse.json(data);
 }
 
