@@ -2,12 +2,14 @@ import React, { Suspense } from "react";
 import UserInfoSection from "./UserInfoSection";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import UserTab from "./UserTab";
-import UserReviewList from "./(tabContent)/UserReviewList";
-import UserQnaList from "./(tabContent)/UserQnaList";
-import UserRentList from "./(tabContent)/UserRentList";
 import { Metadata } from "next";
 import { getUser } from "@/service/table";
 import UserRentPulse from "@/components/pulse/UserRentPulse";
+import dynamic from "next/dynamic";
+
+const UserReviewList = dynamic(() => import("./(tabContent)/UserReviewList"));
+const UserQnaList = dynamic(() => import("./(tabContent)/UserQnaList"));
+const UserRentList = dynamic(() => import("./(tabContent)/UserRentList"));
 
 interface Props {
   params: { userId: string };
