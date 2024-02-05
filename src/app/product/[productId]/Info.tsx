@@ -33,10 +33,8 @@ const ProductTab = ["상품설명", "상세정보", "후기", "제품문의"];
 
 const Info = ({ info_img, info, productId, searchParams, article }: Props) => {
   return (
-    <div className="mt-[16px]" id="tab">
-      <div className="sticky top-0 z-10">
-        <Tab tabs={ProductTab} activeTab={article} />
-      </div>
+    <div className="mt-[16px]">
+      <Tab tabs={ProductTab} activeTab={article} />
       {article === "상품설명" && (
         <article className="mt-[40px] max-w-[795px] w-full mx-auto mobile:max-w-[300px]">
           <Description info_img={info_img} />
