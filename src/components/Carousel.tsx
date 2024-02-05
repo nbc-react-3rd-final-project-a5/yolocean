@@ -21,13 +21,12 @@ const Carousel = () => {
   return (
     <div className="mb-[150px] mobile:mb-[50px]">
       {isLoading && (
-        <div className="h-[500px] relative">
+        <div className="h-[500px] relative mobile:h-[150px]">
           <ImgPulse />
         </div>
       )}
       {!isLoading && data && (
         <Swiper
-          className="h-[500px] mobile:h-[300px] "
           autoplay={{
             delay: 2500,
             disableOnInteraction: false
@@ -35,6 +34,7 @@ const Carousel = () => {
           modules={[Autoplay, Pagination]}
           loop={true}
           centeredSlides={true}
+          className="mobile:w-[100vw] mobile:translate-x-[-5%]"
         >
           {data.map((item: any) => (
             <SwiperSlide key={item.id}>
