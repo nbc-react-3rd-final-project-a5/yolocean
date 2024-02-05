@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import QnaCard from "./QnaCard";
 import { useQuery } from "@tanstack/react-query";
 import Pagination from "@/components/Pagination";
