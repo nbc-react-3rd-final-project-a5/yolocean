@@ -46,7 +46,7 @@ const Carousel = () => {
                   alt="img"
                   width={0}
                   height={0}
-                  sizes="(max-width: 1200px) 600px, (max-width: 1024px) 500px, 800px"
+                  sizes="(max-width: 1200px) 1000px 2400px, (max-width: 1024px) 1000px 2048px, 1000px 2400px"
                   className="w-[1200px] h-auto"
                   src={item.img}
                 />
