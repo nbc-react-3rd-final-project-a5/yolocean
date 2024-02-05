@@ -12,3 +12,16 @@ input::-webkit-inner-spin-button {
   line-height: 1;
   letter-spacing: -0.03em;
 }
+
+html {
+  scroll-behavior: smooth !important;
+}
+
+img,
+a {
+  user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+}

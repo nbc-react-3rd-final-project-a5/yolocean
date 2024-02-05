@@ -23,11 +23,8 @@ export async function middleware(req: NextRequest) {
   const tokenUid = await getUserId(req, res);
 
   if (req.nextUrl.pathname.startsWith("/api")) {
-    if (ADMIN) return res;
-
-    if (!tokenUid || (tokenUid && !req.url.includes(tokenUid))) {
+    if (tokenUid && !req.url.includes(tokenUid))
       return NextResponse.json({ message: "유효하지않은 접근입니다." }, { status: 500 });
-    }
   }
 
   if (req.nextUrl.pathname.startsWith("/users")) {
@@ -44,7 +41,7 @@ export async function middleware(req: NextRequest) {
       url.searchParams.set("userId", tokenUid);
       return NextResponse.redirect(url);
     }
-    return NextResponse.redirect(new URL("/"));
+    return NextResponse.redirect(new URL("/", req.url));
   }
   if (req.nextUrl.pathname.startsWith("/cart")) {
     if (!tokenUid || (tokenUid && !req.url.includes(tokenUid))) {
@@ -64,7 +61,7 @@ export async function middleware(req: NextRequest) {
 
   // 어드민 체크 (구현은 안함)
   if (req.nextUrl.pathname.startsWith("/admin")) {
-    if (!(tokenUid === ADMIN)) {
+    if (tokenUid !== ADMIN) {
       return NextResponse.redirect(new URL("/", req.url));
     }
   }

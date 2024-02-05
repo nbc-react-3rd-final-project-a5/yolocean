@@ -1,11 +1,11 @@
-import { RentInsert } from "@/types/db";
+import { RentLogInsert } from "@/types/db";
 import { useModalStore } from "@/store/modalStore";
 
 import React from "react";
 import { useRouter } from "next/navigation";
 
 interface Props {
-  rentData: RentInsert[];
+  rentData: RentLogInsert[];
 }
 
 const SuccessModal = (rentData: Props) => {

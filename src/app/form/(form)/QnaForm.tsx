@@ -1,16 +1,19 @@
 "use client";
-
 import CustomButton from "@/components/CustomButton";
 import InputImage from "@/components/InputImage";
 import FormFieldSet from "@/components/form/FormFieldSet";
-import { useCustomMutation, useImageInput } from "@/hook";
+import { useImageInput } from "@/hook";
 import { createUserQna, updateUserQna } from "@/service/table";
 import { useAuthStore } from "@/store/authStore";
 import { ExtendQna, Qna } from "@/types/db";
 import useStorage from "@/utils/useStorage";
+import { debounce } from "lodash";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import dynamic from "next/dynamic";
+
+const Spinner = dynamic(() => import("@/components/Spinner"));
 
 interface Props {
   qnaData: ExtendQna;
@@ -21,6 +24,7 @@ const QnaForm = ({ qnaData, productId }: Props) => {
   const preReviewImageUrl = qnaData?.url;
   const { auth: userId } = useAuthStore();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -29,7 +33,7 @@ const QnaForm = ({ qnaData, productId }: Props) => {
   } = useForm({ mode: "onChange" });
   //   ========== Image Upload ============
   const { uploadMultipleImages, deleteMultipleImage } = useStorage();
-  const { customImageList, isEnter, handler, addPreImage } = useImageInput("multiple");
+  const { customImageList, isEnter, handler, addPreImage } = useImageInput(4);
 
   // 이미지가 있을 경우 이미지 불러오기 기능
   useEffect(() => {
@@ -38,23 +42,13 @@ const QnaForm = ({ qnaData, productId }: Props) => {
     }
   }, []);
 
-  //   ========== Mutation ============
-  const { mutate: createQnaMutate } = useCustomMutation({
-    queryKey: productId ? ["review ", productId] : ["review ", userId],
-    mutationFn: async (formData) => await createUserQna({ userId, body: JSON.stringify(formData) })
-  });
-
-  const { mutate: updateQnaMutate } = useCustomMutation({
-    queryKey: ["review ", productId] && ["review ", userId],
-    mutationFn: async (formData) => await updateUserQna({ userId, qnaId: qnaData.id, body: JSON.stringify(formData) })
-  });
-
   //   ========== Submit ============
-  const handleCreateFormSubmit = async (data: any) => {
+
+  const createQna = debounce(async (data) => {
     // Image
-    const storagePath = productId ? `${userId}/${productId}` : userId;
     const imageFileList = customImageList.map((n) => n.file) as File[];
     const imageFileIdList = customImageList.map((n) => n.id);
+    const storagePath = productId ? `${userId}/${productId}` : userId;
 
     try {
       const imageURLList = await uploadMultipleImages(imageFileList, "qna", imageFileIdList, storagePath);
@@ -66,16 +60,27 @@ const QnaForm = ({ qnaData, productId }: Props) => {
         url: imageURLList
       };
 
-      createQnaMutate(formData);
-      return productId ? router.push(`/product/${productId}`) : router.push(`/users/${userId}?article=qna`);
+      await createUserQna({ userId, body: JSON.stringify(formData) });
+      setTimeout(() => {
+        setLoading(false);
+        return productId
+          ? router.push(`/product/${productId}?article=제품문의`)
+          : router.push(`/users/${userId}?article=qna`);
+      }, 1500);
     } catch (error) {
-      // 나중에 에러처리할 것
       alert(error);
-      return router.push(`/`);
     }
-  };
+  }, 300);
 
-  const handleUpdateFormSubmit = async (data: any) => {
+  const handleCreateFormSubmit = useCallback(
+    async (data: any) => {
+      setLoading(true);
+      await createQna(data);
+    },
+    [createQna]
+  );
+
+  const updateQna = debounce(async (data) => {
     const storagePath = productId ? `${userId}/${productId}` : userId;
     const preImageURLList = customImageList.filter((n) => n.file === null).map((n) => n.previewURL);
     const deletePreImageURLList =
@@ -86,7 +91,6 @@ const QnaForm = ({ qnaData, productId }: Props) => {
       });
     const newImageFileList = customImageList.filter((n) => n.file !== null).map((n) => n.file as File);
     const newImageFileIdList = customImageList.filter((n) => n.file !== null).map((n) => n.id);
-
     try {
       if (deletePreImageURLList) {
         await deleteMultipleImage("qna", deletePreImageURLList);
@@ -102,18 +106,30 @@ const QnaForm = ({ qnaData, productId }: Props) => {
         url: newImageURLList ? [...preImageURLList, ...newImageURLList] : preImageURLList
       };
 
-      updateQnaMutate(formData);
-      return qnaData?.product_id
-        ? router.push(`/product/${qnaData.product_id}`)
-        : router.push(`/users/${userId}?article=qna`);
+      await updateUserQna({ userId, qnaId: qnaData.id, body: JSON.stringify(formData) });
+      setTimeout(() => {
+        setLoading(false);
+        return qnaData?.product_id
+          ? router.push(`/product/${qnaData.product_id}?article=제품문의`)
+          : router.push(`/users/${userId}?article=qna`);
+      }, 1500);
     } catch (error) {
       alert(error);
       return router.push(`/`);
     }
-  };
+  }, 300);
+
+  const handleUpdateFormSubmit = useCallback(
+    async (data: any) => {
+      setLoading(true);
+      await updateQna(data);
+    },
+    [updateQna]
+  );
 
   return (
     <form onSubmit={qnaData ? handleSubmit(handleUpdateFormSubmit) : handleSubmit(handleCreateFormSubmit)}>
+      {loading && <Spinner size="lg" />}
       <FormFieldSet title={`문의 제목`}>
         <input
           type="text"
@@ -140,7 +156,7 @@ const QnaForm = ({ qnaData, productId }: Props) => {
           {qnaData ? "수정하기" : "등록하기"}
         </CustomButton>
 
-        <CustomButton type="button" size="lg" color="white" className="sm:w-full">
+        <CustomButton type="button" size="lg" color="white" className="sm:w-full" onClick={router.back}>
           취소
         </CustomButton>
       </div>

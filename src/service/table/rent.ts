@@ -4,10 +4,13 @@ interface ExtendAPI extends API {
   isReturn: boolean;
 }
 
-const getAllUserRent = async ({ userId, isReturn }: Pick<ExtendAPI, "userId" | "isReturn">) => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/rent?isReturn=${isReturn}`, {
-    method: "GET"
-  });
+const getAllUserRent = async ({ userId, isReturn, page = 1 }: Pick<ExtendAPI, "userId" | "isReturn" | "page">) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/rent?isReturn=${isReturn}&page=${String(page)}`,
+    {
+      next: { tags: ["user", "userRent"] }
+    }
+  );
   const result = await response.json();
   return result;
 };

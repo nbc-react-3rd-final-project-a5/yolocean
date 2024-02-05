@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
 import { createPortal } from "react-dom";
-import { IoMdCloseCircle } from "react-icons/io";
 import { confirmStore, closeConfirm } from "@/store/confirmStore";
 
 const CreateConfirm: React.FC = () => {
@@ -26,11 +25,11 @@ const CreateConfirm: React.FC = () => {
   return isConfirmOpen ? (
     <>
       {createPortal(
-        <div className="fixed inset-0 bg-black z-20 opacity-65 cursor-pointer" />,
+        <div className="fixed inset-0 bg-black z-[100] opacity-65 cursor-pointer" />,
         document.getElementById("back_drop") as HTMLElement
       )}
       {createPortal(
-        <div className="fixed border overflow-hidden border-black top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex flex-col z-30 bg-white rounded-xl w-[345px] ">
+        <div className="fixed border overflow-hidden border-black top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex flex-col z-[110] bg-white rounded-xl w-[345px] ">
           <div>
             <h1 className="text-[20px] font-[700] line-clamp-2  text-center leading-tight text-point pt-[30px] pb-[15px]">
               {title}

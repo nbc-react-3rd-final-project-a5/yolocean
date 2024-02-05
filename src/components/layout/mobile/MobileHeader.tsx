@@ -13,7 +13,7 @@ const MobileHeader = () => {
           <HeadCategory />
         </div>
         <div className="flex-0">
-          <Link href={"/"} className="text-point text-[28px] font-black">
+          <Link href={"/"} className="text-point text-[28px] font-black" aria-label="메인으로 이동">
             YOLOCEAN
           </Link>
         </div>

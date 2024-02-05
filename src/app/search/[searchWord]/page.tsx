@@ -19,11 +19,11 @@ export async function generateMetadata({ params }: { params: { searchWord: strin
 const linkList = [
   {
     name: "홈",
-    url: "https://yolocean.vercel.app/"
+    url: "https://yolocean.store/"
   },
   {
     name: "검색결과",
-    url: "https://yolocean.vercel.app/search"
+    url: "https://yolocean.store/search"
   }
 ];
 

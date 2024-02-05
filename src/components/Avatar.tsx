@@ -33,6 +33,8 @@ const Avatar = ({ size, src, alt }: Props) => {
         priority
         alt={alt || altText()}
         draggable={false}
+        blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBAB  bWyZJf74GZgAAAABJRU5ErkJggg=="
+        placeholder="blur"
       />
     </figure>
   );

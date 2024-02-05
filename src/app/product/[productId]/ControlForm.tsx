@@ -1,22 +1,25 @@
 "use client";
 import NumberInput from "@/components/NumberInput";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { FieldValues, useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import { ko } from "date-fns/esm/locale";
 import "react-datepicker/dist/react-datepicker.css";
 import { useOfficeStore } from "@/store/officeStore";
 import { useModalStore } from "@/store/modalStore";
-
+import { debounce } from "lodash";
 import { MdErrorOutline } from "react-icons/md";
 import { openConfirm } from "@/store/confirmStore";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { IoShareSocial } from "react-icons/io5";
-import ShareModal from "./ShareModal";
 import { createCart, getCart, updateCart } from "@/service/table";
-import SelectOffice from "@/app/category/[categoryId]/SelectOffice";
 import CustomButton from "@/components/CustomButton";
+import { useCustomMutation } from "@/hook";
+import dynamic from "next/dynamic";
+
+const SelectOffice = dynamic(() => import("@/app/category/[categoryId]/SelectOffice"), { ssr: false });
+const ShareModal = dynamic(() => import("./ShareModal"), { ssr: false });
 
 interface Props {
   category_name: string;
@@ -25,9 +28,10 @@ interface Props {
   original_price: number;
   product_id: string;
   percentage_off: number;
+  view: number;
 }
 
-const ControlForm = ({ category_name, name, price, original_price, product_id, percentage_off }: Props) => {
+const ControlForm = ({ category_name, name, price, original_price, product_id, percentage_off, view }: Props) => {
   const {
     register,
     setValue,
@@ -42,27 +46,34 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
   const router = useRouter();
   const { auth: user_id } = useAuthStore();
 
+  const updateCartMutation = useCustomMutation({
+    mutationFn: async ({ body, cartId }: { body: string; cartId: string }) =>
+      updateCart({ userId: user_id, body, cartId }),
+    queryKey: [user_id, product_id, "cart"]
+  });
+  const createCartMutation = useCustomMutation({
+    mutationFn: async ({ body }: { body: string }) => createCart({ userId: user_id, body }),
+    queryKey: [user_id, product_id, "cart"]
+  });
+
   useEffect(() => {
     setValue("address", office.name);
     clearErrors("address");
   }, [office.name, setValue, clearErrors]);
 
-  async function handleFormSubmit(onValid: FieldValues, event: any) {
-    const submitType = event.nativeEvent.submitter.name;
-    const { rent_date, count } = onValid;
-    const store_id = office.id;
-    const body = JSON.stringify({ product_id, user_id, rent_date, count, store_id });
-    const cart = await getCart({ productId: product_id, userId: user_id });
-
-    addCart(body, submitType, cart[0]?.id);
+  async function handleBtnClick() {
+    if (!user_id) {
+      const answer = await openConfirm("로그인이 필요한 서비스입니다.", "로그인 페이지로 이동하시겠습니까?");
+      if (answer) {
+        router.push("/auth");
+      } else return;
+    }
   }
-
-  async function addCart(body: string, submitType: string, cartId: string) {
-    // 완료될때까지 기다리는 로직 필요
+  const addCart = debounce(async (body: string, submitType: string, cartId: string) => {
     if (cartId) {
-      await updateCart({ userId: user_id, body, cartId });
+      updateCartMutation.mutate({ userId: user_id, body, cartId });
     } else {
-      await createCart({ body, userId: user_id });
+      createCartMutation.mutate({ body, userId: user_id });
     }
 
     if (submitType === "cart") {
@@ -78,7 +89,21 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
         router.push(`/payment/${user_id}`);
       }
     }
-  }
+  }, 300);
+
+  const handleFormSubmit = useCallback(
+    async (onValid: FieldValues, event: any) => {
+      const submitType = event.nativeEvent.submitter.name;
+
+      const { rent_date, count } = onValid;
+      const store_id = office.id;
+      const body = JSON.stringify({ product_id, user_id, rent_date, count, store_id });
+      const cart = await getCart({ productId: product_id, userId: user_id });
+
+      addCart(body, submitType, cart?.[0]?.id);
+    },
+    [office, product_id, user_id]
+  );
 
   return (
     <>
@@ -183,7 +208,14 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
             <label className="w-[89px] " htmlFor="count">
               수량
             </label>
-            <NumberInput setValue={setValue} getValues={getValues} register={register} errors={errors} name="count" />
+            <NumberInput
+              clearErrors={clearErrors}
+              setValue={setValue}
+              getValues={getValues}
+              register={register}
+              errors={errors}
+              name="count"
+            />
           </div>
           <div className="flex mt-[40px] mb-[50px] text-[16px] font-[600] gap-[5px] text-white">
             <CustomButton
@@ -191,7 +223,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
               isFull
               size="md"
               className="max-w-[244px] h-[50px] mobile:h-[35px]"
-              onClick={() => {}}
+              onClick={handleBtnClick}
             >
               장바구니 담기
             </CustomButton>
@@ -200,7 +232,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
               isFull
               size="md"
               className="max-w-[244px] h-[50px] mobile:h-[35px]"
-              onClick={() => {}}
+              onClick={handleBtnClick}
             >
               구매하기
             </CustomButton>

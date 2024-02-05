@@ -2,22 +2,23 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import useLogedInStore from "@/store/logedStore";
+import { useAuthStore } from "@/store/authStore";
 import Section from "@/components/layout/Section";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
 import { SlArrowRight } from "react-icons/sl";
 import { usealertStore } from "@/store/alertStore";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Database } from "@/types/supabase";
+import Image from "next/image";
 
 const linkList = [
   {
     name: "홈",
-    url: "https://yolocean.vercel.app/"
+    url: "https://yolocean.store/"
   },
   {
     name: "로그인",
-    url: "https://yolocean.vercel.app/auth"
+    url: "https://yolocean.store/auth"
   }
 ];
 
@@ -34,7 +35,7 @@ interface FormValue {
 const SignIn = ({ mode, setMode }: Props) => {
   const router = useRouter();
   const supabaseAuth = createClientComponentClient<Database>();
-  const { setLogedIn } = useLogedInStore();
+  const { setAuth } = useAuthStore();
   const { alertFire } = usealertStore();
 
   //이메일 로그인
@@ -46,7 +47,9 @@ const SignIn = ({ mode, setMode }: Props) => {
     if (error) {
       alertFire("아이디와 비밀번호를 확인해주세요", "error");
     } else {
-      setLogedIn(true);
+      setAuth(data.user.id);
+      alertFire("성공적으로 로그인 되었습니다", "success");
+      sessionStorage.setItem("login", "true");
       router.push("/");
     }
   };
@@ -56,7 +59,7 @@ const SignIn = ({ mode, setMode }: Props) => {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<FormValue>({ mode: "onBlur" });
+  } = useForm<FormValue>({ mode: "onChange" });
 
   const onSubmit: SubmitHandler<FormValue> = (inputData) => {
     signInWithEmail(inputData.id, inputData.pw);
@@ -129,7 +132,7 @@ const SignIn = ({ mode, setMode }: Props) => {
               </div>
 
               <div className="text-point my-[20px] text-right">
-                <Link href={"/auth/find"}>
+                <Link href={"/auth/find"} aria-label="아이디 또는 비밀번호 찾기 페이지로 이동">
                   {"아이디 / 비밀번호 찾기"}
                   <SlArrowRight className="inline-block mb-1 ml-[10px]" size={10} />
                 </Link>
@@ -142,11 +145,17 @@ const SignIn = ({ mode, setMode }: Props) => {
 
                 <div className="grid grid-cols-2 gap-[10px] place-items-center">
                   <button type="button" onClick={signInWithKakao}>
-                    <img src="/images/kakao_login.png" className="h-10 w-44" />
+                    <Image
+                      width={176}
+                      height={40}
+                      alt="kakaoIcon"
+                      src="/images/kakao_login.png"
+                      className="h-10 w-44"
+                    />
                   </button>
 
                   <button type="button" onClick={signInWithGoogle}>
-                    <img src="/images/google_login.png" />
+                    <Image width={176} height={40} alt="googleIcon" src="/images/google_login.png" />
                   </button>
                 </div>
               </div>

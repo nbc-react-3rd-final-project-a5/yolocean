@@ -31,12 +31,14 @@ enum EnumFontWeight {
 enum EnumBg {
   blue = "bg-point",
   gray = "bg-tc-middle",
+  red = "bg-red-200",
   white = "bg-white"
 }
 
 enum EnumColor {
   blue = "text-point",
   gray = "text-tc-white",
+  red = "text-white",
   white = "text-white"
 }
 
@@ -44,6 +46,7 @@ enum EnumColor {
 enum EnumBorder {
   blue = "border-point",
   gray = "border-tc-middle",
+  red = "border-red-200",
   white = "border-point"
 }
 

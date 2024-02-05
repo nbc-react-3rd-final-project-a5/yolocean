@@ -4,30 +4,28 @@ import useUserEditModeStore from "@/store/editUserStore";
 import { UserInfo } from "@/types/db";
 import React from "react";
 
+const UserInfoItem = ({ title, content }: { title: string; content: string | null }) => {
+  return (
+    <li>
+      <span className="inline-block w-[89px] mr-[12px]">{title}</span>
+      {content}
+    </li>
+  );
+};
+
 const UserInfo = ({ user }: { user: UserInfo }) => {
-  const { setIsEditMode } = useUserEditModeStore();
-  const certificatePhoneNumber = (phoneNumber: string) => {};
+  const { imageURL, setIsEditMode } = useUserEditModeStore();
 
   return (
     <div className="flex gap-[40px] justify-center items-center pt-[78px] flex-wrap ">
       <div>
-        <Avatar size="lg" src={user.avatar_url as string} />
+        <Avatar size="lg" src={imageURL ? imageURL : (user.avatar_url as string)} />
       </div>
       <div className="flex flex-col min-w-[274px] h-[170px] my-[10px]   gap-[46px]">
-        <div className="flex flex-col gap-[20px] text-[18px] font-medium">
-          <div className="flex gap-[12px]">
-            <div className="w-[89px]">이름</div>
-            <p>{user.username}</p>
-          </div>
-          <div className="flex gap-[12px] items-center">
-            <div className="w-[89px]">전화번호</div>
-            <p>{user.phone || "휴대전화 인증이 되지 않았습니다"}</p>
-          </div>
-          <div className="flex gap-[12px]">
-            <div className="w-[89px]">이메일</div>
-            <p>{user.email}</p>
-          </div>
-        </div>
+        <ul className="flex flex-col gap-[20px] text-[18px] font-medium">
+          <UserInfoItem title={"이름"} content={user.username} />
+          <UserInfoItem title={"이메일"} content={user.email} />
+        </ul>
         <div className="flex gap-[5px] text-[14px]">
           <CustomButton
             size="sm"
@@ -36,15 +34,6 @@ const UserInfo = ({ user }: { user: UserInfo }) => {
             }}
           >
             회원정보 수정
-          </CustomButton>
-          <CustomButton
-            size="sm"
-            isOutline={true}
-            onClick={() => {
-              setIsEditMode(true);
-            }}
-          >
-            {user.phone ? "핸드폰 번호 변경" : "핸드폰 번호 인증"}
           </CustomButton>
         </div>
       </div>

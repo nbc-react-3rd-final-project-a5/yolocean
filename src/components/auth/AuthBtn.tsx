@@ -1,18 +1,15 @@
 "use client";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
-import { supabase } from "@/service/supabase";
+import { usealertStore } from "@/store/alertStore";
 import { useRouter } from "next/navigation";
 import { AiOutlineUser } from "react-icons/ai";
-import useLogedInStore from "@/store/logedStore";
 import { useAuthStore } from "@/store/authStore";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Database } from "@/types/supabase";
 
 const AuthBtn = () => {
   //로그인 상태
-  const { logedIn, setLogedIn } = useLogedInStore();
-
   const { auth, setAuth } = useAuthStore();
   //유저 햄버거 열기
   const [menu, setMenu] = useState(false);
@@ -21,25 +18,18 @@ const AuthBtn = () => {
 
   const supabaseAuth = createClientComponentClient<Database>();
 
-  const logedInCheck = async (setLogedIn: (state: boolean) => void, setAuth: (auth: string) => void) => {
-    const { data, error } = await supabaseAuth.auth.getSession();
-
-    if (data.session !== null) {
-      setLogedIn(true);
-      setAuth(data.session.user.id);
-    }
-  };
+  //alert
+  const { alertFire } = usealertStore();
 
   //로그아웃
   async function signOut() {
     const { error } = await supabaseAuth.auth.signOut();
-    setLogedIn(false);
+    setAuth("");
+    alertFire("성공적으로 로그아웃 되었습니다", "success");
     router.push("/");
   }
 
   useEffect(() => {
-    logedInCheck(setLogedIn, setAuth);
-
     if (!menu) return;
     const closeMenu = () => setMenu(false);
 
@@ -66,10 +56,14 @@ const AuthBtn = () => {
         >
           <ul className="cursor-pointer text-sm">
             <li className="hidden mobile:p-2 mobile:block">
-              <Link href={`/cart/${auth}`}>장바구니</Link>
+              <Link href={`/cart/${auth}`} aria-label="장바구니로 이동">
+                장바구니
+              </Link>
             </li>
             <li className="p-2 hover:underline decoration-wavy decoration-point">
-              <Link href={`/users/${auth}`}>마이 페이지</Link>
+              <Link href={`/users/${auth}`} aria-label="마이페이지로 이동">
+                마이 페이지
+              </Link>
             </li>
             <li onClick={signOut} className="p-2 hover:underline decoration-wavy decoration-point">
               로그아웃
@@ -82,7 +76,7 @@ const AuthBtn = () => {
 
   return (
     <>
-      {logedIn ? (
+      {auth !== "" ? (
         <div onClick={() => setMenu(!menu)} className="">
           <AiOutlineUser
             size="22"
@@ -96,7 +90,7 @@ const AuthBtn = () => {
           </div>
         </div>
       ) : (
-        <Link href={"/auth"}>
+        <Link href={"/auth"} aria-label="로그인 페이지로 이동">
           <AiOutlineUser size="22" className="cursor-pointer mt-[5px] mobile:mt-0" color="#3074F0" />
         </Link>
       )}

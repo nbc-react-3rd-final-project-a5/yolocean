@@ -1,4 +1,5 @@
 import { supabase } from "@/service/supabase";
+import { revalidateTag } from "next/cache";
 import { NextResponse, NextRequest } from "next/server";
 
 // [GET] 해당 유저아이디와 리뷰 아이디가 일치하는 리뷰를 가져온다.
@@ -30,6 +31,8 @@ export async function PATCH(req: NextRequest, context: { params: { reviewId: str
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+
+  console.log("revalidate 실행됐음");
   return NextResponse.json(data);
 }
 

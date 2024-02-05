@@ -1,23 +1,23 @@
 "use client";
 import { useModalStore } from "@/store/modalStore";
 import React from "react";
-import SelectOffice from "./SelectOffice";
-import Link from "next/link";
 import { useOfficeStore } from "@/store/officeStore";
 import { FaLocationDot } from "react-icons/fa6";
 import PageBreadCrumb from "@/components/layout/PageBreadCrumb";
+import dynamic from "next/dynamic";
 
+const SelectOffice = dynamic(() => import("./SelectOffice"));
 const CategoryHeader = ({ categoryName }: { categoryName: string }) => {
   const { openModal } = useModalStore();
   const { office } = useOfficeStore();
   const linkList = [
     {
       name: "홈",
-      url: "https://yolocean.vercel.app/"
+      url: "https://yolocean.store/"
     },
     {
       name: `${categoryName}`,
-      url: "https://yolocean.vercel.app/category"
+      url: "https://yolocean.store/category"
     }
   ];
   return (
