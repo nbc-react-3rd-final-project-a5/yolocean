@@ -8,6 +8,7 @@ import useStorage from "@/utils/useStorage";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { openConfirm } from "@/store/confirmStore";
 
 interface Props {
   selectCarousel?: Carousel;
@@ -86,6 +87,17 @@ const CarouselForm = ({ selectCarousel, isCreateMode }: Props) => {
     }
   };
 
+  const onDeleteClick = async () => {
+    const isConfirm = await openConfirm("carousel 삭제", "해당 carousel을 삭제하시겠습니까?");
+
+    if (isConfirm) {
+      deleteMutation(selectCarousel?.id);
+      return alertFire("Carousel 삭제 성공", "success");
+    } else {
+      return alertFire("Carousel 삭제 취소", "error");
+    }
+  };
+
   return (
     <>
       <form
@@ -122,7 +134,7 @@ const CarouselForm = ({ selectCarousel, isCreateMode }: Props) => {
         </div>
         <div className="flex gap-4">
           <CustomButton type="submit">수정하기</CustomButton>
-          <CustomButton type="button" color="red">
+          <CustomButton type="button" color="red" onClick={onDeleteClick}>
             삭제하기
           </CustomButton>
         </div>
