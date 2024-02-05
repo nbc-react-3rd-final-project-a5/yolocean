@@ -5,6 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 import RentList from "./RentList";
 import Spinner from "@/components/Spinner";
 import Pagination from "@/components/Pagination";
+import SelectOrder from "@/components/admin/SelectOrder";
+import SelectStore from "./SelectStore";
 
 interface Props {
   searchParams: { [key: string]: any } | undefined;
@@ -30,6 +32,10 @@ const AdminRent = ({ searchParams }: Props) => {
         </div>
       ) : (
         <>
+          <div className="flex mt-[30px] space-x-[20px] ml-[65%]">
+            <SelectOrder currentPage={page} article={"rent"} target={{ store: store }} order={order} />
+            <SelectStore store={store} order={order} />
+          </div>
           <RentList rentList={rentData.rentlog} />
           <Pagination
             maxPage={rentData.maxPage}

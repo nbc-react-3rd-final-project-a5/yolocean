@@ -6,7 +6,7 @@ import { getAllReview } from "@/service/table";
 import Pagination from "@/components/Pagination";
 import { useQuery } from "@tanstack/react-query";
 import Spinner from "@/components/Spinner";
-import SelectOrder from "./SelectOrder";
+import SelectOrder from "@/components/admin/SelectOrder";
 
 interface Props {
   searchParams: { [key: string]: any } | undefined;
