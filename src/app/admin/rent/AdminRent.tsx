@@ -4,6 +4,7 @@ import { getAllRent } from "@/service/table";
 import { useQuery } from "@tanstack/react-query";
 import RentList from "./RentList";
 import Spinner from "@/components/Spinner";
+import Pagination from "@/components/Pagination";
 
 interface Props {
   searchParams: { [key: string]: any } | undefined;
@@ -19,7 +20,7 @@ const AdminRent = ({ searchParams }: Props) => {
     queryKey: ["rent", page, store, order]
   });
 
-  console.log(rentData);
+  console.log(store);
 
   return (
     <>
@@ -28,7 +29,16 @@ const AdminRent = ({ searchParams }: Props) => {
           <Spinner />
         </div>
       ) : (
-        <RentList rentList={rentData.rentlog} />
+        <>
+          <RentList rentList={rentData.rentlog} />
+          <Pagination
+            maxPage={rentData.maxPage}
+            limit={10}
+            currentPage={page}
+            articleName={"rent"}
+            test={{ store: store }}
+          />
+        </>
       )}
     </>
   );

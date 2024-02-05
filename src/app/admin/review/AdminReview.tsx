@@ -31,7 +31,7 @@ const AdminReview = ({ searchParams }: Props) => {
       ) : (
         <>
           <div className="flex mt-[30px] space-x-[20px] ml-[75%]">
-            <SelectOrder currentPage={page} category={category} order={order} />
+            <SelectOrder currentPage={page} article={"review"} target={{ category: category }} order={order} />
             <SelectCategory currentPage={page} category={category} order={order} />
           </div>
           <ReviewList searchParams={searchParams} reviewList={reviewList.reviews} />
