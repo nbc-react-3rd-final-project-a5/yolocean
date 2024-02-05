@@ -67,7 +67,6 @@ const CarouselForm = ({ selectCarousel, isCreateMode }: Props) => {
       }
 
       createMutation(data);
-      console.log(data);
       return alertFire("Carousel 업로드 성공", "success");
     } catch (error) {
       console.error(error);
@@ -79,7 +78,6 @@ const CarouselForm = ({ selectCarousel, isCreateMode }: Props) => {
       if (customImageList[0].file) {
         data.img = await uploadImage(customImageList[0].file, "promotion", data.id, "carousel");
       }
-      console.log(data);
       updateMutation(data);
       return alertFire("Carousel 업로드 성공", "success");
     } catch (error) {

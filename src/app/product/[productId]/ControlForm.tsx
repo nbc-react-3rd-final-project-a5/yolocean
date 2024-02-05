@@ -85,7 +85,6 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
     const body = JSON.stringify({ product_id, user_id, rent_date, count, store_id });
     const cart = await getCart({ productId: product_id, userId: user_id });
 
-    console.log(cart);
     addCart(body, submitType, cart[0]?.id);
   }
 

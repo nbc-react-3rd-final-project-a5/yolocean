@@ -20,7 +20,6 @@ const SelectStore = ({ store: storeId, order }: Props) => {
     queryFn: async () => getAllStore()
   });
 
-  //   console.log(storeList);
   const getStoreName = () => {
     for (const store of storeList) {
       if (store.id === storeId) {
