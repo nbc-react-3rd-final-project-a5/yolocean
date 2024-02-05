@@ -20,15 +20,15 @@ const CarouselForm = ({ selectCarousel, isCreateMode }: Props) => {
   const { uploadImage } = useStorage();
   const { customImageList, isEnter, handler, addPreImage } = useImageInput(1);
   const { mutate: createMutation } = useCustomMutation({
-    queryKey: ["manageCarousel"],
+    queryKey: ["carousel"],
     mutationFn: (data) => createCarousel(data)
   });
   const { mutate: updateMutation } = useCustomMutation({
-    queryKey: ["manageCarousel"],
+    queryKey: ["carousel"],
     mutationFn: (carousel: Carousel) => updateCarousel(carousel)
   });
   const { mutate: deleteMutation } = useCustomMutation({
-    queryKey: ["manageCarousel"],
+    queryKey: ["carousel"],
     mutationFn: () => deleteCarousel(selectCarousel!.id)
   });
 
