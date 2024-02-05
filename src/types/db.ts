@@ -13,6 +13,7 @@ export type Region = Tables<"region">;
 export type RentLogInsert = TablesInsert<"rentlog">;
 export type FixedReview = Tables<"fixed_review">;
 export type Banner = Tables<"banner">;
+export type Carousel = Tables<"carousel">;
 
 export interface ProductProperties extends Product {
   info: [string];
