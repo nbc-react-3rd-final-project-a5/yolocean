@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import Pagenation from "@/components/Pagination";
 import ReviewPulse from "@/components/pulse/ReviewPulse";
-import Revalidate from "./Revalidate";
+import Revalidate from "../../../../components/Revalidate";
 
 interface Props {
   productId: string;

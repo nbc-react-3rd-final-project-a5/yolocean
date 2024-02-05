@@ -14,7 +14,9 @@ const getAllProduct = async () => {
 };
 // [GET] 카테고리에 해당하는 상품 정보들
 const getAllCategoryProduct = async ({ categoryId }: Pick<API, "categoryId">) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/product/category/${categoryId}`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/product/category/${categoryId}`, {
+    next: { revalidate: 60 * 60 }
+  });
   const result = await res.json();
   return result;
 };

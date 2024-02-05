@@ -1,6 +1,5 @@
 import ReviewList from "@/components/review/ReviewList";
 import { getAllProductQna } from "@/service/table";
-import Link from "next/link";
 import React, { Suspense } from "react";
 import Empty from "./Empty";
 import { cookies } from "next/headers";
@@ -8,7 +7,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import Pagination from "@/components/Pagination";
 import ReviewPulse from "@/components/pulse/ReviewPulse";
 import CustomLink from "@/components/CustomLink";
-import Revalidate from "./Revalidate";
+import Revalidate from "../../../../components/Revalidate";
 
 interface Props {
   productId: string;
