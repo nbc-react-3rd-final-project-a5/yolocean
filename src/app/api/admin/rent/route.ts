@@ -23,7 +23,7 @@ export const GET = async (req: NextRequest) => {
 
     let { data: rentlog, error } = await supabase
       .from("rentlog")
-      .select("*")
+      .select("*, userinfo(*)")
       .limit(limit)
       .range(min, max)
       .order("rent_date", { ascending: JSON.parse(order) });
@@ -44,7 +44,7 @@ export const GET = async (req: NextRequest) => {
 
     let { data: rentlog, error } = await supabase
       .from("rentlog")
-      .select("*, store!inner(id)")
+      .select("*, store!inner(id), userinfo(*)")
       .eq("store.id", store)
       .limit(limit)
       .range(min, max)
