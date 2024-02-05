@@ -93,7 +93,7 @@ const ProductForm = () => {
     if (data.info && data.name && data.category_id && data.price && data.thumbnail && data.id && data.original_price) {
       createProductMutation({ body: JSON.stringify(data) });
       alert("상품이 등록 되었습니다!");
-      router.push("/admin/product?article=상품&page=1");
+      router.push("/admin/product");
     } else {
       alert("필수 항목을 모두 입력해주세요!");
       return;

@@ -16,7 +16,7 @@ interface Props {
 }
 
 const AdminProductPage = ({ searchParams }: Props) => {
-  const page = searchParams?.page;
+  const page = searchParams?.["page"] || 1;
 
   const { data: products, isLoading } = useQuery({
     queryKey: ["products", page],
@@ -82,7 +82,7 @@ const AdminProductPage = ({ searchParams }: Props) => {
           </div>
         ))}
       </div>
-      <Pagination articleName={"상품"} maxPage={products.maxPage} currentPage={page!} limit={5} />
+      <Pagination articleName={"products"} maxPage={products.maxPage} currentPage={page!} limit={5} />
     </div>
   );
 };
