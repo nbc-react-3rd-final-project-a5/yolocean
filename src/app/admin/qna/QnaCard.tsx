@@ -1,11 +1,9 @@
 "use client";
 import Avatar from "@/components/Avatar";
 import CustomButton from "@/components/CustomButton";
-import { useCustomMutation } from "@/hook";
-import { deleteUserQna, updateUserQna } from "@/service/table";
 import { openConfirm } from "@/store/confirmStore";
 import { convertTime } from "@/utils/convertTime";
-import { UseMutateFunction, useMutation } from "@tanstack/react-query";
+import { UseMutateFunction } from "@tanstack/react-query";
 import Image from "next/image";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";

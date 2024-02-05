@@ -11,8 +11,8 @@ import { useAuthStore } from "@/store/authStore";
 import { createUserReview, updateUserReview } from "@/service/table";
 import { useRouter } from "next/navigation";
 import CustomButton from "@/components/CustomButton";
-import { debounce } from "lodash";
 import dynamic from "next/dynamic";
+
 const Spinner = dynamic(() => import("@/components/Spinner"));
 
 interface Props {
@@ -31,14 +31,7 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
   const router = useRouter();
   const { auth: userId } = useAuthStore();
   const [loading, setLoading] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setError,
-    clearErrors,
-    formState: { errors }
-  } = useForm<UploadForm>({ mode: "onChange" });
+  const { register, handleSubmit } = useForm<UploadForm>({ mode: "onChange" });
 
   // ========== Image Upload ==========
   const preReviewImageUrl = reviewData?.url;
@@ -52,7 +45,10 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
   }, []);
 
   // ========== Submit ==========
-  const createReview = debounce(async (data) => {
+
+  const handleFormSubmit = async (data: UploadForm) => {
+    if (loading) return;
+    setLoading(true);
     const storagePath = productId ? `${userId}/${productId}` : userId;
     const imageFileList = customImageList.map((n) => n.file) as File[];
     const imageFileIdList = customImageList.map((n) => n.id);
@@ -69,24 +65,16 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
       };
 
       await createUserReview({ userId, body: JSON.stringify(formData) });
-      setTimeout(() => {
-        setLoading(false);
-        return router.push(`/product/${productId}?article=후기`);
-      }, 1500);
+      setLoading(false);
+      return router.push(`/product/${productId}?article=후기`);
     } catch (error) {
       alert(error);
     }
-  }, 300);
+  };
 
-  const handleFormSubmit = useCallback(
-    async (data: UploadForm) => {
-      setLoading(true);
-      await createReview(data);
-    },
-    [createReview]
-  );
-
-  const updateReview = debounce(async (data) => {
+  const handleUpdateFormSubmit = async (data: UploadForm) => {
+    if (loading) return;
+    setLoading(true);
     const storagePath = productId ? `${userId}/${productId}` : userId;
     const preImageURLList = customImageList.filter((n) => n.file === null).map((n) => n.previewURL);
     const deletePreImageURLList =
@@ -116,22 +104,12 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
       };
 
       await updateUserReview({ userId, reviewId: reviewData.id, body: JSON.stringify(formData) });
-      setTimeout(() => {
-        setLoading(false);
-        return router.push(`/product/${productId}?article=후기`);
-      }, 1500);
+      setLoading(false);
+      return router.push(`/product/${productId}?article=후기`);
     } catch (error) {
       console.error(error);
     }
-  }, 300);
-
-  const handleUpdateFormSubmit = useCallback(
-    async (data: UploadForm) => {
-      setLoading(true);
-      await updateReview(data);
-    },
-    [updateReview]
-  );
+  };
 
   return (
     <form onSubmit={reviewData ? handleSubmit(handleUpdateFormSubmit) : handleSubmit(handleFormSubmit)}>

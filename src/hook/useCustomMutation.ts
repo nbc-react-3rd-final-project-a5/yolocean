@@ -6,7 +6,6 @@ interface Props {
 }
 
 export const useCustomMutation = ({ mutationFn, queryKey }: Props) => {
-  console.log(queryKey);
   const queryClient = useQueryClient();
 
   const customMutaion = useMutation({

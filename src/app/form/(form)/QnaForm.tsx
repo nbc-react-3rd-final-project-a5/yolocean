@@ -7,9 +7,8 @@ import { createUserQna, updateUserQna } from "@/service/table";
 import { useAuthStore } from "@/store/authStore";
 import { ExtendQna, Qna } from "@/types/db";
 import useStorage from "@/utils/useStorage";
-import { debounce } from "lodash";
 import { useRouter } from "next/navigation";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
 
@@ -44,7 +43,9 @@ const QnaForm = ({ qnaData, productId }: Props) => {
 
   //   ========== Submit ============
 
-  const createQna = debounce(async (data) => {
+  const handleCreateFormSubmit = async (data: any) => {
+    if (loading) return;
+    setLoading(true);
     // Image
     const imageFileList = customImageList.map((n) => n.file) as File[];
     const imageFileIdList = customImageList.map((n) => n.id);
@@ -61,28 +62,22 @@ const QnaForm = ({ qnaData, productId }: Props) => {
       };
 
       await createUserQna({ userId, body: JSON.stringify(formData) });
-      setTimeout(() => {
-        setLoading(false);
-        return productId
-          ? router.push(`/product/${productId}?article=제품문의`)
-          : router.push(`/users/${userId}?article=qna`);
-      }, 1500);
+      setLoading(false);
+      return productId
+        ? router.push(`/product/${productId}?article=제품문의`)
+        : router.push(`/users/${userId}?article=qna`);
     } catch (error) {
       alert(error);
     }
-  }, 300);
+  };
 
-  const handleCreateFormSubmit = useCallback(
-    async (data: any) => {
-      setLoading(true);
-      await createQna(data);
-    },
-    [createQna]
-  );
+  const handleUpdateFormSubmit = async (data: any) => {
+    if (loading) return;
 
-  const updateQna = debounce(async (data) => {
+    setLoading(true);
     const storagePath = productId ? `${userId}/${productId}` : userId;
     const preImageURLList = customImageList.filter((n) => n.file === null).map((n) => n.previewURL);
+
     const deletePreImageURLList =
       preReviewImageUrl &&
       preReviewImageUrl.filter((n) => {
@@ -107,25 +102,15 @@ const QnaForm = ({ qnaData, productId }: Props) => {
       };
 
       await updateUserQna({ userId, qnaId: qnaData.id, body: JSON.stringify(formData) });
-      setTimeout(() => {
-        setLoading(false);
-        return qnaData?.product_id
-          ? router.push(`/product/${qnaData.product_id}?article=제품문의`)
-          : router.push(`/users/${userId}?article=qna`);
-      }, 1500);
+      setLoading(false);
+      return qnaData?.product_id
+        ? router.push(`/product/${qnaData.product_id}?article=제품문의`)
+        : router.push(`/users/${userId}?article=qna`);
     } catch (error) {
       alert(error);
       return router.push(`/`);
     }
-  }, 300);
-
-  const handleUpdateFormSubmit = useCallback(
-    async (data: any) => {
-      setLoading(true);
-      await updateQna(data);
-    },
-    [updateQna]
-  );
+  };
 
   return (
     <form onSubmit={qnaData ? handleSubmit(handleUpdateFormSubmit) : handleSubmit(handleCreateFormSubmit)}>

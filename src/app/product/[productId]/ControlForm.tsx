@@ -1,13 +1,12 @@
 "use client";
 import NumberInput from "@/components/NumberInput";
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FieldValues, useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import { ko } from "date-fns/esm/locale";
 import "react-datepicker/dist/react-datepicker.css";
 import { useOfficeStore } from "@/store/officeStore";
 import { useModalStore } from "@/store/modalStore";
-import { debounce } from "lodash";
 import { MdErrorOutline } from "react-icons/md";
 import { openConfirm } from "@/store/confirmStore";
 import { useRouter } from "next/navigation";
@@ -17,6 +16,7 @@ import { createCart, getCart, updateCart } from "@/service/table";
 import CustomButton from "@/components/CustomButton";
 import { useCustomMutation } from "@/hook";
 import dynamic from "next/dynamic";
+import Spinner from "@/components/Spinner";
 
 const SelectOffice = dynamic(() => import("@/app/category/[categoryId]/SelectOffice"), { ssr: false });
 const ShareModal = dynamic(() => import("./ShareModal"), { ssr: false });
@@ -45,6 +45,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
   const { openModal } = useModalStore();
   const router = useRouter();
   const { auth: user_id } = useAuthStore();
+  const [loading, setLoading] = useState(false);
 
   const updateCartMutation = useCustomMutation({
     mutationFn: async ({ body, cartId }: { body: string; cartId: string }) =>
@@ -55,6 +56,12 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
     mutationFn: async ({ body }: { body: string }) => createCart({ userId: user_id, body }),
     queryKey: [user_id, product_id, "cart"]
   });
+
+  useEffect(() => {
+    if (updateCartMutation.isSuccess || createCartMutation.isSuccess) {
+      return setLoading(false);
+    }
+  }, [updateCartMutation.isSuccess, createCartMutation.isSuccess, setLoading]);
 
   useEffect(() => {
     setValue("address", office.name);
@@ -69,7 +76,20 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
       } else return;
     }
   }
-  const addCart = debounce(async (body: string, submitType: string, cartId: string) => {
+  async function handleFormSubmit(onValid: FieldValues, event: any) {
+    if (!user_id) return;
+    setLoading(true);
+    const submitType = event.nativeEvent.submitter.name;
+    const { rent_date, count } = onValid;
+    const store_id = office.id;
+    const body = JSON.stringify({ product_id, user_id, rent_date, count, store_id });
+    const cart = await getCart({ productId: product_id, userId: user_id });
+
+    console.log(cart);
+    addCart(body, submitType, cart[0]?.id);
+  }
+
+  async function addCart(body: string, submitType: string, cartId: string) {
     if (cartId) {
       updateCartMutation.mutate({ userId: user_id, body, cartId });
     } else {
@@ -89,24 +109,11 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
         router.push(`/payment/${user_id}`);
       }
     }
-  }, 300);
-
-  const handleFormSubmit = useCallback(
-    async (onValid: FieldValues, event: any) => {
-      const submitType = event.nativeEvent.submitter.name;
-
-      const { rent_date, count } = onValid;
-      const store_id = office.id;
-      const body = JSON.stringify({ product_id, user_id, rent_date, count, store_id });
-      const cart = await getCart({ productId: product_id, userId: user_id });
-
-      addCart(body, submitType, cart?.[0]?.id);
-    },
-    [office, product_id, user_id]
-  );
+  }
 
   return (
     <>
+      {loading && <Spinner />}
       <div className="flex-1 text-[16px] max-w-[500px] mx-auto tablet:max-w-full">
         <div className="flex justify-between items-center mb-[20px]">
           <p className="text-[15px] text-tc-light ">{category_name}</p>
