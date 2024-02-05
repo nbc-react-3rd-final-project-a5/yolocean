@@ -2,7 +2,9 @@ import { Banner } from "@/types/db";
 
 export const getBanner = async (bannerName: string) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/storage/banner/${bannerName}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/storage/banner/${bannerName}`, {
+      next: { revalidate: 60 * 60 }
+    });
     const data: Banner = await res.json();
     return data;
   } catch (error) {
