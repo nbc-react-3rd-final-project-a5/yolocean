@@ -1,7 +1,9 @@
 import { Carousel } from "@/types/db";
 
 export const getAllCarousel = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/storage/carousel`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/storage/carousel`, {
+    next: { revalidate: 60 * 60 }
+  });
   const result: Carousel[] = await res.json();
   return result;
 };
