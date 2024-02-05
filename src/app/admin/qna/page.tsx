@@ -14,7 +14,7 @@ interface Props {
 
 const Qna = ({ searchParams }: Props) => {
   const page = Number(searchParams?.page) || 1;
-  const answer = searchParams?.answer || "미답변";
+  const answer = searchParams?.answer || "답변완료";
   const category = searchParams?.category || "All";
   const [loading, setLoading] = useState(false);
 
@@ -32,26 +32,17 @@ const Qna = ({ searchParams }: Props) => {
     queryKey: ["adminQna", String(page), String(answer), category]
   });
 
-  const {
-    mutate: deleteQna,
-    isSuccess,
-    isPending
-  } = useCustomMutation({
+  const { mutate: deleteQna, isSuccess } = useCustomMutation({
     mutationFn: async ({ qnaId, userId }: { qnaId: string; userId: string }) => await deleteUserQna({ qnaId, userId }),
     queryKey: ["adminQna", String(page), String(answer), category]
   });
 
-  console.log(isPending);
-
-  useEffect(() => {
-    if (isPending) return setLoading(true);
-
-    return setLoading(false);
-  }, [isPending]);
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
-    <div>
-      {loading && <Spinner />}
+    <section>
       <Filter category={category} />
       {!isLoading &&
         data &&
@@ -73,7 +64,7 @@ const Qna = ({ searchParams }: Props) => {
         maxPage={data?.maxPage}
         test={{ answer, category, page }}
       />
-    </div>
+    </section>
   );
 };
 
