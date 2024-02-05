@@ -79,7 +79,6 @@ const BannerForm = ({ selectBanner, isCreateMode }: Props) => {
       if (customImageList[0].file) {
         data.banner_url = await uploadImage(customImageList[0].file, "promotion", data.id, "banner");
       }
-      console.log(data);
       updateMutation(data);
       return alertFire("배너 업로드 성공", "success");
     } catch (error) {

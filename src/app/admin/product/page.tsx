@@ -36,14 +36,14 @@ const AdminProductPage = ({ searchParams }: Props) => {
     return <Spinner />;
   }
   return (
-    <div className="w-[700px]">
+    <div className="w-full">
       <div className="flex justify-between items-center w-full h-[60px]">
         <p>전체 상품</p>
         <Link href={"/admin/product/addProduct"}>상품 추가하기</Link>
       </div>
       <div className="flex flex-col gap-2">
         {products!.products!.map((product: Product) => (
-          <div key={product.id} className="border border-line flex p-2 items-center justify-evenly h-[150px]">
+          <div key={product.id} className="border border-line flex p-2 items-center justify-evenly gap-2 h-[150px]">
             <figure className="">
               <Image
                 src={product.thumbnail}
@@ -62,9 +62,11 @@ const AdminProductPage = ({ searchParams }: Props) => {
               </div>
             </div>
             <div className="flex flex-col gap-2">
-              <CustomButton color="white" onClick={() => {}} size="sm" className="h-[50px]">
-                수정하기
-              </CustomButton>
+              <Link href={`/admin/product/${product.id}`}>
+                <CustomButton color="white" size="sm" className="h-[50px]">
+                  수정하기
+                </CustomButton>
+              </Link>
               <CustomButton
                 color="white"
                 onClick={() => {
