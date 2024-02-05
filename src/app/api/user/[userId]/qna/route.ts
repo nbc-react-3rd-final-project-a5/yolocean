@@ -3,7 +3,6 @@ import { NextResponse, NextRequest } from "next/server";
 
 export const GET = async (req: NextRequest, context: { params: { userId: string } }) => {
   const { userId } = context.params;
-
   const searchParams = req.nextUrl.searchParams;
 
   const PAGE = searchParams.get("page") || 1;
@@ -23,6 +22,7 @@ export const GET = async (req: NextRequest, context: { params: { userId: string 
     .from("qna")
     .select("*,userinfo!inner(username,avatar_url), product(name, thumbnail)")
     .eq("user_id", userId)
+    .order("created_at", { ascending: false })
     .limit(limit)
     .range(min, max);
 
