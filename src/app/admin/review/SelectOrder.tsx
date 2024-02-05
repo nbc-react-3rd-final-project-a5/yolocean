@@ -31,7 +31,7 @@ const SelectCategory = ({ currentPage, category: categoryId, order }: Props) => 
 
   return (
     <>
-      <div className="flex">
+      <div className="flex min-w-[60px]">
         <button
           id="selectOrder"
           data-dropdown-toggle="dropdown"

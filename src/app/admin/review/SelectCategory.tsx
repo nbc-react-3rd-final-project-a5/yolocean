@@ -27,7 +27,7 @@ const SelectCategory = ({ currentPage, category: categoryId, order }: Props) => 
         return cateItem.category_name;
       }
     }
-    return "전체";
+    return "전체보기";
   };
 
   //카테고리 메뉴 열기
@@ -47,7 +47,7 @@ const SelectCategory = ({ currentPage, category: categoryId, order }: Props) => 
   }, [openCate]);
 
   return (
-    <div className="flex">
+    <div className="flex min-w-[110px]">
       <button
         id="selectCategory"
         data-dropdown-toggle="dropdown"
