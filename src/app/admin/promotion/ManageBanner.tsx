@@ -36,7 +36,7 @@ const ManageBanner = () => {
     <Section title={isCreateMode ? "Banner 생성" : "Banner 관리"} isCenter={false}>
       <div className="flex gap-4 mb-[1rem]">
         <CustomButton size="sm" onClick={() => setIsCreateMode(!isCreateMode)}>
-          {isCreateMode ? "Banner 생성하기" : "Banner 관리하기"}
+          {!isCreateMode ? "Banner 생성하기" : "Banner 관리하기"}
         </CustomButton>
       </div>
 
