@@ -1,11 +1,9 @@
 import Tab from "@/components/Tab";
 import React, { Suspense } from "react";
 import Description from "./(article)/Description";
-// import Infomation from "./(article)/Infomation";
 import ReviewPulse from "@/components/pulse/ReviewPulse";
-// import Review from "./(article)/Review";
-// import Qna from "./(article)/Qna";
 import dynamic from "next/dynamic";
+import Spinner from "@/components/Spinner";
 
 const LoadingPulse = (
   <>
@@ -15,7 +13,7 @@ const LoadingPulse = (
   </>
 );
 
-const Infomation = dynamic(() => import("./(article)/Infomation"), {});
+const Infomation = dynamic(() => import("./(article)/Infomation"), { loading: () => <Spinner /> });
 const Review = dynamic(() => import("./(article)/Review"), {
   loading: () => LoadingPulse
 });
