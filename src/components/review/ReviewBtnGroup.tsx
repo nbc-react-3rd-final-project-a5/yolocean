@@ -37,7 +37,7 @@ const ReviewBtnGroup = ({ userId, reviewId, listType, productId }: Props) => {
           await deleteUserReview({ userId, reviewId });
           router.refresh();
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
         setLoading(false);
       } else {
@@ -46,7 +46,7 @@ const ReviewBtnGroup = ({ userId, reviewId, listType, productId }: Props) => {
           router.refresh();
           setLoading(false);
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
       }
     }

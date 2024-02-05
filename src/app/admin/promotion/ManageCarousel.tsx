@@ -13,7 +13,7 @@ import BannerInfoTable from "./(Banner)/BannerInfoTable";
 
 const ManageCarousel = () => {
   const { data: carouselList, isLoading } = useQuery({
-    queryKey: ["manageCarousel"],
+    queryKey: ["carousel"],
     queryFn: getAllCarousel
   });
 

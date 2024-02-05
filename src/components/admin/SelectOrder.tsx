@@ -5,11 +5,12 @@ import { FaChevronDown } from "react-icons/fa6";
 
 interface Props {
   currentPage: number;
-  category: string;
+  article: string;
+  target: any;
   order: string;
 }
 
-const SelectCategory = ({ currentPage, category: categoryId, order }: Props) => {
+const SelectCategory = ({ currentPage, article, target, order }: Props) => {
   const pathName = usePathname();
 
   const selectedOrder = order === "false" ? "최신순" : "오래된순";
@@ -51,7 +52,7 @@ const SelectCategory = ({ currentPage, category: categoryId, order }: Props) => 
               <Link
                 href={{
                   href: pathName,
-                  query: { article: "review", page: 1, category: categoryId, order: false }
+                  query: { article: "review", page: 1, ...target, order: false }
                 }}
                 prefetch={false}
               >
@@ -62,7 +63,7 @@ const SelectCategory = ({ currentPage, category: categoryId, order }: Props) => 
               <Link
                 href={{
                   href: pathName,
-                  query: { article: "review", page: 1, category: categoryId, order: true }
+                  query: { article: "review", page: 1, ...target, order: true }
                 }}
                 prefetch={false}
               >

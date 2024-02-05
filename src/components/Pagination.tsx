@@ -11,9 +11,10 @@ interface Props {
   setPage?: React.Dispatch<React.SetStateAction<number>>;
   categoryId?: string;
   order?: string;
+  test?: any;
 }
 
-const Pagination = ({ maxPage, currentPage, limit, articleName, setPage, categoryId, order }: Props) => {
+const Pagination = ({ maxPage, currentPage, limit, articleName, setPage, categoryId, order, test }: Props) => {
   let firstPageNumber = Math.floor((Number(currentPage) - 1) / limit) * limit + 1;
 
   const pathName = usePathname();
@@ -28,7 +29,7 @@ const Pagination = ({ maxPage, currentPage, limit, articleName, setPage, categor
         {currentPage > 1 && (
           <Link
             scroll={false}
-            href={{ href: pathName, query: { ...optionalQueries, page: Number(currentPage) - 1 } }}
+            href={{ href: pathName, query: { ...optionalQueries, ...test, page: Number(currentPage) - 1 } }}
             onClick={() => {
               document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" });
               if (setPage) {
@@ -48,7 +49,7 @@ const Pagination = ({ maxPage, currentPage, limit, articleName, setPage, categor
           return (
             <Link
               scroll={false}
-              href={{ href: pathName, query: { ...optionalQueries, page } }}
+              href={{ href: pathName, query: { ...optionalQueries, ...test, page } }}
               onClick={() => {
                 document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" });
                 if (setPage) {
@@ -69,7 +70,7 @@ const Pagination = ({ maxPage, currentPage, limit, articleName, setPage, categor
         {currentPage < maxPage && (
           <Link
             scroll={false}
-            href={{ href: pathName, query: { ...optionalQueries, page: Number(currentPage) + 1 } }}
+            href={{ href: pathName, query: { ...optionalQueries, ...test, page: Number(currentPage) + 1 } }}
             onClick={() => {
               document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" });
               if (setPage) {

@@ -28,6 +28,7 @@ export const GET = async (req: NextRequest, context: { params: { userId: string 
     .select("*")
     .eq("user_id", userId)
     .eq("return", isReturn)
+    .order("rent_date", { ascending: !JSON.parse(isReturn) })
     .limit(limit)
     .range(min, max);
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { CartBox } from "@/types/db";
 import { VscChromeClose } from "react-icons/vsc";
@@ -20,6 +20,7 @@ const CartItem = (cart: Props) => {
   const { count, id, product_id, store_id, user_id, rent_date, store, product } = cart.cart;
   const { name, thumbnail, price, percentage_off, category } = product;
   const { cartPrice, setCartPrice, idx, originPrice, setOriginPrice } = cart;
+  const ref = useRef<boolean>(false);
 
   const finalPrice = price * (1 - percentage_off * 0.01);
 
@@ -46,22 +47,26 @@ const CartItem = (cart: Props) => {
   const watchCount = watch();
 
   useEffect(() => {
-    const updateCount = async () => {
-      if (isVisible) {
-        originPrice[idx] = getValues("count") * price;
-        setOriginPrice([...originPrice]);
-        cartPrice[idx] = getValues("count") * finalPrice;
-        setCartPrice([...cartPrice]);
-        updateCountMutation({});
-      } else {
-        //삭제했을 때
-        originPrice[idx] = 0;
-        setOriginPrice([...originPrice]);
-        cartPrice[idx] = 0;
-        setCartPrice([...cartPrice]);
-      }
-    };
-    updateCount();
+    if (!ref.current) {
+      ref.current = true;
+    } else {
+      const updateCount = async () => {
+        if (isVisible) {
+          originPrice[idx] = getValues("count") * price;
+          setOriginPrice([...originPrice]);
+          cartPrice[idx] = getValues("count") * finalPrice;
+          setCartPrice([...cartPrice]);
+          updateCountMutation({});
+        } else {
+          //삭제했을 때
+          originPrice[idx] = 0;
+          setOriginPrice([...originPrice]);
+          cartPrice[idx] = 0;
+          setCartPrice([...cartPrice]);
+        }
+      };
+      updateCount();
+    }
   }, [watchCount.count, isVisible]);
 
   const handleCartDelete = () => {
