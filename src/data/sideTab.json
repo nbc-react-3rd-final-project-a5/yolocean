@@ -17,7 +17,7 @@
   },
   "promotion": {
     "title": "프로모션 관리",
-    "link": "/admin/product"
+    "link": "/admin/promotion"
   },
   "rent": {
     "title": "렌트 관리",

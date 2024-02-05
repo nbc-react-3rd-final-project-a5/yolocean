@@ -26,7 +26,7 @@ const UserRentList = async ({ userId, article, isReturn, page }: Props) => {
 
   return (
     <>
-      {rentList.length === 0 ? (
+      {rentList?.length === 0 || !rentList ? (
         <div className="w-full text-center text-[18px] font-semibold"> 해당 내역이 없습니다 😅</div>
       ) : (
         rentList.map((n: any) => {
