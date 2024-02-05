@@ -5,7 +5,7 @@ import UserTab from "./UserTab";
 import UserReviewList from "./(tabContent)/UserReviewList";
 import UserQnaList from "./(tabContent)/UserQnaList";
 import UserRentList from "./(tabContent)/UserRentList";
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 import { getUser } from "@/service/table";
 import UserRentPulse from "@/components/pulse/UserRentPulse";
 
@@ -14,7 +14,7 @@ interface Props {
   searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-export async function generateMetadata({ params, searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const userId = params.userId;
   const userData = await getUser({ userId });
 

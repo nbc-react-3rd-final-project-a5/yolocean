@@ -23,11 +23,8 @@ export async function middleware(req: NextRequest) {
   const tokenUid = await getUserId(req, res);
 
   if (req.nextUrl.pathname.startsWith("/api")) {
-    if (tokenUid === ADMIN) return res;
-
-    if (!tokenUid || (tokenUid && !req.url.includes(tokenUid))) {
+    if (tokenUid && !req.url.includes(tokenUid))
       return NextResponse.json({ message: "유효하지않은 접근입니다." }, { status: 500 });
-    }
   }
 
   if (req.nextUrl.pathname.startsWith("/users")) {
