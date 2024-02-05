@@ -13,7 +13,7 @@
   },
   "qna": {
     "title": "QnA 관리",
-    "link": "/admin/product"
+    "link": "/admin/qna"
   },
   "promotion": {
     "title": "프로모션 관리",
