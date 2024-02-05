@@ -12,7 +12,7 @@ const Accordion = ({ title, body }: Props) => {
   const [isOpen, setIsopen] = useState(false);
 
   return (
-    <div className="h-full border-b border-line rounded-sm " onClick={() => setIsopen((prev) => !prev)}>
+    <div className="h-full cursor-pointer border-b border-line rounded-sm " onClick={() => setIsopen((prev) => !prev)}>
       <div className=" overflow-hidden text-[16px]   ">
         <div className="flex border-b border-line justify-between items-center py-[20px] px-2">
           <h1 className="flex items-center">
