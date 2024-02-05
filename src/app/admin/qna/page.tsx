@@ -16,7 +16,6 @@ const Qna = ({ searchParams }: Props) => {
   const page = Number(searchParams?.page) || 1;
   const answer = searchParams?.answer || "답변완료";
   const category = searchParams?.category || "All";
-  const [loading, setLoading] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryFn:
