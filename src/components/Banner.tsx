@@ -17,7 +17,7 @@ const Banner = ({ banner }: { banner: Banner | undefined }) => {
               fill
               alt="banner"
               className="w-[1200px] h-auto "
-              sizes="(max-width: 1200px) 600px, (max-width: 1024px) 500px, 800px"
+              sizes="(max-width: 1200px) 560px 2400px, (max-width: 1024px) 560px 2048px, 560px 2400px"
               width={0}
               height={0}
               src={banner.banner_url}

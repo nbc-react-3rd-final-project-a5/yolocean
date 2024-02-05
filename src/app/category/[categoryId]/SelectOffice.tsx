@@ -15,7 +15,7 @@ const SelectOffice = () => {
     data: regions,
     isError,
     isLoading
-  } = useQuery<Region[]>({ queryFn: async () => await getAllRegion(), queryKey: ["region"] });
+  } = useQuery<Region[]>({ queryFn: async () => await getAllRegion(), queryKey: ["region"], staleTime: 60 * 60 });
   const [selectedId, setSelectedId] = useState<string>("");
   const [officeInfo, setOfficeInfo] = useState<{ name: string; address: string; id: string }[]>([]);
   const [selectedOffice, setSelectedOffice] = useState<{ name: string; address: string; id: string }>({
