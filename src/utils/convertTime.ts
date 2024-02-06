@@ -1,5 +1,4 @@
 // DB에 저장된 timestamp with time zone 예시 => 2024-01-16T03:26:20.349122+00:00
-// TODO : DAYJS 로 변경하기
 export const convertTime = (created_at: string, joinString: string = ".") => {
   const date = new Date(created_at);
   const dateComponents = {

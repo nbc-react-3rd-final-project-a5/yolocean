@@ -135,7 +135,6 @@ const PaymentPage = ({ params }: { params: { userId: string } }) => {
   // 결제하기 버튼 핸들러
   const handlePaymentClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    // if (!user?.phone) return alertFire("회원 전화번호 입력 에러", "error");
     const { isPass, msg } = await createPayment({
       amount: discountedPrice,
       buyer_tel: user?.phone || "01012341234",
