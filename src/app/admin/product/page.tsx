@@ -23,10 +23,6 @@ const AdminProductPage = ({ searchParams }: Props) => {
     queryFn: () => getProductByPage({ page })
   });
 
-  // const { mutate: updateProductMutation } = useCustomMutation({
-  //   mutationFn: async () => await updateCart(),
-  //   queryKey: ["products"]
-  // });
   const { mutate: deleteProductMutation } = useCustomMutation({
     mutationFn: async (productId) => await deleteProduct(productId),
     queryKey: ["products"]

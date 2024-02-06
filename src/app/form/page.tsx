@@ -43,9 +43,7 @@ export async function generateMetadata({ searchParams }: Props, parent: Resolvin
 const FormPage = async ({ searchParams }: Props) => {
   revalidateTag("review");
   revalidateTag("qna");
-  // TODO : 구현해야하는 기능
-  // 1) 페이지에 접속한 사람의 userId 값을 얻고
-  // 2) reviewId 나 qnaId 가 있을 경우 접속한 사람의 userId와 같은지 확인하는 작업
+
   const userId = searchParams!.userId!;
 
   const reviewId = searchParams?.reviewId;
@@ -55,20 +53,6 @@ const FormPage = async ({ searchParams }: Props) => {
   const storeId: string = (searchParams?.storeId || reivewData?.store_id)!;
   const productId = searchParams?.productId || reivewData?.product_id || qnaData?.product_id;
   const formtype = searchParams?.formtype || (reivewData && "review") || (qnaData && "qna");
-
-  // form 을 작성하기 위한 데이터가 제공되었는지 확인하는 validate
-  // const validateFormType = () => {
-  //   switch (formtype) {
-  //     case "review":
-  //       return !!productId && !!storeId;
-  //     case "qna":
-  //       return true;
-  //     default:
-  //       return false;
-  //   }
-  // };
-
-  // if (!validateFormType()) return <>잘못된 접근입니다.</>;
 
   return (
     <>

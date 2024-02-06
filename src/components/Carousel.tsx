@@ -21,8 +21,20 @@ const Carousel = () => {
   return (
     <div className="mb-[10vh] mobile:mb-[50px]">
       {isLoading && (
-        <div className="h-[500px] relative mobile:h-[150px]">
-          <ImgPulse />
+        <div>
+          <Image
+            priority
+            blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBAB  bWyZJf74GZgAAAABJRU5ErkJggg=="
+            placeholder="blur"
+            alt="img"
+            width={0}
+            height={0}
+            sizes="(max-width: 1200px) 1000px 2400px, (max-width: 1024px) 1000px 2048px, 1000px 2400px"
+            className="w-[1200px] h-auto"
+            src={
+              "https://hntpomvsqgbdpwrjnsun.supabase.co/storage/v1/object/public/promotion/carousel/31174a1a-d08d-467d-9998-5c8f0cbbb9d0"
+            }
+          />
         </div>
       )}
       {!isLoading && data && (

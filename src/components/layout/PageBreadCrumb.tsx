@@ -13,21 +13,6 @@ interface Props {
   marginBottom?: string;
 }
 
-// const testlinkList = [
-//   {
-//     name: "홈",
-//     url: "http://localhost:3000/"
-//   },
-//   {
-//     name: "마이페이지",
-//     url: "http://localhost:3000/"
-//   },
-//   {
-//     name: "결제내역",
-//     url: "http://localhost:3000/"
-//   }
-// ];
-
 const PageBreadCrumb = ({ linkList, marginBottom = "pb-[46px]" }: Props) => {
   return (
     <nav className={` text-[14px] leading-none text-[#595959] ${marginBottom}`}>
