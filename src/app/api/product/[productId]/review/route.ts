@@ -14,7 +14,11 @@ export const GET = async (req: NextRequest, context: { params: { productId: stri
   const min = (page - 1) * limit;
   const max = page * limit - 1;
 
-  let { count } = await supabase.from("review").select("", { count: "exact", head: true }).eq("product_id", productId);
+  let { count } = await supabase
+    .from("review")
+    .select("", { count: "exact", head: true })
+    .eq("product_id", productId)
+    .not("blind", "is", true);
 
   const maxPage = Math.ceil(Number(count) / limit);
   const nextPage = page === maxPage ? null : page + 1;
@@ -26,6 +30,7 @@ export const GET = async (req: NextRequest, context: { params: { productId: stri
       "*, store!inner(name, region!inner(region)), userinfo!inner(username, avatar_url), product!inner(name, thumbnail)"
     )
     .eq("product_id", productId)
+    .not("blind", "is", true)
     .limit(limit)
     .range(min, max);
 
