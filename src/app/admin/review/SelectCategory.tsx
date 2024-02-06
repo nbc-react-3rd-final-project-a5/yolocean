@@ -80,8 +80,9 @@ const SelectCategory = ({ currentPage, category: categoryId, order }: Props) => 
                   query: { article: "review", page: 1, category: category.id, order: order }
                 }}
                 prefetch={false}
+                key={category.id}
               >
-                <li key={category.id} className="py-[8px] text-center hover:underline decoration-wavy decoration-point">
+                <li className="py-[8px] text-center hover:underline decoration-wavy decoration-point">
                   {category.category_name}
                 </li>
               </Link>
