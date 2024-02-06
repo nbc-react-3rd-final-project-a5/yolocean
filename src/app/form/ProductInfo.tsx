@@ -9,7 +9,7 @@ interface Props {
 const ProductInfo = async ({ productId }: Props) => {
   const product = await getProduct({ productId });
   return (
-    <div className="flex flex-row py-[20px] gap-[12px] border-t-[1px] border-b-[1px] border-t-[#262626] border-b-[#E5E5E5]">
+    <div className="flex flex-row py-[20px] gap-[12px] border-t border-b border-t-line border-b-line">
       <figure className="min-w-[190px] min-h-[190px]">
         <Image priority src={product.thumbnail} width={190} height={190} alt={`${product.name} 썸네일 이미지`} />
       </figure>

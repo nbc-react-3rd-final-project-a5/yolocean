@@ -5,6 +5,7 @@ import { getUserQna, getUserReview } from "@/service/table";
 import { ExtendQna, ExtendReview } from "@/types/db";
 import { Metadata, ResolvingMetadata } from "next";
 import { revalidateTag } from "next/cache";
+import Section from "@/components/layout/Section";
 
 interface Props {
   searchParams?: { [key: string]: string | undefined };
@@ -71,14 +72,16 @@ const FormPage = async ({ searchParams }: Props) => {
 
   return (
     <>
-      {productId && <ProductInfo productId={productId} />}
-      <FormSwitch
-        productId={productId!}
-        formtype={formtype}
-        reivewData={reivewData}
-        qnaData={qnaData}
-        storeId={storeId}
-      />
+      <Section title={null}>
+        {productId && <ProductInfo productId={productId} />}
+        <FormSwitch
+          productId={productId!}
+          formtype={formtype}
+          reivewData={reivewData}
+          qnaData={qnaData}
+          storeId={storeId}
+        />
+      </Section>
     </>
   );
 };
