@@ -15,7 +15,7 @@ interface Props {
 
 const PageBreadCrumb = ({ linkList, marginBottom = "pb-[46px]" }: Props) => {
   return (
-    <nav className={` text-[14px] leading-none text-[#595959] ${marginBottom}`}>
+    <nav className={` text-[14px] leading-none text-[#595959] ${marginBottom} md:hidden`}>
       <ul className="flex flex-row gap-[10px]">
         {linkList.map((n, i) => {
           const isLastLink = i === linkList.length - 1;
