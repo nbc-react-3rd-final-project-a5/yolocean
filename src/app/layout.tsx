@@ -18,7 +18,10 @@ const CreateConfirm = dynamic(() => import("@/components/portal/CreateConfirm"),
 
 export const metadata: Metadata = {
   title: "YOLOCEAN",
-  description: "해양레저를 찾고있나? 욜로오션~🌊🌊🌊"
+  description: "해양레저를 찾고있나? 욜로오션~🌊🌊🌊",
+  openGraph: {
+    images: `${process.env.PUBLIC_URL}/images/opengraph-image.png`
+  }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
