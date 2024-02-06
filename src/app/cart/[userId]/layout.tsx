@@ -4,7 +4,7 @@ import React from "react";
 export const metadata: Metadata = {
   title: "YOLOCEAN | 장바구니",
   openGraph: {
-    images: [`${process.env.PUBLIC_URL}/images/opengraph-image.png`]
+    images: [`/opengraph-image.png`]
   }
 };
 
