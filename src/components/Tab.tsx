@@ -19,7 +19,7 @@ const Tab = ({ activeTab, handleTabClick, tabs, isVariable = false, className }:
       } ${className}`}
     >
       <ul
-        className={`  flex w-full items-center justify-center ${isVariable && "gap-[20px]"} mobile:${
+        className={`  flex w-full flex-wrap items-center justify-center ${isVariable && "gap-[20px]"} mobile:${
           isVariable && "flex-wrap"
         }
       mobile:${isVariable && "gap-[10px]"}`}
@@ -30,7 +30,7 @@ const Tab = ({ activeTab, handleTabClick, tabs, isVariable = false, className }:
             return (
               <li
                 onClick={() => (handleTabClick as Function)(tab)}
-                className={` px-[20px] py-[10px] text-center rounded-3xl cursor-pointer  border-line border    ${
+                className={`whitespace-nowrap  px-[20px] py-[10px] text-center rounded-3xl cursor-pointer  border-line border    ${
                   activeTab === tab ? "bg-point  text-white" : "bg-white text-tc-light"
                 }`}
                 key={tab}
