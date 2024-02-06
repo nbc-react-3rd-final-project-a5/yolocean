@@ -1,3 +1,4 @@
+import Section from "@/components/layout/Section";
 import { Metadata } from "next";
 import React from "react";
 
@@ -13,7 +14,7 @@ interface Props {
 }
 
 const layout = ({ children }: Props) => {
-  return <>{children}</>;
+  return <Section title={null}>{children}</Section>;
 };
 
 export default layout;

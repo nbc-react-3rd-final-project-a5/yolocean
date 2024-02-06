@@ -7,6 +7,7 @@ import { ko } from "date-fns/esm/locale";
 import "react-datepicker/dist/react-datepicker.css";
 import { useOfficeStore } from "@/store/officeStore";
 import { useModalStore } from "@/store/modalStore";
+
 import { MdErrorOutline } from "react-icons/md";
 import { openConfirm } from "@/store/confirmStore";
 import { useRouter } from "next/navigation";
@@ -76,13 +77,16 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
       } else return;
     }
   }
+
   async function handleFormSubmit(onValid: FieldValues, event: any) {
     if (!user_id) return;
-    setLoading(true);
     const submitType = event.nativeEvent.submitter.name;
+    const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
     const { rent_date, count } = onValid;
+    const KR_Date = new Date(Date.parse(rent_date) + KR_TIME_DIFF);
+
     const store_id = office.id;
-    const body = JSON.stringify({ product_id, user_id, rent_date, count, store_id });
+    const body = JSON.stringify({ product_id, user_id, rent_date: KR_Date, count, store_id });
     const cart = await getCart({ productId: product_id, userId: user_id });
 
     addCart(body, submitType, cart[0]?.id);
@@ -129,7 +133,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
         <hr className="border-line border-[1px] " />
         <div className="py-[20px] flex flex-col gap-[20px] font-medium text-[16px]">
           <div className="flex gap-[12px]">
-            <p className="w-[89px]">제품가</p>
+            <p className="w-[89px]">렌트가격</p>
             <p>{price.toLocaleString()}원</p>
           </div>
           {percentage_off > 0 && (
@@ -139,7 +143,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
             </div>
           )}
           <div className="flex gap-[12px] ">
-            <p className="w-[89px]">최종가격</p>
+            <p className="w-[89px]">최종 렌트가격</p>
             {percentage_off > 0 && (
               <p className="font-[700]">{Math.floor(price - (price * percentage_off) / 100).toLocaleString()}원</p>
             )}
@@ -165,7 +169,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
                   className="py-[8px] px-[20px] border-line border rounded-md w-[260px] relative  mobile:w-[190px] font-[500] text-[12px]
                   [&_ .react-datepicker__month-container]:z-20
                   "
-                  dateFormat="yyyy.MM.dd"
+                  dateFormat="yyyy-MM-dd"
                   locale={ko}
                   id="rent_date"
                   minDate={new Date(Date.now())}
@@ -240,7 +244,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
               className="max-w-[244px] h-[50px] mobile:h-[35px]"
               onClick={handleBtnClick}
             >
-              구매하기
+              결제하기
             </CustomButton>
           </div>
         </form>
