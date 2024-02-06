@@ -25,6 +25,8 @@ export async function PATCH(req: NextRequest, context: { params: { cartId: strin
 
   const body = await req.json();
 
+  console.log(body);
+
   const { data: cartItem, error } = await supabase
     .from("cart")
     .update({ ...body })

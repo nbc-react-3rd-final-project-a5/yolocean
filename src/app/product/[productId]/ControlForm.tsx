@@ -7,7 +7,6 @@ import { ko } from "date-fns/esm/locale";
 import "react-datepicker/dist/react-datepicker.css";
 import { useOfficeStore } from "@/store/officeStore";
 import { useModalStore } from "@/store/modalStore";
-import { debounce } from "lodash";
 
 import { MdErrorOutline } from "react-icons/md";
 import { openConfirm } from "@/store/confirmStore";
@@ -57,7 +56,22 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
       } else return;
     }
   }
-  const addCart = debounce(async (body: string, submitType: string, cartId: string) => {
+
+  async function handleFormSubmit(onValid: FieldValues, event: any) {
+    if (!user_id) return;
+    const submitType = event.nativeEvent.submitter.name;
+    const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
+    const { rent_date, count } = onValid;
+    const KR_Date = new Date(Date.parse(rent_date) + KR_TIME_DIFF);
+
+    const store_id = office.id;
+    const body = JSON.stringify({ product_id, user_id, rent_date: KR_Date, count, store_id });
+    const cart = await getCart({ productId: product_id, userId: user_id });
+
+    addCart(body, submitType, cart[0]?.id);
+  }
+
+  async function addCart(body: string, submitType: string, cartId: string) {
     if (cartId) {
       await updateCart({ userId: user_id, body, cartId });
     } else {
@@ -77,21 +91,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
         router.push(`/payment/${user_id}`);
       }
     }
-  }, 500);
-
-  const handleFormSubmit = useCallback(
-    async (onValid: FieldValues, event: any) => {
-      const submitType = event.nativeEvent.submitter.name;
-
-      const { rent_date, count } = onValid;
-      const store_id = office.id;
-      const body = JSON.stringify({ product_id, user_id, rent_date, count, store_id });
-      const cart = await getCart({ productId: product_id, userId: user_id });
-
-      addCart(body, submitType, cart?.[0]?.id);
-    },
-    [office, product_id, user_id]
-  );
+  }
 
   return (
     <>
@@ -147,7 +147,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
                   className="py-[8px] px-[20px] border-line border rounded-md w-[260px] relative  mobile:w-[190px] font-[500] text-[12px]
                   [&_ .react-datepicker__month-container]:z-20
                   "
-                  dateFormat="yyyy.MM.dd"
+                  dateFormat="yyyy-MM-dd"
                   locale={ko}
                   id="rent_date"
                   minDate={new Date(Date.now())}
