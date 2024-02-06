@@ -55,12 +55,20 @@ const AuthBtn = () => {
           }
         >
           <ul className="cursor-pointer text-sm">
-            <Link href={`/cart/${auth}`} aria-label="장바구니로 이동">
-              <li className="hidden mobile:p-2 mobile:block">장바구니</li>
-            </Link>
-            <Link href={`/users/${auth}`} aria-label="마이페이지로 이동">
-              <li className="p-2 hover:underline decoration-wavy decoration-point">마이 페이지</li>
-            </Link>
+            {auth === `${process.env.NEXT_PUBLIC_ADMIN}` ? (
+              <Link href={`/admin`} aria-label="관리자페이지로 이동">
+                <li className="p-2 hover:underline decoration-wavy decoration-point">관리자 페이지</li>
+              </Link>
+            ) : (
+              <>
+                <Link href={`/cart/${auth}`} aria-label="장바구니로 이동">
+                  <li className="hidden mobile:p-2 mobile:block">장바구니</li>
+                </Link>
+                <Link href={`/users/${auth}`} aria-label="마이페이지로 이동">
+                  <li className="p-2 hover:underline decoration-wavy decoration-point">마이 페이지</li>
+                </Link>
+              </>
+            )}
             <li onClick={signOut} className="p-2 hover:underline decoration-wavy decoration-point">
               로그아웃
             </li>
