@@ -41,17 +41,12 @@ const HeadCategory = () => {
   return (
     <>
       <div>
-        <button
-          id="categoryDropDown"
-          data-dropdown-toggle="dropdown"
-          onClick={() => setOpen(!open)}
-          className="flex flex-row space-x-[10px]"
-        >
+        <button name="selectCate" onClick={() => setOpen(!open)} className="flex flex-row space-x-[10px]">
           <RxHamburgerMenu size="24" color="#3074F0" />
           <p className="text-[14px] text-point font-medium leading-loose mobile:hidden">카테고리</p>
         </button>
         <div
-          id="dropdown"
+          id="HeadCateDropdown"
           className={
             open
               ? "space-y-2 z-10 absolute p-2 bg-white rounded-sm shadow w-44  mobile:w-full mobile:left-0 mobile:text-center mobile:mt-7"

@@ -21,7 +21,7 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
     title: `YOLOEAN | ${product.category.category_name} | ${product.name} `,
     description: `${product.name}의 상세페이지 입니다.`,
     openGraph: {
-      images: ["/opengraph-image.png", product.thumbnail]
+      images: [`${process.env.PUBLIC_URL}/images/opengraph-image.png`, product.thumbnail]
     }
   };
 }

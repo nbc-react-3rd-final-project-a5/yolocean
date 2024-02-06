@@ -5,7 +5,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: `YOLOCEAN | 찾으시는 검색 결과가 없습니다.`,
     openGraph: {
-      images: ["/opengraph-image.png"]
+      images: [`${process.env.PUBLIC_URL}/images/opengraph-image.png`]
     }
   };
 }
