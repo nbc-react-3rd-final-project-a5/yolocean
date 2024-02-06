@@ -20,7 +20,7 @@ export async function generateMetadata({ searchParams }: Props, parent: Resolvin
     title: `YOLOCEAN | ${metadataFormtype}`,
     description: `더 나은 YOLOCEAN을 위해 ${metadataFormtype}을 진행해주세요`,
     openGraph: {
-      images: [`${process.env.PUBLIC_URL}/images/opengraph-image.png`]
+      images: [`/opengraph-image.png`]
     }
   };
 }
