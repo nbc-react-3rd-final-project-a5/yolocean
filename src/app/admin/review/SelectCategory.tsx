@@ -48,17 +48,12 @@ const SelectCategory = ({ currentPage, category: categoryId, order }: Props) => 
 
   return (
     <div className="flex min-w-[110px]">
-      <button
-        id="selectCategory"
-        data-dropdown-toggle="dropdown"
-        onClick={() => setOpenCate(!openCate)}
-        className="flex flex-row space-x-[10px]"
-      >
+      <button id="selectCategory" onClick={() => setOpenCate(!openCate)} className="flex flex-row space-x-[10px]">
         <FaChevronDown className="text-[12px] text-point font-medium mt-[7px]" />
         {!isCategoryLoading && <p className="text-[14px] text-point font-medium leading-loose">{getCategoryName()}</p>}
       </button>
       <div
-        id="dropdown"
+        id="CateDropdown"
         className={openCate ? "space-y-2 z-10 absolute p-2 bg-white rounded-sm shadow w-36 mt-[25px]" : "hidden"}
       >
         {!isCategoryLoading && (
