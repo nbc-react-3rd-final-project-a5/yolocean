@@ -5,7 +5,7 @@ import React from "react";
 export const metadata: Metadata = {
   title: "YOLOCEAN | 아이디/비밀번호 찾기",
   openGraph: {
-    images: ["/opengraph-image.png"]
+    images: [`${process.env.PUBLIC_URL}/images/opengraph-image.png`]
   }
 };
 

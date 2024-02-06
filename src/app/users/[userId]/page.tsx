@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `YOLOCEAN | 반갑습니다! ${userData.username} 님!`,
     openGraph: {
-      images: ["/opengraph-image.png"]
+      images: [`${process.env.PUBLIC_URL}/images/opengraph-image.png`]
     }
   };
 }
