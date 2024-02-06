@@ -63,29 +63,28 @@ const SelectStore = ({ store: storeId, order }: Props) => {
         >
           {!isStoreLoading && (
             <ul className="pb-1 text-sm  text-gray-700 ">
-              <li className="py-[8px] text-center hover:underline decoration-wavy decoration-point">
+              <Link
+                href={{
+                  href: pathName,
+                  query: { article: "rent", page: 1, store: "", order: order }
+                }}
+                prefetch={false}
+              >
+                <li className="py-[8px] text-center hover:underline decoration-wavy decoration-point">전체보기</li>{" "}
+              </Link>
+              {storeList!.map((store: Store) => (
                 <Link
                   href={{
                     href: pathName,
-                    query: { article: "rent", page: 1, store: "", order: order }
+                    query: { article: "rent", page: 1, store: store.id, order: order }
                   }}
                   prefetch={false}
+                  key={store.id}
                 >
-                  전체보기
-                </Link>
-              </li>
-              {storeList!.map((store: Store) => (
-                <li key={store.id} className="py-[8px] text-center hover:underline decoration-wavy decoration-point">
-                  <Link
-                    href={{
-                      href: pathName,
-                      query: { article: "rent", page: 1, store: store.id, order: order }
-                    }}
-                    prefetch={false}
-                  >
+                  <li className="py-[8px] text-center hover:underline decoration-wavy decoration-point">
                     {store.name}
-                  </Link>
-                </li>
+                  </li>
+                </Link>
               ))}
             </ul>
           )}

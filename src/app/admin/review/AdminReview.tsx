@@ -30,7 +30,7 @@ const AdminReview = ({ searchParams }: Props) => {
         </div>
       ) : (
         <>
-          <div className="flex mt-[30px] space-x-[20px] ml-[75%]">
+          <div className="flex mt-[30px] space-x-[20px] justify-end items-center">
             <SelectOrder currentPage={page} article={"review"} target={{ category: category }} order={order} />
             <SelectCategory currentPage={page} category={category} order={order} />
           </div>
