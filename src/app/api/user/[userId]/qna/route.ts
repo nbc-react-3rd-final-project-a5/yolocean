@@ -37,14 +37,9 @@ export async function POST(req: NextRequest, context: { params: { userId: string
   const data = await req.json();
   const { data: insertData, error } = await supabase.from("qna").insert({ ...data, user_id: userId });
 
-  // const { data: category, error: categoryError } = await supabase
-  //   .from("product")
-  //   .select("category_id")
-  //   .eq("id", data.product_id);
-
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
-  // return NextResponse.json(category![0]);
+
   return NextResponse.json(insertData);
 }
