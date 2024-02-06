@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   title: "YOLOCEAN",
   description: "해양레저를 찾고있나? 욜로오션~🌊🌊🌊",
   openGraph: {
-    images: `${process.env.PUBLIC_URL}/images/opengraph-image.png`
+    images: `/opengraph-image.png`
   }
 };
 
