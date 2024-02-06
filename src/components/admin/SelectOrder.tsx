@@ -48,28 +48,25 @@ const SelectCategory = ({ currentPage, article, target, order }: Props) => {
           className={openOrder ? "space-y-2 z-10 absolute p-2 bg-white rounded-sm shadow w-28 mt-[25px]" : "hidden"}
         >
           <ul className="pb-1 text-sm  text-gray-700">
-            <li className="py-[8px] text-center hover:underline decoration-wavy decoration-point">
-              <Link
-                href={{
-                  href: pathName,
-                  query: { article: "review", page: 1, ...target, order: false }
-                }}
-                prefetch={false}
-              >
-                최신순
-              </Link>
-            </li>
-            <li className="py-[8px] text-center hover:underline decoration-wavy decoration-point">
-              <Link
-                href={{
-                  href: pathName,
-                  query: { article: "review", page: 1, ...target, order: true }
-                }}
-                prefetch={false}
-              >
-                오래된순
-              </Link>
-            </li>
+            <Link
+              href={{
+                href: pathName,
+                query: { article: "review", page: 1, ...target, order: false }
+              }}
+              prefetch={false}
+            >
+              <li className="py-[8px] text-center hover:underline decoration-wavy decoration-point">최신순</li>
+            </Link>
+
+            <Link
+              href={{
+                href: pathName,
+                query: { article: "review", page: 1, ...target, order: true }
+              }}
+              prefetch={false}
+            >
+              <li className="py-[8px] text-center hover:underline decoration-wavy decoration-point">오래된순 </li>
+            </Link>
           </ul>
         </div>
       </div>

@@ -30,7 +30,7 @@ const AdminRent = ({ searchParams }: Props) => {
         </div>
       ) : (
         <>
-          <div className="flex mt-[30px] space-x-[20px] ml-[65%]">
+          <div className="flex mt-[30px] space-x-[20px] justify-end items-center">
             <SelectOrder currentPage={page} article={"rent"} target={{ store: store }} order={order} />
             <SelectStore store={store} order={order} />
           </div>
@@ -40,7 +40,7 @@ const AdminRent = ({ searchParams }: Props) => {
             limit={10}
             currentPage={page}
             articleName={"rent"}
-            test={{ store: store }}
+            test={{ store: store, order: order }}
           />
         </>
       )}
