@@ -62,15 +62,11 @@
 - **Q&A 관리**: Q&A 답변 작성
 - **렌트 관리**: 반납 처리
 
-<div style="display: flex; justify-content: space-between; margin:10px 0px;">
-  <img src="https://github.com/nbc-react-3rd-final-project-a5/yolocean/assets/144536397/91410ebe-360c-4881-96f9-6f8f2eb5b582" width="33%" />
-  <img src="https://github.com/nbc-react-3rd-final-project-a5/yolocean/assets/144536397/4801e454-34ec-41c4-95e8-7718b54133b5" width="33%" />
-  <img src="https://github.com/nbc-react-3rd-final-project-a5/yolocean/assets/144536397/93156772-71b6-4c7a-bbe9-2cfa7a8d0d17" width="33%" />
+<div style="display: flex; justify-content: space-between; margin:10px 0px; ">
+  <img src="https://github.com/nbc-react-3rd-final-project-a5/yolocean/assets/144536397/91410ebe-360c-4881-96f9-6f8f2eb5b582" width="30%" height="250px" /> <img src="https://github.com/nbc-react-3rd-final-project-a5/yolocean/assets/144536397/4801e454-34ec-41c4-95e8-7718b54133b5" width="30%" height="250px"/> <img src="https://github.com/nbc-react-3rd-final-project-a5/yolocean/assets/144536397/93156772-71b6-4c7a-bbe9-2cfa7a8d0d17" width="30%" height="250px"/>
 </div>
 <div style="display: flex; justify-content: space-between;">
-<img src=https://github.com/nbc-react-3rd-final-project-a5/yolocean/assets/144536397/d7665974-2770-4c76-b855-775c2400b0e1 width=33%/>
-<img src=https://github.com/nbc-react-3rd-final-project-a5/yolocean/assets/144536397/63a5f1dd-0a2f-4ad8-8033-0644457e2e8c width=33% />
-<img src=https://github.com/nbc-react-3rd-final-project-a5/yolocean/assets/144536397/bb581fd7-ab3e-433a-af2d-cfbeee2e854f width=33%  />
+<img src=https://github.com/nbc-react-3rd-final-project-a5/yolocean/assets/144536397/d7665974-2770-4c76-b855-775c2400b0e1 width=30% height="250px"/> <img src=https://github.com/nbc-react-3rd-final-project-a5/yolocean/assets/144536397/63a5f1dd-0a2f-4ad8-8033-0644457e2e8c width=30% height="250px"/> <img src=https://github.com/nbc-react-3rd-final-project-a5/yolocean/assets/144536397/bb581fd7-ab3e-433a-af2d-cfbeee2e854f width=30% height="250px"/>
 </div>
 </br>
 
