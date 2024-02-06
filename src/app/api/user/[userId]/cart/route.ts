@@ -38,11 +38,7 @@ export const DELETE = async (_: NextRequest, context: { params: { userId: string
 
 export const POST = async (req: NextRequest, context: { params: { userId: string } }) => {
   const body = await req.json();
-  // const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
-  // const rent_date = new Date(body.rent_date + KR_TIME_DIFF);
-  // console.log(rent_date);
 
-  console.log(body);
   const { data: cart, error } = await supabase.from("cart").insert([{ ...body }]);
 
   if (error) {
