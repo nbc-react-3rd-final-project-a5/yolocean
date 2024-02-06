@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: { params: { searchWord: strin
   return {
     title: `YOLOCEAN | ${decodeURIComponent(searchWord)} 검색결과`,
     openGraph: {
-      images: [`${process.env.PUBLIC_URL}/images/opengraph-image.png`]
+      images: [`/opengraph-image.png`]
     }
   };
 }
