@@ -5,6 +5,7 @@ import { getAllUserQna } from "@/service/table";
 import Pagination from "@/components/Pagination";
 
 import { revalidateTag } from "next/cache";
+import Revalidate from "@/components/Revalidate";
 
 interface Props {
   userId: string;
@@ -26,6 +27,7 @@ const UserQnaList = async ({ userId, article, page }: Props) => {
 
   return (
     <>
+      <Revalidate />
       {qnaList?.length > 0 ? (
         <>
           <ReviewList listType="qna" reviewList={qnaList} currentUserId={userId} isMypage={true} />

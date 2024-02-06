@@ -5,14 +5,14 @@ import React, { useState } from "react";
 import customerData from "@/data/customerData.json";
 import CustomButton from "@/components/CustomButton";
 import { useRouter } from "next/navigation";
+import Section from "@/components/layout/Section";
 
 const CustomerPage = () => {
   const [activeTab, setActiveTab] = useState<string>("사용자 정보 및 약관");
   const router = useRouter();
   {
     return (
-      <div>
-        <h1 className="text-[25px] font-[600] my-[80px] text-center">고객센터</h1>
+      <Section title={"고객센터"} isCenter className="pt-[50px] mobile:pt-[20px]">
         <Tab
           isVariable
           activeTab={activeTab}
@@ -30,7 +30,7 @@ const CustomerPage = () => {
         <CustomButton onClick={() => router.push("/form?formtype=qna")} size="lg" isFull={true} className="h-[50px]">
           1:1 문의하기
         </CustomButton>
-      </div>
+      </Section>
     );
   }
 };

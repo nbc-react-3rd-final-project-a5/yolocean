@@ -1,4 +1,5 @@
 import Pagination from "@/components/Pagination";
+import Revalidate from "@/components/Revalidate";
 import ReviewList from "@/components/review/ReviewList";
 import { getAllUserReview } from "@/service/table";
 import { revalidateTag } from "next/cache";
@@ -24,6 +25,7 @@ const UserReviewList = async ({ userId, article, page }: Props) => {
 
   return (
     <>
+      <Revalidate />
       {reviewList?.length > 0 ? (
         <ReviewList listType="review" reviewList={reviewList} currentUserId={userId} isMypage={true} />
       ) : (

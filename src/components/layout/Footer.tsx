@@ -5,7 +5,7 @@ import footerData from "@/data/footerData.json";
 const Footer = () => {
   const { linkList, infoList } = footerData;
   return (
-    <footer className="mt-[200px]">
+    <footer>
       <nav className="text-tc-light py-[20px] border-y-[1px] border-line">
         <ul className="max-w-[1200px] mx-auto w-[90%] flex  gap-[20px] text-[14px] ">
           {linkList.map((n) => (
