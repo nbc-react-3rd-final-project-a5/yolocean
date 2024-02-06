@@ -5,7 +5,8 @@ import { deleteUserQna, deleteUserReview } from "@/service/table";
 import { openConfirm } from "@/store/confirmStore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
+import Spinner from "../Spinner";
 
 interface Props {
   reviewId: string;
@@ -20,16 +21,8 @@ enum EnumListType {
 }
 
 const ReviewBtnGroup = ({ userId, reviewId, listType, productId }: Props) => {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { mutate: reviewMutate } = useCustomMutation({
-    mutationFn: async () => deleteUserReview({ userId, reviewId }),
-    queryKey: productId ? [listType, productId] : [listType]
-  });
-
-  const { mutate: qnaMutate } = useCustomMutation({
-    mutationFn: async () => deleteUserQna({ userId, qnaId: reviewId }),
-    queryKey: productId ? [listType, productId] : [listType]
-  });
 
   const editLink = listType === "review" ? `/form?reviewId=${reviewId}` : `/form?qnaId=${reviewId}`;
   const handleDeleteReviewClick = async () => {
@@ -38,20 +31,33 @@ const ReviewBtnGroup = ({ userId, reviewId, listType, productId }: Props) => {
       `${EnumListType[listType]} 삭제를 진행하겠습니까?`
     );
     if (isConfirm) {
+      setLoading(true);
       if (listType === "review") {
-        router.refresh();
-        reviewMutate({});
+        try {
+          await deleteUserReview({ userId, reviewId });
+          router.refresh();
+        } catch (error) {
+          console.error(error);
+        }
+        setLoading(false);
       } else {
-        router.refresh();
-        qnaMutate({});
+        try {
+          await deleteUserQna({ userId, qnaId: reviewId });
+          router.refresh();
+          setLoading(false);
+        } catch (error) {
+          console.error(error);
+        }
       }
     }
   };
   return (
     <div className="flex flex-row gap-[12px] mt-[10px] ">
+      {loading && <Spinner />}
       <Link
         href={editLink}
         className="py-[10px] px-[32px] text-[14px] font-semibold rounded-[5px] bg-tc-middle text-white"
+        aria-label="해당 리뷰 수정 페이지로 이동"
       >
         수정
       </Link>

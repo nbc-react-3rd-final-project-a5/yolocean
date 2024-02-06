@@ -1,6 +1,6 @@
 "use client";
 import NumberInput from "@/components/NumberInput";
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FieldValues, useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import { ko } from "date-fns/esm/locale";
@@ -13,10 +13,14 @@ import { openConfirm } from "@/store/confirmStore";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { IoShareSocial } from "react-icons/io5";
-import ShareModal from "./ShareModal";
 import { createCart, getCart, updateCart } from "@/service/table";
-import SelectOffice from "@/app/category/[categoryId]/SelectOffice";
 import CustomButton from "@/components/CustomButton";
+import { useCustomMutation } from "@/hook";
+import dynamic from "next/dynamic";
+import Spinner from "@/components/Spinner";
+
+const SelectOffice = dynamic(() => import("@/app/category/[categoryId]/SelectOffice"), { ssr: false });
+const ShareModal = dynamic(() => import("./ShareModal"), { ssr: false });
 
 interface Props {
   category_name: string;
@@ -42,6 +46,23 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
   const { openModal } = useModalStore();
   const router = useRouter();
   const { auth: user_id } = useAuthStore();
+  const [loading, setLoading] = useState(false);
+
+  const updateCartMutation = useCustomMutation({
+    mutationFn: async ({ body, cartId }: { body: string; cartId: string }) =>
+      updateCart({ userId: user_id, body, cartId }),
+    queryKey: [user_id, product_id, "cart"]
+  });
+  const createCartMutation = useCustomMutation({
+    mutationFn: async ({ body }: { body: string }) => createCart({ userId: user_id, body }),
+    queryKey: [user_id, product_id, "cart"]
+  });
+
+  useEffect(() => {
+    if (updateCartMutation.isSuccess || createCartMutation.isSuccess) {
+      return setLoading(false);
+    }
+  }, [updateCartMutation.isSuccess, createCartMutation.isSuccess, setLoading]);
 
   useEffect(() => {
     setValue("address", office.name);
@@ -73,9 +94,9 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
 
   async function addCart(body: string, submitType: string, cartId: string) {
     if (cartId) {
-      await updateCart({ userId: user_id, body, cartId });
+      updateCartMutation.mutate({ userId: user_id, body, cartId });
     } else {
-      await createCart({ body, userId: user_id });
+      createCartMutation.mutate({ body, userId: user_id });
     }
 
     if (submitType === "cart") {
@@ -95,6 +116,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
 
   return (
     <>
+      {loading && <Spinner />}
       <div className="flex-1 text-[16px] max-w-[500px] mx-auto tablet:max-w-full">
         <div className="flex justify-between items-center mb-[20px]">
           <p className="text-[15px] text-tc-light ">{category_name}</p>

@@ -1,17 +1,19 @@
 "use client";
 
 import { ExtendReview, Review } from "@/types/db";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import FormFieldSet from "@/components/form/FormFieldSet";
 import { useForm } from "react-hook-form";
 import useStorage from "@/utils/useStorage";
-import { useCustomMutation, useImageInput } from "@/hook";
+import { useImageInput } from "@/hook";
 import InputImage from "@/components/InputImage";
 import { useAuthStore } from "@/store/authStore";
 import { createUserReview, updateUserReview } from "@/service/table";
 import { useRouter } from "next/navigation";
 import CustomButton from "@/components/CustomButton";
-import { debounce } from "lodash";
+import dynamic from "next/dynamic";
+
+const Spinner = dynamic(() => import("@/components/Spinner"));
 
 interface Props {
   reviewData: ExtendReview;
@@ -28,19 +30,13 @@ interface UploadForm {
 const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
   const router = useRouter();
   const { auth: userId } = useAuthStore();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setError,
-    clearErrors,
-    formState: { errors }
-  } = useForm<UploadForm>({ mode: "onChange" });
+  const [loading, setLoading] = useState(false);
+  const { register, handleSubmit } = useForm<UploadForm>({ mode: "onChange" });
 
   // ========== Image Upload ==========
   const preReviewImageUrl = reviewData?.url;
   const { uploadMultipleImages, deleteMultipleImage } = useStorage();
-  const { customImageList, isEnter, handler, addPreImage } = useImageInput("multiple");
+  const { customImageList, isEnter, handler, addPreImage } = useImageInput(4);
   // 이미지가 있을 경우 이미지 불러오기 기능
   useEffect(() => {
     if (preReviewImageUrl) {
@@ -48,27 +44,18 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
     }
   }, []);
 
-  // ========== Mutation ==========
-  const { mutate: createReviewMutate } = useCustomMutation({
-    queryKey: ["review ", productId],
-    mutationFn: async (formData) => await createUserReview({ userId, body: JSON.stringify(formData) })
-  });
-
-  const { mutate: updateReviewMutate } = useCustomMutation({
-    queryKey: ["review ", productId],
-    mutationFn: async (formData) =>
-      await updateUserReview({ userId, reviewId: reviewData.id, body: JSON.stringify(formData) })
-  });
-
   // ========== Submit ==========
-  const createReview = debounce(async (data) => {
+
+  const handleFormSubmit = async (data: UploadForm) => {
+    if (loading) return;
+    setLoading(true);
     const storagePath = productId ? `${userId}/${productId}` : userId;
     const imageFileList = customImageList.map((n) => n.file) as File[];
     const imageFileIdList = customImageList.map((n) => n.id);
 
     try {
       const imageURLList = await uploadMultipleImages(imageFileList, "review", imageFileIdList, storagePath);
-      const formData: Omit<Review, "id" | "created_at"> = {
+      const formData: Omit<Review, "id" | "created_at" | "blind"> = {
         user_id: userId,
         title: data.title,
         product_id: productId,
@@ -77,19 +64,17 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
         url: imageURLList
       };
 
-      createReviewMutate(formData);
-
+      await createUserReview({ userId, body: JSON.stringify(formData) });
+      setLoading(false);
       return router.push(`/product/${productId}?article=후기`);
     } catch (error) {
       alert(error);
     }
-  }, 500);
+  };
 
-  const handleFormSubmit = useCallback(async (data: UploadForm) => {
-    await createReview(data);
-  }, []);
-
-  const updateReview = debounce(async (data) => {
+  const handleUpdateFormSubmit = async (data: UploadForm) => {
+    if (loading) return;
+    setLoading(true);
     const storagePath = productId ? `${userId}/${productId}` : userId;
     const preImageURLList = customImageList.filter((n) => n.file === null).map((n) => n.previewURL);
     const deletePreImageURLList =
@@ -118,19 +103,17 @@ const ReviewForm = ({ reviewData, productId, storeId }: Props) => {
         url: newImageURLList ? [...preImageURLList, ...newImageURLList] : preImageURLList
       };
 
-      updateReviewMutate(formData);
+      await updateUserReview({ userId, reviewId: reviewData.id, body: JSON.stringify(formData) });
+      setLoading(false);
       return router.push(`/product/${productId}?article=후기`);
     } catch (error) {
       console.error(error);
     }
-  }, 500);
-
-  const handleUpdateFormSubmit = useCallback(async (data: UploadForm) => {
-    await updateReview(data);
-  }, []);
+  };
 
   return (
     <form onSubmit={reviewData ? handleSubmit(handleUpdateFormSubmit) : handleSubmit(handleFormSubmit)}>
+      {loading && <Spinner />}
       <FormFieldSet title={"리뷰 제목"}>
         <input
           type="text"

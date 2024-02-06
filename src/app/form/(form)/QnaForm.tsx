@@ -1,17 +1,18 @@
 "use client";
-
 import CustomButton from "@/components/CustomButton";
 import InputImage from "@/components/InputImage";
 import FormFieldSet from "@/components/form/FormFieldSet";
-import { useCustomMutation, useImageInput } from "@/hook";
+import { useImageInput } from "@/hook";
 import { createUserQna, updateUserQna } from "@/service/table";
 import { useAuthStore } from "@/store/authStore";
 import { ExtendQna, Qna } from "@/types/db";
 import useStorage from "@/utils/useStorage";
-import { debounce } from "lodash";
 import { useRouter } from "next/navigation";
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import dynamic from "next/dynamic";
+
+const Spinner = dynamic(() => import("@/components/Spinner"));
 
 interface Props {
   qnaData: ExtendQna;
@@ -22,6 +23,7 @@ const QnaForm = ({ qnaData, productId }: Props) => {
   const preReviewImageUrl = qnaData?.url;
   const { auth: userId } = useAuthStore();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -30,7 +32,7 @@ const QnaForm = ({ qnaData, productId }: Props) => {
   } = useForm({ mode: "onChange" });
   //   ========== Image Upload ============
   const { uploadMultipleImages, deleteMultipleImage } = useStorage();
-  const { customImageList, isEnter, handler, addPreImage } = useImageInput("multiple");
+  const { customImageList, isEnter, handler, addPreImage } = useImageInput(4);
 
   // 이미지가 있을 경우 이미지 불러오기 기능
   useEffect(() => {
@@ -39,20 +41,11 @@ const QnaForm = ({ qnaData, productId }: Props) => {
     }
   }, []);
 
-  //   ========== Mutation ============
-  const { mutate: createQnaMutate } = useCustomMutation({
-    queryKey: productId ? ["review ", productId] : ["review ", userId],
-    mutationFn: async (formData) => await createUserQna({ userId, body: JSON.stringify(formData) })
-  });
-
-  const { mutate: updateQnaMutate } = useCustomMutation({
-    queryKey: ["review ", productId] && ["review ", userId],
-    mutationFn: async (formData) => await updateUserQna({ userId, qnaId: qnaData.id, body: JSON.stringify(formData) })
-  });
-
   //   ========== Submit ============
 
-  const createQna = debounce(async (data) => {
+  const handleCreateFormSubmit = async (data: any) => {
+    if (loading) return;
+    setLoading(true);
     // Image
     const imageFileList = customImageList.map((n) => n.file) as File[];
     const imageFileIdList = customImageList.map((n) => n.id);
@@ -68,22 +61,23 @@ const QnaForm = ({ qnaData, productId }: Props) => {
         url: imageURLList
       };
 
-      createQnaMutate(formData);
+      await createUserQna({ userId, body: JSON.stringify(formData) });
+      setLoading(false);
       return productId
         ? router.push(`/product/${productId}?article=제품문의`)
         : router.push(`/users/${userId}?article=qna`);
     } catch (error) {
       alert(error);
     }
-  }, 500);
+  };
 
-  const handleCreateFormSubmit = useCallback(async (data: any) => {
-    await createQna(data);
-  }, []);
+  const handleUpdateFormSubmit = async (data: any) => {
+    if (loading) return;
 
-  const updateQna = debounce(async (data) => {
+    setLoading(true);
     const storagePath = productId ? `${userId}/${productId}` : userId;
     const preImageURLList = customImageList.filter((n) => n.file === null).map((n) => n.previewURL);
+
     const deletePreImageURLList =
       preReviewImageUrl &&
       preReviewImageUrl.filter((n) => {
@@ -107,7 +101,8 @@ const QnaForm = ({ qnaData, productId }: Props) => {
         url: newImageURLList ? [...preImageURLList, ...newImageURLList] : preImageURLList
       };
 
-      updateQnaMutate(formData);
+      await updateUserQna({ userId, qnaId: qnaData.id, body: JSON.stringify(formData) });
+      setLoading(false);
       return qnaData?.product_id
         ? router.push(`/product/${qnaData.product_id}?article=제품문의`)
         : router.push(`/users/${userId}?article=qna`);
@@ -115,14 +110,11 @@ const QnaForm = ({ qnaData, productId }: Props) => {
       alert(error);
       return router.push(`/`);
     }
-  }, 500);
-
-  const handleUpdateFormSubmit = useCallback(async (data: any) => {
-    await updateQna(data);
-  }, []);
+  };
 
   return (
     <form onSubmit={qnaData ? handleSubmit(handleUpdateFormSubmit) : handleSubmit(handleCreateFormSubmit)}>
+      {loading && <Spinner size="lg" />}
       <FormFieldSet title={`문의 제목`}>
         <input
           type="text"

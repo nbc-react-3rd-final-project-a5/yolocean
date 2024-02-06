@@ -1,8 +1,7 @@
 "use client";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
-import React, { useState } from "react";
-import { FaRegFileImage } from "react-icons/fa";
+import React from "react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -16,19 +15,18 @@ const Carousel = () => {
   const { data, isLoading } = useQuery({
     queryFn: async () => await getAllCarousel(),
     queryKey: ["carousel"],
-    staleTime: Infinity
+    staleTime: 1000 * 60 * 10
   });
 
   return (
     <div className="mb-[150px] mobile:mb-[50px]">
       {isLoading && (
-        <div className="h-[500px] relative">
+        <div className="h-[500px] relative mobile:h-[150px]">
           <ImgPulse />
         </div>
       )}
       {!isLoading && data && (
         <Swiper
-          className="h-[500px]"
           autoplay={{
             delay: 2500,
             disableOnInteraction: false
@@ -36,18 +34,20 @@ const Carousel = () => {
           modules={[Autoplay, Pagination]}
           loop={true}
           centeredSlides={true}
+          className="mobile:w-[100vw] mobile:translate-x-[-5%]"
         >
           {data.map((item: any) => (
             <SwiperSlide key={item.id}>
               <Link href={item.url}>
                 <Image
-                  fill
                   priority
+                  blurDataURL="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBAB  bWyZJf74GZgAAAABJRU5ErkJggg=="
+                  placeholder="blur"
                   alt="img"
-                  sizes="(max-width: 1200px) 1200px"
                   width={0}
                   height={0}
-                  className="w-[1200px] h-auto "
+                  sizes="(max-width: 1200px) 1000px 2400px, (max-width: 1024px) 1000px 2048px, 1000px 2400px"
+                  className="w-[1200px] h-auto"
                   src={item.img}
                 />
               </Link>

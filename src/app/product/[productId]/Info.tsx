@@ -1,10 +1,25 @@
 import Tab from "@/components/Tab";
 import React, { Suspense } from "react";
 import Description from "./(article)/Description";
-import Infomation from "./(article)/Infomation";
-import Qna from "./(article)/Qna";
-import Review from "./(article)/Review";
 import ReviewPulse from "@/components/pulse/ReviewPulse";
+import dynamic from "next/dynamic";
+import Spinner from "@/components/Spinner";
+
+const LoadingPulse = (
+  <>
+    {Array.from({ length: 6 }).map((e, i) => (
+      <ReviewPulse key={i} />
+    ))}
+  </>
+);
+
+const Infomation = dynamic(() => import("./(article)/Infomation"), { loading: () => <Spinner /> });
+const Review = dynamic(() => import("./(article)/Review"), {
+  loading: () => LoadingPulse
+});
+const Qna = dynamic(() => import("./(article)/Qna"), {
+  loading: () => LoadingPulse
+});
 
 interface Props {
   info_img: string;
@@ -18,10 +33,8 @@ const ProductTab = ["상품설명", "상세정보", "후기", "제품문의"];
 
 const Info = ({ info_img, info, productId, searchParams, article }: Props) => {
   return (
-    <div className="mt-[16px]" id="tab">
-      <div className="sticky top-0 z-10">
-        <Tab tabs={ProductTab} activeTab={article} />
-      </div>
+    <div className="mt-[16px]">
+      <Tab tabs={ProductTab} activeTab={article} />
       {article === "상품설명" && (
         <article className="mt-[40px] max-w-[795px] w-full mx-auto mobile:max-w-[300px]">
           <Description info_img={info_img} />
@@ -36,25 +49,13 @@ const Info = ({ info_img, info, productId, searchParams, article }: Props) => {
 
       {article === "후기" && (
         <article className=" max-w-[795px] w-full mx-auto mobile:max-w-[300px]">
-          <Suspense
-            fallback={Array.from({ length: 6 }).map((e, i) => (
-              <ReviewPulse key={i} />
-            ))}
-          >
-            <Review page={searchParams?.["page"] || 1} productId={productId} />
-          </Suspense>
+          <Review page={searchParams?.["page"] || 1} productId={productId} />
         </article>
       )}
 
       {article === "제품문의" && (
         <article className=" max-w-[795px] w-full mt-[40px] mx-auto mobile:max-w-[300px]">
-          <Suspense
-            fallback={Array.from({ length: 6 }).map((e, i) => (
-              <ReviewPulse key={i} />
-            ))}
-          >
-            <Qna page={searchParams?.["page"] || 1} productId={productId} />
-          </Suspense>
+          <Qna page={searchParams?.["page"] || 1} productId={productId} />
         </article>
       )}
     </div>

@@ -76,16 +76,12 @@ const Home = async () => {
               key={fixedReview.id}
             >
               <div className="relative mobile:max-w-[160px] mobile:h-[160px] tablet:max-w-[180px] tablet:h-[180px] max-w-[246px] w-full h-[246px] bg-bg ">
-                <Link href={`/product/${fixedReview.review.product_id}?article=후기`}>
+                <Link
+                  href={`/product/${fixedReview.review.product_id}?article=후기`}
+                  aria-label={`${fixedReview.review.product.name} 렌탈 제품으로 이동`}
+                >
                   {/* <img className="w-full h-full" src={fixedReview.review.url[0]} /> */}
-                  <Image
-                    alt={fixedReview.id}
-                    sizes="(max-width: 1200px) 246px"
-                    width={0}
-                    height={0}
-                    fill
-                    src={fixedReview.review.url[0]}
-                  />
+                  <Image alt={fixedReview.id} sizes="246px" width={0} height={0} fill src={fixedReview.review.url[0]} />
                 </Link>
               </div>
             </Suspense>

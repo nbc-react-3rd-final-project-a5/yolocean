@@ -11,12 +11,11 @@ import { FaLocationDot } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 
 const SelectOffice = () => {
-  // const { regions, isLoading } = useRegion();
   const {
     data: regions,
     isError,
     isLoading
-  } = useQuery<Region[]>({ queryFn: async () => await getAllRegion(), queryKey: ["region"] });
+  } = useQuery<Region[]>({ queryFn: async () => await getAllRegion(), queryKey: ["region"], staleTime: 60 * 60 });
   const [selectedId, setSelectedId] = useState<string>("");
   const [officeInfo, setOfficeInfo] = useState<{ name: string; address: string; id: string }[]>([]);
   const [selectedOffice, setSelectedOffice] = useState<{ name: string; address: string; id: string }>({

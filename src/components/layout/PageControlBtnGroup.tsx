@@ -14,12 +14,18 @@ const PageControlBtnGroup = () => {
     <aside className="fixed bottom-[8rem] right-4 z-20">
       <ul className={`${EnumStyle.textSize} flex flex-col gap-4 `}>
         <li className={EnumStyle.liStyle}>
-          <Link href={"#top"} className={EnumStyle.liInnerStyle} prefetch={true}>
+          <Link href={"#top"} className={EnumStyle.liInnerStyle} prefetch={true} aria-label="상단으로 이동">
             <IoIosArrowUp />
           </Link>
         </li>
         <li className={EnumStyle.liStyle}>
-          <Link href={"/customer"} className={EnumStyle.liInnerStyle} scroll={false} prefetch={true}>
+          <Link
+            href={"/customer"}
+            className={EnumStyle.liInnerStyle}
+            scroll={false}
+            prefetch={true}
+            aria-label="고객센터로 이동"
+          >
             <RiCustomerService2Fill />
           </Link>
         </li>

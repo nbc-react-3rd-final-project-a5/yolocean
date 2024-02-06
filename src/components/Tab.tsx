@@ -13,7 +13,11 @@ interface TabProps {
 const Tab = ({ activeTab, handleTabClick, tabs, isVariable = false, className }: TabProps) => {
   const pathName = usePathname();
   return (
-    <div className={`${!isVariable && "sticky top-0 z-10"} ${className}`}>
+    <div
+      className={`${
+        !isVariable && "sticky  z-10 top-0 mobile:top-[-1px] mobile:w-[100vw] mobile:translate-x-[-5%]"
+      } ${className}`}
+    >
       <ul
         className={`  flex w-full items-center justify-center ${isVariable && "gap-[20px]"} mobile:${
           isVariable && "flex-wrap"
@@ -44,6 +48,7 @@ const Tab = ({ activeTab, handleTabClick, tabs, isVariable = false, className }:
                   activeTab === tab ? "bg-point  text-white" : "bg-bg text-tc-base"
                 }`}
                 onClick={() => document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" })}
+                aria-label={`해당 ${tab}으로 이동`}
               >
                 {tab}
               </Link>

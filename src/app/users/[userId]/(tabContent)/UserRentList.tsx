@@ -3,6 +3,7 @@ import RentItem from "./RentItem";
 import { getAllUserRent } from "@/service/table";
 import Pagination from "@/components/Pagination";
 import { revalidateTag } from "next/cache";
+import Revalidate from "@/components/Revalidate";
 
 interface Props {
   userId: string;
@@ -26,7 +27,8 @@ const UserRentList = async ({ userId, article, isReturn, page }: Props) => {
 
   return (
     <>
-      {rentList.length === 0 ? (
+      <Revalidate />
+      {rentList?.length === 0 || !rentList ? (
         <div className="w-full text-center text-[18px] font-semibold"> 해당 내역이 없습니다 😅</div>
       ) : (
         rentList.map((n: any) => {

@@ -9,13 +9,19 @@ interface Props {
   limit: number;
   articleName: string;
   setPage?: React.Dispatch<React.SetStateAction<number>>;
+  categoryId?: string;
+  order?: string;
+  test?: any;
 }
 
-const Pagination = ({ maxPage, currentPage, limit, articleName, setPage }: Props) => {
+const Pagination = ({ maxPage, currentPage, limit, articleName, setPage, categoryId, order, test }: Props) => {
   let firstPageNumber = Math.floor((Number(currentPage) - 1) / limit) * limit + 1;
 
   const pathName = usePathname();
   const pageArray = Array.from({ length: Math.min(limit, maxPage) }, (v, i) => firstPageNumber + i);
+
+  const optionalQueries =
+    categoryId || order ? { article: articleName, category: categoryId, order: order } : { article: articleName };
 
   return (
     <nav className=" py-[25px]">
@@ -23,15 +29,15 @@ const Pagination = ({ maxPage, currentPage, limit, articleName, setPage }: Props
         {currentPage > 1 && (
           <Link
             scroll={false}
-            href={{ href: pathName, query: { article: articleName, page: Math.max(currentPage - 1, 1) } }}
+            href={{ href: pathName, query: { ...optionalQueries, ...test, page: Number(currentPage) - 1 } }}
             onClick={() => {
               document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" });
-              console.log(document?.getElementById("tab"));
               if (setPage) {
-                setPage((currentPage) => Math.max(currentPage - 1, 1));
+                setPage((currentPage) => Number(currentPage) - 1);
               }
             }}
             className="text-black"
+            aria-label="이전 페이지로 이동"
           >
             <li>
               <MdKeyboardArrowLeft />
@@ -43,7 +49,7 @@ const Pagination = ({ maxPage, currentPage, limit, articleName, setPage }: Props
           return (
             <Link
               scroll={false}
-              href={{ href: pathName, query: { article: articleName, page } }}
+              href={{ href: pathName, query: { ...optionalQueries, ...test, page } }}
               onClick={() => {
                 document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" });
                 if (setPage) {
@@ -54,6 +60,7 @@ const Pagination = ({ maxPage, currentPage, limit, articleName, setPage }: Props
               className={`${
                 Number(currentPage) === Number(page) && "rounded-full bg-point text-white"
               } w-[24px] h-[24px] p-[5px] flex items-center justify-center`}
+              aria-label={`${page} 페이지로 이동`}
             >
               <li>{page}</li>
             </Link>
@@ -63,14 +70,15 @@ const Pagination = ({ maxPage, currentPage, limit, articleName, setPage }: Props
         {currentPage < maxPage && (
           <Link
             scroll={false}
-            href={{ href: pathName, query: { article: articleName, page: Math.min(currentPage + 1, maxPage) } }}
+            href={{ href: pathName, query: { ...optionalQueries, ...test, page: Number(currentPage) + 1 } }}
             onClick={() => {
               document?.getElementById("tab")?.scrollIntoView({ behavior: "smooth" });
               if (setPage) {
-                setPage((currentPage) => Math.min(currentPage + 1, maxPage));
+                setPage((currentPage) => Number(currentPage) + 1);
               }
             }}
             className="text-black"
+            aria-label="다음 페이지로 이동"
           >
             <MdKeyboardArrowRight />
           </Link>

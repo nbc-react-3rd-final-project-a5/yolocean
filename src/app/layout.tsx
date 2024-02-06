@@ -6,13 +6,15 @@ import Script from "next/script";
 import { rem, pretendard } from "@/app/styles/fonts/fonts";
 import styles from "@/app/styles/fonts/fonts.module.css";
 import Header from "@/components/layout/Header";
-import CreateModal from "@/components/portal/CreateModal";
-import CreateAlert from "@/components/portal/CreateAlert";
 import Footer from "@/components/layout/Footer";
-import CreateConfirm from "@/components/portal/CreateConfirm";
 import AuthChage from "@/components/layout/AuthChage";
 import PageControlBtnGroup from "@/components/layout/PageControlBtnGroup";
-import KakaoScript from "@/lib/KakaoScript";
+import dynamic from "next/dynamic";
+
+const KakaoShare = dynamic(() => import("@/lib/KakaoShare"), { ssr: false });
+const CreateModal = dynamic(() => import("@/components/portal/CreateModal"), { ssr: false });
+const CreateAlert = dynamic(() => import("@/components/portal/CreateAlert"), { ssr: false });
+const CreateConfirm = dynamic(() => import("@/components/portal/CreateConfirm"), { ssr: false });
 
 export const metadata: Metadata = {
   title: "YOLOCEAN",
@@ -39,13 +41,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <CreateAlert />
           <CreateConfirm />
           <Script
-            src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services,clusterer&autoload=false`}
-            strategy="beforeInteractive"
+            src={`https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services,clusterer&autoload=false`}
+            strategy="lazyOnload"
           />
-          <Script src="https://cdn.iamport.kr/v1/iamport.js" />
-          <Script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></Script>
-          <Script src="https://developers.kakao.com/sdk/js/kakao.js"></Script>
-          <KakaoScript />
+          <Script strategy="lazyOnload" src="https://cdn.iamport.kr/v1/iamport.js" />
+          <Script strategy="lazyOnload" src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" />
+          <Script strategy="lazyOnload" src="https://developers.kakao.com/sdk/js/kakao.js" />
+          <KakaoShare />
         </body>
       </html>
     </ReactQueryProvider>

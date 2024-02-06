@@ -3,7 +3,7 @@ import { ExtendFixedReview } from "@/types/db";
 
 const getAllProductReview = async ({ productId, page = 1 }: Pick<API, "productId" | "page">) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/product/${productId}/review?page=${page}`, {
-    next: { tags: ["review"] }
+    next: { tags: [productId, "review"], revalidate: 60 }
   });
   const data = await res.json();
 
@@ -12,7 +12,7 @@ const getAllProductReview = async ({ productId, page = 1 }: Pick<API, "productId
 
 const getAllUserReview = async ({ userId, page = 1 }: Pick<API, "userId" | "page">) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/review?page=${page}`, {
-    next: { tags: ["user", "userReview"] }
+    next: { tags: ["user", "review"] }
   });
   const data = await res.json();
   return data;
@@ -28,7 +28,9 @@ const createUserReview = async ({ userId, body }: Pick<API, "userId" | "body">) 
 };
 
 const getUserReview = async ({ userId, reviewId }: Pick<API, "userId" | "reviewId">) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/review/${reviewId}`, {});
+  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/user/${userId}/review/${reviewId}`, {
+    cache: "no-store"
+  });
   const data = await res.json();
   return data;
 };
@@ -55,6 +57,47 @@ const getFixedReview = async (): Promise<ExtendFixedReview[]> => {
   const data = await res.json();
   return data;
 };
+
+//고정 리뷰 해제
+const deleteFixedReview = async ({ reviewId }: Pick<API, "reviewId">) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/admin/review/${reviewId}`, { method: "DELETE" });
+  const data = await res.json();
+  return res;
+};
+
+//리뷰 고정
+const createFixedReview = async ({ reviewId, body }: Pick<API, "reviewId" | "body">) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/admin/review/${reviewId}`, {
+    method: "POST",
+    body
+  });
+  const data = await res.json();
+  return data;
+};
+
+//리뷰 블라인드
+const updateBlindReview = async ({ reviewId, body }: Pick<API, "reviewId" | "body">) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/admin/review/${reviewId}`, {
+    method: "PATCH",
+    body
+  });
+  const data = await res.json();
+  return data;
+};
+
+//리뷰 전체 가져오기
+const getAllReview = async ({
+  page = 1,
+  categoryId = "",
+  order = false
+}: Pick<API, "page" | "categoryId" | "order">) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/admin/review?page=${page}&category=${categoryId}&order=${order}`
+  );
+  const allReview = await res.json();
+  return allReview;
+};
+
 export {
   getAllProductReview,
   getAllUserReview,
@@ -62,5 +105,9 @@ export {
   getUserReview,
   updateUserReview,
   deleteUserReview,
-  getFixedReview
+  getFixedReview,
+  getAllReview,
+  deleteFixedReview,
+  createFixedReview,
+  updateBlindReview
 };

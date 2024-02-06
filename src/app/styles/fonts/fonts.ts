@@ -6,10 +6,25 @@ const rem = REM({
   variable: "--font-rem",
   subsets: ["latin"]
 });
+
 const pretendard = localFont({
-  src: "./PretendardVariable.woff2",
+  src: [
+    {
+      path: "./subset-PretendardVariable-ko.ttf",
+      style: "normal"
+    },
+    {
+      path: "./subset-PretendardVariable-ko.woff",
+      style: "normal"
+    },
+    {
+      path: "./subset-PretendardVariable-ko.woff2",
+      style: "normal"
+    }
+  ],
+  weight: "variable",
   variable: "--font-pretendard",
-  declarations: [{ prop: "unicode-range", value: "U+AC00-D7A3" }]
+  declarations: [{ prop: "unicode-range", value: "U+AC00-D7A3, U+3131-313C" }]
 });
 
 export { rem, pretendard };
