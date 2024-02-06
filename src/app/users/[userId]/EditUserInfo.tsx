@@ -1,6 +1,7 @@
 import Avatar from "@/components/Avatar";
 import { useCustomMutation, useImageInput } from "@/hook";
 import { updateUser } from "@/service/table";
+import { usealertStore } from "@/store/alertStore";
 import useUserEditModeStore from "@/store/editUserStore";
 import { UserInfo } from "@/types/db";
 import useStorage from "@/utils/useStorage";
@@ -10,6 +11,7 @@ import React, { useState } from "react";
 import { MdPhotoCameraBack } from "react-icons/md";
 
 const EditUserInfo = ({ user, refetch }: { user: UserInfo | undefined; refetch: any }) => {
+  const { alertFire } = usealertStore();
   const [name, setName] = useState<string>(`${user!.username}`);
   const { userId } = useParams() as { userId: string };
   const { setIsEditMode } = useUserEditModeStore();
@@ -24,23 +26,22 @@ const EditUserInfo = ({ user, refetch }: { user: UserInfo | undefined; refetch: 
 
   const handleUpdateUserInfoSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (user && user!.avatar_url) {
-      await deleteImage("user", user.avatar_url);
-    }
-    if (customImageList?.[0]) {
-      const url = await uploadImage(customImageList?.[0].file!, "user", customImageList?.[0].id, user!.id);
+    if (!user) return;
+    let newUserImageUrl;
+    // 사진 변경을 했을 경우
+    try {
+      if (user?.avatar_url && customImageList?.[0]?.file) {
+        await deleteImage("user", user.avatar_url);
+        newUserImageUrl = await uploadImage(customImageList?.[0].file, "user", customImageList?.[0].id, user.id);
+        setImageURL(customImageList?.[0].previewURL);
+      }
       updateUserMutation.mutate({
-        content: { username: name, avatar_url: url }
+        content: { username: name, avatar_url: newUserImageUrl }
       });
-      setImageURL(customImageList?.[0].previewURL);
 
-      setIsEditMode(false);
-    } else {
-      updateUserMutation.mutate({
-        content: { username: name }
-      });
-      setIsEditMode(false);
+      return setIsEditMode(false);
+    } catch (error) {
+      alertFire("회원정보 수정 중 오류가 발생하였습니다.", "error");
     }
   };
 

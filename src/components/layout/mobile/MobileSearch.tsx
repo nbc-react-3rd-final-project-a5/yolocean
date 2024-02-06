@@ -36,12 +36,7 @@ const MobileSearch = () => {
 
   return (
     <div className="border-none w-0 h-0">
-      <button
-        data-dropdown-toggle="dropdown"
-        className="cursor-pointer block"
-        type="button"
-        onClick={() => setOpen(!open)}
-      >
+      <button className="cursor-pointer block" type="button" onClick={() => setOpen(!open)}>
         <AiOutlineSearch className="inline cursor-pointer" size="22" color="#3074F0" />
       </button>
       <div

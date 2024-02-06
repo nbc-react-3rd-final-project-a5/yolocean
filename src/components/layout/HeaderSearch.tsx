@@ -30,20 +30,14 @@ const HeaderSearch = () => {
   };
 
   return (
-    <div className="max-w-[392px] w-full h-[32px] border border-point rounded-full p-1 ">
-      <form className="flex" onSubmit={handleSubmit(onSubmit)}>
-        <label>
-          <input
-            type="text"
-            className="mx-2 flex-1 w-full focus:outline-none"
-            {...register("searchWord", { required: true })}
-          />
-        </label>
-        <button className="inline cursor-pointer " type="submit">
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="flex flex-row items-center p-2 h-[32px]  border border-point rounded-full">
+        <input id="searchWord" type="text" className="w-[180px]  focus:outline-none" {...register("searchWord", { required: true })} aria-label="Search" />
+        <button className="inline cursor-pointer " type="submit" aria-label="searchBtn">
           <AiOutlineSearch className="inline cursor-pointer" size="22" color="#3074F0" />
         </button>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 };
 

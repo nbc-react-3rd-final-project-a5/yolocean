@@ -46,17 +46,12 @@ const SelectStore = ({ store: storeId, order }: Props) => {
   return (
     <>
       <div className="flex min-w-[110px]">
-        <button
-          id="selectStore"
-          data-dropdown-toggle="dropdown"
-          onClick={() => setOpenStore(!openStore)}
-          className="flex flex-row space-x-[10px]"
-        >
+        <button id="selectStore" onClick={() => setOpenStore(!openStore)} className="flex flex-row space-x-[10px]">
           <FaChevronDown className="text-[12px] text-point font-medium mt-[7px]" />
           {!isStoreLoading && <p className="text-[14px] text-point font-medium leading-loose">{getStoreName()}</p>}
         </button>
         <div
-          id="dropdown"
+          id="storeDropdown"
           className={
             openStore ? "space-y-2 z-10 absolute p-2 bg-white rounded-sm shadow w-36 mt-[25px] min-w-[250px]" : "hidden"
           }

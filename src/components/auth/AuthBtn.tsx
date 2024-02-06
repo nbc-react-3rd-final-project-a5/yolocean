@@ -82,13 +82,7 @@ const AuthBtn = () => {
     <>
       {auth !== "" ? (
         <div onClick={() => setMenu(!menu)} className="">
-          <AiOutlineUser
-            size="22"
-            id="userDropDown"
-            data-dropdown-toggle="dropdown"
-            className="cursor-pointer mt-[5px] mobile:mt-0"
-            color="#3074F0"
-          />
+          <AiOutlineUser size="22" id="userDropDown" className="cursor-pointer mt-[5px] mobile:mt-0" color="#3074F0" />
           <div className="flex flex-col items-end">
             <UserMenu />
           </div>
