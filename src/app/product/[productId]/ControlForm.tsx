@@ -133,7 +133,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
         <hr className="border-line border-[1px] " />
         <div className="py-[20px] flex flex-col gap-[20px] font-medium text-[16px]">
           <div className="flex gap-[12px]">
-            <p className="w-[89px]">제품가</p>
+            <p className="w-[89px]">렌트가격</p>
             <p>{price.toLocaleString()}원</p>
           </div>
           {percentage_off > 0 && (
@@ -143,7 +143,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
             </div>
           )}
           <div className="flex gap-[12px] ">
-            <p className="w-[89px]">최종가격</p>
+            <p className="w-[89px]">최종 렌트가격</p>
             {percentage_off > 0 && (
               <p className="font-[700]">{Math.floor(price - (price * percentage_off) / 100).toLocaleString()}원</p>
             )}
@@ -244,7 +244,7 @@ const ControlForm = ({ category_name, name, price, original_price, product_id, p
               className="max-w-[244px] h-[50px] mobile:h-[35px]"
               onClick={handleBtnClick}
             >
-              구매하기
+              결제하기
             </CustomButton>
           </div>
         </form>
