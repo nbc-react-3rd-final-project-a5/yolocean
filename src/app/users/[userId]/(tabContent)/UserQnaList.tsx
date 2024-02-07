@@ -29,13 +29,11 @@ const UserQnaList = async ({ userId, article, page }: Props) => {
     <>
       <Revalidate />
       {qnaList?.length > 0 ? (
-        <>
-          <ReviewList listType="qna" reviewList={qnaList} currentUserId={userId} isMypage={true} />
-          <Pagination {...pageProps} />
-        </>
+        <ReviewList listType="qna" reviewList={qnaList} currentUserId={userId} isMypage={true} />
       ) : (
         <div className="w-full text-center text-[18px] font-semibold"> 작성된 문의가 없습니다 😅</div>
       )}
+      <Pagination {...pageProps} />
     </>
   );
 };
