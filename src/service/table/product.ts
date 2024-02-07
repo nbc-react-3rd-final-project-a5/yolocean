@@ -2,13 +2,17 @@ import { API } from "@/types/api";
 
 // [GET] 상품 정보
 const getProduct = async ({ productId }: Pick<API, "productId">) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/product/${productId}`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/product/${productId}`, {
+    next: { revalidate: 60 * 60 }
+  });
   const result = await res.json();
   return result;
 };
 // [GET] Main 페이지에서 사용되는 모든 상품 정보
 const getAllProduct = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/product`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/product`, {
+    next: { revalidate: 60 * 60 }
+  });
   const result = await res.json();
   return result;
 };
@@ -33,7 +37,9 @@ const updateProduct = async ({ body, productId }: Pick<API, "body" | "productId"
 // [관리자]
 // [GET] 모든 상품 페이지네이션으로 가져오기
 const getProductByPage = async ({ page = 1 }) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/admin/product?page=${page}`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN_URL}/api/admin/product?page=${page}`, {
+    next: { revalidate: 60 * 60 }
+  });
   const result = await res.json();
   return result;
 };
